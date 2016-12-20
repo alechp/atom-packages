@@ -1,0 +1,179 @@
+@import "ui-variables";
+@import "syntax-variables";
+
+.debugger {
+  .button-bar {
+    min-height: 22px;
+  }
+
+  .debugger-execution-toolbar {
+    display: flex;
+    margin-left: -3px;
+    overflow-x: hidden;
+    margin-top: 6px;
+
+    button.btn {
+      margin-left: 3px;
+    }
+  }
+
+  .debugger-section {
+    flex-shrink: 0;
+    border-bottom: 1px solid @base-border-color;
+    position: relative;
+    padding-top: 8px;
+    padding-bottom: 6px;
+
+    .debugger-section-subtitle {
+      color: @text-color-subtle;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-top: 5px;
+    }
+
+    label {
+      margin-right: 5px;
+    }
+  }
+
+  .debugger-section.view-header {
+    padding-top: 0;
+  }
+
+  .debugger-section.debugger-section-last {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .debugger-section.resizable {
+    min-width: 100px;
+    min-height: 100px;
+  }
+
+  .debug-tab-container {
+    flex-shrink: 0;
+
+    .debug-tab-title {
+      color: @text-color-subtle;
+      align-self: flex-end;
+      line-height: 22px;
+      min-height: 22px;
+    }
+
+    .debug-tab-toolbar {
+      min-height: 22px;
+    }
+  }
+
+  .debugger-breakpoint-path {
+
+  }
+
+  .debugger-breakpoint-icon {
+    color: @syntax-gutter-text-color;
+    opacity: 0.6;
+  }
+
+  .debugger-secondary-info {
+    margin-left: 0.5em;
+    color: @text-color-subtle;
+  }
+
+  .material-list-selected .debugger-secondary-info {
+    color: @text-color;
+  }
+
+  .debugger-frame-area {
+    height: 156px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid @base-border-color;
+  }
+
+  .debugger-object-details {
+    min-height: 1em;
+    max-height: 5em;
+    overflow: auto;
+  }
+
+  .right-aligned {
+    text-align: right;
+  }
+
+  label + label {
+    margin-left: 10px;
+  }
+
+  label {
+    input + span {
+      margin-left: 8px;
+    }
+  }
+}
+
+atom-text-editor::shadow .debugger-breakpoint {
+
+}
+
+atom-text-editor::shadow .debugger-breakpoint::before {
+  font-family: 'Octicons Regular';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-decoration: none;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\f052";
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+atom-text-editor::shadow .debugger-executionpoint-line {
+  background-color: @syntax-selection-color;
+}
+
+atom-text-editor::shadow .debugger-executionpoint-highlight div.region {
+  z-index: 1;
+}
+
+atom-text-editor::shadow .debugger-executionpoint-highlight div.region::before {
+  font-family: 'Octicons Regular';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-decoration: none;
+  font-size: 12px;
+  width: 16px;
+  height: 16px;
+  content: "\f0aa";
+  position: absolute;
+  top: 16px;
+  right: -4px;
+  -webkit-font-smoothing: antialiased;
+}
+
+atom-text-editor::shadow .debugger-executionpoint-linenumber {
+
+}
+
+atom-text-editor::shadow .debugger-executionpoint-linenumber::before {
+  font-family: 'Octicons Regular';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-decoration: none;
+  font-size: 18px;
+  width: 16px;
+  height: 16px;
+  content: "\f03e";
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  -webkit-font-smoothing: antialiased;
+}

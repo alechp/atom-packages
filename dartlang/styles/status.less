@@ -1,0 +1,46 @@
+@import "ui-variables";
+
+.plugin-status {
+  .view-section {
+    transition: color 0.4s, background-color 0.4s;
+
+    .status-header {
+      margin-bottom: 6px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: baseline;
+
+      .view-subtitle {
+        margin-left: 0.3em;
+      }
+    }
+
+    button {
+      margin-left: 6px;
+    }
+
+    div.bottom-margin {
+      margin-bottom: 6px;
+    }
+
+    .diagnostics-title {
+      display: inline-block;
+      min-width: 8em;
+      text-align: right;
+    }
+
+    .diagnostics-data {
+      margin-left: 0.5em;
+      color: @text-color-subtle;
+    }
+  }
+
+  .view-section.status-emphasis {
+    background-color: @background-color-highlight;
+
+    .status-header {
+      color: @text-color-highlight;
+    }
+  }
+}

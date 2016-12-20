@@ -1,0 +1,96 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161119-46510-1yijgdb"
+    ]
+  ],
+  "_from": "../d-1161119-46510-x0duc1/package.tgz",
+  "_id": "dartlang@0.6.45",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/dartlang",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1161119-46510-x0duc1/package.tgz",
+  "_shasum": "392f20a6074ccd46bf4b4963067bf33513bf88c7",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-46510-x0duc1/package.tgz",
+  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161119-46510-1yijgdb",
+  "bugs": {
+    "url": "https://github.com/dart-atom/dartlang/issues"
+  },
+  "consumedServices": {
+    "atom-toolbar": {
+      "versions": {
+        "^1.0.0": "consumeToolbar"
+      }
+    },
+    "linter-plus-self": {
+      "versions": {
+        "0.1.0": "consumeLinter"
+      }
+    },
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "ws": "1.1.1"
+  },
+  "description": "A Dart plugin for Atom.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/dart-atom/dartlang#readme",
+  "keywords": [
+    "dart",
+    "dartlang",
+    "flutter"
+  ],
+  "license": "BSD",
+  "main": "./web/entry.dart.js",
+  "name": "dartlang",
+  "optionalDependencies": {},
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provideAutocomplete"
+      }
+    }
+  },
+  "readme": "# Dart plugin for Atom\n\nA [Dart](https://www.dartlang.org) plugin for [Atom](https://atom.io).\n\n[![Build Status](https://travis-ci.org/dart-atom/dartlang.svg)](https://travis-ci.org/dart-atom/dartlang)\n[![Join the chat at https://gitter.im/dart-atom/dartlang](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dart-atom/dartlang?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n## Getting started\n\nSee our [getting started guide](https://dart-atom.github.io/dartlang/)! This is\nuseful for users new to the plugin and users new to Atom as well.\n\n## What is it?\n\nThis package is a lightweight, streamlined Dart development plugin for Atom. It\nsupports features like auto-discovery of the Dart SDK, errors and warnings shown\nas you type, code completion, refactorings, debugging, and integration with Pub\nand other tools.\n\n![Dart plugin for Atom screenshot](https://raw.githubusercontent.com/dart-atom/dartlang/master/assets/dart-plugin-atom-screenshot.png)\n\n## Installing\n\n- install Atom [atom.io](https://atom.io/)\n- install this [dartlang][] package (with `apm install dartlang` or through the\n  Atom UI)\n\n## Sending feedback\n\nPlease file feature requests and bugs at the [issue tracker][tracker].\n\n[tracker]: https://github.com/dart-atom/dartlang/issues\n\n## Get notified of news\n\nFollow [@dartpluginatom](https://twitter.com/dartpluginatom) for news and\nannouncements.\n\n## Terms and Privacy\n\nThe Dart plugin for Atom (the \"Plugin\") is an open-source project, contributed\nto by Google. By using the Plugin, you consent to be bound by Google's general\nTerms of Service and Google's general\n[Privacy Policy](http://www.google.com/intl/en/policies/privacy/).\n\n## License\n\nSee the [LICENSE](https://github.com/dart-atom/dartlang/blob/master/LICENSE)\nfile.\n\n[dartlang]: https://atom.io/packages/dartlang\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dart-atom/dartlang.git"
+  },
+  "required-packages": [
+    "atom-toolbar",
+    "linter",
+    "synced-sidebar"
+  ],
+  "version": "0.6.45"
+}

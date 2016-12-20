@@ -1,0 +1,78 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161117-76904-1ww2w7q"
+    ]
+  ],
+  "_from": "../d-1161117-76904-1stfyeu/package.tgz",
+  "_id": "atom-live-server@1.2.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/atom-live-server",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1161117-76904-1stfyeu/package.tgz",
+  "_shasum": "47dfe9ddd1f153c82113ff039eabd29888208abc",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161117-76904-1ww2w7q",
+  "activationCommands": {
+    "atom-workspace": [
+      "atom-live-server:start-3000",
+      "atom-live-server:start-4000",
+      "atom-live-server:start-5000",
+      "atom-live-server:start-8000",
+      "atom-live-server:start-9000"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/jas-chen/atom-live-server/issues"
+  },
+  "dependencies": {
+    "live-server": "^0.8.1",
+    "loophole": "^1.1.0"
+  },
+  "description": "Launch a http server with live reload capability.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/jas-chen/atom-live-server#readme",
+  "keywords": [
+    "static",
+    "server",
+    "live reload",
+    "livereload"
+  ],
+  "license": "MIT",
+  "main": "./lib/atom-live-server",
+  "name": "atom-live-server",
+  "optionalDependencies": {},
+  "readme": "# atom-live-server package\n\nLaunch a simple development http server with live reload capability.\n\n![Demo](https://raw.githubusercontent.com/jas-chen/atom-live-server/master/doc/demo.gif)\n\nThis package is based on awesome [Live Server](https://github.com/tapio/live-server) project.\n\n## Usage\n\n`ctrl-shift-3` launch live server on port 3000.\n\n`ctrl-shift-4` launch live server on port 4000.\n\n`ctrl-shift-5` launch live server on port 5000.\n\n`ctrl-shift-8` launch live server on port 8000.\n\n`ctrl-shift-9` launch live server on port 9000.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jas-chen/atom-live-server.git"
+  },
+  "version": "1.2.5"
+}

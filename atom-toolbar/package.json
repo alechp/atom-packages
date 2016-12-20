@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161119-87534-phxk5l"
+    ]
+  ],
+  "_from": "../d-1161119-87534-mervaa/package.tgz",
+  "_id": "atom-toolbar@0.1.6",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/atom-toolbar",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1161119-87534-mervaa/package.tgz",
+  "_shasum": "6626483fabcc013a46a6c60b4c6d57b7b01364c0",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161119-87534-mervaa/package.tgz",
+  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161119-87534-phxk5l",
+  "bugs": {
+    "url": "https://github.com/dart-atom/atom-toolbar/issues"
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.0",
+    "fs-plus": "^2.0.0"
+  },
+  "description": "Displays a configurable toolbar at the top of the workspace.",
+  "devDependencies": {
+    "coffeelint": "^1.9.7"
+  },
+  "engines": {
+    "atom": "*"
+  },
+  "homepage": "https://github.com/dart-atom/atom-toolbar#readme",
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "atom-toolbar",
+  "optionalDependencies": {},
+  "providedServices": {
+    "atom-toolbar": {
+      "description": "A container for UI elements at the top of the workspace",
+      "versions": {
+        "1.0.0": "provideToolbar"
+      }
+    }
+  },
+  "readme": "# atom-toolbar package\n\nDisplays a configurable toolbar at the top of the workspace.\n\n## API\n\nThis package provides a service that you can use in other Atom packages. To use\nit, include `atom-toolbar` in the `consumedServices` section of your `package.json`:\n\n```json\n{\n  \"name\": \"my-package\",\n  \"consumedServices\": {\n    \"atom-toolbar\": {\n      \"versions\": {\n        \"^1.0.0\": \"consumeToolbar\"\n      }\n    }\n  }\n}\n```\n\nThen, in your package's main module, call methods on the service:\n\n```coffee\nmodule.exports =\n  activate: -> # ...\n\n  consumeToolbar: (toolbar) ->\n    @toolbarTile = toolbar.addLeftTile(item: myElement, priority: 100)\n\n  deactivate: ->\n    # ...\n    @toolbarTile?.destroy()\n    @toolbarTile = null\n```\n\nThe `atom-toolbar` API has four methods:\n\n  * `addLeftTile({ item, priority })` - Add a tile to the left side of the\n  toolbar. Lower priority tiles are placed further to the left.\n  * `addRightTile({ item, priority })` - Add a tile to the right side of the\n  toolbar. Lower priority tiles are placed further to the right.\n\nThe `item` parameter to these methods can be a DOM element, a\n[jQuery object](http://jquery.com), or a model object for which a view provider\nhas been registered in the [the view registry](https://atom.io/docs/api/latest/ViewRegistry).\n\n  * `getLeftTiles()` - Retrieve all of the tiles on the left side of the toolbar.\n  * `getRightTiles()` - Retrieve all of the tiles on the right side of the toolbar\n\nAll of these methods return `Tile` objects, which have the following methods:\n  * `getPriority()` - Retrieve the priority that was assigned to the `Tile` when\n  it was created.\n  * `getItem()` - Retrieve the `Tile`'s item.\n  * `destroy()` - Remove the `Tile` from the toolbar.\n\n## Credits and Attributions\n\nThis package was forked from Atom's `status-bar` package.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dart-atom/atom-toolbar.git"
+  },
+  "version": "0.1.6"
+}
