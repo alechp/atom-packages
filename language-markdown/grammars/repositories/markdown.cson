@@ -47,6 +47,7 @@ repository:
       { include: '#liquid' }
       { include: '#emphasis' }
       { include: '#line-breaks' }
+      { include: '#todo' }
       { include: '#references' }
       { include: '#github-inlines' }
       { include: '#math-inline' }
@@ -57,6 +58,8 @@ repository:
       { include: '#github-inlines' }
       # { include: '#rmarkdown' }
       { include: '#markdown-extra' }
+      { include: '#pandoc' }
+      { include: '#ia-writer' }
     ]
 
   # NOTE by @burodepeper
@@ -71,8 +74,10 @@ repository:
       { include: '#liquid' }
       { include: '#links' }
       { include: '#emphasis' }
+      { include: '#todo' }
       { include: '#references' }
       { include: '#flavors' }
+      { include: '#math-inline' }
     ]
 
   # NOTE
@@ -87,6 +92,7 @@ repository:
       { include: '#liquid' }
       { include: '#links' }
       { include: '#emphasis' }
+      { include: '#todo' }
       { include: '#references' }
       { include: '#github-inlines' }
       { include: '#criticmark' }

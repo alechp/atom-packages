@@ -44,7 +44,7 @@ list: [
   { pattern:'json|har', include:'source.json' }
   { pattern:'julia' }
   { pattern:'latex|tex', include:'text.tex.latex' }
-  { pattern:'less' }
+  { pattern:'less', include:'source.css.less' }
   { pattern:'lua' }
   { pattern:'markdown|mdown|md', include:'text.md' }
   { pattern:'m|mathematica', include:'source.mathematica' }
@@ -69,7 +69,9 @@ list: [
   { pattern:'sql' }
   { pattern:'swift' }
   { pattern:'xml', include:'text.xml' }
-  { pattern:'yaml|yml', include:'source.yaml' }
+
+  # NOTE: temporarily disabled, see issue #77 for details
+  # { pattern:'yaml|yml', include:'source.yaml' }
 
   # Fallback that detects any unsupported languages;
   # Pattern might have to accept more characters.

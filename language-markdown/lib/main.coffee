@@ -1,7 +1,12 @@
+'use babel'
+
 {CompositeDisposable, Directory} = require 'atom'
 CSON = require 'season'
+GrammarCompiler = require './GrammarCompiler'
 path = require 'path'
 fs = require 'fs'
+
+# import {isListItem, wrapText} from './functions'
 
 module.exports =
 
@@ -30,7 +35,7 @@ module.exports =
       description: 'Automatically in- and outdent list-items by pressing `TAB` and `SHIFT+TAB`'
       type: 'boolean'
       default: true
-      
+
     linkShortcuts:
       title: 'Link shortcuts'
       description: 'Enables keybindings `@` for converting the selected text to a link and `!` for converting the selected text to an image'
@@ -56,7 +61,7 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-text-editor', 'markdown:emphasis': (event) => @emphasizeSelection(event, "_")
     @subscriptions.add atom.commands.add 'atom-text-editor', 'markdown:strong-emphasis': (event) => @emphasizeSelection(event, "**")
     @subscriptions.add atom.commands.add 'atom-text-editor', 'markdown:strike-through': (event) => @emphasizeSelection(event, "~~")
-    
+
     # Add command for linkifying selections
     @subscriptions.add atom.commands.add 'atom-text-editor', 'markdown:link': (event) => @linkSelection(event)
     @subscriptions.add atom.commands.add 'atom-text-editor', 'markdown:image': (event) => @linkSelection(event, true)
@@ -161,7 +166,7 @@ module.exports =
   indentListItem: (event) ->
     {editor, position} = @_getEditorAndPosition(event)
     indentListItems = atom.config.get('language-markdown.indentListItems')
-    if indentListItems and @_isListItem(editor, position)
+    if indentListItems and @isListItem(editor, position)
       editor.indentSelectedRows(position.row)
     else
       event.abortKeyBinding()
@@ -169,7 +174,7 @@ module.exports =
   outdentListItem: (event) ->
     {editor, position} = @_getEditorAndPosition(event)
     indentListItems = atom.config.get('language-markdown.indentListItems')
-    if indentListItems and @_isListItem(editor, position)
+    if indentListItems and @isListItem(editor, position)
       editor.outdentSelectedRows(position.row)
     else
       event.abortKeyBinding()
@@ -181,14 +186,14 @@ module.exports =
       if text
         # Multi-line emphasis is not supported, so the command is aborted when a new-line is detected in the selection
         if text.indexOf("\n") is -1
-          editor.insertText(@_wrapSelection(text, token))
+          editor.insertText(@wrapText(text, token))
         else
           event.abortKeyBinding()
       else
         event.abortKeyBinding()
     else
       event.abortKeyBinding()
-      
+
   linkSelection: (event, isImage) ->
     if atom.config.get('language-markdown.linkShortcuts')
       {editor, position} = @_getEditorAndPosition(event)
@@ -212,20 +217,10 @@ module.exports =
         event.abortKeyBinding()
     else
       event.abortKeyBinding()
-      
-  _wrapSelection: (text, token) ->
-    # unwrap selection
-    if (text.substr(0, token.length) is token) and (text.substr(-token.length) is token)
-      return text.substr(token.length, text.length - token.length * 2)
-    # wrap selection
-    else
-      return token + text + token
 
   _getEditorAndPosition: (event) ->
-    # editor = event.target.model
     editor = atom.workspace.getActiveTextEditor()
     if editor
-      # position = editor.cursors[0].marker.oldHeadBufferPosition
       positions = editor.getCursorBufferPositions()
       if positions
         position = positions[0]
@@ -235,19 +230,9 @@ module.exports =
     else
       event.abortKeyBinding()
 
-  _isListItem: (editor, position) ->
-    if editor and editor.getGrammar().name is 'Markdown'
-      scopeDescriptor = editor.scopeDescriptorForBufferPosition(position)
-      for scope in scopeDescriptor.scopes
-        if scope.indexOf('list') isnt -1
-          # NOTE
-          # return scope (which counts as true) which can be used to determine type of list-item
-          return scope
-    return false
-
   toggleTask: (event) ->
     {editor, position} = @_getEditorAndPosition(event)
-    listItem = @_isListItem(editor, position)
+    listItem = @isListItem(editor, position)
     if listItem and listItem.indexOf('task') isnt -1
       currentLine = editor.lineTextForBufferRow(position.row)
       if listItem.indexOf('completed') isnt -1
@@ -260,82 +245,23 @@ module.exports =
     else
       event.abortKeyBinding()
 
-  # Loads the basic grammar structure,
-  # which includes the grouped parts in the repository,
-  # and then loads all grammar subrepositories,
-  # and appends them to the main repository,
-  # and finally writes {grammar} to {output}
   compileGrammar: ->
     if atom.inDevMode()
-      input = '../grammars/repositories/markdown.cson'
-      output = '../grammars/language-markdown.json'
-      repositoryDirectories = ['blocks', 'flavors', 'inlines']
-      filepath = path.join(__dirname, input)
-      grammar = CSON.readFileSync(filepath)
+      compiler = new GrammarCompiler()
+      compiler.compile()
+      return
 
-      for directoryName in repositoryDirectories
-        directory = new Directory(path.join(__dirname, '../grammars/repositories/'+directoryName))
-        entries = directory.getEntriesSync()
-        for entry in entries
-          {key, patterns} = CSON.readFileSync(entry.path)
-          if key and patterns
-            grammar.repository[key] =
-              patterns: patterns
+  isListItem: (editor, position) ->
+    if editor and editor.getGrammar().name is 'Markdown'
+      scopeDescriptor = editor.scopeDescriptorForBufferPosition(position)
+      for scope in scopeDescriptor.scopes
+        if scope.indexOf('list') isnt -1
+          return scope
+    return false
 
-      # Compile and add fenced-code-blocks to repository
-      grammar.repository['fenced-code-blocks'] =
-        patterns: @_compileFencedCodeGrammar()
-
-      # Write {grammar} to {filepath},
-      # and reload window when complete
-      filepath = path.join(__dirname, output)
-      CSON.writeFileSync filepath, grammar, do ->
-        atom.commands.dispatch 'body', 'window:reload'
-
-
-  # Reads fixtures from {input},
-  # parses {data} to expand shortened syntax,
-  # creates and returns patterns from valid items in {data}.
-  _compileFencedCodeGrammar: ->
-    input = '../grammars/fixtures/fenced-code.cson'
-    filepath = path.join(__dirname, input)
-    data = CSON.readFileSync(filepath)
-    @_createPatternsFromData(data)
-
-  # Transform an {item} into a {pattern} object,
-  # and adds it to the {patterns} array.
-  # Returns {patterns}.
-  _createPatternsFromData: (data) ->
-    patterns = []
-    for item in data.list
-      if item = @_parseItem(item)
-
-        pattern =
-          begin: '^\\s*([`~]{3,})\\s*(\\{?)((?:\\.?)(?:'+item.pattern+'))(?=( |$|{))\\s*(\\{?)([^`\\{\\}]*)(\\}?)$'
-          beginCaptures:
-            1: name: 'punctuation.md'
-            2: name: 'punctuation.md'
-            3: name: 'language.constant.md'
-            5: name: 'punctuation.md'
-            6: patterns: [{ include:'#special-attribute-elements' }]
-            7: name: 'punctuation.md'
-          end: '^\\s*(\\1)$'
-          endCaptures:
-            1: name: 'punctuation.md'
-          name: 'fenced.code.md'
-          contentName: item.contentName
-          patterns: [{ include: item.include }]
-
-        patterns.push pattern
-
-    return patterns
-
-  # When provided with a valid {item} ({item.pattern} is required),
-  # missing {include} and/or {contentName} are generated.
-  _parseItem: (item) ->
-    if (typeof item is 'object') and item.pattern?
-      unless item.include then item.include = 'source.'+item.pattern
-      unless item.contentName then item.contentName = 'embedded.'+item.include
-      return item
+  wrapText: (text, token) ->
+    length = token.length
+    if (text.substr(0, length) is token) and (text.substr(-length) is token)
+      return text.substr(length, text.length - length * 2)
     else
-      return false
+      return token + text + token

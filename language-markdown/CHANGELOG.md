@@ -1,3 +1,17 @@
+### v0.19.1
+- Fix #161: `functions.js` not always being loaded/required (thanks @WestFlame)
+
+## v0.19.0
+- Add grammar for [iA Writer 4 content-blocks](https://github.com/iainc/Markdown-Content-Blocks)
+- Separate functions from main code
+- Add inline todo (from `language-todo`)
+- Temporarily disabled YAML fenced-code-blocks (see #77, thanks @btquanto)
+
+### v0.18.2
+- #160: Add math-inline to blocks-in-scopes (thanks @mangecoeur)
+- Update `less` base-scope for fenced-code blocks
+- #155: Add support for Pandoc grid-tables (thanks @mangecoeur)
+
 ### v0.18.1
 - #153: Fix multiple math-inlines on the same line, and allow math-block delimiters with extended arguments (thanks @laughingrice)
 

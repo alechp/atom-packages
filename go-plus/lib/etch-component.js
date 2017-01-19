@@ -41,13 +41,13 @@ export default class EtchComponent {
     * `props` an {Object} representing the properties you want to update
   */
   update (props) {
-    let oldProps = this.props
+    const oldProps = this.props
     this.props = Object.assign({}, oldProps, props)
     return etch.update(this)
   }
 
   updateSync (props) {
-    let oldProps = this.props
+    const oldProps = this.props
     this.props = Object.assign({}, oldProps, props)
     return etch.updateSync(this)
   }
@@ -55,8 +55,8 @@ export default class EtchComponent {
   /*
     Public: Destroys the component, removing it from the DOM.
   */
-  destroy () {
-    etch.destroy(this)
+  destroy (removeNode = false) {
+    etch.destroy(this, removeNode)
   }
 
   render () {
