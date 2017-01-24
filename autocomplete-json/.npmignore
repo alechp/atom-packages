@@ -1,0 +1,4 @@
+node_modules
+typings
+lib/**/*.js
+.vscode
