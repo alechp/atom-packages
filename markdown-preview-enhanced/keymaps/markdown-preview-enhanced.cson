@@ -1,0 +1,14 @@
+# Keybindings require three things to be fully defined: A selector that is
+# matched against the focused element, the keystroke and the command to
+# execute.
+#
+# Below is a basic keybinding which registers on all platforms by applying to
+# the root workspace element.
+
+# For more detailed documentation see
+# https://atom.io/docs/latest/behind-atom-keymaps-in-depth
+'.editor:not(.mini)':
+  'ctrl-M': 'markdown-preview-enhanced:toggle'
+  'ctrl-I': 'markdown-preview-enhanced:image-helper'
+  'shift-enter': 'markdown-preview-enhanced:run-code-chunk'
+  'ctrl-shift-enter': 'markdown-preview-enhanced:run-all-code-chunks'

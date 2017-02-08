@@ -1,0 +1,324 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-11718-37664-ck3sw6"
+    ]
+  ],
+  "_from": "../d-11718-37664-xk3ts1/package.tgz",
+  "_id": "markdown-preview-enhanced@0.9.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/markdown-preview-enhanced",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11718-37664-xk3ts1/package.tgz",
+  "_shasum": "a36558450c295dcf33191db7b5968ae36c4fb42e",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-11718-37664-xk3ts1/package.tgz",
+  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-11718-37664-ck3sw6",
+  "bugs": {
+    "url": "https://github.com/shd101wyy/markdown-preview-enhanced/issues"
+  },
+  "configSchema": {
+    "fileExtension": {
+      "type": "string",
+      "default": ".md, .mmark, .markdown",
+      "description": "You may need restart Atom after making changes here.",
+      "order": 0
+    },
+    "breakOnSingleNewline": {
+      "type": "boolean",
+      "default": true,
+      "description": "In Markdown, a single newline character doesn't cause a line break in the generated HTML. In GitHub Flavored Markdown, that is not true. Enable this config option to insert line breaks in rendered HTML for single newlines in Markdown source.",
+      "order": 10
+    },
+    "enableTypographer": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable smartypants and other sweet transforms.",
+      "order": 11
+    },
+    "showBackToTopButton": {
+      "title": "Show back to top button",
+      "type": "boolean",
+      "default": true,
+      "description": "Show back to top button in preview.",
+      "order": 12
+    },
+    "enableZenMode": {
+      "title": "Zen mode",
+      "type": "boolean",
+      "default": false,
+      "description": "Distraction free writing.",
+      "order": 13
+    },
+    "mathRenderingOption": {
+      "type": "string",
+      "default": "KaTeX",
+      "description": "Choose the Math expression rendering method here. You can also disable math rendering if you want by choosing 'None'.",
+      "enum": [
+        "KaTeX",
+        "MathJax",
+        "None"
+      ],
+      "order": 20
+    },
+    "indicatorForMathRenderingInline": {
+      "title": "Inline Indicator",
+      "type": "string",
+      "default": "[[\"$\", \"$\"]]",
+      "description": "Use customized Math expression inline indicator. By default it is '[[\"$\", \"$\"]]', which means content within '**$**' and '**$**' will be rendered in inline mode. You can also define multiple indicators separated by comma. For example, '[[\"$\", \"$\"], [\"\\\\\\\\(\", \"\\\\\\\\)\"]]' will render inline math expression within '**$**' and '**$**', '**\\\\(**' and '**\\\\)**'. **You may need to restart atom after making changes here**",
+      "order": 21
+    },
+    "indicatorForMathRenderingBlock": {
+      "title": "Block Indicator",
+      "type": "string",
+      "default": "[[\"$$\", \"$$\"]]",
+      "description": "Use customized Math expression block indicator. By default it is [[\"$$\", \"$$\"]]",
+      "order": 22
+    },
+    "enableWikiLinkSyntax": {
+      "title": "Enable Wiki Link syntax",
+      "type": "boolean",
+      "default": true,
+      "description": "Enable Wiki Link syntax support. More information can be found at https://help.github.com/articles/adding-links-to-wikis/",
+      "order": 30
+    },
+    "useGitHubStyle": {
+      "title": "Use GitHub.com style",
+      "type": "boolean",
+      "default": true,
+      "description": "Use the similar CSS styles for preview as the ones used on GitHub.com.",
+      "order": 40
+    },
+    "useGitHubSyntaxTheme": {
+      "title": "Use GitHub.com syntax theme",
+      "type": "boolean",
+      "default": true,
+      "description": "Use similar GitHub.com code block syntax theme.",
+      "order": 50
+    },
+    "liveUpdate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Re-render the preview as the contents of the source changes, without requiring the source buffer to be saved. If disabled, the preview is re-rendered only when the buffer is saved to disk. Disable live update will also disable scroll sync.",
+      "order": 60
+    },
+    "frontMatterRenderingOption": {
+      "title": "Front Matter rendering option",
+      "type": "string",
+      "description": "You can choose how to render front matter here. 'none' option will hide front matter.",
+      "default": "table",
+      "enum": [
+        "table",
+        "code block",
+        "none"
+      ],
+      "order": 70
+    },
+    "scrollSync": {
+      "type": "boolean",
+      "default": true,
+      "description": "2 way scroll sync. Sync both markdown source and markdown preview when scrolling.",
+      "order": 75
+    },
+    "scrollDuration": {
+      "type": "string",
+      "default": "120",
+      "description": "Scroll duration is defined in milliseconds. Lower value indicates faster scrolling speed. Default is 120ms",
+      "order": 76
+    },
+    "documentExportPath": {
+      "title": "document export folder path",
+      "description": "When exporting document to disk, by default the document will be generated at the root path './'",
+      "type": "string",
+      "default": "./",
+      "order": 77
+    },
+    "exportPDFPageFormat": {
+      "title": "Pdf Page Format",
+      "type": "string",
+      "default": "Letter",
+      "enum": [
+        "A3",
+        "A4",
+        "A5",
+        "Legal",
+        "Letter",
+        "Tabloid"
+      ],
+      "order": 80
+    },
+    "orientation": {
+      "title": "Pdf Page Orientation",
+      "type": "string",
+      "default": "portrait",
+      "enum": [
+        "portrait",
+        "landscape"
+      ],
+      "order": 90
+    },
+    "marginsType": {
+      "title": "Pdf Margin type",
+      "type": "string",
+      "default": "default margin",
+      "enum": [
+        "default margin",
+        "no margin",
+        "minimum margin"
+      ],
+      "order": 100
+    },
+    "printBackground": {
+      "title": "Print Background when generating pdf",
+      "type": "boolean",
+      "default": true,
+      "description": "Include background color when generating pdf.",
+      "order": 110
+    },
+    "pdfUseGithub": {
+      "title": "Use Github style when generating pdf",
+      "type": "boolean",
+      "default": true,
+      "description": "If you enabled this option, then the pdf will be generated using Github Style. I add this option because if the markdown preview has black color background, then the generated pdf may also have black color background (if you enabled Print Background), which may affect the appearance of the generated pdf.",
+      "order": 120
+    },
+    "pdfOpenAutomatically": {
+      "title": "Open pdf file immediately after it is generated",
+      "type": "boolean",
+      "default": true,
+      "description": "If you enabled this option, then when pdf is generated, it will be opened by pdf viewer. For example, on Mac OS X, it will be opened by Preview.",
+      "order": 130
+    },
+    "phantomJSExportFileType": {
+      "title": "PhantomJS export file type",
+      "type": "string",
+      "default": "pdf",
+      "enum": [
+        "pdf",
+        "png",
+        "jpeg"
+      ],
+      "order": 131
+    },
+    "phantomJSMargin": {
+      "title": "PhantomJS margins",
+      "description": "Default is 0, units: mm, cm, in, px. You can also define 'top, right, bottom, left' margins in order like '1cm, 1cm, 1cm, 1cm' separated by comma ','.",
+      "type": "string",
+      "default": "1cm",
+      "order": 132
+    },
+    "openPreviewPaneAutomatically": {
+      "title": "Open preview pane automatically when opening a markdown file",
+      "type": "boolean",
+      "default": true,
+      "order": 140
+    },
+    "imageFolderPath": {
+      "title": "Image save folder path",
+      "description": "When using Image Helper to copy images, by default images will be copied to root image folder path '/assets'",
+      "type": "string",
+      "default": "/assets",
+      "order": 150
+    },
+    "imageUploader": {
+      "title": "Image Uploader",
+      "description": "you can choose different image uploader to upload image.",
+      "type": "string",
+      "default": "imgur",
+      "enum": [
+        "imgur",
+        "sm.ms"
+      ],
+      "order": 160
+    },
+    "mermaidTheme": {
+      "title": "Mermaid Theme",
+      "type": "string",
+      "default": "mermaid.css",
+      "enum": [
+        "mermaid.css",
+        "mermaid.dark.css",
+        "mermaid.forest.css"
+      ],
+      "order": 170
+    }
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "atom-space-pen-views": "^2.2.0",
+    "cheerio": "^0.15.0",
+    "gray-matter": "^2.1.0",
+    "html-pdf": "^2.1.0",
+    "imgur": "^0.1.7",
+    "katex": "^0.7.1",
+    "remarkable": "^1.7.1",
+    "request": "^2.79.0",
+    "temp": "^0.8.3",
+    "uslug": "^1.0.4"
+  },
+  "description": "One of the 'BEST' markdown preview extensions for Atom editor!",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=0.174.0"
+  },
+  "homepage": "https://github.com/shd101wyy/markdown-preview-enhanced#readme",
+  "keywords": [
+    "markdown",
+    "presentation",
+    "image helper",
+    "katex",
+    "mathjax",
+    "mermaid",
+    "plantuml",
+    "wavedrom",
+    "pdf",
+    "html",
+    "exporter",
+    "phantomjs",
+    "toc",
+    "footer",
+    "graphviz",
+    "dot language",
+    "ePub",
+    "ebook",
+    "pandoc",
+    "beamer",
+    "latex"
+  ],
+  "license": "NCSA",
+  "main": "./lib/markdown-preview-enhanced",
+  "name": "markdown-preview-enhanced",
+  "optionalDependencies": {},
+  "readme": "Markdown Preview Enhanced\n===\nStill Beta Version!    \n[![](https://img.shields.io/github/tag/shd101wyy/markdown-preview-enhanced.svg)](https://github.com/shd101wyy/markdown-preview-enhanced/releases) ![](https://img.shields.io/apm/dm/markdown-preview-enhanced.svg)  [![](https://img.shields.io/github/stars/shd101wyy/markdown-preview-enhanced.svg?style=social&label=Star)](https://github.com/shd101wyy/markdown-preview-enhanced)  \n\n[中文文档](./docs/README_CN.md)   \n\nAfter version `0.9.0`, **Markdown Preview Enhanced** supports compiling markdown to markdown file. More information can be found [here](./docs/markdown.md).  \n\nPost [here](https://github.com/shd101wyy/markdown-preview-enhanced/issues) if you request new features or you want to report bugs ;)\n\n(TOC below was generated by this package `Markdown Preview Enhanced: Create Toc`)\n\n<!-- toc orderedList:0 -->\n\n* [Markdown Preview Enhanced](#markdown-preview-enhanced)\n\t* [Features](#features)\n\t* [How it works](#how-it-works)\n\t* [Usages](#usages)\n\t* [Preview Context Menu](#preview-context-menu)\n\t* [Extra](#extra)\n\t* [For Developer](#for-developer)\n\t* [Thanks](#thanks)\n\t* [TODO](#todo)\n\n<!-- tocstop -->\n---\n\n![intro](https://cloud.githubusercontent.com/assets/1908863/19796387/a00df0f6-9ca9-11e6-86e9-1d74e195748f.gif)\n\n## Features\n- **2-side scroll sync**  \n- **[Code Chunks (beta)](./docs/code-chunk.md)**\n- **[pandoc](./docs/advanced-export.md)**\n- **[ebook](./docs/ebook.md)**\n- **[Presentation Writer](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html)**\n- **[Extensible](#for-developer)**\n- markdown preview with math typesetting support   \nYou can choose [MathJax](https://github.com/mathjax/MathJax) or [KaTeX](https://github.com/Khan/KaTeX) to render math expressions  \n- export **PDF**, **PNG**, and **JPEG**   \n- export beautiful **HTML** (mobile device supported)  \n- compile to **Markdown**\n- customize Markdown Preview css  \n- [TOC](./docs/toc.md) generation **(beta)**  \n- Flowchart / Sequence diagram\n- Task List *(Github Flavored)*  \n- Image Helper\n- [Footnotes](https://github.com/shd101wyy/markdown-preview-enhanced/issues/35)  \n- [Front Matter](https://github.com/shd101wyy/markdown-preview-enhanced/issues/100)\n- And many more...\n\n## How it works\n- [remarkable](https://github.com/jonschlinkert/remarkable) to convert markdown to html.\n- [KaTeX](https://github.com/Khan/KaTeX) or [MathJax](https://github.com/mathjax/MathJax) to render math expressions. ([KaTeX Supported functions/symbols](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX)) (MathJax is incompatible with `preview-inline` package)\n  - expression within `$...$` will be rendered normally.  \n  - expression within `$$...$$` will be rendered in displayMode.   \n  - if you want to enable math highlighting, try [language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) package.  \n  - You can choose your math rendering method from [settings panel](#settings-panel).   \n\t\t**MathJax** supports more symbols, but it has slower rendering speed compared to **KaTeX**.\n  - <img src=\"https://cloud.githubusercontent.com/assets/1908863/14398210/0e408954-fda8-11e5-9eb4-562d7c0ca431.gif\">\n- [mermaid](https://github.com/knsv/mermaid) to render flowchart and sequence diagram.  \n\t- code block with `{mermaid}` notation will be rendered by [mermaid](https://github.com/knsv/mermaid)  \n\t- check [mermaid doc](http://knsv.github.io/mermaid/#flowcharts-basic-syntax) for more information about how to create flowchart and sequence diagram   \n\t- ![mermaid](http://i.imgur.com/rwIPIA8.gif)\n- [PlantUML](http://plantuml.com/) to create multiple kinds of graph. (**Java** is required)  \n\t- You can install [Graphviz](http://www.graphviz.org/) (not required) to generate all diagram types.\n\t- code block with `{puml}` or `{plantuml}` notation will be rendered by [PlantUML](http://plantuml.com/).  \n- [WaveDrom](http://wavedrom.com/) to create digital timing diagram.  \n\t- code block with `{wavedrom}` notation will be rendered by [wavedrom](https://github.com/drom/wavedrom).\n- [Viz.js](https://github.com/mdaines/viz.js) to render [dot language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) graph.  \n\t- code block with `{viz}` notation will be rendered by [Viz.js](https://github.com/mdaines/viz.js).\n    - add `engine:[engine_name]` at the first line of code block to choose different render engine. Engine `circo`, `dot`, `neato`, `osage`, or `twopi` are supported. Default engine is `dot`.   \n    - ![viz](https://cloud.githubusercontent.com/assets/1908863/22486898/f3b71a8a-e7d0-11e6-9f69-88e30baa3a9a.gif)\n- [reveal.js](https://github.com/hakimel/reveal.js) to render beautiful presentations.\n\t- [Click here](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html) to see the introduction.\n\n## Usages\nTo use this package, press <kbd>cmd + shift + p</kbd>   in atom editor first to toggle <strong> Command Palette </strong>. Then choose the commands below:\n- <strong>Markdown Preview Enhanced: Toggle</strong>\n  - Toggle Markdown file preview with KaTeX support.   \n\tYou can also use the keymap <kbd>ctrl+shift+m</kbd> to toggle preview. (To use keymap, you have to disable the default [markdown preview](https://atom.io/packages/markdown-preview) package, otherwise there would be keymap conflict)\n- <strong>Markdown Preview Enhanced: Toggle Zen Mode </strong>  \n\t- Toggle distraction free writing.  \n- <strong>Markdown Preview Enhanced: Customize CSS</strong>\n  - Customize preview page css. You can edit styles inside `markdown-preview-enhanced-custom` section in `style.less` file.  \n  - If you didn't see `markdown-preview-enhanced-custom` section in `style.less` file, you may need to run `Markdown Preview Enhanced: Customize CSS` command first.\n- <strong>Markdown Preview Enhanced: Create Toc </strong>\n  - Generate TOC (need preview toggled). [doc is here](./docs/toc.md).    \n- <strong>Markdown Preview Enhanced: Toggle Scroll Sync </strong>\n  - Enable/Disable scroll sync for preview.\n- <strong>Markdown Preview Enhanced: Toggle Break On Single Newline </strong>\n  - Enable/Disable breaking on single newline.\n- <strong>Markdown Preview Enhanced: Insert New Slide </strong>  \n- <strong>Markdown Preview Enhanced: Insert Table </strong>\n- <strong>Markdown Preview Enhanced: Insert Page Break </strong>\n- <strong> Markdown Preview Enhanced: Config Mermaid</strong>\n  - Edit `mermaid` init configuration.\n- <strong> Markdown Preview Enhanced: Config Header Footer</strong>\n  - **PDF** export header and footer configuration.\n- <strong>Markdown Preview Enhanced: Image Helper</strong>  \n\t- Image Helper supports image url quick insertion, image paste, and image upload powered by [imgur](http://imgur.com/) and [sm.ms](https://sm.ms/).       \n\t(if **imgur** is blocked by **the Great Firewall**, then you can choose **sm.ms** instead).    \n\t- Keymap <kbd>ctrl+shift+i</kbd>    \n\t-  ![image_helper](https://cloud.githubusercontent.com/assets/1908863/15414603/c40b6556-1e6e-11e6-956c-090b5996ec87.gif)   \n\n## Preview Context Menu\n**Right click at preview to see the menu**\n\n![contextmenu](http://i.imgur.com/hOxseAS.gif)\n\n- <strong> Open in Browser </strong>\n  - Open HTML in browser\n- **Export to Disk**\n\t- Export **HTML**, **PDF**, **PNG**, **JPEG**, **ePub** etc files.\n- **Pandoc Document Export**\n\t- [doc](./docs/advanced-export.md)\n- **Save as Markdown**\n\t- [doc](./docs/markdown.md)\n\n## Extra\n* **Code Chunks** [doc](./docs/code-chunk.md)\n* **EBook**  \n\tMore information about how to create ebook can be found [here](./docs/ebook.md).\n* **Presentation Writer**  \n\tMore information about how to create Presentation can be found [here](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html).\n* **Task List**  \n\tThis package supports *Github Flavored* task list.  \n\tMore information about how to create **task list** can be found [here](https://github.com/blog/1375-task-lists-in-gfm-issues-pulls-comments)\n* **Smart Navigation**    \n\tYou can quickly open another markdown file by clicking its link in preview.  \n* **Preview Auto Open**  \n\tOpen preview pane automatically when you open a markdown file. You can disable this functionality from settings panel.\n\n## For Developer\nManual installation instruction can be found [here](./docs/DEVELOPER.md).   \nIt is also very easy to write your own extension, more information can be found [here](./docs/extension.md).\n\n## Thanks  \nThanks for everyone that supports this package!    \n\n## TODO  \n[CHANGELOG](./CHANGELOG.md)  \n- [ ] fix bugs\n- [ ] modify css to make preview look nice\n- [x] ePub output\n- [x] support more image upload methods other than imgur (as imgur is blocked in some countries)\n- [x] image paste [#30](https://github.com/shd101wyy/markdown-preview-enhanced/issues/30)\n- [ ] pdf book generation [#56](https://github.com/shd101wyy/markdown-preview-enhanced/issues/56)\n- [x] header and footer for pdf [57](https://github.com/shd101wyy/markdown-preview-enhanced/issues/57)\n\nThanks for using and supporting this package ;)\n\n> University of Illinois/NCSA Open Source License\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shd101wyy/markdown-preview-enhanced.git"
+  },
+  "scripts": {
+    "build": "nothing happened"
+  },
+  "version": "0.9.5"
+}
