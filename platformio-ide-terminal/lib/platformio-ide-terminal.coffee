@@ -8,8 +8,8 @@ module.exports =
     @statusBarTile = null
 
   provideRunInTerminal: ->
-    run: (command) =>
-      @statusBarTile.runCommandInNewTerminal command
+    run: (commands) =>
+      @statusBarTile.runCommandInNewTerminal commands
     getTerminalViews: () =>
       @statusBarTile.terminalViews
 
@@ -128,7 +128,9 @@ module.exports =
             'silver-aerogel',
             'solarized-dark',
             'solid-colors',
-            'dracula'
+            'dracula',
+            'one-dark',
+            'christmas'
           ]
     ansiColors:
       type: 'object'

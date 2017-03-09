@@ -2,55 +2,49 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+        "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
-        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+        "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
+        "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161117-76904-1ww2w7q"
+      "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-117118-85559-vwx3iu"
     ]
   ],
-  "_from": "../d-1161117-76904-1stfyeu/package.tgz",
-  "_id": "atom-live-server@1.2.5",
+  "_from": "../d-117118-85559-1b4bq1m/package.tgz",
+  "_id": "atom-live-server@2.1.1",
   "_inCache": true,
   "_installable": true,
   "_location": "/atom-live-server",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+    "raw": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
-    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
+    "rawSpec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
+    "spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1161117-76904-1stfyeu/package.tgz",
-  "_shasum": "47dfe9ddd1f153c82113ff039eabd29888208abc",
+  "_resolved": "file:../d-117118-85559-1b4bq1m/package.tgz",
+  "_shasum": "88ffdd81f114fe99fcb9c5a49c228bd5e9417e45",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-1161117-76904-1stfyeu/package.tgz",
-  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-1161117-76904-1ww2w7q",
-  "activationCommands": {
-    "atom-workspace": [
-      "atom-live-server:start-3000",
-      "atom-live-server:start-4000",
-      "atom-live-server:start-5000",
-      "atom-live-server:start-8000",
-      "atom-live-server:start-9000"
-    ]
-  },
+  "_spec": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/d-117118-85559-1b4bq1m/package.tgz",
+  "_where": "/private/var/folders/9_/1_32dcds1fb2thx3x9h19wph0000gn/T/apm-install-dir-117118-85559-vwx3iu",
+  "activationEvents": [
+    "atom-live-server:activate"
+  ],
   "bugs": {
     "url": "https://github.com/jas-chen/atom-live-server/issues"
   },
   "dependencies": {
-    "live-server": "^0.8.1",
-    "loophole": "^1.1.0"
+    "json5": "^0.5.1",
+    "live-server": "^1.2.0"
   },
   "description": "Launch a http server with live reload capability.",
   "devDependencies": {},
@@ -68,11 +62,11 @@
   "main": "./lib/atom-live-server",
   "name": "atom-live-server",
   "optionalDependencies": {},
-  "readme": "# atom-live-server package\n\nLaunch a simple development http server with live reload capability.\n\n![Demo](https://raw.githubusercontent.com/jas-chen/atom-live-server/master/doc/demo.gif)\n\nThis package is based on awesome [Live Server](https://github.com/tapio/live-server) project.\n\n## Usage\n\n`ctrl-shift-3` launch live server on port 3000.\n\n`ctrl-shift-4` launch live server on port 4000.\n\n`ctrl-shift-5` launch live server on port 5000.\n\n`ctrl-shift-8` launch live server on port 8000.\n\n`ctrl-shift-9` launch live server on port 9000.\n",
+  "readme": "# atom-live-server package\n\nLaunch a simple development http server with live reload capability.\n\n![Demo](https://raw.githubusercontent.com/jas-chen/atom-live-server/master/doc/demo.gif)\n\nThis package is based on awesome [Live Server](https://github.com/tapio/live-server) project.\n\n## Usage\n\n`ctrl-alt-l` launch live server on port 3000.\n\n`ctrl-alt-q` stop live server.\n\n`ctrl-alt-3` launch live server on port 3000.\n\n`ctrl-alt-4` launch live server on port 4000.\n\n`ctrl-alt-5` launch live server on port 5000.\n\n`ctrl-alt-8` launch live server on port 8000.\n\n`ctrl-alt-9` launch live server on port 9000.\n\n\n## Options\n\nIf a file `.atom-live-server.json` exists in project root it will be loaded and used as options.\n\nThe keys of `.atom-live-server.json` should match **Command line parameters** in [live-server](https://github.com/tapio/live-server).\n\n#### Example: Launch specific browser\n```json\n{\n  \"browser\": \"safari\"\n}\n```\n\n#### Example: Start server without browser opened\n```json\n{\n  \"no-browser\": true\n}\n```\n\n#### Example: Serve this file for every 404 (useful for single-page applications)\n```json\n{\n  \"entry-file\": \"index.html\"\n}\n```\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jas-chen/atom-live-server.git"
   },
-  "version": "1.2.5"
+  "version": "2.1.1"
 }

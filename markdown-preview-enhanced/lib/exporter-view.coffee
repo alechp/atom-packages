@@ -35,8 +35,11 @@ class ExporterView extends View
       @div class: 'splitter'
 
       @div class: 'html-div', =>
-        @label 'CDN (network required)'
         @input class: 'cdn-checkbox', type: 'checkbox'
+        @label 'Use CDN hosted resources'
+        @br()
+        @input class: 'relative-image-path-checkbox', type: 'checkbox'
+        @label 'Use relative image path'
 
       @div class: 'pdf-div', =>
         @label 'Format'
@@ -133,7 +136,8 @@ class ExporterView extends View
         @markdownPreview.saveAsPDF dest
       else if $('.document-html', @element).hasClass('selected') # html
         isCDN = $('.cdn-checkbox', @element)[0].checked
-        @markdownPreview.saveAsHTML dest, !isCDN
+        relativeImagePath = $('.relative-image-path-checkbox', @element)[0].checked
+        @markdownPreview.saveAsHTML dest, !isCDN, relativeImagePath
       else if $('.document-phantomjs', @element).hasClass('selected') # phantomjs
         atom.notifications.addInfo('Your document is being prepared', detail: ':)')
         @markdownPreview.phantomJSExport dest
