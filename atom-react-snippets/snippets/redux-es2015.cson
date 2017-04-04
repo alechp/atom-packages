@@ -1,0 +1,32 @@
+".source.js.jsx":
+  "Redux: class skeleton":
+    prefix: "rcdx"
+    body: "import React, {PropTypes} from 'react';\nimport {connect} from 'react-redux';\n\nexport class $1 extends React.Component {\n\trender() {\n\t\treturn <div />;\n\t}\n}\n\nexport const mapStateToProps = (state) => {\n\treturn {\n\n\t}\n}\n\nexport const mapDispatchToProps = {\n\n}\n\nexport default connect(mapStateToProps, mapDispatchToProps)(${1});"
+
+  "Redux: middleware skeleton":
+    prefix: "rxm"
+    body: "export default ({dispatch, getState}) => (next) => (action) => {\n\tnext(action);\n}"
+
+  "Redux: reducer skeleton":
+    prefix: "rxr"
+    body: "export default (state = {}, action = {}) => {\n\treturn state;\n}"
+
+  "Redux: immutable reducer skeleton":
+    prefix: "rxri"
+    body: "import {fromJS} from 'immutable';\n\nexport const defaultState = fromJS({\n\n});\n\nexport default (state = defaultState, action = {}) => {\n\treturn state;\n}\n"
+
+  "Redux: mapStateToProps":
+    prefix: "rxms"
+    body: "export const mapStateToProps = (state) => {\n\treturn {\n\n\t}\n}\n"
+
+  "Redux: mapDispatchToProps":
+    prefix: "rxmd"
+    body: "export const mapDispatchToProps = (dispatch) => {\n\treturn {\n\t:() => dispatch()\n\t}\n}\n"
+
+  "Redux: mapDispatchToProps (object)":
+    prefix: "rxmdo"
+    body: "export const mapDispatchToProps = {\n\treturn {\n\n\t}\n}\n"
+
+  "Redux: connect":
+    prefix: "rxc"
+    body: "export default connect(mapStateToProps, mapDispatchToProps)(${1});"
