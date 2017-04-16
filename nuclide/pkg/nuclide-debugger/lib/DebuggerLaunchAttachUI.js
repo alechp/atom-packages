@@ -13,7 +13,7 @@ function _load_Dropdown() {
   return _Dropdown = require('../../nuclide-ui/Dropdown');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _nuclideUri;
 
@@ -29,7 +29,7 @@ function _load_promise() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class DebuggerLaunchAttachUI extends _reactForAtom.React.Component {
+class DebuggerLaunchAttachUI extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -75,42 +75,42 @@ class DebuggerLaunchAttachUI extends _reactForAtom.React.Component {
       value: index
     }));
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'padded nuclide-debugger-launch-attach-container' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-debugger-launch-attach-header' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           { className: 'inline-block' },
           'Connection: '
         ),
-        _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+        _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
           className: 'inline-block',
           options: connectionItems,
           onChange: this._handleConnectionDropdownChange,
           value: this.state.connectionsDropdownIndex,
           size: 'sm'
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           { className: 'inline-block' },
           'Type: '
         ),
-        _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+        _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
           className: 'inline-block',
           options: debuggingTypeItems,
           onChange: this._handleDebuggingTypeDropdownChange,
           value: this.state.debuggingTypeDropdownIndex,
           size: 'sm'
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           { className: 'inline-block' },
           'Action: '
         ),
-        _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+        _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
           className: 'inline-block',
           options: providerActions,
           onChange: this._handleProviderActionsDropdownChange,
@@ -118,7 +118,7 @@ class DebuggerLaunchAttachUI extends _reactForAtom.React.Component {
           size: 'sm'
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         null,
         this.state.element
@@ -205,7 +205,7 @@ class DebuggerLaunchAttachUI extends _reactForAtom.React.Component {
     let element = provider.getComponent(action, this.props.emitter);
     // Assign an unique key to element so that react treats it as a new element.
     if (element != null) {
-      element = _reactForAtom.React.cloneElement(element, { key: provider.getUniqueKey() });
+      element = _react.default.cloneElement(element, { key: provider.getUniqueKey() });
     }
     this.setState({
       element

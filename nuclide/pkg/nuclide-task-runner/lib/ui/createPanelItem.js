@@ -35,7 +35,7 @@ function _load_Toolbar() {
   return _Toolbar = require('./Toolbar');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -87,7 +87,7 @@ function createPanelItem(store) {
   const props = (0, (_observable || _load_observable()).throttle)(_rxjsBundlesRxMinJs.Observable.combineLatest(stickyProps, alwaysUpToDateProps, (a, b) => Object.assign({}, a, b)), () => (_observable || _load_observable()).nextAnimationFrame);
 
   const StatefulToolbar = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(props, (_Toolbar || _load_Toolbar()).Toolbar);
-  return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement(StatefulToolbar, null));
+  return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement(StatefulToolbar, null));
 }
 
 // Since `getExtraUi` may create a React class dynamically, the classes are cached

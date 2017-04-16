@@ -1,9 +1,9 @@
 <!-- toc orderedList:0 depthFrom: 1 -->
 
 * [Code Chunk (Beta)](#code-chunk-beta)
+	* [Commands & Keyboard Shortcust](#commands-keyboard-shortcust)
 	* [Format](#format)
 	* [Options](#options)
-	* [Commands & Keyboard Shortcust](#commands-keyboard-shortcust)
 	* [Macro](#macro)
 	* [Demo](#demo)
 	* [Showcases](#showcases)
@@ -28,6 +28,14 @@ To enable code chunk highlighting, install [language-gfm-enhanced](https://atom.
     console.log(date.toString())
     ```   
 
+**Here is a  [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html), and its [raw file](https://raw.githubusercontent.com/shd101wyy/markdown-preview-enhanced/master/test/code-chunks-test.md).**  
+
+## Commands & Keyboard Shortcust
+* `Markdown Preview Enhanced: Run Code Chunk` or <kbd>shift-enter</kbd>      
+execute single code chunk where your cursor is at.    
+* `Markdown Preview Enhanced: Run All Code Chunks` or <kbd>ctrl-shift-enter</kbd>   
+execute all code chunks.    
+
 ## Format
 You can configure code chunk options in format of `{lang  opt1:value1, opt2:value2, ...}`    
 
@@ -50,7 +58,7 @@ eg:
 **output**  
 `html`, `markdown`, `text`, `png`, `none`  
 
-defines how to render code output.   
+Defines how to render code output.   
 `html` will append output as html.    
 `markdown` will parse output as markdown. (MathJax and graphs will not be supported in this case, but KaTeX works)      
 `text` will append output to a `pre` block.    
@@ -81,7 +89,7 @@ args that append to command. eg:
     ```
 
 **stdin**  
-if `stdin` is set to true, then the code will be passed as stdin instead of as file.
+If `stdin` is set to true, then the code will be passed as stdin instead of as file.
 
 **hide**  
 `hide` will hide code chunk but only leave the output visible. default: `false`  
@@ -91,16 +99,44 @@ eg:
     print('you can see this output message, but not this code')
     ```
 
+**continue**  
+If set `continue: true`, then this code chunk will continue from the last code chunk.  
+If set `continue: id`, then this code chunk will continue from the code chunk of id.  
+eg:    
+
+	```{python id:"izdlk700"}
+	x = 1
+	```
+
+	```{python id:"izdlkdim"}
+	x = 2
+	```
+
+	```{python continue:"izdlk700", id:"izdlkhso"}
+	print(x) # will print 1
+	```
+
+**matplotlib**  
+If set `matplotlib: true`, then the python code chunk will plot graphs inline in the preview.    
+eg:    
+
+	```{python matplotlib:true, id:"izbp0zt9"}
+	import matplotlib.pyplot as plt
+	plt.plot([1,2,3, 4])
+	plt.show() # show figure
+	```
+
+**element**  
+The element that you want to append after.  
+Please check this [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html).
+
+**require**  
+The javascript files that you want to require. Works the same as html `<script src="{js_file_path}"></script>`.  
+Please check this [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html).  
+
 **id**  
 `id` will be automatically generated to track the running result.  
-Please **Do Not** modify it.  
-
-## Commands & Keyboard Shortcust
-<strike>`run` and `all` buttons are removed in version `0.8.8`. So you need to use keyboard instead.</strike> nvm I put those buttons back.      
-* `Markdown Preview Enhanced: Run Code Chunk` or <kbd>shift-enter</kbd>      
-execute single code chunk where your cursor is at.    
-* `Markdown Preview Enhanced: Run All Code Chunks` or <kbd>ctrl-shift-enter</kbd>   
-execute all code chunks.    
+Please **Do Not** modify it. If you modify it, please make sure it is unique in your markdown file.    
 
 ## Macro
 * **input_file**  
@@ -145,11 +181,10 @@ Then we can click the `run` button at the preview to run our code.
 ![code_chunk](http://i.imgur.com/a7LkJYD.gif)
 
 ## Showcases
+**Here is a  [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html), and its [raw file](https://raw.githubusercontent.com/shd101wyy/markdown-preview-enhanced/master/test/code-chunks-test.md).**  
+
 **bash**  
 ![Screen Shot 2016-09-24 at 1.41.06 AM](http://i.imgur.com/v5Y7juh.png)
-
-**python matplotlib 3d plot with png output**  
-![Screen Shot 2016-09-24 at 1.34.56 AM](http://i.imgur.com/TDFxRNy.png)
 
 **gnuplot with svg output**    
 ![Screen Shot 2016-09-24 at 1.44.14 AM](http://i.imgur.com/S93g7Tk.png)

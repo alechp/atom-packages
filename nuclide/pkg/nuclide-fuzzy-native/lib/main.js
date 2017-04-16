@@ -21,7 +21,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  */
 
 try {
-  module.exports = require('../VendorLib/fuzzy-native/lib/main');
+  module.exports = require('nuclide-prebuilt-libs/fuzzy-native');
 } catch (e) {
   logger.error('Failed to load native fuzzy matching. Falling back to JS implementation', e);
   module.exports = require('./FallbackMatcher');

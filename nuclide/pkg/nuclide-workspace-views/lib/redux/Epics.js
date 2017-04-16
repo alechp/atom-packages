@@ -37,15 +37,18 @@ function _load_Actions() {
   return _Actions = _interopRequireWildcard(require('./Actions'));
 }
 
+var _getNewLocation;
+
+function _load_getNewLocation() {
+  return _getNewLocation = _interopRequireDefault(require('../getNewLocation'));
+}
+
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-const preferredLocationStorage = new (_LocalStorageJsonTable || _load_LocalStorageJsonTable()).LocalStorageJsonTable('nuclide:nuclide-workspace-views:preferredLocationIds');
-
-/**
- * Register a record provider for every executor.
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -56,6 +59,11 @@ const preferredLocationStorage = new (_LocalStorageJsonTable || _load_LocalStora
  * 
  */
 
+const preferredLocationStorage = new (_LocalStorageJsonTable || _load_LocalStorageJsonTable()).LocalStorageJsonTable('nuclide:nuclide-workspace-views:preferredLocationIds');
+
+/**
+ * Register a record provider for every executor.
+ */
 function registerLocationFactoryEpic(actions, store) {
   return actions.ofType((_Actions || _load_Actions()).REGISTER_LOCATION_FACTORY).map(action => {
     if (!(action.type === (_Actions || _load_Actions()).REGISTER_LOCATION_FACTORY)) {
@@ -158,7 +166,7 @@ function openEpic(actions, store) {
       // Find a location for this viewable.
       const preferredLocationId = preferredLocationStorage.getItem(uri);
       if (preferredLocationId != null) {
-        location = locations.get(preferredLocationId);
+        location = locations.get((0, (_getNewLocation || _load_getNewLocation()).default)(preferredLocationId));
       }
       if (location == null) {
         const defaultLocationId = item.getDefaultLocation != null ? item.getDefaultLocation() : null;

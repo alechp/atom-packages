@@ -50,7 +50,8 @@ function itemToTree(item) {
   const extent = getExtent(item);
   switch (item.type) {
     case 'FunctionDeclaration':
-      return functionOutline(item.id.name, item.params, extent);
+    case 'ArrowFunctionExpression':
+      return functionOutline(item.id != null ? item.id.name : '', item.params, extent);
     case 'ClassDeclaration':
     case 'ClassExpression':
       const tokenizedText = [(0, (_tokenizedText || _load_tokenizedText()).keyword)('class')];
@@ -310,6 +311,21 @@ function isDescribe(functionName) {
     case 'xdescribe':
     case 'describe.only':
     case 'describe.skip':
+    case 'test.cb':
+    case 'test.serial':
+    case 'test.todo':
+    case 'test.failing':
+    case 'test':
+    case 'test.concurrent':
+    case 'test.only':
+    case 'test.skip':
+    case 'suite':
+    case 'suite.only':
+    case 'suite.skip':
+    case 'xtest':
+    case 'xtest.concurrent':
+    case 'xtest.only':
+    case 'xtest.skip':
       return true;
     default:
       return false;

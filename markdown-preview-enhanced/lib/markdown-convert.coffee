@@ -1,16 +1,11 @@
 path = require 'path'
 fs = require 'fs'
 {Directory} = require 'atom'
-{execFile} = require 'child_process'
-async = require 'async'
-Viz = require '../dependencies/viz/viz.js'
-plantumlAPI = require './puml'
-codeChunkAPI = require './code-chunk'
-{svgAsPngUri} = require '../dependencies/save-svg-as-png/save-svg-as-png.js'
 processGraphs = require './process-graphs'
 encrypt = require './encrypt'
 CACHE = require './cache'
 fileImport = require './file-import'
+{protocolsWhiteListRegExp} = require './protocols-whitelist'
 
 # TODO: refactor this file
 # it has common functions as pandoc-convert.coffee
@@ -35,23 +30,23 @@ processMath = (text)->
   text
 
 # convert relative path to project path
-processPaths = (text, rootDirectoryPath, projectDirectoryPath, useAbsoluteImagePath)->
+processPaths = (text, fileDirectoryPath, projectDirectoryPath, useAbsoluteImagePath)->
   match = null
   offset = 0
   output = ''
 
   resolvePath = (src)->
-    if src.startsWith('http://') or src.startsWith('https://') or src.startsWith('file://')
+    if src.match(protocolsWhiteListRegExp)
       return src
 
     if useAbsoluteImagePath
       if src.startsWith('/')
         return src
       else # ./test.png or test.png
-        return '/' + path.relative(projectDirectoryPath, path.resolve(rootDirectoryPath, src))
+        return '/' + path.relative(projectDirectoryPath, path.resolve(fileDirectoryPath, src))
     else
       if src.startsWith('/')
-        return path.relative(rootDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
+        return path.relative(fileDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
       else # ./test.png or test.png
         return src
 
@@ -71,7 +66,7 @@ processPaths = (text, rootDirectoryPath, projectDirectoryPath, useAbsoluteImageP
 
   text
 
-markdownConvert = (text, {projectDirectoryPath, rootDirectoryPath}, config={})->
+markdownConvert = (text, {projectDirectoryPath, fileDirectoryPath}, config={})->
   if !config.path
     return atom.notifications.addError('{path} has to be specified')
 
@@ -82,18 +77,18 @@ markdownConvert = (text, {projectDirectoryPath, rootDirectoryPath}, config={})->
   if config.path[0] == '/'
     outputFilePath = path.resolve(projectDirectoryPath, '.' + config.path)
   else
-    outputFilePath = path.resolve(rootDirectoryPath, config.path)
+    outputFilePath = path.resolve(fileDirectoryPath, config.path)
 
   delete(CACHE[outputFilePath])
 
   useAbsoluteImagePath = config.absolute_image_path
 
   # import external files
-  text = fileImport(text, {rootDirectoryPath, projectDirectoryPath, useAbsoluteImagePath}).outputString
+  text = fileImport(text, {fileDirectoryPath, projectDirectoryPath, useAbsoluteImagePath}).outputString
 
   # change link path to project '/' path
   # this is actually differnet from pandoc-convert.coffee
-  text = processPaths text, rootDirectoryPath, projectDirectoryPath, useAbsoluteImagePath
+  text = processPaths text, fileDirectoryPath, projectDirectoryPath, useAbsoluteImagePath
 
   text = processMath text
 
@@ -101,7 +96,7 @@ markdownConvert = (text, {projectDirectoryPath, rootDirectoryPath}, config={})->
   if config['image_dir'][0] == '/'
     imageDirectoryPath = path.resolve(projectDirectoryPath, '.' + config['image_dir'])
   else
-    imageDirectoryPath = path.resolve(rootDirectoryPath, config['image_dir'])
+    imageDirectoryPath = path.resolve(fileDirectoryPath, config['image_dir'])
 
   atom.notifications.addInfo('Your document is being prepared', detail: ':)')
 
@@ -109,7 +104,7 @@ markdownConvert = (text, {projectDirectoryPath, rootDirectoryPath}, config={})->
   imageDir.create().then (flag)->
 
     # mermaid / viz / wavedrom graph
-    processGraphs text, {rootDirectoryPath, projectDirectoryPath, imageDirectoryPath, imageFilePrefix: encrypt(outputFilePath), useAbsoluteImagePath}, (text, imagePaths=[])->
+    processGraphs text, {fileDirectoryPath, projectDirectoryPath, imageDirectoryPath, imageFilePrefix: encrypt(outputFilePath), useAbsoluteImagePath}, (text, imagePaths=[])->
       fs.writeFile outputFilePath, text, (err)->
         return atom.notifications.addError('failed to generate markdown') if err
         atom.notifications.addInfo("File #{path.basename(outputFilePath)} was created", detail: "path: #{outputFilePath}")

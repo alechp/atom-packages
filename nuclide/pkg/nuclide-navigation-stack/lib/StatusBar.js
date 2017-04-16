@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.consumeStatusBar = consumeStatusBar;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _atom = require('atom');
 
@@ -33,6 +33,8 @@ function _load_bindObservableAsProps() {
   return _bindObservableAsProps = require('../../nuclide-ui/bindObservableAsProps');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // Since this is a button which can change the current file, place it where
 // it won't change position when the current file name changes, which means way left.
 /**
@@ -57,7 +59,7 @@ function consumeStatusBar(statusBar, controller) {
     onForward
   }));
   const Tile = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(props, NavStackStatusBarTile);
-  const item = (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_reactForAtom.React.createElement(Tile, null));
+  const item = (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_react.default.createElement(Tile, null));
   item.className = 'nuclide-navigation-stack-tile inline-block';
 
   const statusBarTile = statusBar.addLeftTile({
@@ -71,10 +73,10 @@ function consumeStatusBar(statusBar, controller) {
 }
 
 function NavStackStatusBarTile(props) {
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
     null,
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+    _react.default.createElement((_Button || _load_Button()).Button, {
       icon: 'chevron-left',
       onClick: props.onBack,
       disabled: !props.enableBack,
@@ -83,7 +85,7 @@ function NavStackStatusBarTile(props) {
         keyBindingCommand: 'nuclide-navigation-stack:navigate-backwards'
       }
     }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+    _react.default.createElement((_Button || _load_Button()).Button, {
       icon: 'chevron-right',
       onClick: props.onForward,
       disabled: !props.enableForward,

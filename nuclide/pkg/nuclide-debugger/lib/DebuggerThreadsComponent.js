@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DebuggerThreadsComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _Icon;
 
@@ -39,23 +41,21 @@ function _load_debounce() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const activeThreadIndicatorComponent = props => _reactForAtom.React.createElement(
+const activeThreadIndicatorComponent = props => _react.default.createElement(
   'div',
   { className: 'nuclide-debugger-thread-list-item-current-indicator' },
-  props.cellData ? _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'arrow-right', title: 'Selected Thread' }) : null
-);
+  props.cellData ? _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'arrow-right', title: 'Selected Thread' }) : null
+); /**
+    * Copyright (c) 2015-present, Facebook, Inc.
+    * All rights reserved.
+    *
+    * This source code is licensed under the license found in the LICENSE file in
+    * the root directory of this source tree.
+    *
+    * 
+    */
 
-class DebuggerThreadsComponent extends _reactForAtom.React.Component {
+class DebuggerThreadsComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -89,7 +89,7 @@ class DebuggerThreadsComponent extends _reactForAtom.React.Component {
   }
 
   _scrollSelectedThreadIntoView() {
-    const listNode = _reactForAtom.ReactDOM.findDOMNode(this.refs.threadTable);
+    const listNode = _reactDom.default.findDOMNode(this.refs.threadTable);
     if (listNode) {
       const selectedRows =
       // $FlowFixMe
@@ -167,7 +167,7 @@ class DebuggerThreadsComponent extends _reactForAtom.React.Component {
     // Individual debuggers can override the displayed columns.
     const columns = this.props.customThreadColumns.length === 0 ? defaultColumns : [activeThreadCol, ...this.props.customThreadColumns];
     const threadName = this.props.threadName.toLowerCase();
-    const emptyComponent = () => _reactForAtom.React.createElement(
+    const emptyComponent = () => _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-thread-list-empty' },
       threadList == null ? `(${threadName} unavailable)` : `no ${threadName} to display`
@@ -186,16 +186,16 @@ class DebuggerThreadsComponent extends _reactForAtom.React.Component {
     });
 
     if (this.state.threadsLoading) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         {
           className: 'nuclide-debugger-thread-loading',
           title: 'Loading threads...' },
-        _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: (_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinnerSizes.MEDIUM })
+        _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: (_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinnerSizes.MEDIUM })
       );
     }
 
-    return _reactForAtom.React.createElement((_Table || _load_Table()).Table, {
+    return _react.default.createElement((_Table || _load_Table()).Table, {
       columns: columns,
       emptyComponent: emptyComponent,
       rows: this._sortRows(rows, this.state.sortedColumn, this.state.sortDescending),

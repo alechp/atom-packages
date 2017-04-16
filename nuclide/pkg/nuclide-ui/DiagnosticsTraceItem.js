@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DiagnosticsTraceItem = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _DiagnosticsMessageText;
 
 function _load_DiagnosticsMessageText() {
   return _DiagnosticsMessageText = require('./DiagnosticsMessageText');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO move LESS styles to nuclide-ui
 const DiagnosticsTraceItem = exports.DiagnosticsTraceItem = props => {
@@ -32,21 +34,21 @@ const DiagnosticsTraceItem = exports.DiagnosticsTraceItem = props => {
       event.stopPropagation();
       goToLocation(path, Math.max(trace.range ? trace.range.start.row : 0, 0));
     };
-    locSpan = _reactForAtom.React.createElement(
+    locSpan = _react.default.createElement(
       'span',
       null,
       ': ',
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'a',
         { href: '#', onClick: onClick },
         locString
       )
     );
   }
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     null,
-    _reactForAtom.React.createElement((_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText, { message: trace }),
+    _react.default.createElement((_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText, { message: trace }),
     locSpan
   );
 }; /**

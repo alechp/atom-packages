@@ -28,6 +28,8 @@ function _load_config() {
   return _config = require('./config');
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 var _nuclideFlowCommon;
 
 function _load_nuclideFlowCommon() {
@@ -275,7 +277,49 @@ class FlowSingleProjectLanguageService {
   }
 
   observeDiagnostics() {
-    throw new Error('Not Yet Implemented');
+    const ideConnections = this._process.getIDEConnections();
+    return ideConnections.switchMap(ideConnection => {
+      if (ideConnection != null) {
+        return ideConnection.observeDiagnostics().filter(msg => msg.kind === 'errors').map(msg => {
+          if (!(msg.kind === 'errors')) {
+            throw new Error('Invariant violation: "msg.kind === \'errors\'"');
+          }
+
+          return msg.errors;
+        }).map(diagnosticsJson => {
+          const diagnostics = (0, (_diagnosticsParser || _load_diagnosticsParser()).flowStatusOutputToDiagnostics)(diagnosticsJson);
+          const filePathToMessages = new Map();
+
+          for (const diagnostic of diagnostics) {
+            const path = diagnostic.filePath;
+            let diagnosticArray = filePathToMessages.get(path);
+            if (!diagnosticArray) {
+              diagnosticArray = [];
+              filePathToMessages.set(path, diagnosticArray);
+            }
+            diagnosticArray.push(diagnostic);
+          }
+          return filePathToMessages;
+        });
+      } else {
+        // if ideConnection is null, it means there is currently no connection. So, invalidate the
+        // current diagnostics so we don't display stale data.
+        return _rxjsBundlesRxMinJs.Observable.of(new Map());
+      }
+    }).scan((oldDiagnostics, newDiagnostics) => {
+      for (const [filePath, diagnostics] of oldDiagnostics) {
+        if (diagnostics.length > 0 && !newDiagnostics.has(filePath)) {
+          newDiagnostics.set(filePath, []);
+        }
+      }
+      return newDiagnostics;
+    }, new Map()).concatMap(filePathToMessages => {
+      const fileDiagnosticUpdates = [...filePathToMessages.entries()].map(([filePath, messages]) => ({ filePath, messages }));
+      return _rxjsBundlesRxMinJs.Observable.from(fileDiagnosticUpdates);
+    }).catch(err => {
+      logger.error(err);
+      throw err;
+    });
   }
 
   getAutocompleteSuggestions(filePath, buffer, position, activatedManually, prefix) {
@@ -309,16 +353,16 @@ class FlowSingleProjectLanguageService {
       try {
         const result = yield _this4._process.execFlow(args, options);
         if (!result) {
-          return [];
+          return { isIncomplete: false, items: [] };
         }
         const json = parseJSON(args, result.stdout);
         const resultsArray = json.result;
         const completions = resultsArray.map(function (item) {
           return processAutocompleteItem(replacementPrefix, item);
         });
-        return (0, (_nuclideFlowCommon || _load_nuclideFlowCommon()).filterResultsByPrefix)(prefix, completions);
+        return (0, (_nuclideFlowCommon || _load_nuclideFlowCommon()).filterResultsByPrefix)(prefix, { isIncomplete: false, items: completions });
       } catch (e) {
-        return [];
+        return { isIncomplete: false, items: [] };
       }
     })();
   }
@@ -327,6 +371,15 @@ class FlowSingleProjectLanguageService {
     var _this5 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
+      // Do not show typehints for whitespace.
+      const character = buffer.getTextInRange([position, {
+        row: position.row,
+        column: position.column + 1
+      }]);
+      if (character.match(/\s/)) {
+        return null;
+      }
+
       const options = {};
 
       options.stdin = buffer.getText();
@@ -490,23 +543,7 @@ class FlowSingleProjectLanguageService {
   }
 
   getEvaluationExpression(filePath, buffer, position) {
-    // TODO: Replace RegExp with AST-based, more accurate approach.
-    const extractedIdentifier = (0, (_range || _load_range()).wordAtPositionFromBuffer)(buffer, position, (_nuclideFlowCommon || _load_nuclideFlowCommon()).JAVASCRIPT_IDENTIFIER_REGEX);
-    if (extractedIdentifier == null) {
-      return Promise.resolve(null);
-    }
-    const {
-      range,
-      wordMatch
-    } = extractedIdentifier;
-    const [expression] = wordMatch;
-    if (expression == null) {
-      return Promise.resolve(null);
-    }
-    return Promise.resolve({
-      expression,
-      range
-    });
+    throw new Error('Not implemented');
   }
 
   isFileInProject(fileUri) {

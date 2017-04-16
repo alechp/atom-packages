@@ -45,10 +45,10 @@ function _load_immutable() {
 
 var _atom = require('atom');
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 var _FileTreeFilterHelper;
@@ -123,6 +123,7 @@ const DEFAULT_CONF = exports.DEFAULT_CONF = {
   workingSet: new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet(),
   editedWorkingSet: new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet(),
   hideIgnoredNames: true,
+  isCalculatingChanges: false,
   excludeVcsIgnoredPaths: true,
   ignoredPatterns: new (_immutable || _load_immutable()).default.Set(),
   usePreviewTabs: false,
@@ -292,6 +293,12 @@ class FileTreeStore {
     });
   }
 
+  _setIsCalculatingChanges(isCalculatingChanges) {
+    this._updateConf(conf => {
+      conf.isCalculatingChanges = isCalculatingChanges;
+    });
+  }
+
   /**
    * Given a list of names to ignore, compile them into minimatch patterns and
    * update the store with them.
@@ -356,6 +363,9 @@ class FileTreeStore {
         break;
       case (_FileTreeDispatcher2 || _load_FileTreeDispatcher2()).ActionTypes.SET_HIDE_IGNORED_NAMES:
         this._setHideIgnoredNames(payload.hideIgnoredNames);
+        break;
+      case (_FileTreeDispatcher2 || _load_FileTreeDispatcher2()).ActionTypes.SET_IS_CALCULATING_CHANGES:
+        this._setIsCalculatingChanges(payload.isCalculatingChanges);
         break;
       case (_FileTreeDispatcher2 || _load_FileTreeDispatcher2()).ActionTypes.SET_IGNORED_NAMES:
         this._setIgnoredNames(payload.ignoredNames);
@@ -646,6 +656,10 @@ class FileTreeStore {
     return this._fileChanges;
   }
 
+  getIsCalculatingChanges() {
+    return this._conf.isCalculatingChanges;
+  }
+
   _invalidateRemovedFolder() {
     const updatedFileChanges = new Map();
     atom.project.getPaths().forEach(projectPath => {
@@ -667,7 +681,7 @@ class FileTreeStore {
     const fileChanges = new Map();
     Object.keys(vcsStatuses).forEach(filePath => {
       const statusCode = vcsStatuses[filePath];
-      fileChanges.set(filePath, (_vcs || _load_vcs()).HgStatusToFileChangeStatus[statusCode]);
+      fileChanges.set(filePath, (_nuclideVcsBase || _load_nuclideVcsBase()).HgStatusToFileChangeStatus[statusCode]);
     });
 
     this._fileChanges = this._fileChanges.set(rootKey, fileChanges);
@@ -1651,7 +1665,7 @@ class FileTreeStore {
     this._updateConf(conf => {
       const reposByRoot = {};
       this.roots.forEach(root => {
-        reposByRoot[root.uri] = (0, (_vcs || _load_vcs()).repositoryForPath)(root.uri);
+        reposByRoot[root.uri] = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(root.uri);
       });
       conf.reposByRoot = reposByRoot;
     });

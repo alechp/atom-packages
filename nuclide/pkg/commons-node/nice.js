@@ -85,6 +85,8 @@ let hasCommand = (() => {
   };
 })();
 
+exports.niceObserveProcess = niceObserveProcess;
+
 var _lruCache;
 
 function _load_lruCache() {
@@ -102,6 +104,8 @@ var _which;
 function _load_which() {
   return _which = _interopRequireDefault(require('./which'));
 }
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -130,4 +134,8 @@ function hasNiceCommand() {
 
 function hasIoniceCommand() {
   return hasCommand(IONICE_COMMAND);
+}
+
+function niceObserveProcess(command_, args_, options) {
+  return _rxjsBundlesRxMinJs.Observable.defer(() => nicifyCommand(command_, args_ || [])).switchMap(({ command, args }) => (0, (_process || _load_process()).observeProcess)(command, args, options));
 }

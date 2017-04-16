@@ -42,7 +42,7 @@ function _load_MutableListSelector() {
   return _MutableListSelector = require('../../nuclide-ui/MutableListSelector');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64,7 +64,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
+class ConnectionDetailsPrompt extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -206,19 +206,19 @@ class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
         selected: this.props.indexOfSelectedConnectionProfile === 0
       });
 
-      defaultConnectionProfileList = _reactForAtom.React.createElement(
+      defaultConnectionProfileList = _react.default.createElement(
         'div',
         { className: 'block select-list' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'ol',
           { className: 'list-group', style: { marginTop: 0 } },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'li',
             {
               className: mostRecentClassName,
               onClick: this._onDefaultProfileClicked,
               onDoubleClick: this.props.onConfirm },
-            _reactForAtom.React.createElement('span', {
+            _react.default.createElement('span', {
               className: 'icon icon-info pull-right connection-details-icon-info',
               ref: (0, (_addTooltip || _load_addTooltip()).default)({
                 // Intentionally *not* an arrow function so the jQuery Tooltip plugin can set the
@@ -235,7 +235,7 @@ class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
             'Most Recent'
           )
         ),
-        _reactForAtom.React.createElement((_HR || _load_HR()).HR, null)
+        _react.default.createElement((_HR || _load_HR()).HR, null)
       );
 
       listSelectorItems = connectionProfiles.slice(1).map((profile, index) => {
@@ -261,7 +261,7 @@ class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
 
     let toolTipWarning;
     if (this.state.shouldDisplayTooltipWarning) {
-      toolTipWarning = _reactForAtom.React.createElement('span', {
+      toolTipWarning = _react.default.createElement('span', {
         style: { paddingLeft: 10 },
         className: 'icon icon-info pull-right nuclide-remote-projects-tooltip-warning',
         ref: (0, (_addTooltip || _load_addTooltip()).default)({
@@ -279,20 +279,20 @@ class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
       });
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-remote-projects-connection-dialog' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-remote-projects-connection-profiles' },
         defaultConnectionProfileList,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'h6',
           null,
           'Profiles',
           toolTipWarning
         ),
-        _reactForAtom.React.createElement((_MutableListSelector || _load_MutableListSelector()).MutableListSelector, {
+        _react.default.createElement((_MutableListSelector || _load_MutableListSelector()).MutableListSelector, {
           items: listSelectorItems,
           idOfSelectedItem: idOfSelectedItem,
           onItemClicked: this._onProfileClicked,
@@ -301,7 +301,7 @@ class ConnectionDetailsPrompt extends _reactForAtom.React.Component {
           onDeleteButtonClicked: this._onDeleteProfileClicked
         })
       ),
-      _reactForAtom.React.createElement((_ConnectionDetailsForm || _load_ConnectionDetailsForm()).default, {
+      _react.default.createElement((_ConnectionDetailsForm || _load_ConnectionDetailsForm()).default, {
         className: 'nuclide-remote-projects-connection-details',
         initialUsername: prefilledConnectionParams.username,
         initialServer: prefilledConnectionParams.server,

@@ -54,7 +54,8 @@ const StatusCodeIdToNumber = {
 const MergeConflictStatus = Object.freeze({
   BOTH_CHANGED: 'both changed',
   DELETED_IN_THEIRS: 'deleted in theirs',
-  DELETED_IN_OURS: 'deleted in ours'
+  DELETED_IN_OURS: 'deleted in ours',
+  RESOLVED: 'resolved'
 });
 
 // This is to work around flow's missing support of enums.
@@ -80,11 +81,19 @@ const HEAD_REVISION_EXPRESSION = '.';
 // This is to work around flow's missing support of enums.
 CommitPhase;
 
+const MergeConflictFileStatus = Object.freeze({
+  RESOLVED: 'R',
+  UNRESOLVED: 'U'
+});
+
+MergeConflictFileStatus;
+
 module.exports = {
   AmendMode,
   CommitPhase,
   HEAD_REVISION_EXPRESSION,
   MergeConflictStatus,
+  MergeConflictFileStatus,
   StatusCodeId,
   StatusCodeIdToNumber,
   StatusCodeNumber

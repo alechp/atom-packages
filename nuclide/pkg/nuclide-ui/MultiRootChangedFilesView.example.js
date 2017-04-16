@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MultiRootChangedFilesViewExample = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,11 +19,13 @@ function _load_MultiRootChangedFilesView() {
   return _MultiRootChangedFilesView = require('./MultiRootChangedFilesView');
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../nuclide-vcs-base');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -40,14 +42,14 @@ function onFileChosen(uri) {
 }
 
 function BasicExample() {
-  const fileChanges = new Map([['nuclide://remote.host/someRemoteDir', new Map([['path/to/some/file/added.js', (_vcs || _load_vcs()).FileChangeStatus.ADDED], ['path/to/some/file/modified.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED], ['path/to/some/file/missing.js', (_vcs || _load_vcs()).FileChangeStatus.MISSING], ['path/to/some/file/removed.js', (_vcs || _load_vcs()).FileChangeStatus.REMOVED], ['path/to/some/file/untracked.js', (_vcs || _load_vcs()).FileChangeStatus.UNTRACKED]])], ['someLocalDir', new Map([['file/with/shared/prefix/foo.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED], ['file/with/shared/prefix/bar.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED], ['file/with/shared/prefix/baz.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED], ['file/with/another/prefix/foo.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED], ['file/with/another/prefix/bar.js', (_vcs || _load_vcs()).FileChangeStatus.MODIFIED]])]]);
-  return _reactForAtom.React.createElement(
+  const fileChanges = new Map([['nuclide://remote.host/someRemoteDir', new Map([['path/to/some/file/added.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.ADDED], ['path/to/some/file/modified.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED], ['path/to/some/file/missing.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MISSING], ['path/to/some/file/removed.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.REMOVED], ['path/to/some/file/untracked.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.UNTRACKED]])], ['someLocalDir', new Map([['file/with/shared/prefix/foo.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED], ['file/with/shared/prefix/bar.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED], ['file/with/shared/prefix/baz.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED], ['file/with/another/prefix/foo.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED], ['file/with/another/prefix/bar.js', (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.MODIFIED]])]]);
+  return _react.default.createElement(
     'div',
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Block || _load_Block()).Block,
       null,
-      _reactForAtom.React.createElement((_MultiRootChangedFilesView || _load_MultiRootChangedFilesView()).MultiRootChangedFilesView, {
+      _react.default.createElement((_MultiRootChangedFilesView || _load_MultiRootChangedFilesView()).MultiRootChangedFilesView, {
         fileChanges: fileChanges,
         commandPrefix: 'sample-ui-playground',
         selectedFile: null,

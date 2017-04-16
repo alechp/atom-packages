@@ -10,6 +10,12 @@ function _load_ContextMenu() {
   return _ContextMenu = _interopRequireDefault(require('../../commons-atom/ContextMenu'));
 }
 
+var _getElementFilePath;
+
+function _load_getElementFilePath() {
+  return _getElementFilePath = _interopRequireDefault(require('../../commons-atom/getElementFilePath'));
+}
+
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
@@ -38,15 +44,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // It's just atom$ContextMenuItem with an optional `callback` property added.
 // I wish flow would let add it in a more elegant way.
-const FILE_TREE_CSS = '.nuclide-file-tree'; /**
-                                             * Copyright (c) 2015-present, Facebook, Inc.
-                                             * All rights reserved.
-                                             *
-                                             * This source code is licensed under the license found in the LICENSE file in
-                                             * the root directory of this source tree.
-                                             *
-                                             * 
-                                             */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+const FILE_TREE_CSS = '.nuclide-file-tree';
 
 const NEW_MENU_PRIORITY = 0;
 const ADD_PROJECT_MENU_PRIORITY = 1000;
@@ -240,25 +248,22 @@ class FileTreeContextMenu {
       }]
     }], SPLIT_MENU_PRIORITY);
 
-    this._addContextMenuItemGroup([{
+    // Add the "Show in X" menu group. There's a bit of hackery going on here: we want these items
+    // to be applied to anyhing that matches our CSS selector, but we also want them to occur in a
+    // specific order in the file tree context menu. Since `atom.contextMenu` doesn't support
+    // priority, we add them twice. Ideally, these menu items wouldn't be in the file tree package
+    // at all, but for historical reasons they are. Someday maybe we can pull them out.
+    const showInXItems = [{
       label: 'Copy Full Path',
-      command: 'nuclide-file-tree:copy-full-path',
-      shouldDisplay: () => {
-        const node = this.getSingleSelectedNode();
-        return node != null;
+      command: 'file:copy-full-path',
+      shouldDisplay: event => (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target) != null
+    }, {
+      label: `Show in ${getFileManagerName()}`,
+      command: 'file:show-in-file-manager',
+      shouldDisplay: event => {
+        const path = (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target);
+        return path != null && !(_nuclideUri || _load_nuclideUri()).default.isRemote(path);
       }
-    }, {
-      label: 'Show in Finder', // Mac OS X
-      command: 'nuclide-file-tree:show-in-file-manager',
-      shouldDisplay: this._shouldDisplayShowInFileManager.bind(this, 'darwin')
-    }, {
-      label: 'Show in Explorer', // Windows
-      command: 'nuclide-file-tree:show-in-file-manager',
-      shouldDisplay: this._shouldDisplayShowInFileManager.bind(this, 'win32')
-    }, {
-      label: 'Show in File Manager', // Linux
-      command: 'nuclide-file-tree:show-in-file-manager',
-      shouldDisplay: this._shouldDisplayShowInFileManager.bind(this, 'linux')
     }, {
       label: 'Search in Directory',
       command: 'nuclide-file-tree:search-in-directory',
@@ -266,7 +271,12 @@ class FileTreeContextMenu {
         const nodes = this.getSelectedNodes();
         return nodes.size > 0 && nodes.every(node => node.isContainer);
       }
-    }], SHOW_IN_MENU_PRIORITY);
+    }, { type: 'separator' }];
+
+    this._disposables.add(atom.contextMenu.add({
+      'atom-text-editor, [data-path]:not(.nuclide-file-tree-path)': showInXItems
+    }));
+    this._addContextMenuItemGroup(showInXItems, SHOW_IN_MENU_PRIORITY);
   }
 
   /**
@@ -333,9 +343,9 @@ class FileTreeContextMenu {
    * @return A {boolean} whether the "Show in File Manager" context menu item should be displayed
    * for the current selection and the given `platform`.
    */
-  _shouldDisplayShowInFileManager(platform) {
-    const node = this.getSingleSelectedNode();
-    return node != null && (_nuclideUri || _load_nuclideUri()).default.isAbsolute(node.uri) && process.platform === platform;
+  _shouldDisplayShowInFileManager(event, platform) {
+    const path = (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target);
+    return path != null && (_nuclideUri || _load_nuclideUri()).default.isAbsolute(path) && process.platform === platform;
   }
 }
 
@@ -356,4 +366,15 @@ let nextInternalCommandId = 0;
 function generateNextInternalCommand(itemLabel) {
   const cmdName = itemLabel.toLowerCase().replace(/[^\w]+/g, '-') + '-' + nextInternalCommandId++;
   return `nuclide-file-tree:${cmdName}`;
+}
+
+function getFileManagerName() {
+  switch (process.platform) {
+    case 'darwin':
+      return 'Finder';
+    case 'win32':
+      return 'Explorer';
+    default:
+      return 'File Manager';
+  }
 }

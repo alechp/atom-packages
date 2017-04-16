@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class PanelComponentScroller extends _reactForAtom.React.Component {
+class PanelComponentScroller extends _react.default.Component {
 
   render() {
     const style = this.props.overflowX == null ? null : { overflowX: this.props.overflowX };
@@ -33,7 +33,7 @@ class PanelComponentScroller extends _reactForAtom.React.Component {
       'nuclide-ui-panel-component-scroller--column': this.props.flexDirection === 'column'
     });
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: className,

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -20,7 +20,7 @@ function _load_SwiftPMSettingsModal() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class SwiftPMTaskRunnerToolbar extends _reactForAtom.React.Component {
+class SwiftPMTaskRunnerToolbar extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -28,15 +28,15 @@ class SwiftPMTaskRunnerToolbar extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-swift-task-runner-toolbar' },
-      _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+      _react.default.createElement((_Button || _load_Button()).Button, {
         className: 'nuclide-swift-settings icon icon-gear',
         size: (_Button || _load_Button()).ButtonSizes.SMALL,
         onClick: () => this._showSettings()
       }),
-      this.state.settingsVisible ? _reactForAtom.React.createElement((_SwiftPMSettingsModal || _load_SwiftPMSettingsModal()).default, {
+      this.state.settingsVisible ? _react.default.createElement((_SwiftPMSettingsModal || _load_SwiftPMSettingsModal()).default, {
         configuration: this.props.store.getConfiguration(),
         Xcc: this.props.store.getXcc(),
         Xlinker: this.props.store.getXlinker(),

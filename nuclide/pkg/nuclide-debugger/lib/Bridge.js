@@ -211,7 +211,7 @@ class Bridge {
           case 'BreakpointAdded':
             // BreakpointAdded from chrome side is actually
             // binding the breakpoint.
-            this._bindBreakpoint(event.args[1]);
+            this._bindBreakpoint(event.args[1], event.args[1].resolved === true);
             break;
           case 'BreakpointRemoved':
             this._removeBreakpoint(event.args[1]);
@@ -296,14 +296,14 @@ class Bridge {
     this._debuggerModel.getActions().notifyThreadSwitch(options.sourceURL, options.lineNumber, options.message);
   }
 
-  _bindBreakpoint(breakpoint) {
+  _bindBreakpoint(breakpoint, resolved) {
     const { sourceURL, lineNumber, condition, enabled } = breakpoint;
     const path = (_nuclideUri || _load_nuclideUri()).default.uriToNuclideUri(sourceURL);
     // only handle real files for now.
     if (path) {
       try {
         this._suppressBreakpointSync = true;
-        this._debuggerModel.getActions().bindBreakpointIPC(path, lineNumber, condition, enabled);
+        this._debuggerModel.getActions().bindBreakpointIPC(path, lineNumber, condition, enabled, resolved);
       } finally {
         this._suppressBreakpointSync = false;
       }

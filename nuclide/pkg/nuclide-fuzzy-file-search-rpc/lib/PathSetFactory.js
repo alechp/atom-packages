@@ -4,6 +4,34 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.__test__ = undefined;
+
+var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
+let getFilesFromRepo = (() => {
+  var _ref = (0, _asyncToGenerator.default)(function* (localDirectory) {
+    if (!(yield (_fsPromise || _load_fsPromise()).default.exists((_nuclideUri || _load_nuclideUri()).default.join(localDirectory, '.repo')))) {
+      throw new Error(`${localDirectory} is not a repo root`);
+    }
+    const subRoots = (yield (0, (_process || _load_process()).checkOutput)('repo', ['list', '-p'], { cwd: localDirectory })).stdout.split(/\n/).filter(function (s) {
+      return s.length > 0;
+    });
+
+    const fileLists = yield (0, (_promise || _load_promise()).asyncLimit)(subRoots, 20, function (subRoot) {
+      return getFilesFromGit((_nuclideUri || _load_nuclideUri()).default.join(localDirectory, subRoot)).then(function (files) {
+        return files.map(function (file) {
+          return (_nuclideUri || _load_nuclideUri()).default.join(subRoot, file);
+        });
+      });
+    });
+
+    return [].concat(...fileLists);
+  });
+
+  return function getFilesFromRepo(_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
 exports.getPaths = getPaths;
 
 var _child_process = _interopRequireDefault(require('child_process'));
@@ -18,6 +46,30 @@ var _nuclideWatchmanHelpers;
 
 function _load_nuclideWatchmanHelpers() {
   return _nuclideWatchmanHelpers = require('../../nuclide-watchman-helpers');
+}
+
+var _fsPromise;
+
+function _load_fsPromise() {
+  return _fsPromise = _interopRequireDefault(require('../../commons-node/fsPromise'));
+}
+
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
+var _process;
+
+function _load_process() {
+  return _process = require('../../commons-node/process');
+}
+
+var _promise;
+
+function _load_promise() {
+  return _promise = require('../../commons-node/promise');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -150,7 +202,7 @@ function getPaths(localDirectory) {
   // use those instead to determine VCS.
   return getFilesFromHg(localDirectory).catch(() => getFilesFromGit(localDirectory))
   // .catch(() => getAllFilesFromWatchman(localDirectory))
-  .catch(() => getAllFiles(localDirectory)).catch(() => {
+  .catch(() => getFilesFromRepo(localDirectory)).catch(() => getAllFiles(localDirectory)).catch(() => {
     throw new Error(`Failed to populate FileSearch for ${localDirectory}`);
   });
 }

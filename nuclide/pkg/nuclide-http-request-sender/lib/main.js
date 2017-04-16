@@ -8,7 +8,9 @@ function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../../commons-atom/createPackage'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _RequestEditDialog;
 
@@ -64,6 +66,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
 class Activation {
 
   constructor() {
@@ -112,11 +124,11 @@ class Activation {
       item: container,
       visible: false
     });
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement(BoundEditDialog, { actionCreators: this._actionCreators }), container);
+    _reactDom.default.render(_react.default.createElement(BoundEditDialog, { actionCreators: this._actionCreators }), container);
     this._disposables.add(new _atom.Disposable(() => {
       requestEditDialog.destroy();
       this._requestEditDialog = null;
-      _reactForAtom.ReactDOM.unmountComponentAtNode(container);
+      _reactDom.default.unmountComponentAtNode(container);
     }));
     this._requestEditDialog = requestEditDialog;
     return requestEditDialog;
@@ -131,14 +143,6 @@ class Activation {
   dispose() {
     this._disposables.dispose();
   }
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

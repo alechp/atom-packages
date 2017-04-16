@@ -56,7 +56,10 @@ function registerExecutorEpic(actions, store) {
       records: executor.output.map(message => Object.assign({}, message, {
         kind: 'response',
         sourceId: executor.id,
-        scopeName: null }))
+        scopeName: null, // The output won't be in the language's grammar.
+        // Eventually, we'll want to allow providers to specify custom timestamps for records.
+        timestamp: new Date()
+      }))
     });
   });
 }
@@ -88,6 +91,8 @@ function executeEpic(actions, store) {
 
 
     return _rxjsBundlesRxMinJs.Observable.of((_Actions || _load_Actions()).recordReceived({
+      // Eventually, we'll want to allow providers to specify custom timestamps for records.
+      timestamp: new Date(),
       sourceId: currentExecutorId,
       kind: 'request',
       level: 'log',

@@ -9,6 +9,8 @@ var _path = _interopRequireDefault(require('path'));
 
 var _url = _interopRequireDefault(require('url'));
 
+var _os = _interopRequireDefault(require('os'));
+
 var _string;
 
 function _load_string() {
@@ -17,23 +19,21 @@ function _load_string() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
+const REMOTE_PATH_URI_PREFIX = 'nuclide://'; /**
+                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                              * All rights reserved.
+                                              *
+                                              * This source code is licensed under the license found in the LICENSE file in
+                                              * the root directory of this source tree.
+                                              *
+                                              * 
+                                              */
 
 // NuclideUri's are either a local file path, or a URI
 // of the form nuclide://<host><path>
 //
 // This package creates, queries and decomposes NuclideUris.
-
-const REMOTE_PATH_URI_PREFIX = 'nuclide://';
-// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
 
 const URI_PREFIX_REGEX = /^[A-Za-z0-9_-]+:\/\/.*/;
 
@@ -419,21 +419,25 @@ function resolve(uri, ...paths) {
 
 function expandHomeDir(uri) {
   _testForAtomUri(uri);
-  // This function is POSIX only functionality, so using the posix path directly
 
   // Do not expand non home relative uris
   if (!uri.startsWith('~')) {
     return uri;
   }
 
-  const { HOME } = process.env;
+  // "home" on Windows is %UserProfile%. Note that Windows environment variables
+  // are NOT case sensitive, but process.env is a magic object that wraps GetEnvironmentVariableW
+  // on Windows, so asking for any case is expected to work.
+  const { HOME, UserProfile } = process.env;
 
-  if (!(HOME != null)) {
-    throw new Error('Invariant violation: "HOME != null"');
+  const homePath = _os.default.platform() === 'win32' ? UserProfile : HOME;
+
+  if (!(homePath != null)) {
+    throw new Error('Invariant violation: "homePath != null"');
   }
 
   if (uri === '~') {
-    return HOME;
+    return homePath;
   }
 
   // Uris like ~abc should not be expanded
@@ -441,7 +445,7 @@ function expandHomeDir(uri) {
     return uri;
   }
 
-  return _path.default.posix.resolve(HOME, uri.replace('~', '.'));
+  return _path.default.resolve(homePath, uri.replace('~', '.'));
 }
 
 /**

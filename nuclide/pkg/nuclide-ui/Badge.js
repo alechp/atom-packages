@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _string;
 
@@ -72,7 +72,7 @@ const Badge = exports.Badge = props => {
     [colorClassName]: color != null,
     [`icon icon-${(0, (_string || _load_string()).maybeToString)(icon)}`]: icon != null
   });
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     { className: newClassName },
     value

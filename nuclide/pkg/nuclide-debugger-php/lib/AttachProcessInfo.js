@@ -61,32 +61,29 @@ class AttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebuggerBa
   }
 
   preAttachActions() {
-    var _this = this;
-
     return (0, _asyncToGenerator.default)(function* () {
       try {
         // $FlowFB
         const services = require('./fb/services');
-        yield services.warnIfNotBuilt(_this.getTargetUri());
         services.startSlog();
       } catch (_) {}
     })();
   }
 
   debug() {
-    var _this2 = this;
+    var _this = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      logInfo('Connecting to: ' + _this2.getTargetUri());
-      yield _this2.preAttachActions();
+      logInfo('Connecting to: ' + _this.getTargetUri());
+      yield _this.preAttachActions();
 
-      const rpcService = _this2._getRpcService();
-      const sessionConfig = (0, (_utils2 || _load_utils2()).getSessionConfig)((_nuclideUri || _load_nuclideUri()).default.getPath(_this2.getTargetUri()), false);
+      const rpcService = _this._getRpcService();
+      const sessionConfig = (0, (_utils2 || _load_utils2()).getSessionConfig)((_nuclideUri || _load_nuclideUri()).default.getPath(_this.getTargetUri()), false);
       logInfo(`Connection session config: ${JSON.stringify(sessionConfig)}`);
       const result = yield rpcService.debug(sessionConfig);
       logInfo(`Launch process result: ${result}`);
 
-      return new (_PhpDebuggerInstance || _load_PhpDebuggerInstance()).PhpDebuggerInstance(_this2, rpcService);
+      return new (_PhpDebuggerInstance || _load_PhpDebuggerInstance()).PhpDebuggerInstance(_this, rpcService);
     })();
   }
 

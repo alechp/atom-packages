@@ -63,14 +63,13 @@ const FILE_SYSTEM_SERVICE = 'FileSystemService';
 // Nuclide behaves badly when remote directories are opened which are parent/child of each other.
 // And there needn't be a 1:1 relationship between RemoteConnections and hg repos.
 class RemoteConnection {
-
+  // Path to remote directory user should start in upon connection.
   static findOrCreate(config) {
     return (0, _asyncToGenerator.default)(function* () {
       const serverConnection = yield (_ServerConnection || _load_ServerConnection()).ServerConnection.getOrCreate(config);
       return RemoteConnection.findOrCreateFromConnection(serverConnection, config.cwd, config.displayTitle);
     })();
-  } // Path to remote directory user should start in upon connection.
-
+  }
 
   static findOrCreateFromConnection(serverConnection, cwd, displayTitle) {
     const connection = new RemoteConnection(serverConnection, cwd, displayTitle);
@@ -84,6 +83,7 @@ class RemoteConnection {
     this._hgRepositoryDescription = null;
     this._connection = connection;
     this._displayTitle = displayTitle;
+    this._alwaysShutdownIfLast = false;
   }
 
   static _createInsecureConnectionForTesting(cwd, port) {
@@ -324,6 +324,14 @@ class RemoteConnection {
 
   isOnlyConnection() {
     return this._connection.getConnections().length === 1;
+  }
+
+  setAlwaysShutdownIfLast(alwaysShutdownIfLast) {
+    this._alwaysShutdownIfLast = alwaysShutdownIfLast;
+  }
+
+  alwaysShutdownIfLast() {
+    return this._alwaysShutdownIfLast;
   }
 }
 exports.RemoteConnection = RemoteConnection;

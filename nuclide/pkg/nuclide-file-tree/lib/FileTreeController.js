@@ -64,10 +64,10 @@ function _load_goToLocation() {
   return _goToLocation = require('../../commons-atom/go-to-location');
 }
 
-var _textEditor;
+var _getElementFilePath;
 
-function _load_textEditor() {
-  return _textEditor = require('../../commons-atom/text-editor');
+function _load_getElementFilePath() {
+  return _getElementFilePath = _interopRequireDefault(require('../../commons-atom/getElementFilePath'));
 }
 
 var _UniversalDisposable;
@@ -127,12 +127,8 @@ class FileTreeController {
     // Initial root directories
     this._updateRootDirectories();
     // Subsequent root directories updated on change
-    this._disposables.add(atom.project.onDidChangePaths(() => this._updateRootDirectories()), atom.commands.add('atom-text-editor', {
-      // eslint-disable-next-line nuclide-internal/atom-commands
-      'nuclide-file-tree:reveal-text-editor': this._revealTextEditor.bind(this)
-    }), atom.commands.add('atom-workspace', {
-      // Pass undefined so the default parameter gets used.
-      'nuclide-file-tree:reveal-active-file': this.revealActiveFile.bind(this, undefined),
+    this._disposables.add(atom.project.onDidChangePaths(() => this._updateRootDirectories()), atom.commands.add('atom-workspace', {
+      'nuclide-file-tree:reveal-in-file-tree': this._revealFile.bind(this),
       'nuclide-file-tree:recursive-collapse-all': this._collapseAll.bind(this),
       'nuclide-file-tree:add-file-relative': () => {
         (_FileSystemActions || _load_FileSystemActions()).default.openAddFileDialogRelative(this._openAndRevealFilePath.bind(this));
@@ -161,7 +157,6 @@ class FileTreeController {
       },
       'nuclide-file-tree:collapse-directory': this._collapseSelection.bind(this, /* deep */false),
       'nuclide-file-tree:recursive-collapse-directory': this._collapseSelection.bind(this, true),
-      'nuclide-file-tree:copy-full-path': this._copyFullPath.bind(this),
       'nuclide-file-tree:expand-directory': this._expandSelection.bind(this, /* deep */false),
       'nuclide-file-tree:recursive-expand-directory': this._expandSelection.bind(this, true),
       'nuclide-file-tree:open-selected-entry': this._openSelectedEntry.bind(this),
@@ -176,10 +171,12 @@ class FileTreeController {
         (_FileSystemActions || _load_FileSystemActions()).default.openDuplicateDialog(this._openAndRevealFilePath.bind(this));
       },
       'nuclide-file-tree:search-in-directory': this._searchInDirectory.bind(this),
-      'nuclide-file-tree:show-in-file-manager': this._showInFileManager.bind(this),
       'nuclide-file-tree:set-current-working-root': this._setCwdToSelection.bind(this)
-    }, letterKeyBindings)), atom.commands.add('[is="tabs-tab"]', {
-      'nuclide-file-tree:reveal-tab-file': this._revealTabFileOnClick.bind(this)
+    }, letterKeyBindings)), atom.commands.add('atom-workspace', {
+      // eslint-disable-next-line nuclide-internal/atom-apis
+      'file:copy-full-path': this._copyFullPath.bind(this),
+      // eslint-disable-next-line nuclide-internal/atom-apis
+      'file:show-in-file-manager': this._showInFileManager.bind(this)
     }));
     if (state != null) {
       this._store.loadData(state);
@@ -260,14 +257,13 @@ class FileTreeController {
     this._actions.updateRepositories(rootDirectories);
   }
 
-  _revealTextEditor(event) {
-    const editorElement = event.currentTarget;
-    if (editorElement == null || typeof editorElement.getModel !== 'function' || !(0, (_textEditor || _load_textEditor()).isValidTextEditor)(editorElement.getModel())) {
-      return;
+  _revealFile(event) {
+    const path = (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target);
+    if (path == null) {
+      this.revealActiveFile();
+    } else {
+      this._revealFilePath(path);
     }
-
-    const filePath = editorElement.getModel().getPath();
-    this._revealFilePath(filePath);
   }
 
   /**
@@ -291,23 +287,6 @@ class FileTreeController {
       return;
     }
 
-    this.revealNodeKey(filePath);
-  }
-
-  /**
-   * Reveal the file of a given tab based on the path stored on the DOM.
-   * This method is meant to be triggered by the context-menu click.
-   */
-  _revealTabFileOnClick(event) {
-    const tab = event.currentTarget;
-    const title = tab.querySelector('.title[data-path]');
-    if (!title) {
-      // can only reveal it if we find the file path
-      return;
-    }
-
-    const filePath = title.dataset.path;
-    atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-file-tree:toggle', { visible: true });
     this.revealNodeKey(filePath);
   }
 
@@ -623,20 +602,21 @@ class FileTreeController {
     }
   }
 
-  _showInFileManager() {
-    const node = this._store.getSingleSelectedNode();
-    if (node == null) {
-      // Only allow revealing a single directory/file at a time. Return otherwise.
+  _showInFileManager(event) {
+    const path = (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target, true);
+    if (path == null || (_nuclideUri || _load_nuclideUri()).default.isRemote(path)) {
       return;
     }
-    _electron.shell.showItemInFolder(node.uri);
+    _electron.shell.showItemInFolder(path);
   }
 
-  _copyFullPath() {
-    const singleSelectedNode = this._store.getSingleSelectedNode();
-    if (singleSelectedNode != null) {
-      atom.clipboard.write(singleSelectedNode.localPath);
+  _copyFullPath(event) {
+    const path = (0, (_getElementFilePath || _load_getElementFilePath()).default)(event.target, true);
+    if (path == null) {
+      return;
     }
+    const parsed = (_nuclideUri || _load_nuclideUri()).default.parse(path);
+    atom.clipboard.write(parsed.path);
   }
 
   destroy() {

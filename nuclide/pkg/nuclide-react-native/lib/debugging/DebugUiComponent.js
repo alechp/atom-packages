@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DebugUiComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -31,6 +31,8 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../../nuclide-debugger-base');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // TODO: All this needs to be serialized by the package, so we're going to need to hoist it and use
 //   actions.
 /**
@@ -43,7 +45,7 @@ function _load_nuclideDebuggerBase() {
  * 
  */
 
-class DebugUiComponent extends _reactForAtom.React.Component {
+class DebugUiComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -66,54 +68,54 @@ class DebugUiComponent extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'block' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'block' },
-        _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+        _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
           checked: this.state.startPackager,
           label: 'Start Packager',
           onChange: startPackager => this.setState({ startPackager })
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'block' },
-        _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+        _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
           checked: this.state.tailIosLogs,
           label: 'Tail iOS Simulator Logs',
           onChange: tailIosLogs => this.setState({ tailIosLogs })
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'block' },
-        _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+        _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
           checked: this.state.tailAdbLogs,
           label: 'Tail adb Logcat Logs',
           onChange: tailAdbLogs => this.setState({ tailAdbLogs })
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'text-left text-smaller text-subtle' },
         'After starting the debugger, enable JS debugging from the developer menu of your React Native app'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-react-native-debugging-launch-attach-actions' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               onClick: this._handleCancelButtonClick },
             'Cancel'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY,

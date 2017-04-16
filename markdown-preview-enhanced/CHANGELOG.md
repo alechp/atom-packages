@@ -1,3 +1,85 @@
+## 0.10.12
+* [x] `file import` now can import image whose path has spaces, eg: `@import "test copy.png"`.  
+* [x] fix issue [#345](https://github.com/shd101wyy/markdown-preview-enhanced/issues/345).
+* [x] fix issue [#352](https://github.com/shd101wyy/markdown-preview-enhanced/issues/352).
+* [x] fix TOC numbered list tab issue [#355](https://github.com/shd101wyy/markdown-preview-enhanced/issues/355).   
+* [x] pandoc parser now supports `[TOC]`.  
+* [x] add `Pandoc Options: Markdown Flavor` configuration in settings.  
+* [x] add presentation support for pandoc parser [#354](https://github.com/shd101wyy/markdown-preview-enhanced/issues/354).   
+
+## 0.10.11
+* [x] fix plantuml `@import` issue. [#342](https://github.com/shd101wyy/markdown-preview-enhanced/issues/342).      
+* [x] add `embed image` for html export. [#345](https://github.com/shd101wyy/markdown-preview-enhanced/issues/345).  
+* [x] wikilink file extension option [#346](https://github.com/shd101wyy/markdown-preview-enhanced/issues/346).  
+
+## 0.10.10
+* [ ] speaker note Windows issue [#199](https://github.com/shd101wyy/markdown-preview-enhanced/issues/199).
+* [x] support `[TOC]`.  
+* [x] add `whiteBackground` option.  
+* [x] presentation scroll sync (partially done).  
+
+## 0.10.9
+* [x] fix issue [#325](https://github.com/shd101wyy/markdown-preview-enhanced/issues/325). Code block indicator is now case insensitive.  
+* [x] fix some pandoc parser code chunk issues.   
+* [x] added `prince` support. [doc](./docs/prince.md).    
+* [x] fix export file style issue. changed `Customize Css` command.   
+* [x] fix issue [#313](https://github.com/shd101wyy/markdown-preview-enhanced/issues/313).   
+
+
+## 0.10.8
+* [x] add `pandoc parser` support [#315](https://github.com/shd101wyy/markdown-preview-enhanced/issues/315).
+* [x] fix `ebook` export theme issue.    
+
+## 0.10.7  
+* [x] restore `pdfUseGithub` option.
+* [x] add `mpe-github-syntax` for Github.com style.
+
+## 0.10.6  
+* [x] fix zen mode style issue.  
+* [x] fix preview theme list empty issue.   
+
+## 0.10.4 & 0.10.5  
+* [x] quick fix theme bug.
+* [x] added loading gif, same as the official `markdown preview` package.
+
+## 0.10.3  
+* [x] quick fix theme bug.
+* [x] remove `useGitHubStyle` and `useGitHubSyntaxTheme`.
+
+## 0.10.2  
+* [x] allow user to pick theme when not using `Github.com style theme`. [#297](https://github.com/shd101wyy/markdown-preview-enhanced/issues/297#issuecomment-283619527)  
+* [ ] issue [#298](https://github.com/shd101wyy/markdown-preview-enhanced/issues/298). But this is hard to be supported.   
+* [ ] add blog (jekyll, hexo, etc...) support. But I never used them before, so gonna take a while to figure out how to use them.    
+* [ ] move docs to github wiki.  
+* [x] fix `unsafe eval` issue [#303](https://github.com/shd101wyy/markdown-preview-enhanced/issues/303). As this issue is urgent, I will finish the 3 todos above in the future.    
+
+## 0.10.1
+* [x] `Save as Markdown` code chunk `continue issue`
+* [x] add <code>\`\`\`math</code> [#295](https://github.com/shd101wyy/markdown-preview-enhanced/issues/295)    
+* [x] add `vhdl` and `vhd` for file import [#294](https://github.com/shd101wyy/markdown-preview-enhanced/issues/294)  
+* [ ] ~~fix python3 matplotlib issue.~~ (nvm, it works after I upgrade python3 to `3.6.0`)   
+
+## 0.9.12  
+* [x] fix issue [#255](https://github.com/shd101wyy/markdown-preview-enhanced/issues/255) deprecated call.  
+* [x] add whitelist for protocols [#288](https://github.com/shd101wyy/markdown-preview-enhanced/issues/288).  
+* [x] update docs.   
+* [x] change variable `rootDirectoryPath` to `fileDirectoryPath`.
+
+## 0.9.10
+* [x] support standard code fencing for graphs. [#286](https://github.com/shd101wyy/markdown-preview-enhanced/issues/286).   
+
+## 0.9.9  
+* [x] enhance code chunk. Now support `matplotlib` very well.   [#280](https://github.com/shd101wyy/markdown-preview-enhanced/issues/280).   
+```sh
+matplotlib: true      # enable inline matplotlib plot.  
+continue: true | id   # continue last code chunk or code chunk with id.  
+element: "<canvas id=\"hi\"></canvas>" # element to append.    
+```
+* [x] add `Markdown Preview Enhanced: Toggle Live Update`. And improve scroll sync when live update is disabled.  
+* [x] add `FAQ` section.  
+* [x] add `mathJaxProcessEnvironments` options that allows `processEnvironments` for MathJax.  
+* [ ] add cnpm url for phantomjs.  
+
 ## 0.9.8  
 * [x] fix issue [#273](https://github.com/shd101wyy/markdown-preview-enhanced/issues/273). thanks for pull request from `@cuyl`.  
 * [x] added `markdown` output for code chunk.  

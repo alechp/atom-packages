@@ -11,7 +11,7 @@ function _load_immutable() {
   return _immutable = _interopRequireDefault(require('immutable'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _HomeFeatureComponent;
 
@@ -64,33 +64,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/home';
 
 const NUCLIDE_DOCS_URL = (0, (_createUtmUrl || _load_createUtmUrl()).default)('http://nuclide.io', 'welcome');
-const DEFAULT_WELCOME = _reactForAtom.React.createElement(
+const DEFAULT_WELCOME = _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'p',
     null,
     'Thanks for trying Nuclide, Facebook\'s',
-    _reactForAtom.React.createElement('br', null),
+    _react.default.createElement('br', null),
     'unified developer environment.'
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'ul',
     { className: 'text-left' },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'li',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'a',
         { href: NUCLIDE_DOCS_URL },
         'Get Started!'
       ),
       ' In-depth docs on our features.'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'li',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'a',
         { href: 'https://github.com/facebook/nuclide' },
         'GitHub'
@@ -98,16 +98,16 @@ const DEFAULT_WELCOME = _reactForAtom.React.createElement(
       ' Pull requests, issues, and feedback.'
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'p',
     null,
     'We hope you enjoy using Nuclide',
-    _reactForAtom.React.createElement('br', null),
+    _react.default.createElement('br', null),
     'at least as much as we enjoy building it.'
   )
 );
 
-class HomePaneItem extends _reactForAtom.React.Component {
+class HomePaneItem extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -132,39 +132,39 @@ class HomePaneItem extends _reactForAtom.React.Component {
     sortedHomeFragments.forEach(fragment => {
       const { welcome, feature } = fragment;
       if (welcome) {
-        welcomes.push(_reactForAtom.React.createElement(
+        welcomes.push(_react.default.createElement(
           'div',
           { key: welcomes.length },
           welcome
         ));
       }
       if (feature) {
-        features.push(_reactForAtom.React.createElement((_HomeFeatureComponent || _load_HomeFeatureComponent()).default, Object.assign({ key: features.length }, feature)));
+        features.push(_react.default.createElement((_HomeFeatureComponent || _load_HomeFeatureComponent()).default, Object.assign({ key: features.length }, feature)));
       }
     });
 
-    const containers = [_reactForAtom.React.createElement(
+    const containers = [_react.default.createElement(
       'div',
       { key: 'welcome', className: 'nuclide-home-container' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'section',
         { className: 'text-center' },
-        _reactForAtom.React.createElement((_NuclideLogo || _load_NuclideLogo()).default, { className: 'nuclide-home-logo' }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement((_NuclideLogo || _load_NuclideLogo()).default, { className: 'nuclide-home-logo' }),
+        _react.default.createElement(
           'h1',
           { className: 'nuclide-home-title' },
           'Welcome to Nuclide'
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'section',
         { className: 'text-center' },
         welcomes.length > 0 ? welcomes : DEFAULT_WELCOME
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'section',
         { className: 'text-center' },
-        _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+        _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
           checked: this.state.showOnStartup,
           onChange: this._handleShowOnStartupChange,
           label: 'Show this screen on startup.'
@@ -173,7 +173,7 @@ class HomePaneItem extends _reactForAtom.React.Component {
     )];
 
     if (features.length > 0) {
-      containers.push(_reactForAtom.React.createElement(
+      containers.push(_react.default.createElement(
         'div',
         { key: 'features', className: 'nuclide-home-container' },
         features
@@ -182,7 +182,7 @@ class HomePaneItem extends _reactForAtom.React.Component {
 
     return (
       // Re-use styles from the Atom welcome pane where possible.
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-home pane-item padded nuclide-home-containers' },
         containers
@@ -212,7 +212,7 @@ class HomePaneItem extends _reactForAtom.React.Component {
   }
 
   getDefaultLocation() {
-    return 'pane';
+    return 'center';
   }
 
   componentWillUnmount() {

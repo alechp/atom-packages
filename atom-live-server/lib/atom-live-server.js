@@ -93,10 +93,13 @@ export default {
         }
       }
 
-      console.log(output);
+      console.log(`[Live Server] ${output}`);
     };
 
-    const exit = code => console.log(`live-server exited with code ${code}`);
+    const exit = code => {
+      console.info(`[Live Server] Exited with code ${code}`);
+      this.stopServer();
+    }
 
     fs.open(path.join(targetPath, '.atom-live-server.json'), 'r', (err, fd) => {
       if (!err) {
@@ -108,8 +111,12 @@ export default {
               args.push(`--${key}`);
               noBrowser = true;
             }
-          } else {
-            args.push(`--${key}=${userConfig[key]}`);
+          }
+          else if (key === 'root') {
+              args.unshift(`${userConfig[key]}`)
+            }
+          else {
+              args.push(`--${key}=${userConfig[key]}`);
           }
         });
       }
@@ -130,19 +137,21 @@ export default {
         }
       });
 
-      console.info(`live-server ${args.join(' ')}`);
+      console.info(`[Live Server] live-server ${args.join(' ')}`);
     });
   },
 
   stopServer() {
-    if (serverProcess) {
-      console.info('Stopping live-server.');
+    try {
       serverProcess.kill();
-      serverProcess = null;
-      const disposeStopMenu = disposeMenu;
-      addStartMenu();
-      disposeStopMenu.dispose();
-      atom.notifications.addSuccess('[Live Server] Live server is stopped.')
+    } catch (e) {
+      console.error(e);
     }
+
+    serverProcess = null;
+    const disposeStopMenu = disposeMenu;
+    addStartMenu();
+    disposeStopMenu && disposeStopMenu.dispose();
+    atom.notifications.addSuccess('[Live Server] Live server is stopped.');
   }
 };

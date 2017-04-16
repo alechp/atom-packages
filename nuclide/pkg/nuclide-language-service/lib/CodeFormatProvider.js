@@ -72,7 +72,7 @@ class RangeFormatProvider extends CodeFormatProvider {
         }
       }
 
-      return editor.getTextInBufferRange(range);
+      return [];
     }));
   }
 }

@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Globally unique ID used as the "name" attribute to group radio inputs.
 let uid = 0; /**
@@ -20,7 +22,7 @@ let uid = 0; /**
 /**
  * A managed radio group component. Accepts arbitrary React elements as labels.
  */
-class RadioGroup extends _reactForAtom.React.Component {
+class RadioGroup extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -33,10 +35,10 @@ class RadioGroup extends _reactForAtom.React.Component {
     const { onSelectedChange } = this.props;
     const checkboxes = this.props.optionLabels.map((labelContent, i) => {
       const id = 'nuclide-radiogroup-' + uid + '-' + i;
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         { key: i },
-        _reactForAtom.React.createElement('input', {
+        _react.default.createElement('input', {
           className: 'input-radio',
           type: 'radio',
           checked: i === this.props.selectedIndex,
@@ -46,7 +48,7 @@ class RadioGroup extends _reactForAtom.React.Component {
             onSelectedChange(i);
           }
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           {
             className: 'input-label nuclide-ui-radiogroup-label',
@@ -55,7 +57,7 @@ class RadioGroup extends _reactForAtom.React.Component {
         )
       );
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
       checkboxes

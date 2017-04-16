@@ -17,7 +17,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46,7 +46,7 @@ const LoadingSpinnerClassnames = Object.freeze({
 /**
  * Shows an indefinite, animated LoadingSpinner.
  */
-class LoadingSpinner extends _reactForAtom.React.Component {
+class LoadingSpinner extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -79,7 +79,7 @@ class LoadingSpinner extends _reactForAtom.React.Component {
     const safeSize = size != null && LoadingSpinnerSizes.hasOwnProperty(size) ? size : LoadingSpinnerSizes.MEDIUM;
     const sizeClassname = LoadingSpinnerClassnames[safeSize];
     const newClassName = (0, (_classnames || _load_classnames()).default)(className, 'loading', sizeClassname);
-    return _reactForAtom.React.createElement('div', { className: newClassName, ref: ref });
+    return _react.default.createElement('div', { className: newClassName, ref: ref });
   }
 }
 exports.LoadingSpinner = LoadingSpinner;

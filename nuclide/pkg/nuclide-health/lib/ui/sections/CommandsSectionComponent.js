@@ -10,7 +10,9 @@ function _load_process() {
   return _process = require('../../../../commons-node/process');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -22,7 +24,7 @@ var _reactForAtom = require('react-for-atom');
  * 
  */
 
-class CommandsSectionComponent extends _reactForAtom.React.Component {
+class CommandsSectionComponent extends _react.default.Component {
 
   shouldComponentUpdate() {
     return this._lastRenderCount !== (_process || _load_process()).loggedCalls.length;
@@ -30,45 +32,45 @@ class CommandsSectionComponent extends _reactForAtom.React.Component {
 
   render() {
     this._lastRenderCount = (_process || _load_process()).loggedCalls.length;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'table',
       { className: 'table' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'thead',
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'th',
           { width: '10%' },
           'Time'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'th',
           { width: '10%' },
           'Duration (ms)'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'th',
           null,
           'Command'
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'tbody',
         null,
-        (_process || _load_process()).loggedCalls.map((call, i) => _reactForAtom.React.createElement(
+        (_process || _load_process()).loggedCalls.map((call, i) => _react.default.createElement(
           'tr',
           { key: i },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             null,
             call.time.toTimeString().replace(/ .+/, '')
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             null,
             call.duration
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             null,
             call.command

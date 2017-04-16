@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.highlightOnUpdate = highlightOnUpdate;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _shallowequal;
 
@@ -44,7 +44,7 @@ className = 'nuclide-ui-highlight-on-render',
  */
 unhighlightDelay = 200) {
   // $FlowIssue The return type is guaranteed to be the same as the type of ComposedComponent.
-  return class extends _reactForAtom.React.Component {
+  return class extends _react.default.Component {
 
     constructor(props) {
       super(props);
@@ -69,10 +69,10 @@ unhighlightDelay = 200) {
     }
 
     render() {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'span',
         { className: `${className} ${this.showFlash ? className + '-highlight' : ''}` },
-        _reactForAtom.React.createElement(ComposedComponent, this.props)
+        _react.default.createElement(ComposedComponent, this.props)
       );
     }
   };

@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _string;
 
@@ -26,7 +26,7 @@ const Toolbar = exports.Toolbar = props => {
     [`nuclide-ui-toolbar--${(0, (_string || _load_string()).maybeToString)(props.location)}`]: props.location != null
   }, props.className);
 
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     { className: className },
     props.children

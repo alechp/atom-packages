@@ -170,7 +170,7 @@ exports.scriptSafeSpawnAndObserveOutput = scriptSafeSpawnAndObserveOutput;
 exports.killProcess = killProcess;
 exports.killPid = killPid;
 exports.createProcessStream = createProcessStream;
-exports.observeProcessExit = observeProcessExit;
+exports.forkProcessStream = forkProcessStream;
 exports.getOutputStream = getOutputStream;
 exports.observeProcess = observeProcess;
 exports.observeProcessRaw = observeProcessRaw;
@@ -426,7 +426,7 @@ function scriptSafeSpawnAndObserveOutput(command, args = [], options = {}, killT
  * IMPORTANT: The exit event does NOT mean that all stdout and stderr events have been received.
  */
 function _createProcessStream(createProcess, throwOnError, killTreeOnComplete) {
-  return _rxjsBundlesRxMinJs.Observable.defer(() => {
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(loadedShellPromise).switchMap(() => {
     const process = createProcess();
     let finished = false;
 
@@ -435,8 +435,8 @@ function _createProcessStream(createProcess, throwOnError, killTreeOnComplete) {
     // needs to be fixed in the caller. Generally, that would just mean refactoring your code to
     // create the process in the function you pass. If for some reason, this is absolutely not
     // possible, you need to make sure that the process is passed here immediately after it's
-    // created (i.e. before an ENOENT error event would be dispatched). Don't refactor your code to
-    // avoid this function; you'll have the same bug, you just won't be notified! XD
+    // created (i.e. before an ENOENT error event would be dispatched). Don't refactor your code
+    // to avoid this function; you'll have the same bug, you just won't be notified! XD
 
     if (!(process.exitCode == null && !process.killed)) {
       throw new Error('Process already exited. (This indicates a race condition in Nuclide.)');
@@ -493,8 +493,12 @@ function killPid(pid) {
   }
 }
 
-function createProcessStream(createProcess, killTreeOnComplete = false) {
-  return _createProcessStream(createProcess, true, killTreeOnComplete);
+function createProcessStream(command, args, options) {
+  return _createProcessStream(() => safeSpawn(command, args, options), true, Boolean(options && options.killTreeOnComplete));
+}
+
+function forkProcessStream(modulePath, args, options) {
+  return _createProcessStream(() => safeFork(modulePath, args, options), true, Boolean(options && options.killTreeOnComplete));
 }
 
 function observeProcessExitMessage(process) {
@@ -503,20 +507,12 @@ function observeProcessExitMessage(process) {
   .filter(message => message.signal !== 'SIGUSR1').take(1);
 }
 
-/**
- * Observe the stdout, stderr and exit code of a process.
- * stdout and stderr are split by newlines.
- */
-function observeProcessExit(createProcess, killTreeOnComplete = false) {
-  return _createProcessStream(createProcess, false, killTreeOnComplete).flatMap(observeProcessExitMessage);
-}
-
 function getOutputStream(process, killTreeOnComplete = false, splitByLines = true) {
   const chunk = splitByLines ? (_observable || _load_observable()).splitStream : x => x;
   return _rxjsBundlesRxMinJs.Observable.defer(() => {
     // We need to start listening for the exit event immediately, but defer emitting it until the
     // (buffered) output streams end.
-    const exit = observeProcessExit(() => process, killTreeOnComplete).publishReplay();
+    const exit = observeProcessExitMessage(process).publishReplay();
     const exitSub = exit.connect();
 
     const error = _rxjsBundlesRxMinJs.Observable.fromEvent(process, 'error').map(errorObj => ({ kind: 'error', error: errorObj }));
@@ -536,15 +532,15 @@ function getOutputStream(process, killTreeOnComplete = false, splitByLines = tru
 /**
  * Observe the stdout, stderr and exit code of a process.
  */
-function observeProcess(createProcess, killTreeOnComplete = false) {
-  return _createProcessStream(createProcess, false, killTreeOnComplete).flatMap(getOutputStream);
+function observeProcess(command, args, options) {
+  return _createProcessStream(() => safeSpawn(command, args, options), false, Boolean(options && options.killTreeOnComplete)).flatMap(getOutputStream);
 }
 
 /**
  * Observe the stdout, stderr and exit code of a process.
  */
-function observeProcessRaw(createProcess, killTreeOnComplete = false) {
-  return _createProcessStream(createProcess, false, killTreeOnComplete).flatMap(process => getOutputStream(process, false, false));
+function observeProcessRaw(command, args, options) {
+  return _createProcessStream(() => safeSpawn(command, args, options), false, Boolean(options && options.killTreeOnComplete)).flatMap(process => getOutputStream(process, false, false));
 }
 
 let FB_INCLUDE_PATHS;
@@ -633,14 +629,14 @@ function writeToStdin(childProcess, options) {
     childProcess.stdin.write(options.stdin);
     childProcess.stdin.end();
   }
-}function runCommand(command, args = [], options = {}, killTreeOnComplete = false) {
+}function runCommand(command, args = [], options = {}, _) {
   const seed = {
     error: null,
     stdout: [],
     stderr: [],
     exitMessage: null
   };
-  return observeProcess(() => safeSpawn(command, args, options), killTreeOnComplete).reduce((acc, event) => {
+  return observeProcess(command, args, options).reduce((acc, event) => {
     switch (event.kind) {
       case 'stdout':
         return Object.assign({}, acc, { stdout: acc.stdout.concat(event.data) });

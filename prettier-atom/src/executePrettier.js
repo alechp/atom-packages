@@ -1,11 +1,12 @@
 // @flow
 const prettierEslint = require('prettier-eslint');
-const prettier = require('prettier');
 const { allowUnsafeNewFunction } = require('loophole');
 
 const {
   getPrettierOptions,
+  getPrettierEslintOptions,
   getCurrentFilePath,
+  getPrettier,
   shouldDisplayErrors,
   shouldUseEslint,
   runLinter,
@@ -14,10 +15,11 @@ const {
 const EMBEDDED_JS_REGEX = /<script\b[^>]*>([\s\S]*?)(?=<\/script>)/gi;
 
 const displayError = (error) => {
-  const message = `prettier-atom: ${error.toString()}`;
-  const detail = error.stack.toString();
-
-  atom.notifications.addError(message, { detail, dismissable: true });
+  atom.notifications.addError('prettier-atom failed!', {
+    detail: error,
+    stack: error.stack,
+    dismissable: true,
+  });
 };
 
 const handleError = (error) => {
@@ -28,9 +30,19 @@ const handleError = (error) => {
 const executePrettier = (editor, text) => {
   try {
     if (shouldUseEslint()) {
-      return allowUnsafeNewFunction(() => prettierEslint({ text, filePath: getCurrentFilePath(editor) }));
+      return allowUnsafeNewFunction(() =>
+        prettierEslint({
+          ...getPrettierEslintOptions(),
+          text,
+          filePath: getCurrentFilePath(editor),
+        }),
+      );
     }
-    return prettier.format(text, getPrettierOptions(editor));
+
+    const prettier = getPrettier(getCurrentFilePath(editor));
+    const prettierOptions = getPrettierOptions(editor);
+
+    return prettier.format(text, prettierOptions);
   } catch (error) {
     return handleError(error);
   }
@@ -41,7 +53,8 @@ const executePrettierOnBufferRange = (editor: TextEditor, bufferRange: Range) =>
   const textToTransform = editor.getTextInBufferRange(bufferRange);
   const transformed = executePrettier(editor, textToTransform);
 
-  if (!transformed) return;
+  const isTextUnchanged = transformed === textToTransform;
+  if (!transformed || isTextUnchanged) return;
 
   editor.setTextInBufferRange(bufferRange, transformed);
   editor.setCursorScreenPosition(cursorPositionPriorToFormat);

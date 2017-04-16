@@ -185,11 +185,6 @@ let readFile = exports.readFile = (() => {
   };
 })();
 
-/**
- * Returns true if the path being checked exists in a `NFS` mounted directory device.
- */
-
-
 let copyFilePermissions = (() => {
   var _ref8 = (0, _asyncToGenerator.default)(function* (sourcePath, destinationPath) {
     let permissions;
@@ -265,6 +260,7 @@ let writeFile = exports.writeFile = (() => {
 
 exports.exists = exists;
 exports.findNearestFile = findNearestFile;
+exports.findFilesInDirectories = findFilesInDirectories;
 exports.lstat = lstat;
 exports.mkdir = mkdir;
 exports.mkdirp = mkdirp;
@@ -275,6 +271,7 @@ exports.rename = rename;
 exports.rmdir = rmdir;
 exports.stat = stat;
 exports.unlink = unlink;
+exports.createReadStream = createReadStream;
 exports.isNfs = isNfs;
 
 var _mv;
@@ -303,19 +300,24 @@ function _load_fsPromise() {
   return _fsPromise = _interopRequireDefault(require('../../../commons-node/fsPromise'));
 }
 
+var _process;
+
+function _load_process() {
+  return _process = require('../../../commons-node/process');
+}
+
+var _stream;
+
+function _load_stream() {
+  return _stream = require('../../../commons-node/stream');
+}
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Attempting to read large files just crashes node, so just fail.
 // Atom can't handle files of this scale anyway.
-const READFILE_SIZE_LIMIT = 10 * 1024 * 1024;
-
-//------------------------------------------------------------------------------
-// Services
-//------------------------------------------------------------------------------
-
-/**
- * Checks a certain path for existence and returns 'true'/'false' accordingly
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -332,12 +334,29 @@ const READFILE_SIZE_LIMIT = 10 * 1024 * 1024;
  * readFile, writeFile, etc.
  */
 
+const READFILE_SIZE_LIMIT = 10 * 1024 * 1024;
+
+//------------------------------------------------------------------------------
+// Services
+//------------------------------------------------------------------------------
+
+/**
+ * Checks a certain path for existence and returns 'true'/'false' accordingly
+ */
 function exists(path) {
   return (_fsPromise || _load_fsPromise()).default.exists(path);
 }
 
 function findNearestFile(fileName, pathToDirectory) {
   return (_fsPromise || _load_fsPromise()).default.findNearestFile(fileName, pathToDirectory);
+}
+
+function findFilesInDirectories(searchPaths, fileName) {
+  if (searchPaths.length === 0) {
+    return _rxjsBundlesRxMinJs.Observable.throw(new Error('No directories to search in!')).publish();
+  }
+  const findArgs = [...searchPaths, '-type', 'f', '-name', fileName];
+  return (0, (_process || _load_process()).runCommand)('find', findArgs).map(stdout => stdout.split('\n').filter(filePath => filePath !== '')).publish();
 }
 
 /**
@@ -407,7 +426,14 @@ function unlink(path) {
       throw error;
     }
   });
-}function isNfs(path) {
+}function createReadStream(path, options) {
+  return (0, (_stream || _load_stream()).observeRawStream)(_fs.default.createReadStream(path, options)).publish();
+}
+
+/**
+ * Returns true if the path being checked exists in a `NFS` mounted directory device.
+ */
+function isNfs(path) {
   return (_fsPromise || _load_fsPromise()).default.isNfs(path);
 }
 

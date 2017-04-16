@@ -1,6 +1,6 @@
 'use strict';
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LaunchAttachActions;
 
@@ -13,3 +13,5 @@ var _LaunchAttachStore;
 function _load_LaunchAttachStore() {
   return _LaunchAttachStore = require('../LaunchAttachStore');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

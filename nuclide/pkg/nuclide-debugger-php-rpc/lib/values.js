@@ -135,7 +135,7 @@ function convertArrayValue(contextId, dbgpProperty) {
 
 function convertObjectValue(contextId, dbgpProperty) {
   const remoteId = getAggregateRemoteObjectId(contextId, dbgpProperty);
-  let description = dbgpProperty.$.classname;
+  let description = getObjectDescription(dbgpProperty);
   if (dbgpProperty.$.recursive != null) {
     description = '* Recursive *';
   }
@@ -144,6 +144,21 @@ function convertObjectValue(contextId, dbgpProperty) {
     type: 'object',
     objectId: remoteId
   };
+}
+
+function getObjectDescription(dbgpProperty) {
+  const { classname, numchildren } = dbgpProperty.$;
+  switch (classname) {
+    case 'HH\\Map':
+    case 'HH\\ImmMap':
+    case 'HH\\Vector':
+    case 'HH\\ImmVector':
+    case 'HH\\Set':
+    case 'HH\\ImmSet':
+      return `${classname}[${numchildren || 0}]`;
+    default:
+      return classname;
+  }
 }
 
 function getAggregateRemoteObjectId(contextId, dbgpProperty) {

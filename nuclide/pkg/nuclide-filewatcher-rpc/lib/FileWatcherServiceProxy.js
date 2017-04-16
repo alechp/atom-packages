@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 46
+          line: 47
         },
         kind: "named",
         name: "NuclideUri"
@@ -24,7 +24,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 46
+          line: 47
         },
         kind: "named",
         name: "WatchResult"
@@ -39,7 +39,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 50
+          line: 51
         },
         kind: "named",
         name: "NuclideUri"
@@ -51,7 +51,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 50
+          line: 51
         },
         kind: "named",
         name: "WatchResult"
@@ -66,7 +66,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 92
+          line: 93
         },
         kind: "named",
         name: "NuclideUri"
@@ -78,7 +78,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 93
+          line: 94
         },
         kind: "string"
       });
@@ -156,28 +156,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FileWatcherService.js",
-        line: 23
+        line: 24
       },
       name: "WatchResult",
       definition: {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 23
+          line: 24
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "FileWatcherService.js",
-            line: 24
+            line: 25
           },
           name: "path",
           type: {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 24
+              line: 25
             },
             kind: "named",
             name: "NuclideUri"
@@ -187,14 +187,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FileWatcherService.js",
-            line: 25
+            line: 26
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 25
+              line: 26
             },
             kind: "string"
           },
@@ -208,13 +208,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FileWatcherService.js",
-        line: 46
+        line: 47
       },
       type: {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 46
+          line: 47
         },
         kind: "function",
         argumentTypes: [{
@@ -223,7 +223,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 46
+              line: 47
             },
             kind: "named",
             name: "NuclideUri"
@@ -233,14 +233,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FileWatcherService.js",
-            line: 46
+            line: 47
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 46
+              line: 47
             },
             kind: "named",
             name: "WatchResult"
@@ -254,13 +254,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FileWatcherService.js",
-        line: 50
+        line: 51
       },
       type: {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 50
+          line: 51
         },
         kind: "function",
         argumentTypes: [{
@@ -269,7 +269,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 50
+              line: 51
             },
             kind: "named",
             name: "NuclideUri"
@@ -279,14 +279,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FileWatcherService.js",
-            line: 50
+            line: 51
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 50
+              line: 51
             },
             kind: "named",
             name: "WatchResult"
@@ -300,13 +300,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FileWatcherService.js",
-        line: 91
+        line: 92
       },
       type: {
         location: {
           type: "source",
           fileName: "FileWatcherService.js",
-          line: 91
+          line: 92
         },
         kind: "function",
         argumentTypes: [{
@@ -315,7 +315,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 92
+              line: 93
             },
             kind: "named",
             name: "NuclideUri"
@@ -325,14 +325,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FileWatcherService.js",
-            line: 93
+            line: 94
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "FileWatcherService.js",
-              line: 93
+              line: 94
             },
             kind: "string"
           }

@@ -11,7 +11,7 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../nuclide-debugger-base');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LaunchAttachDispatcher;
 
@@ -65,7 +65,7 @@ class NodeLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuclideDeb
   getComponent(action, parentEventEmitter) {
     if (action === 'Attach') {
       this._actions.updateAttachTargetList();
-      return _reactForAtom.React.createElement((_AttachUIComponent || _load_AttachUIComponent()).AttachUIComponent, {
+      return _react.default.createElement((_AttachUIComponent || _load_AttachUIComponent()).AttachUIComponent, {
         store: this._store,
         actions: this._actions,
         parentEmitter: parentEventEmitter

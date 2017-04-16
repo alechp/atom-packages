@@ -11,7 +11,7 @@ function _load_paneUtils() {
   return _paneUtils = require('./paneUtils');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _DiagnosticsPanel;
 
@@ -101,7 +101,7 @@ class DiagnosticsPanelModel {
   }
 
   getDefaultLocation() {
-    return 'bottom-panel';
+    return 'bottom';
   }
 
   serialize() {
@@ -117,7 +117,7 @@ class DiagnosticsPanelModel {
   getElement() {
     if (this._element == null) {
       const Component = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(this._props, (_DiagnosticsPanel || _load_DiagnosticsPanel()).default);
-      const element = (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_reactForAtom.React.createElement(Component, null));
+      const element = (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_react.default.createElement(Component, null));
       element.classList.add('nuclide-diagnostics-ui');
       this._element = element;
     }

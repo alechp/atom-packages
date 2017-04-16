@@ -33,6 +33,7 @@ function accumulateState(state, action) {
         buildRuleType: null,
         platformGroups: [],
         selectedDeploymentTarget: null,
+        platformProviderUi: null,
         buildTarget: action.buildTarget,
         isLoadingRule: true,
         lastSessionPlatformName: preference.platformName,
@@ -51,11 +52,13 @@ function accumulateState(state, action) {
       return Object.assign({}, state, {
         platformGroups,
         selectedDeploymentTarget,
+        platformProviderUi: getPlatformProviderUiForDeploymentTarget(selectedDeploymentTarget),
         isLoadingPlatforms: false
       });
     case (_Actions || _load_Actions()).SET_DEPLOYMENT_TARGET:
       return Object.assign({}, state, {
         selectedDeploymentTarget: action.deploymentTarget,
+        platformProviderUi: getPlatformProviderUiForDeploymentTarget(action.deploymentTarget),
         lastSessionPlatformName: null,
         lastSessionDeviceName: null
       });
@@ -135,4 +138,11 @@ function selectValidDeploymentTarget(preferredPlatformName, preferredDeviceName,
   }
 
   return { platform: existingPlatform, device: existingDevice };
+}
+
+function getPlatformProviderUiForDeploymentTarget(deploymentTarget) {
+  if (deploymentTarget == null || deploymentTarget.platform.extraUiWhenSelected == null) {
+    return null;
+  }
+  return deploymentTarget.platform.extraUiWhenSelected(deploymentTarget.device);
 }

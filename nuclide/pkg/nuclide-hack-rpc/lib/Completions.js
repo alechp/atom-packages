@@ -29,9 +29,6 @@ function _load_autocomplete() {
  */
 
 function convertCompletions(contents, offset, prefix, hackCompletions) {
-  if (hackCompletions == null) {
-    return null;
-  }
   const completions = processCompletions(hackCompletions, contents, offset, prefix);
   return (0, (_autocomplete || _load_autocomplete()).sortAndFilterCompletions)(completions, prefix);
 }

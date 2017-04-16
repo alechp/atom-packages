@@ -23,7 +23,7 @@ function _load_SettingsSelect() {
   return _SettingsSelect = _interopRequireDefault(require('./SettingsSelect'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43,7 +43,7 @@ function SettingsControl(props) {
 
   if (schema) {
     if (schema.enum) {
-      return _reactForAtom.React.createElement((_SettingsSelect || _load_SettingsSelect()).default, {
+      return _react.default.createElement((_SettingsSelect || _load_SettingsSelect()).default, {
         description: description,
         keyPath: keyPath,
         onChange: onChange,
@@ -56,7 +56,7 @@ function SettingsControl(props) {
       } // Not implemented.
 
     } else if (isBoolean(value) || schema.type === 'boolean') {
-      return _reactForAtom.React.createElement((_SettingsCheckbox || _load_SettingsCheckbox()).default, {
+      return _react.default.createElement((_SettingsCheckbox || _load_SettingsCheckbox()).default, {
         description: description,
         keyPath: keyPath,
         onChange: onChange,
@@ -65,7 +65,7 @@ function SettingsControl(props) {
       });
     } else if (Array.isArray(value) || schema.type === 'array') {
       if (isEditableArray(value)) {
-        return _reactForAtom.React.createElement((_SettingsInput || _load_SettingsInput()).default, {
+        return _react.default.createElement((_SettingsInput || _load_SettingsInput()).default, {
           description: description,
           keyPath: keyPath,
           onChange: onChange,
@@ -81,7 +81,7 @@ function SettingsControl(props) {
 
     } else {
       const type = isNumber(value) ? 'number' : 'string';
-      return _reactForAtom.React.createElement((_SettingsInput || _load_SettingsInput()).default, {
+      return _react.default.createElement((_SettingsInput || _load_SettingsInput()).default, {
         description: description,
         keyPath: keyPath,
         onChange: onChange,

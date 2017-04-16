@@ -26,6 +26,7 @@ class ExporterView extends View
       @div class: 'document-type-div clearfix', =>
         @div class: 'document-type document-html selected', "HTML"
         @div class: 'document-type document-pdf', "PDF"
+        @div class: 'document-type document-prince', 'PRINCE (PDF)'
         @div class: 'document-type document-phantomjs', "PHANTOMJS"
         @div class: 'document-type document-ebook', 'EBOOK'
 
@@ -40,6 +41,9 @@ class ExporterView extends View
         @br()
         @input class: 'relative-image-path-checkbox', type: 'checkbox'
         @label 'Use relative image path'
+        @br()
+        @input class: 'embed-local-images-checkbox', type: 'checkbox'
+        @label 'Embed local images'
 
       @div class: 'pdf-div', =>
         @label 'Format'
@@ -74,6 +78,12 @@ class ExporterView extends View
         # @label 'header'
         # @label 'image quality'
         # @input type: 'text', class: 'image-quality-input'
+      @div class: 'prince-div', =>
+        @label 'Github style'
+        @input type: 'checkbox', class: 'github-style-checkbox'
+        @br()
+        @label 'Open PDF after generation'
+        @input type: 'checkbox', class: 'pdf-auto-open-checkbox'
 
       @div class: 'phantomjs-div', =>
         @label 'File Type'
@@ -102,6 +112,9 @@ class ExporterView extends View
         @a class: 'header-footer-config', 'click me to open header and footer config'
         @br()
         @br()
+        @label 'Github style'
+        @input type: 'checkbox', class: 'github-style-checkbox'
+        @br()
         @label 'Open PDF after generation'
         @input type: 'checkbox', class: 'pdf-auto-open-checkbox'
 
@@ -121,6 +134,7 @@ class ExporterView extends View
 
     @initHTMLPageEvent()
     @initPDFPageEvent()
+    @initPrincePageEvent()
     @initPhantomJSPageEvent()
     @initEBookPageEvent()
 
@@ -137,12 +151,15 @@ class ExporterView extends View
       else if $('.document-html', @element).hasClass('selected') # html
         isCDN = $('.cdn-checkbox', @element)[0].checked
         relativeImagePath = $('.relative-image-path-checkbox', @element)[0].checked
-        @markdownPreview.saveAsHTML dest, !isCDN, relativeImagePath
+        embedLocalImages = $('.embed-local-images-checkbox', @element)[0].checked
+        @markdownPreview.saveAsHTML dest, !isCDN, relativeImagePath, embedLocalImages
       else if $('.document-phantomjs', @element).hasClass('selected') # phantomjs
         atom.notifications.addInfo('Your document is being prepared', detail: ':)')
         @markdownPreview.phantomJSExport dest
       else if $('.document-ebook', @element).hasClass('selected') # ebook
         @markdownPreview.generateEbook dest
+      else if $('.document-prince', @element).hasClass('selected') # prince
+        @markdownPreview.princeExport dest
 
   initHTMLPageEvent: ->
     $('.document-html', @element).on 'click', (e)=>
@@ -157,12 +174,11 @@ class ExporterView extends View
       $('.phantomjs-div', @element).hide()
       $('.ebook-div', @element).hide()
       $('.html-div', @element).show()
+      $('.prince-div', @element).hide()
 
       filePath = path.resolve(@documentExportPath, @markdownPreview.editor.getFileName())
       filePath = filePath.slice(0, filePath.length-path.extname(filePath).length) + '.html'
       @fileNameInput.setText(filePath)
-
-
 
   initPDFPageEvent: ->
     $('.document-pdf', @element).on 'click', (e)=>
@@ -177,6 +193,7 @@ class ExporterView extends View
       $('.phantomjs-div', @element).hide()
       $('.ebook-div', @element).hide()
       $('.pdf-div', @element).show()
+      $('.prince-div', @element).hide()
 
       filePath = path.resolve(@documentExportPath, @markdownPreview.editor.getFileName())
       filePath = filePath.slice(0, filePath.length-path.extname(filePath).length) + '.pdf'
@@ -214,6 +231,35 @@ class ExporterView extends View
     $('.pdf-div .pdf-auto-open-checkbox', @element).on 'change', (e)->
       atom.config.set('markdown-preview-enhanced.pdfOpenAutomatically', e.target.checked)
 
+  initPrincePageEvent: ->
+    $('.document-prince', @element).on 'click', (e)=>
+      $el = $(e.target)
+      if !$el.hasClass('selected')
+        $('.selected', @element).removeClass('selected')
+        $el.addClass('selected')
+
+        @fileNameInput.focus()
+
+      $('.html-div', @element).hide()
+      $('.pdf-div', @element).hide()
+      $('.ebook-div', @element).hide()
+      $('.phantomjs-div', @element).hide()
+      $('.prince-div', @element).show()
+
+      filePath = path.resolve(@documentExportPath, @markdownPreview.editor.getFileName())
+      filePath = filePath.slice(0, filePath.length-path.extname(filePath).length) + '.pdf'
+      @fileNameInput.setText(filePath)
+
+      $('.prince-div .github-style-checkbox', @element)[0].checked =   atom.config.get('markdown-preview-enhanced.pdfUseGithub')
+
+      $('.prince-div .pdf-auto-open-checkbox', @element)[0].checked = atom.config.get('markdown-preview-enhanced.pdfOpenAutomatically')
+
+    $('.prince-div .github-style-checkbox', @element).on 'change', (e)->
+      atom.config.set('markdown-preview-enhanced.pdfUseGithub', e.target.checked)
+
+    $('.prince-div .pdf-auto-open-checkbox', @element).on 'change', (e)->
+      atom.config.set('markdown-preview-enhanced.pdfOpenAutomatically', e.target.checked)
+
   initPhantomJSPageEvent: ->
     $('.document-phantomjs', @element).on 'click', (e)=>
       $el = $(e.target)
@@ -227,6 +273,7 @@ class ExporterView extends View
       $('.pdf-div', @element).hide()
       $('.ebook-div', @element).hide()
       $('.phantomjs-div', @element).show()
+      $('.prince-div', @element).hide()
 
       filePath = path.resolve(@documentExportPath, @markdownPreview.editor.getFileName())
       extension = atom.config.get('markdown-preview-enhanced.phantomJSExportFileType')
@@ -239,6 +286,8 @@ class ExporterView extends View
       $('.phantomjs-div .format-select', @element).val atom.config.get('markdown-preview-enhanced.exportPDFPageFormat')
 
       $('.phantomjs-div .orientation-select', @element).val atom.config.get('markdown-preview-enhanced.orientation')
+
+      $('.phantomjs-div .github-style-checkbox', @element)[0].checked =   atom.config.get('markdown-preview-enhanced.pdfUseGithub')
 
       $('.phantomjs-div .pdf-auto-open-checkbox', @element)[0].checked = atom.config.get('markdown-preview-enhanced.pdfOpenAutomatically')
 
@@ -262,6 +311,9 @@ class ExporterView extends View
       atom.config.set('markdown-preview-enhanced.phantomJSMargin', @marginInput.getText())
 
     ## checkbox
+    $('.phantomjs-div .github-style-checkbox', @element).on 'change', (e)->
+      atom.config.set('markdown-preview-enhanced.pdfUseGithub', e.target.checked)
+
     $('.phantomjs-div .pdf-auto-open-checkbox', @element).on 'change', (e)->
       atom.config.set('markdown-preview-enhanced.pdfOpenAutomatically', e.target.checked)
 
@@ -287,6 +339,7 @@ class ExporterView extends View
       $('.pdf-div', @element).hide()
       $('.phantomjs-div', @element).hide()
       $('.ebook-div', @element).show()
+      $('.prince-div', @element).hide()
 
     ## select
     $('.ebook-div .ebook-format-select', @element).on 'change', (e)=>
@@ -320,7 +373,7 @@ class ExporterView extends View
     if @documentExportPath.startsWith('/')
       @documentExportPath = path.resolve(markdownPreview.projectDirectoryPath, '.'+@documentExportPath)
     else
-      @documentExportPath = path.resolve(markdownPreview.rootDirectoryPath, @documentExportPath)
+      @documentExportPath = path.resolve(markdownPreview.fileDirectoryPath, @documentExportPath)
 
     @fileNameInput.focus()
     $('.selected', @element).click()

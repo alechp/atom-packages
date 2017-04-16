@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 var _nuclideTextedit;
 
 function _load_nuclideTextedit() {
-  return _nuclideTextedit = _interopRequireDefault(require('../../nuclide-textedit'));
+  return _nuclideTextedit = require('../../nuclide-textedit');
 }
 
 var _collection;
@@ -322,7 +322,7 @@ class DiagnosticStore {
       }
       fixes.push(fix);
     }
-    const succeeded = (0, (_nuclideTextedit || _load_nuclideTextedit()).default)(filePath, ...fixes);
+    const succeeded = (0, (_nuclideTextedit || _load_nuclideTextedit()).applyTextEdits)(filePath, ...fixes);
     if (succeeded) {
       for (const message of messagesWithFixes) {
         this._invalidateSingleMessage(message);

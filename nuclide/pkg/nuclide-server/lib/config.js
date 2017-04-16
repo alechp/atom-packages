@@ -13,4 +13,5 @@ Object.defineProperty(exports, "__esModule", {
  * 
  */
 
+const CLIENTINFO_CHANNEL = exports.CLIENTINFO_CHANNEL = 'clientinfo';
 const HEARTBEAT_CHANNEL = exports.HEARTBEAT_CHANNEL = 'heartbeat';

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.BadgeExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,17 +19,19 @@ function _load_Badge() {
   return _Badge = require('./Badge');
 }
 
-const BadgeBasicExample = () => _reactForAtom.React.createElement(
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const BadgeBasicExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { value: 1 }),
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { value: 1 }),
     ' ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { value: 11 }),
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { value: 11 }),
     ' ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { value: 123 })
   )
 ); /**
     * Copyright (c) 2015-present, Facebook, Inc.
@@ -41,69 +43,69 @@ const BadgeBasicExample = () => _reactForAtom.React.createElement(
     * 
     */
 
-const BadgeColorExample = () => _reactForAtom.React.createElement(
+const BadgeColorExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Info: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.info, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.info, value: 123 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Success: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.success, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.success, value: 123 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Warning: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.warning, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.warning, value: 123 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Error: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.error, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { color: (_Badge || _load_Badge()).BadgeColors.error, value: 123 })
   )
 );
 
-const BadgeSizeExample = () => _reactForAtom.React.createElement(
+const BadgeSizeExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Small: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.small, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.small, value: 123 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Medium: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.medium, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.medium, value: 123 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
     'Large: ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.large, value: 123 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { size: (_Badge || _load_Badge()).BadgeSizes.large, value: 123 })
   )
 );
 
-const BadgeIconExample = () => _reactForAtom.React.createElement(
+const BadgeIconExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { icon: 'gear', value: 13 }),
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { icon: 'gear', value: 13 }),
     ' ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { icon: 'cloud-download', color: (_Badge || _load_Badge()).BadgeColors.info, value: 23 }),
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { icon: 'cloud-download', color: (_Badge || _load_Badge()).BadgeColors.info, value: 23 }),
     ' ',
-    _reactForAtom.React.createElement((_Badge || _load_Badge()).Badge, { icon: 'octoface', color: (_Badge || _load_Badge()).BadgeColors.success, value: 42 })
+    _react.default.createElement((_Badge || _load_Badge()).Badge, { icon: 'octoface', color: (_Badge || _load_Badge()).BadgeColors.success, value: 42 })
   )
 );
 

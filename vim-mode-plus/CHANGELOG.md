@@ -1,3 +1,140 @@
+# 0.89.0:
+- New: Text-object for arguments
+  - Keymap:
+    - `i ,`: `inner-arguments`
+    - `a ,`: `a-arguments`
+    - `,`: `inner-arguments`( shorthand keymap available only in operator-pending-mode )
+  - Example:
+    - `c i ,`( you can do `c ,`)
+    - `d i ,`( you can do `d ,`)
+    - `d a ,`
+    - `v a ,`
+  - From where this text-object find arguments?
+    - Auto-detect inner range of `()`, `[]`, `{}` pairs and parse argument and select.
+    - When it failed to find inner-pair range, it fallbacks to current-line range.
+  - How to determine separator of arguments?
+    - Heuristically determine separator from comma `, ` or white-space.
+      - When some separator contains comma, it treat comma as separator.
+      - When no separator contains comma, it treat white-space as separator.
+- New, Setting: #747 Conditional keymap setting `keymapPToPutWithAutoIndent`.
+  - When enabled, `p`, and `P` paste with-auto-indent for linewise paste.
+  - Why I added this helper setting?
+    - You can set keymap by yourself in your `keymap.cson`
+      - But you need to be careful to not overwrite `p` in `operator-pending-mode`.
+    - In `normal-mode`, `p` is mapped to `put`.
+    - In `operator-pending-mode`, `p` is mapped to `inner-paragraph`, as shorthand of `i p`.
+    - When set `p` keymap in your `keymap.cson` without breaking predefined shorthand `p`.
+    - You need to exclude `operator-pending-mode` scope like this.
+      ```coffescript
+      'atom-text-editor.vim-mode-plus:not(.insert-mode):not(.operator-pending-mode)':
+        'p': 'vim-mode-plus:put-after-with-auto-indent'
+      ```
+    - But I don't think I can expect normal user to do so. So
+- New: `rotate`, `rotate-backwards` operator
+  - No keymap by default.
+  - ChangeOrder family operator, which rotate line in `linewise`, argument in `charactewise`.
+- New: #748 ChangeOrder family( child ) operator now work differently for charactewise-target.
+  - Affects: `reverse`, `rotate`, `rotate-backwards`, `sort`, `sort-case-insensitively`, `sort-by-number`
+  - [Same]: When `linewise` target, it change order of line.
+  - [New]: When `characterwise` target, it auto-detect arguments and change order of arguments within characterwise-range.
+- New: Operator `split-arguments` and `split-arguments-with-remove-separator`
+  - Commands:
+    - `split-arguments`: split arguments into multiple-lines within specified target without removing separator.
+    - `split-arguments-with-remove-separator`: behave same as `split-arguments` but it remove separator(sugh as `, `).
+  - Keymap `g ,` to `split-arguments` by default( aggressive decision ).
+    - Pure-Vim's `g , ` is "move to newer cursor position of change list", but vmp have no `changelist` anyway.
+- New: [Experimental] Added `inner-pair` pre-targeted version of `split-arguments` and `reverse` to evaluate it's usefulness.
+  - No keymap
+  - Commands:
+    - `split-arguments-of-inner-any-pair`
+    - `reverse-inner-any-pair`
+- Breaking: Remove `showCursorInVisualMode` setting
+  - Notify and ask confirmation for auto-remove from `config.cson` if it set to non-default value.
+- Improve: `r enter` to replace with new-line now correctly auto-indent inserted new-line.
+- Improve: When `surround` linewse-target, now auto-indent surrounded lines more accurately than previous release.
+
+# 0.88.0:
+- Doc: New wiki page
+  - DifferencesFromPureVim
+  - VmpUniqueKeymaps
+- Keymaps: Normal keymap addition
+  - New: Now `subword` text-object have default keymap, you can change subword by `c i d`.
+    - `i d`: `inner-subword`
+    - `a d`: `a-subword`
+  - `cmd-a` is mapped to `inner-entire` in `operator-pending` and `visual-mode` for macOS user.
+    - So macOS user can use `cmd-a` as shorthand of `i e`(`inner-entire`).
+    - E.g. Change all occurrence in text by `c o cmd-a` instead of `c o i e`
+- Keymaps: Shorthand keymaps in `operator-pending` mode
+  - Prerequisite
+    - In `operator-pending-mode`, next command must be `text-object` or `motion`
+    - So all `operator` command in `operator-pending-mode` is INVALID.
+    - This mean, we can safely use operator command's keymap in `operator-pending-mode` as shorthand keymap of `text-object` or `motion`.
+    - But using these keymap for `motion` is meaningless since motion is single-key, but text-object key is two keystroke(e.g. `i w`).
+    - So I pre-defined short-hand keymap for text-object which was work for me.
+  - What was defined?
+    - `c` as shorthand of `inner-smart-word`, but `c c` is not affected.
+      - You can `yank word` by `y c` instead of `y i w`. ( change by `c c` if you enabled it in setting )
+      - To make `c c` works for `change inner-smart-word`, set `keymapCCToChangeInnerSmartWord` to `true`( `false` by default )
+      - `smart-word` is similar to `word` but it's include `-` char.
+    - `C` as shorthand of `inner-whole-word`
+      - You can `yank whole-word` by `y C` instead of `y i W`. ( change by `c C` )
+    - `d` as shorthand of `inner-subword`, but `d d` is not affected.
+      - You can `yank subword` by `y d` instead of `y i d`. ( change by `c d` )
+    - `p` as shorthand of `inner-paragraph`
+      - You can `yank paragraph` by `y p` instead of `y i p`. ( change by `c p` )
+- Keymaps: Conditional keymap enabled by setting.
+  - Prerequisite
+    - Added several configuration option which is 1-to-1 mapped to keymap.
+    - When set to `true`, corresponding keymap is defined.
+    - This is just as helper to define complex keymap via checkbox.
+    - For me, I enabled all of these setting and I want strongly recommend you to evaluate these setting at least once.
+    - These keymaps are picked from my local keymap which was realy work well for a log time.
+  - Here is new setting, all `false` by default. Effect(good and bad) of these keymap is explained in vmp's setting-view.
+    - `keymapUnderscoreToReplaceWithRegister`
+    - `keymapCCToChangeInnerSmartWord`
+    - `keymapSemicolonToInnerAnyPairInOperatorPendingMode`
+    - `keymapSemicolonToInnerAnyPairInVisualMode`
+    - `keymapBackslashToInnerCommentOrParagraphWhenToggleLineCommentsIsPending`
+- Breaking: Default setting change:
+  - `clearPersistentSelectionOnResetNormalMode`: `true`( `false` in previous version )
+  - `clearHighlightSearchOnResetNormalMode`: `true`( `false` in previous version )
+  - `highlightSearch`: `true`( `false` in previous version )
+  - `useClipboardAsDefaultRegister`: `true`( `false` in previous version )
+- New: #743, #739 New config option `dontUpdateRegisterOnChangeOrSubstitute`( default `false` ).
+  - When set to `true`, all `c`, `s`, `C`, `S` operation no longer update register content.
+  - If you want keep register content unchanged by `c i w`, set this to `false`.
+- New: TextObject `comment-or-paragraph` for use of easy comment-in/out when `g /` is pending.
+- Fix: For commands `set-register-name-to-*` or `set-register-name-to-_`, now show hover and correctly set `with-register` CSS scope on editorElement.
+- Fix, Improve: #744 Make vmp work well with other atom-pkg or atom's native feature.
+  - Update selection prop on command dispatch of outer-vmp command
+    - Now correctly update cursor visibility and start `visual-mode` after `cmd-e` then `cmd-g`.
+  - Update selection prop if editor retake `focus`.
+    - Now correctly start `visual-mode` after `cmd-f` result was confirmed by `enter`.
+- Improve: Better integration with `demo-mode` package
+  - Postpone destroying operator-flash while demo-mode's hover indicator is displayed.
+- Improve: When undo/redoing occurrence operation, flash was suppressed when all occurrence start and end with same column, but now flashed.
+- Improve: Improve containment check for `togggle-preset-occurrence`
+  - When cursor is at right column of non-word char(e.g. closing parenthesis `)`), not longer misunderstand that cursor is on occurrence-marker.
+- Internal: #742 Rewrite `RegisterManager`, reduced complex logic which make me really confuse.
+
+# 0.87.0:
+- New: #732 Add integration with `demo-mode` package.
+  - `demo-mode` is new Atom package I've released recently, it was originally developed as part of vim-mode-plus.
+  - When demo-mode is activated via `demo-mode:toggle`, vmp do special integration to
+    - Make operator flash duration longer than normal duration
+    - Demo-mode hover indicator show `keystorke`, `command` and `kind`(extra info added by vmp) on each keybinding dispatch.
+      - kind is one of `operator`, `text-object`, `motion`, `misc-command`
+- New: #722 New version of put command which paste content to suggested indent level with keeping pasting text layout.
+  - PR by @apazzolini
+  - Normal `p`, `P` paste content as-is, so ignores desirable( or suggested ) indent level.
+  - Following two command respect suggested indent level on linewise paste( no diff for characterwise paste ).
+    - `vim-mode-plus:put-before-with-auto-indent`: Same as `put-before`(`P`) with respect suggested indent level.
+    - `vim-mode-plus:put-after-with-auto-indent`:  Same as `put-after`(`p`) with respect suggested indent level.
+  - No keymaps provided by default
+- Improve: `o`, `O` to adjust IndentLevel when `o`, `O` is executed from empty row #723
+  - PR by @apazzolini
+  - To provider further pure-Vim compatible behavior.
+
 # 0.86.3
 - Improve: #727 Tweak incremental-search match highlight style to not hide covering text in some syntax-theme.
 

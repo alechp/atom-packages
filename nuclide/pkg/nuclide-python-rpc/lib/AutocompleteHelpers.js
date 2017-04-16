@@ -11,15 +11,15 @@ let getAutocompleteSuggestions = exports.getAutocompleteSuggestions = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (serverManager, filePath, buffer, position, activatedManually, autocompleteArguments, includeOptionalArguments) {
     const triggerRegex = activatedManually ? EXPLICIT_TRIGGER_COMPLETION_REGEX : IMPLICIT_TRIGGER_COMPLETION_REGEX;
     if ((0, (_range || _load_range()).matchRegexEndingAt)(buffer, position, triggerRegex) == null) {
-      return [];
+      return { isIncomplete: false, items: [] };
     }
 
     const results = yield getCompletions(serverManager, filePath, buffer.getText(), position.row, position.column);
     if (results == null) {
-      return [];
+      return { isIncomplete: false, items: [] };
     }
 
-    return results.map(function (completion) {
+    const items = results.map(function (completion) {
       // Always display optional arguments in the UI.
       const displayText = getText(completion);
       // Only autocomplete arguments if the include optional arguments setting is on.
@@ -31,6 +31,10 @@ let getAutocompleteSuggestions = exports.getAutocompleteSuggestions = (() => {
         description: completion.description
       };
     });
+    return {
+      isIncomplete: false,
+      items
+    };
   });
 
   return function getAutocompleteSuggestions(_x, _x2, _x3, _x4, _x5, _x6, _x7) {

@@ -11,7 +11,9 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _atom = require('atom');
 
@@ -29,17 +31,15 @@ function _load_UniversalDisposable() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const doNothing = () => {};
+const doNothing = () => {}; /**
+                             * Copyright (c) 2015-present, Facebook, Inc.
+                             * All rights reserved.
+                             *
+                             * This source code is licensed under the license found in the LICENSE file in
+                             * the root directory of this source tree.
+                             *
+                             * 
+                             */
 
 function setupTextEditor(props) {
   const textBuffer = props.textBuffer || new _atom.TextBuffer();
@@ -83,7 +83,7 @@ function setupTextEditor(props) {
   };
 }
 
-class AtomTextEditor extends _reactForAtom.React.Component {
+class AtomTextEditor extends _react.default.Component {
 
   componentDidMount() {
     this._editorDisposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
@@ -100,7 +100,7 @@ class AtomTextEditor extends _reactForAtom.React.Component {
 
     this._editorDisposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(disposables);
 
-    const container = _reactForAtom.ReactDOM.findDOMNode(this);
+    const container = _reactDom.default.findDOMNode(this);
     const textEditorElement = this._textEditorElement = document.createElement('atom-text-editor');
     textEditorElement.setModel(textEditor);
     textEditorElement.setAttribute('tabindex', this.props.tabIndex);
@@ -204,7 +204,7 @@ class AtomTextEditor extends _reactForAtom.React.Component {
     const className = (0, (_classnames || _load_classnames()).default)(this.props.className, 'nuclide-text-editor-container', {
       'no-auto-grow': !this.props.autoGrow
     });
-    return _reactForAtom.React.createElement('div', { className: className });
+    return _react.default.createElement('div', { className: className });
   }
 
   // This component wraps the imperative API of `<atom-text-editor>`, and so React's rendering

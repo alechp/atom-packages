@@ -154,6 +154,7 @@
   'g q': 'vim-mode-plus:auto-flow'
   'g |': 'vim-mode-plus:trim-string'
   'g cmd-d': 'vim-mode-plus:select-occurrence'
+  'g ,': 'vim-mode-plus:split-arguments'
   # 'g _': 'vim-mode-plus:snake-case'
   # 'g r':   'vim-mode-plus:reverse'
   # 'g s':   'vim-mode-plus:sort'
@@ -429,10 +430,32 @@
   'O': 'vim-mode-plus:operator-modifier-subword-occurrence'
   'I': 'vim-mode-plus:move-to-first-character-of-line'
   'A': 'vim-mode-plus:move-to-last-character-of-line'
+
+  # Shorthand keymap for two-keystroke text-object
+  'c': 'vim-mode-plus:inner-smart-word' # `y c` to `yank inner-smart-word`.
+  'd': 'vim-mode-plus:inner-subword'    # `y d` to `yank inner-subword`.
+  'C': 'vim-mode-plus:inner-whole-word' # `y C` to `yank inner-whole-word`.
+  'p': 'vim-mode-plus:inner-paragraph'  # `y p` to `yank inner-paragraph`.
+  ',': 'vim-mode-plus:inner-arguments'
+
+  # In this scope, all operator keys are safely remappable.
+  # e.g. p, d, D, x, u, X, S, ., r
+
+# operator-pending with operator specified
+# -------------------------
+# `c c` to works as change current line.
+'atom-text-editor.vim-mode-plus.operator-pending-mode.change-pending':
+  'c': 'vim-mode-plus:change'
+
+# `d d` to works as delete current line
+'atom-text-editor.vim-mode-plus.operator-pending-mode.delete-pending':
+  'd': 'vim-mode-plus:delete'
+
+# for `g q q` to auto-flow current line
+'atom-text-editor.vim-mode-plus.operator-pending-mode.auto-flow-pending':
   'q': 'vim-mode-plus:auto-flow'
 
-# operator-pending.has-occurrence [Experimental]
-# -------------------------
+# operator-pending.has-occurrence
 'atom-text-editor.vim-mode-plus.operator-pending-mode.has-occurrence':
   'p': 'vim-mode-plus:inner-paragraph'
   'P': 'vim-mode-plus:inner-paragraph' # in-case SHIFT is not keyuped. when O modifier
@@ -534,6 +557,7 @@
 
   'i e': 'vim-mode-plus:inner-entire'
   'a e': 'vim-mode-plus:a-entire'
+  'cmd-a': 'vim-mode-plus:inner-entire'
 
   # [NOTE] subject to change in future
   'i c': 'vim-mode-plus:inner-latest-change'
@@ -546,8 +570,11 @@
   'i v': 'vim-mode-plus:inner-visible-area'
   'a v': 'vim-mode-plus:a-visible-area'
 
-  # 'a q': 'vim-mode-plus:a-subword'
-  # 'i q': 'vim-mode-plus:inner-subword'
+  'a d': 'vim-mode-plus:a-subword'
+  'i d': 'vim-mode-plus:inner-subword'
+
+  'a ,': 'vim-mode-plus:a-arguments'
+  'i ,': 'vim-mode-plus:inner-arguments'
 
 # visual
 # -------------------------

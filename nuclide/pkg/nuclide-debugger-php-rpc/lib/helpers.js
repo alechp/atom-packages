@@ -146,8 +146,8 @@ function launchScriptForDummyConnection(scriptPath) {
  */
 function launchScriptToDebug(scriptPath, sendToOutputWindow) {
   return new Promise(resolve => {
-    launchPhpScriptWithXDebugEnabled(scriptPath, text => {
-      sendToOutputWindow(text);
+    launchPhpScriptWithXDebugEnabled(scriptPath, (text, level) => {
+      sendToOutputWindow(text, level);
       resolve();
     });
   });
@@ -173,13 +173,13 @@ function launchPhpScriptWithXDebugEnabled(scriptPath, sendToOutputWindowAndResol
   proc.on('error', err => {
     (_utils || _load_utils()).default.log(`child_process(${proc.pid}) error: ${err}`);
     if (sendToOutputWindowAndResolve != null) {
-      sendToOutputWindowAndResolve(`The process running script: ${scriptPath} encountered an error: ${err}`);
+      sendToOutputWindowAndResolve(`The process running script: ${scriptPath} encountered an error: ${err}`, 'error');
     }
   });
   proc.on('exit', code => {
     (_utils || _load_utils()).default.log(`child_process(${proc.pid}) exit: ${code}`);
     if (code != null && sendToOutputWindowAndResolve != null) {
-      sendToOutputWindowAndResolve(`Script: ${scriptPath} exited with code: ${code}`);
+      sendToOutputWindowAndResolve(`Script: ${scriptPath} exited with code: ${code}`, code === 0 ? 'info' : 'error');
     }
   });
   return proc;

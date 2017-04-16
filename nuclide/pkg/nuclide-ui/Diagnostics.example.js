@@ -7,7 +7,7 @@ exports.DiagnosticsExamples = undefined;
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -20,6 +20,8 @@ var _DiagnosticsMessage;
 function _load_DiagnosticsMessage() {
   return _DiagnosticsMessage = require('./DiagnosticsMessage');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const GOTOLOCATION = (path, line) => {
   atom.notifications.addInfo(`Let's pretend I opened "${path}" at line ${line}.`);
@@ -87,13 +89,13 @@ const messageWithTrace = {
   }]
 };
 
-const DiagnosticMessageWarningExample = () => _reactForAtom.React.createElement(
+const DiagnosticMessageWarningExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+    _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
       message: messageWarning,
       goToLocation: GOTOLOCATION,
       fixer: FIXER
@@ -101,13 +103,13 @@ const DiagnosticMessageWarningExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const DiagnosticMessageErrorExample = () => _reactForAtom.React.createElement(
+const DiagnosticMessageErrorExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+    _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
       message: messageError,
       goToLocation: GOTOLOCATION,
       fixer: FIXER
@@ -115,13 +117,13 @@ const DiagnosticMessageErrorExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const DiagnosticMessageFixableExample = () => _reactForAtom.React.createElement(
+const DiagnosticMessageFixableExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+    _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
       message: messageFixable,
       goToLocation: GOTOLOCATION,
       fixer: FIXER
@@ -129,13 +131,13 @@ const DiagnosticMessageFixableExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const DiagnosticMessageTraceExample = () => _reactForAtom.React.createElement(
+const DiagnosticMessageTraceExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+    _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
       message: messageWithTrace,
       goToLocation: GOTOLOCATION,
       fixer: FIXER

@@ -28,6 +28,16 @@ let getFlowVersionInformation = (() => {
 
 let canFindFlow = (() => {
   var _ref2 = (0, _asyncToGenerator.default)(function* (flowPath) {
+    if (process.platform === 'win32') {
+      // On Windows, if the flow path is configured as a full path rather than just "flow" or
+      // "flow.exe", format the path correctly to pass to `where <flow>`
+      const dirPath = (_nuclideUri || _load_nuclideUri()).default.dirname(flowPath);
+      if (dirPath != null && dirPath !== '' && dirPath !== '.') {
+        const whichPath = `${(_nuclideUri || _load_nuclideUri()).default.dirname(flowPath)}:${(_nuclideUri || _load_nuclideUri()).default.basename(flowPath)}`;
+        return (yield (0, (_which || _load_which()).default)(whichPath)) != null;
+      }
+    }
+
     return (yield (0, (_which || _load_which()).default)(flowPath)) != null;
   });
 
@@ -133,6 +143,11 @@ class FlowExecInfoContainer {
     })();
   }
 
+  reallyGetFlowExecInfo(root) {
+    this._flowExecInfoCache.del(root);
+    return this.getFlowExecInfo(root);
+  }
+
   _computeFlowExecInfo(root) {
     var _this2 = this;
 
@@ -167,6 +182,15 @@ class FlowExecInfoContainer {
       // Pull this into a local on the off chance that the setting changes while we are doing the
       // check.
       const systemFlowPath = _this3._pathToFlow;
+
+      // If on Windows, prefer the .cmd wrapper for flow if it's available.
+      if (process.platform === 'win32') {
+        const cmdPath = systemFlowPath + '.cmd';
+        if (yield canFindFlow(systemFlowPath)) {
+          return cmdPath;
+        }
+      }
+
       if (yield canFindFlow(systemFlowPath)) {
         return systemFlowPath;
       }

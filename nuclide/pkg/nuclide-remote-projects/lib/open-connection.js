@@ -38,20 +38,23 @@ function _load_promiseExecutors() {
   return _promiseExecutors = require('../../commons-node/promise-executors');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
-                                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                                              * All rights reserved.
-                                                                              *
-                                                                              * This source code is licensed under the license found in the LICENSE file in
-                                                                              * the root directory of this source tree.
-                                                                              *
-                                                                              * 
-                                                                              */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
 let dialogPromiseQueue = null;
 
 /**
@@ -140,7 +143,7 @@ function openConnectionDialog(options) {
       // Props
       function closeNewProfileForm(newProfile) {
         newProfileForm = null;
-        _reactForAtom.ReactDOM.unmountComponentAtNode(hostElementForNewProfileForm);
+        _reactDom.default.unmountComponentAtNode(hostElementForNewProfileForm);
         if (newProfilePanel != null) {
           newProfilePanel.destroy();
           newProfilePanel = null;
@@ -165,7 +168,7 @@ function openConnectionDialog(options) {
       newProfilePanel = atom.workspace.addModalPanel({ item: hostElementForNewProfileForm });
 
       // Pop up a dialog that is pre-filled with the default params.
-      newProfileForm = _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_CreateConnectionProfileForm || _load_CreateConnectionProfileForm()).default, initialDialogProps), hostElementForNewProfileForm);
+      newProfileForm = _reactDom.default.render(_react.default.createElement((_CreateConnectionProfileForm || _load_CreateConnectionProfileForm()).default, initialDialogProps), hostElementForNewProfileForm);
     }
 
     function openBaseDialog(selectedProfile) {
@@ -192,7 +195,7 @@ function openConnectionDialog(options) {
         },
         onClosed: () => {
           // Unmount the ConnectionDialog and clean up the host element.
-          _reactForAtom.ReactDOM.unmountComponentAtNode(hostEl);
+          _reactDom.default.unmountComponentAtNode(hostEl);
           if (basePanel != null) {
             basePanel.destroy();
           }
@@ -225,7 +228,7 @@ function openConnectionDialog(options) {
         const newDialogProps = Object.assign({}, baseDialogProps, {
           connectionProfiles: compositeConnectionProfiles
         });
-        _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_ConnectionDialog || _load_ConnectionDialog()).default, newDialogProps), hostEl);
+        _reactDom.default.render(_react.default.createElement((_ConnectionDialog || _load_ConnectionDialog()).default, newDialogProps), hostEl);
       });
 
       basePanel = atom.workspace.addModalPanel({ item: hostEl });
@@ -244,7 +247,7 @@ function openConnectionDialog(options) {
       const initialDialogProps = Object.assign({}, baseDialogProps, {
         connectionProfiles: compositeConnectionProfiles
       });
-      _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_ConnectionDialog || _load_ConnectionDialog()).default, initialDialogProps), hostEl);
+      _reactDom.default.render(_react.default.createElement((_ConnectionDialog || _load_ConnectionDialog()).default, initialDialogProps), hostEl);
     }
 
     // Select the last profile that was used. It's possible the config changed since the last time

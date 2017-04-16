@@ -54,7 +54,7 @@ function _load_ProjectStore() {
   return _ProjectStore = _interopRequireDefault(require('./ProjectStore'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84,7 +84,7 @@ class HhvmBuildSystem {
   }
 
   getIcon() {
-    return () => _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'nuclicon-hhvm', className: 'nuclide-hhvm-task-runner-icon' });
+    return () => _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'nuclicon-hhvm', className: 'nuclide-hhvm-task-runner-icon' });
   }
 
   runTask(taskName) {

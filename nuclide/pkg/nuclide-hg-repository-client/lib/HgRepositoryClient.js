@@ -9,6 +9,12 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 var _atom = require('atom');
 
+var _observable;
+
+function _load_observable() {
+  return _observable = require('../../commons-node/observable');
+}
+
 var _RevisionsCache;
 
 function _load_RevisionsCache() {
@@ -179,23 +185,44 @@ class HgRepositoryClient {
     const fileChanges = this._service.observeFilesDidChange().refCount();
     const repoStateChanges = this._service.observeHgRepoStateDidChange().refCount();
     const activeBookmarkChanges = this._service.observeActiveBookmarkDidChange().refCount();
-    const allBookmarChanges = this._service.observeBookmarksDidChange().refCount();
+    const allBookmarkChanges = this._service.observeBookmarksDidChange().refCount();
     const conflictStateChanges = this._service.observeHgConflictStateDidChange().refCount();
     const commitChanges = this._service.observeHgCommitsDidChange().refCount();
 
-    const statusChangesSubscription = _rxjsBundlesRxMinJs.Observable.merge(fileChanges, repoStateChanges).debounceTime(STATUS_DEBOUNCE_DELAY_MS).startWith(null).switchMap(() => this._service.fetchStatuses().refCount().catch(error => {
-      (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error('HgService cannot fetch statuses', error);
-      return _rxjsBundlesRxMinJs.Observable.empty();
-    })).subscribe(statuses => {
-      this._hgStatusCache = (0, (_collection || _load_collection()).mapTransform)(statuses, (v, k) => (_hgConstants || _load_hgConstants()).StatusCodeIdToNumber[v]);
+    this._hgUncommittedStatusChanges = this._observeStatus(fileChanges, repoStateChanges, () => this._service.fetchStatuses());
+
+    this._hgStackStatusChanges = this._observeStatus(fileChanges, repoStateChanges, () => this._service.fetchStackStatuses());
+
+    this._hgHeadStatusChanges = this._observeStatus(fileChanges, repoStateChanges, () => this._service.fetchHeadStatuses());
+
+    const statusChangesSubscription = this._hgUncommittedStatusChanges.statusChanges.subscribe(statuses => {
+      this._hgStatusCache = statuses;
       this._emitter.emit('did-change-statuses');
     });
 
-    const shouldRevisionsUpdate = _rxjsBundlesRxMinJs.Observable.merge(activeBookmarkChanges, allBookmarChanges, commitChanges, repoStateChanges).debounceTime(REVISION_DEBOUNCE_DELAY);
+    const shouldRevisionsUpdate = _rxjsBundlesRxMinJs.Observable.merge(activeBookmarkChanges, allBookmarkChanges, commitChanges, repoStateChanges).debounceTime(REVISION_DEBOUNCE_DELAY);
 
-    this._subscriptions.add(statusChangesSubscription, activeBookmarkChanges.subscribe(this.fetchActiveBookmark.bind(this)), allBookmarChanges.subscribe(() => {
+    this._subscriptions.add(statusChangesSubscription, activeBookmarkChanges.subscribe(this.fetchActiveBookmark.bind(this)), allBookmarkChanges.subscribe(() => {
       this._emitter.emit('did-change-bookmarks');
     }), conflictStateChanges.subscribe(this._conflictStateChanged.bind(this)), shouldRevisionsUpdate.subscribe(() => this._revisionsCache.refreshRevisions()));
+  } // legacy, only for uncommitted
+
+
+  _observeStatus(fileChanges, repoStateChanges, fetchStatuses) {
+    const triggers = _rxjsBundlesRxMinJs.Observable.merge(fileChanges, repoStateChanges).debounceTime(STATUS_DEBOUNCE_DELAY_MS).share().startWith(null);
+    // Share comes before startWith. That's because fileChanges/repoStateChanges
+    // are already hot and can be shared fine. But we want both our subscribers,
+    // statusChanges and isCalculatingChanges, to pick up their own copy of
+    // startWith(null) no matter which order they subscribe.
+
+    const statusChanges = (0, (_observable || _load_observable()).cacheWhileSubscribed)(triggers.switchMap(() => fetchStatuses().refCount().catch(error => {
+      (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error('HgService cannot fetch statuses', error);
+      return _rxjsBundlesRxMinJs.Observable.empty();
+    })).map(uriToStatusIds => (0, (_collection || _load_collection()).mapTransform)(uriToStatusIds, (v, k) => (_hgConstants || _load_hgConstants()).StatusCodeIdToNumber[v])));
+
+    const isCalculatingChanges = (0, (_observable || _load_observable()).cacheWhileSubscribed)(_rxjsBundlesRxMinJs.Observable.merge(triggers.map(_ => true), statusChanges.map(_ => false)).distinctUntilChanged());
+
+    return { statusChanges, isCalculatingChanges };
   }
 
   destroy() {
@@ -240,12 +267,28 @@ class HgRepositoryClient {
     return this._revisionStatusCache.observeRevisionStatusesChanges();
   }
 
+  observeUncommittedStatusChanges() {
+    return this._hgUncommittedStatusChanges;
+  }
+
+  observeHeadStatusChanges() {
+    return this._hgHeadStatusChanges;
+  }
+
+  observeStackStatusChanges() {
+    return this._hgStackStatusChanges;
+  }
+
   onDidChangeStatuses(callback) {
     return this._emitter.on('did-change-statuses', callback);
   }
 
   onDidChangeConflictState(callback) {
     return this._emitter.on(DID_CHANGE_CONFLICT_STATE, callback);
+  }
+
+  onDidChangeInteractiveMode(callback) {
+    return this._emitter.on('did-change-interactive-mode', callback);
   }
 
   /**
@@ -462,6 +505,7 @@ class HgRepositoryClient {
     return (_hgConstants || _load_hgConstants()).StatusCodeNumber.CLEAN;
   }
 
+  // getAllPathStatuses -- this legacy API gets only uncommitted statuses
   getAllPathStatuses() {
     const pathStatuses = Object.create(null);
     for (const [filePath, status] of this._hgStatusCache) {
@@ -589,6 +633,10 @@ class HgRepositoryClient {
     })();
   }
 
+  _updateInteractiveMode(isInteractiveMode) {
+    this._emitter.emit('did-change-interactive-mode', isInteractiveMode);
+  }
+
   /**
   *
   * Section: Retrieving Bookmark (async methods)
@@ -602,12 +650,16 @@ class HgRepositoryClient {
     return this._getShortHeadAsync();
   }
 
-  fetchMergeConflicts() {
-    return this._service.fetchMergeConflicts();
+  /*
+   * Setting fetchResolved will return all resolved and unresolved conflicts,
+   * the default would only fetch the current unresolved conflicts.
+   */
+  fetchMergeConflicts(fetchResolved) {
+    return this._service.fetchMergeConflicts(fetchResolved);
   }
 
   resolveConflictedFile(filePath) {
-    return this._service.resolveConflictedFile(filePath);
+    return this._service.resolveConflictedFile(filePath).refCount();
   }
 
   /**
@@ -626,7 +678,7 @@ class HgRepositoryClient {
   }
 
   checkoutReference(reference, create, options) {
-    return this._service.checkout(reference, create, options);
+    return this._service.checkout(reference, create, options).refCount();
   }
 
   show(revision) {
@@ -780,7 +832,6 @@ class HgRepositoryClient {
   }
 
   getTemplateCommitMessage() {
-    // TODO(t12228275) This is a stopgap hack, fix it.
     return this._service.getTemplateCommitMessage();
   }
 
@@ -832,15 +883,22 @@ class HgRepositoryClient {
   }
 
   commit(message, isInteractive = false) {
-    return this._service.commit(message, isInteractive).refCount().do(this._clearOnSuccessExit.bind(this, isInteractive));
+    if (isInteractive) {
+      this._updateInteractiveMode(true);
+    }
+    return this._service.commit(message, isInteractive).refCount().do(this._clearOnSuccessExit.bind(this, isInteractive)).finally(this._updateInteractiveMode.bind(this, false));
   }
 
   amend(message, amendMode, isInteractive = false) {
-    return this._service.amend(message, amendMode, isInteractive).refCount().do(this._clearOnSuccessExit.bind(this, isInteractive));
+    if (isInteractive) {
+      this._updateInteractiveMode(true);
+    }
+    return this._service.amend(message, amendMode, isInteractive).refCount().do(this._clearOnSuccessExit.bind(this, isInteractive)).finally(this._updateInteractiveMode.bind(this, false));
   }
 
   splitRevision() {
-    return this._service.splitRevision().refCount();
+    this._updateInteractiveMode(true);
+    return this._service.splitRevision().refCount().finally(this._updateInteractiveMode.bind(this, false));
   }
 
   _clearOnSuccessExit(isInteractive, message) {
@@ -861,7 +919,7 @@ class HgRepositoryClient {
   }
 
   continueRebase() {
-    return this._service.continueRebase();
+    return this._service.continueRebase().refCount();
   }
 
   abortRebase() {

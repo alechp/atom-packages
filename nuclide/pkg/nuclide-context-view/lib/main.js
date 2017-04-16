@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.activate = activate;
 exports.deactivate = deactivate;
 exports.consumeDefinitionService = consumeDefinitionService;
-exports.consumeToolBar = consumeToolBar;
 exports.provideNuclideContextView = provideNuclideContextView;
 exports.getHomeFragments = getHomeFragments;
 exports.deserializeContextViewPanelState = deserializeContextViewPanelState;
@@ -20,16 +19,17 @@ function _load_ContextViewManager() {
 
 var _atom = require('atom');
 
-let currentService = null; /**
-                            * Copyright (c) 2015-present, Facebook, Inc.
-                            * All rights reserved.
-                            *
-                            * This source code is licensed under the license found in the LICENSE file in
-                            * the root directory of this source tree.
-                            *
-                            * 
-                            */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
+let currentService = null;
 let manager = null;
 let disposables;
 
@@ -86,22 +86,6 @@ function consumeDefinitionService(service) {
       manager.consumeDefinitionService(null);
     }
   });
-}
-
-function consumeToolBar(getToolBar) {
-  const toolBar = getToolBar('nuclide-context-view');
-  const { element } = toolBar.addButton({
-    icon: 'info',
-    callback: 'nuclide-context-view:toggle',
-    tooltip: 'Toggle Context View',
-    priority: 300
-  });
-  element.classList.add('nuclide-context-view-toolbar-button');
-  const disposable = new _atom.Disposable(() => {
-    toolBar.removeItems();
-  });
-  disposables.add(disposable);
-  return disposable;
 }
 
 function provideNuclideContextView() {

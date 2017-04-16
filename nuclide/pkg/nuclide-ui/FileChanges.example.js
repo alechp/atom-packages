@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FileChangesExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _diffparser;
 
@@ -81,11 +81,11 @@ index abc123..cde456 100644
     * 
     */
 
-class FileChangesExample extends _reactForAtom.React.Component {
+class FileChangesExample extends _react.default.Component {
   render() {
     const diff = (0, (_diffparser || _load_diffparser()).default)(sampleUnifiedDiff);
-    const changes = diff.map(file => _reactForAtom.React.createElement((_FileChanges || _load_FileChanges()).default, { diff: file, key: `${file.from}:${file.to}` }));
-    return _reactForAtom.React.createElement(
+    const changes = diff.map(file => _react.default.createElement((_FileChanges || _load_FileChanges()).default, { diff: file, key: `${file.from}:${file.to}` }));
+    return _react.default.createElement(
       'div',
       null,
       changes

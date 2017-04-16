@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DiagnosticsPopup = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -38,10 +38,10 @@ function renderMessage(fixer, goToLocation, message, index) {
     'nuclide-diagnostics-gutter-ui-popup-error': message.type === 'Error',
     'nuclide-diagnostics-gutter-ui-popup-warning': message.type !== 'Error'
   });
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     { className: className, key: index, tabIndex: -1 },
-    _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+    _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
       fixer: fixer,
       goToLocation: goToLocation,
       key: index,
@@ -60,7 +60,7 @@ const DiagnosticsPopup = props => {
     top
   } = props,
         rest = _objectWithoutProperties(props, ['fixer', 'goToLocation', 'left', 'messages', 'top']);
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     Object.assign({
       className: 'nuclide-diagnostics-gutter-ui-popup',

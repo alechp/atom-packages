@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StatusBarTileComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class StatusBarTileComponent extends _reactForAtom.React.Component {
+class StatusBarTileComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class StatusBarTileComponent extends _reactForAtom.React.Component {
 
   render() {
     const classes = (0, (_classnames || _load_classnames()).default)('nuclide-busy-signal-status-bar', { 'loading-spinner-tiny': this.props.busy });
-    return _reactForAtom.React.createElement('div', { className: classes });
+    return _react.default.createElement('div', { className: classes });
   }
 }
 exports.StatusBarTileComponent = StatusBarTileComponent;

@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _AtomTextEditor;
 
@@ -14,20 +16,23 @@ function _load_AtomTextEditor() {
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
-const ENTER_KEY_CODE = 13; /**
-                            * Copyright (c) 2015-present, Facebook, Inc.
-                            * All rights reserved.
-                            *
-                            * This source code is licensed under the license found in the LICENSE file in
-                            * the root directory of this source tree.
-                            *
-                            * 
-                            */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+const ENTER_KEY_CODE = 13;
 const UP_KEY_CODE = 38;
 const DOWN_KEY_CODE = 40;
 
-class OutputTable extends _reactForAtom.React.Component {
+class OutputTable extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -46,7 +51,7 @@ class OutputTable extends _reactForAtom.React.Component {
     }
     if (component) {
       this._textEditorModel = component.getModel();
-      const el = _reactForAtom.ReactDOM.findDOMNode(component);
+      const el = _reactDom.default.findDOMNode(component);
       this._keySubscription = _rxjsBundlesRxMinJs.Observable.fromEvent(el, 'keydown').subscribe(this._handleKeyDown);
     }
   }
@@ -106,10 +111,10 @@ class OutputTable extends _reactForAtom.React.Component {
 
   render() {
     const grammar = this.props.scopeName == null ? null : atom.grammars.grammarForScopeName(this.props.scopeName);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-console-input-wrapper' },
-      _reactForAtom.React.createElement((_AtomTextEditor || _load_AtomTextEditor()).AtomTextEditor, {
+      _react.default.createElement((_AtomTextEditor || _load_AtomTextEditor()).AtomTextEditor, {
         ref: this._handleTextEditor,
         grammar: grammar,
         gutterHidden: true,

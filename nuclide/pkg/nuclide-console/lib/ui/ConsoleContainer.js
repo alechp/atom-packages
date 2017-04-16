@@ -47,7 +47,7 @@ function _load_escapeStringRegexp() {
   return _escapeStringRegexp = _interopRequireDefault(require('escape-string-regexp'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -55,26 +55,28 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/console';
+const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/console'; /**
+                                                                                   * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                   * All rights reserved.
+                                                                                   *
+                                                                                   * This source code is licensed under the license found in the LICENSE file in
+                                                                                   * the root directory of this source tree.
+                                                                                   *
+                                                                                   * 
+                                                                                   */
+
+const INITIAL_RECORD_HEIGHT = 21;
 
 // NOTE: We're not accounting for the "store" prop being changed.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-class ConsoleContainer extends _reactForAtom.React.Component {
+class ConsoleContainer extends _react.default.Component {
 
   constructor(props) {
     super(props);
+    this._handleDisplayableRecordHeightChange = this._handleDisplayableRecordHeightChange.bind(this);
     this._selectSources = this._selectSources.bind(this);
     this._toggleRegExpFilter = this._toggleRegExpFilter.bind(this);
     this._updateFilterText = this._updateFilterText.bind(this);
+    this._resetAllFilters = this._resetAllFilters.bind(this);
     const { initialFilterText, initialEnableRegExpFilter, initialUnselectedSourceIds } = props;
     this.state = {
       ready: false,
@@ -82,7 +84,7 @@ class ConsoleContainer extends _reactForAtom.React.Component {
       providers: new Map(),
       providerStatuses: new Map(),
       executors: new Map(),
-      records: [],
+      displayableRecords: [],
       history: [],
       sources: [],
       filterText: initialFilterText == null ? '' : initialFilterText,
@@ -113,7 +115,7 @@ class ConsoleContainer extends _reactForAtom.React.Component {
   }
 
   getDefaultLocation() {
-    return 'bottom-panel';
+    return 'bottom';
   }
 
   getURI() {
@@ -135,7 +137,7 @@ class ConsoleContainer extends _reactForAtom.React.Component {
         executors: state.executors,
         providers: state.providers,
         providerStatuses: state.providerStatuses,
-        records: state.records,
+        displayableRecords: toDisplayableRecords(this.state.displayableRecords, state.records),
         history: state.history,
         sources: getSources(state)
       });
@@ -147,7 +149,7 @@ class ConsoleContainer extends _reactForAtom.React.Component {
   }
 
   copy() {
-    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement(ConsoleContainer, {
+    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement(ConsoleContainer, {
       store: this.props.store,
       initialFilterText: this.state.filterText,
       initialEnableRegExpFilter: this.state.enableRegExpFilter,
@@ -173,9 +175,14 @@ class ConsoleContainer extends _reactForAtom.React.Component {
     return this._actionCreators;
   }
 
+  _resetAllFilters() {
+    this._selectSources(this.state.sources.map(s => s.id));
+    this._updateFilterText('');
+  }
+
   render() {
     if (!this.state.ready) {
-      return _reactForAtom.React.createElement('span', null);
+      return _react.default.createElement('span', null);
     }
 
     const actionCreators = this._getBoundActionCreators();
@@ -184,10 +191,12 @@ class ConsoleContainer extends _reactForAtom.React.Component {
 
     const selectedSourceIds = this.state.sources.map(source => source.id).filter(sourceId => this.state.unselectedSourceIds.indexOf(sourceId) === -1);
 
-    const records = filterRecords(this.state.records, selectedSourceIds, pattern, this.state.sources.length !== selectedSourceIds.length);
+    const displayableRecords = filterRecords(this.state.displayableRecords, selectedSourceIds, pattern, this.state.sources.length !== selectedSourceIds.length);
+
+    const filteredRecordCount = this.state.displayableRecords.length - displayableRecords.length;
 
     // TODO(matthewwithanm): serialize and restore `initialSelectedSourceId`
-    return _reactForAtom.React.createElement((_Console || _load_Console()).default, {
+    return _react.default.createElement((_Console || _load_Console()).default, {
       invalidFilterInput: !isValid,
       execute: actionCreators.execute,
       selectExecutor: actionCreators.selectExecutor,
@@ -196,7 +205,8 @@ class ConsoleContainer extends _reactForAtom.React.Component {
       unselectedSourceIds: this.state.unselectedSourceIds,
       filterText: this.state.filterText,
       enableRegExpFilter: this.state.enableRegExpFilter,
-      records: records,
+      displayableRecords: displayableRecords,
+      filteredRecordCount: filteredRecordCount,
       history: this.state.history,
       sources: this.state.sources,
       selectedSourceIds: selectedSourceIds,
@@ -204,7 +214,9 @@ class ConsoleContainer extends _reactForAtom.React.Component {
       executors: this.state.executors,
       getProvider: id => this.state.providers.get(id),
       toggleRegExpFilter: this._toggleRegExpFilter,
-      updateFilterText: this._updateFilterText
+      updateFilterText: this._updateFilterText,
+      onDisplayableRecordHeightChange: this._handleDisplayableRecordHeightChange,
+      resetAllFilters: this._resetAllFilters
     });
   }
 
@@ -245,6 +257,16 @@ class ConsoleContainer extends _reactForAtom.React.Component {
       };
     }
   }
+
+  _handleDisplayableRecordHeightChange(recordId, newHeight, callback) {
+    this.setState({
+      displayableRecords: this.state.displayableRecords.map(existing => {
+        return existing.id !== recordId ? existing : Object.assign({}, existing, {
+          height: newHeight
+        });
+      })
+    }, callback);
+  }
 }
 
 exports.ConsoleContainer = ConsoleContainer;
@@ -279,12 +301,12 @@ function getSources(state) {
   return Array.from(mapOfSources.values());
 }
 
-function filterRecords(records, selectedSourceIds, filterPattern, filterSources) {
+function filterRecords(displayableRecords, selectedSourceIds, filterPattern, filterSources) {
   if (!filterSources && filterPattern == null) {
-    return records;
+    return displayableRecords;
   }
 
-  return records.filter(record => {
+  return displayableRecords.filter(({ record }) => {
     // Only filter regular messages
     if (record.kind !== 'message') {
       return true;
@@ -293,4 +315,56 @@ function filterRecords(records, selectedSourceIds, filterPattern, filterSources)
     const sourceMatches = selectedSourceIds.indexOf(record.sourceId) !== -1;
     return sourceMatches && (filterPattern == null || filterPattern.test(record.text));
   });
+}
+
+/**
+ * Transforms the Records from the store into DisplayableRecords while preserving
+ * the recorded heights and expansion state keys of still existing records.
+ *
+ * NOTE: This method works under the assumption that the Record array is only
+ *       transformed by adding/removing items from the head and/or tail of the array.
+ */
+function toDisplayableRecords(currentDisplayables, newRecords) {
+  if (newRecords.length === 0) {
+    return [];
+  }
+
+  let currentIndex = 0;
+  let newRecordIndex = 0;
+  const results = [];
+
+  // Iterate through currentDisplayables until we find an existing displayable
+  // whose record matches the head of the newRecords array
+  while (currentIndex < currentDisplayables.length && currentDisplayables[currentIndex].record !== newRecords[newRecordIndex]) {
+    currentIndex += 1;
+  }
+
+  // Since we assume additions/removals occur only to the head/tail of the array
+  // all common records must be found in a contiguous section in the arrays, so
+  // we copy the record heights and expansion state keys so they are kept intact
+  while (currentIndex < currentDisplayables.length && newRecordIndex < newRecords.length && currentDisplayables[currentIndex].record === newRecords[newRecordIndex]) {
+    const { height, expansionStateId } = currentDisplayables[currentIndex];
+    results.push({
+      id: newRecordIndex,
+      record: newRecords[newRecordIndex],
+      height,
+      expansionStateId
+    });
+    currentIndex += 1;
+    newRecordIndex += 1;
+  }
+
+  // Any remaining records in newRecords were not matched to an existing displayable
+  // so they must be new. Create new DisplayableRecord instances for them here.
+  while (newRecordIndex < newRecords.length) {
+    results.push({
+      id: newRecordIndex,
+      record: newRecords[newRecordIndex],
+      height: INITIAL_RECORD_HEIGHT,
+      expansionStateId: {}
+    });
+    newRecordIndex += 1;
+  }
+
+  return results;
 }

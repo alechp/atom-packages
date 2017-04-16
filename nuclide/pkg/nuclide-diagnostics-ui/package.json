@@ -41,18 +41,6 @@
       "versions": {
         "^1.0.0": "consumeStatusBar"
       }
-    },
-    "tool-bar": {
-      "versions": {
-        "^1.0.0": "consumeToolBar"
-      }
-    }
-  },
-  "providedServices": {
-    "nuclide-home.homeFragments": {
-      "versions": {
-        "0.0.0": "getHomeFragments"
-      }
     }
   }
 }

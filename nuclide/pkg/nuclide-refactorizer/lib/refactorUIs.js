@@ -11,7 +11,9 @@ function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _MainRefactorComponent;
 
@@ -29,15 +31,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const refactorUIFactories = [genericRefactorUI, closeOnEscape, focusEditorOnClose, renameShortcut]; /**
-                                                                                                     * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                     * All rights reserved.
-                                                                                                     *
-                                                                                                     * This source code is licensed under the license found in the LICENSE file in
-                                                                                                     * the root directory of this source tree.
-                                                                                                     *
-                                                                                                     * 
-                                                                                                     */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+const refactorUIFactories = [genericRefactorUI, closeOnEscape, focusEditorOnClose, renameShortcut];
 
 function initRefactorUIs(store) {
   const disposables = refactorUIFactories.map(uiFn => uiFn(store));
@@ -136,14 +140,14 @@ class GenericUIRenderer {
         const element = document.createElement('div');
         this._panel = atom.workspace.addModalPanel({ item: element });
       }
-      _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_MainRefactorComponent || _load_MainRefactorComponent()).MainRefactorComponent, {
+      _reactDom.default.render(_react.default.createElement((_MainRefactorComponent || _load_MainRefactorComponent()).MainRefactorComponent, {
         appState: state,
         store: this._store
       }), this._panel.getItem());
     } else {
       if (this._panel != null) {
         const panel = this._panel;
-        _reactForAtom.ReactDOM.unmountComponentAtNode(panel.getItem());
+        _reactDom.default.unmountComponentAtNode(panel.getItem());
         panel.destroy();
         this._panel = null;
       }

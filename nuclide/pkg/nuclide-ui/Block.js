@@ -5,10 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Block = undefined;
 
-var _reactForAtom = require("react-for-atom");
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** A Block. */
-const Block = exports.Block = props => _reactForAtom.React.createElement(
+const Block = exports.Block = props => _react.default.createElement(
   "div",
   { className: "block" },
   props.children

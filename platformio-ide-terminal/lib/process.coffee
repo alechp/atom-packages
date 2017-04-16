@@ -13,7 +13,7 @@ systemLanguage = do ->
   return language
 
 filteredEnvironment = do ->
-  env = _.omit process.env, 'ATOM_HOME', 'ATOM_SHELL_INTERNAL_RUN_AS_NODE', 'GOOGLE_API_KEY', 'NODE_ENV', 'NODE_PATH', 'userAgent', 'taskPath'
+  env = _.omit process.env, 'ATOM_HOME', 'ELECTRON_RUN_AS_NODE', 'GOOGLE_API_KEY', 'NODE_ENV', 'NODE_PATH', 'userAgent', 'taskPath'
   env.LANG ?= systemLanguage
   env.TERM_PROGRAM = 'platformio-ide-terminal'
   return env
@@ -21,7 +21,7 @@ filteredEnvironment = do ->
 module.exports = (pwd, shell, args, options={}) ->
   callback = @async()
 
-  if /zsh|bash/.test(shell) and args.indexOf('--login') == -1
+  if /zsh|bash/.test(shell) and args.indexOf('--login') == -1 and process.platform isnt 'win32'
     args.unshift '--login'
 
   ptyProcess = pty.fork shell, args,

@@ -16,6 +16,7 @@ _ = require 'underscore-plus'
 
 class MiscCommand extends Base
   @extend(false)
+  @operationKind: 'misc-command'
   constructor: ->
     super
     @initialize()
@@ -83,7 +84,7 @@ class Undo extends MiscCommand
       ranges.length > 1 and ranges.every(isSingleLineRange)
 
     if newRanges.length > 0
-      return if @isMultipleAndAllRangeHaveSameColumnRanges(newRanges)
+      return if @isMultipleAndAllRangeHaveSameColumnAndConsecutiveRows(newRanges)
       newRanges = newRanges.map (range) => humanizeBufferRange(@editor, range)
       newRanges = @filterNonLeadingWhiteSpaceRange(newRanges)
 
@@ -92,7 +93,7 @@ class Undo extends MiscCommand
       else
         @flash(newRanges, type: 'undo-redo')
     else
-      return if @isMultipleAndAllRangeHaveSameColumnRanges(oldRanges)
+      return if @isMultipleAndAllRangeHaveSameColumnAndConsecutiveRows(oldRanges)
 
       if isMultipleSingleLineRanges(oldRanges)
         oldRanges = @filterNonLeadingWhiteSpaceRange(oldRanges)
@@ -102,12 +103,25 @@ class Undo extends MiscCommand
     ranges.filter (range) =>
       not isLeadingWhiteSpaceRange(@editor, range)
 
-  isMultipleAndAllRangeHaveSameColumnRanges: (ranges) ->
+  # [TODO] Improve further by checking oldText, newText?
+  # [Purpose of this is function]
+  # Suppress flash when undo/redoing toggle-comment while flashing undo/redo of occurrence operation.
+  # This huristic approach never be perfect.
+  # Ultimately cannnot distinguish occurrence operation.
+  isMultipleAndAllRangeHaveSameColumnAndConsecutiveRows: (ranges) ->
     return false if ranges.length <= 1
 
-    {start, end} = ranges[0]
-    startColumn = start.column
-    endColumn = end.column
+    {start: {column: startColumn}, end: {column: endColumn}} = ranges[0]
+    previousRow = null
+    for range in ranges
+      {start, end} = range
+      unless ((start.column is startColumn) and (end.column is endColumn))
+        return false
+
+      if previousRow? and (previousRow + 1 isnt start.row)
+        return false
+      previousRow = start.row
+    return true
 
     ranges.every ({start, end}) ->
       (start.column is startColumn) and (end.column is endColumn)

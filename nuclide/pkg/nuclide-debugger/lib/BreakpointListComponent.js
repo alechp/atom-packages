@@ -11,7 +11,7 @@ function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _nuclideUri;
 
@@ -49,7 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class BreakpointListComponent extends _reactForAtom.React.Component {
+class BreakpointListComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -94,7 +94,7 @@ class BreakpointListComponent extends _reactForAtom.React.Component {
   render() {
     const { breakpoints } = this.state;
     if (breakpoints == null || breakpoints.length === 0) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'span',
         null,
         '(no breakpoints)'
@@ -110,33 +110,39 @@ class BreakpointListComponent extends _reactForAtom.React.Component {
         basename,
         line,
         enabled,
-        resolved
+        resolved,
+        path
       } = breakpoint;
       const label = `${basename}:${line + 1}`;
-      const content = _reactForAtom.React.createElement(
+      const title = resolved ? null : 'Unresolved Breakpoint';
+      const content = _react.default.createElement(
         'div',
         { className: 'nuclide-debugger-breakpoint', key: i },
-        _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+        _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
           checked: enabled,
           indeterminate: !resolved,
           disabled: !resolved,
           onChange: this._handleBreakpointEnabledChange.bind(this, breakpoint),
-          title: resolved ? null : 'Unresolved Breakpoint',
+          title: title,
           className: (0, (_classnames || _load_classnames()).default)(resolved ? '' : 'nuclide-debugger-breakpoint-unresolved')
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
-          { className: 'nuclide-debugger-breakpoint' },
+          {
+            className: 'nuclide-debugger-breakpoint',
+            title: title,
+            'data-path': path,
+            'data-line': line },
           label
         )
       );
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         (_ListView || _load_ListView()).ListViewItem,
         { key: label, value: breakpoint },
         content
       );
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_ListView || _load_ListView()).ListView,
       {
         alternateBackground: true,

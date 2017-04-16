@@ -5,13 +5,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Portal = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Renders a single React element into a different part of the DOM. This allows you to maintain the
  * declarative nature of React components.
  */
-class Portal extends _reactForAtom.React.Component {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class Portal extends _react.default.Component {
 
   componentDidMount() {
     // Do the initial render.
@@ -28,11 +42,11 @@ class Portal extends _reactForAtom.React.Component {
 
   _render(element, container) {
     if (this._container != null && (container !== this._container || element == null)) {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(this._container);
+      _reactDom.default.unmountComponentAtNode(this._container);
     }
 
     if (element != null) {
-      _reactForAtom.ReactDOM.render(_reactForAtom.React.Children.only(element), container);
+      _reactDom.default.render(_react.default.Children.only(element), container);
     }
 
     this._container = container;
@@ -44,12 +58,4 @@ class Portal extends _reactForAtom.React.Component {
     return null;
   }
 }
-exports.Portal = Portal; /**
-                          * Copyright (c) 2015-present, Facebook, Inc.
-                          * All rights reserved.
-                          *
-                          * This source code is licensed under the license found in the LICENSE file in
-                          * the root directory of this source tree.
-                          *
-                          * 
-                          */
+exports.Portal = Portal;

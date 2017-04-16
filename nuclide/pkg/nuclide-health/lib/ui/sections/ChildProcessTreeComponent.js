@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _HandlesTableComponent;
 
@@ -14,21 +14,21 @@ function _load_HandlesTableComponent() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class ChildProcessTreeComponent extends _reactForAtom.React.Component {
+class ChildProcessTreeComponent extends _react.default.Component {
 
   render() {
     const { childProcessesTree } = this.props;
     if (!childProcessesTree) {
-      return _reactForAtom.React.createElement('div', null);
+      return _react.default.createElement('div', null);
     }
 
     const handles = [];
     flatten(handles, childProcessesTree, 0);
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
+      _react.default.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
         title: 'Process tree',
         handles: handles,
         keyed: ({ process, level }) => '\u00A0'.repeat(level * 3) + process.pid,

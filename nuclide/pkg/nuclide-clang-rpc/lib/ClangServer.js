@@ -78,13 +78,13 @@ function spawnClangProcess(src, serverArgs, flags) {
   // Note that safeSpawn() often overrides options.env.PATH, but that only happens when
   // options.env is undefined (which is not the case here). This will only be an issue if the
   // system cannot find `pythonExecutable`.
-  return (0, (_process || _load_process()).safeSpawn)(pythonExecutable, args, options);
+  return (0, (_process || _load_process()).createProcessStream)(pythonExecutable, args, options);
 }
 
 class ClangServer extends (_nuclideRpc || _load_nuclideRpc()).RpcProcess {
 
   constructor(src, serverArgs, flagsData) {
-    super(`ClangServer-${src}`, getServiceRegistry(), () => spawnClangProcess(src, serverArgs, flagsData.flags));
+    super(`ClangServer-${src}`, getServiceRegistry(), spawnClangProcess(src, serverArgs, flagsData.flags));
     this._usesDefaultFlags = flagsData.usesDefaultFlags;
     this._pendingCompileRequests = 0;
     this._serverStatus = new _rxjsBundlesRxMinJs.BehaviorSubject(ClangServer.Status.READY);

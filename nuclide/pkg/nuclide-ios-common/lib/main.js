@@ -25,9 +25,9 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getFbsimctlDevices() {
-  return (0, (_process || _load_process()).runCommand)('fbsimctl', ['--json', '--devices', '--name', '--udid', '--arch', 'list']).map(parseDevicesFromFbsimctlOutput).catch(error =>
+  return (0, (_process || _load_process()).runCommand)('fbsimctl', ['--json', '--devices', '--format=%n%u%a', 'list']).map(parseDevicesFromFbsimctlOutput)
   // Users may not have fbsimctl installed. If the command failed, just return an empty list.
-  _rxjsBundlesRxMinJs.Observable.of([])).share();
+  .catch(error => _rxjsBundlesRxMinJs.Observable.of([])).share();
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.
    * All rights reserved.
@@ -38,9 +38,9 @@ function getFbsimctlDevices() {
    * 
    */
 
-const getFbsimctlSimulators = exports.getFbsimctlSimulators = (0, (_lodash || _load_lodash()).default)(() => (0, (_process || _load_process()).runCommand)('fbsimctl', ['--json', '--simulators', '--name', '--udid', '--state', '--os', '--arch', 'list']).map(parseSimulatorsFromFbsimctlOutput).catch(error =>
+const getFbsimctlSimulators = exports.getFbsimctlSimulators = (0, (_lodash || _load_lodash()).default)(() => (0, (_process || _load_process()).runCommand)('fbsimctl', ['--json', '--simulators', '--format=%n%u%s%o%a', 'list']).map(parseSimulatorsFromFbsimctlOutput).catch(error => getSimulators())
 // Users may not have fbsimctl installed. Fall back to xcrun simctl in that case.
-getSimulators()).share());
+.share());
 
 const getSimulators = exports.getSimulators = (0, (_lodash || _load_lodash()).default)(() => (0, (_process || _load_process()).runCommand)('xcrun', ['simctl', 'list', 'devices']).map(parseSimulatorsFromSimctlOutput).catch(error =>
 // Users may not have xcrun installed. If the command failed, just return an empty list.

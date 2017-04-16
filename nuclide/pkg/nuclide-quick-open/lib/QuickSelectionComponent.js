@@ -42,7 +42,9 @@ function _load_humanizeKeystroke() {
   return _humanizeKeystroke = _interopRequireDefault(require('../../commons-node/humanizeKeystroke'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _classnames;
 
@@ -68,6 +70,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Determine what the applicable shortcut for a given action is within this component's context.
  * For example, this will return different keybindings on windows vs linux.
  */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
 function _findKeybindingForAction(action, target) {
   const matchingKeyBindings = atom.keymaps.findKeyBindings({
     command: action,
@@ -75,24 +87,16 @@ function _findKeybindingForAction(action, target) {
   });
   const keystroke = matchingKeyBindings.length && matchingKeyBindings[0].keystrokes || '';
   return (0, (_humanizeKeystroke || _load_humanizeKeystroke()).default)(keystroke);
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
 
-class QuickSelectionComponent extends _reactForAtom.React.Component {
+class QuickSelectionComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
 
     const initialProviderName = this.props.searchResultManager.getActiveProviderName();
-    const initialActiveTab = this.props.searchResultManager.getProviderByName(initialProviderName);
+    const initialActiveTab = this.props.searchResultManager.getProviderSpecByName(initialProviderName);
     const initialQuery = this.props.searchResultManager.getLastQuery() || '';
     const initialResults = this.props.searchResultManager.getResults(initialQuery, initialProviderName);
     const topOuterResult = (0, (_searchResultHelpers || _load_searchResultHelpers()).getOuterResults)('top', initialResults);
@@ -152,11 +156,11 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
         this.props.quickSelectionActions.query(query);
       });
     } else {
-      const activeProvider = this.props.searchResultManager.getProviderByName(nextProviderName);
+      const activeProviderSpec = this.props.searchResultManager.getProviderSpecByName(nextProviderName);
       const lastResults = this.props.searchResultManager.getResults(this.refs.queryInput.getText(), nextProviderName);
-      this._getTextEditor().setPlaceholderText(activeProvider.prompt);
+      this._getTextEditor().setPlaceholderText(activeProviderSpec.prompt);
       this.setState({
-        activeTab: activeProvider,
+        activeTab: activeProviderSpec,
         resultsByService: lastResults
       }, () => {
         process.nextTick(() => {
@@ -182,7 +186,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const modalNode = _reactForAtom.ReactDOM.findDOMNode(this);
+    const modalNode = _reactDom.default.findDOMNode(this);
     this._subscriptions.add(
     // $FlowFixMe
     atom.commands.add(modalNode, 'core:move-to-bottom', this._handleMoveToBottom),
@@ -413,7 +417,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
     if (!(this.refs && this.refs.selectionList)) {
       return;
     }
-    const listNode = _reactForAtom.ReactDOM.findDOMNode(this.refs.selectionList);
+    const listNode = _reactDom.default.findDOMNode(this.refs.selectionList);
     // $FlowFixMe
     const selectedNode = listNode.getElementsByClassName('selected')[0];
     // false is passed for @centerIfNeeded parameter, which defaults to true.
@@ -479,7 +483,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
 
   _getInputTextEditor() {
     // $FlowFixMe
-    return _reactForAtom.ReactDOM.findDOMNode(this.refs.queryInput);
+    return _reactDom.default.findDOMNode(this.refs.queryInput);
   }
 
   _getTextEditor() {
@@ -504,7 +508,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
       let keyBinding = null; // TODO
       const humanizedKeybinding = tab.action ? _findKeybindingForAction(tab.action, workspace) : '';
       if (humanizedKeybinding !== '') {
-        keyBinding = _reactForAtom.React.createElement(
+        keyBinding = _react.default.createElement(
           'kbd',
           { className: 'key-binding' },
           humanizedKeybinding
@@ -512,7 +516,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
       }
       return {
         name: tab.name,
-        tabContent: _reactForAtom.React.createElement(
+        tabContent: _react.default.createElement(
           'span',
           null,
           tab.title,
@@ -520,10 +524,10 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
         )
       };
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'omnisearch-tabs' },
-      _reactForAtom.React.createElement((_Tabs || _load_Tabs()).default, {
+      _react.default.createElement((_Tabs || _load_Tabs()).default, {
         tabs: tabs,
         activeTabName: this.state.activeTab.name,
         onActiveTabChange: this._handleTabChange
@@ -554,30 +558,30 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
           numQueriesOutstanding++;
           if (!isOmniSearchActive) {
             numTotalResultsRendered++;
-            message = _reactForAtom.React.createElement(
+            message = _react.default.createElement(
               'span',
               null,
-              _reactForAtom.React.createElement('span', { className: 'loading loading-spinner-tiny inline-block' }),
+              _react.default.createElement('span', { className: 'loading loading-spinner-tiny inline-block' }),
               'Loading...'
             );
           }
         } else if (resultsForDirectory.error && !isOmniSearchActive) {
-          message = _reactForAtom.React.createElement(
+          message = _react.default.createElement(
             'span',
             null,
-            _reactForAtom.React.createElement('span', { className: 'icon icon-circle-slash' }),
+            _react.default.createElement('span', { className: 'icon icon-circle-slash' }),
             'Error: ',
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'pre',
               null,
               resultsForDirectory.error
             )
           );
         } else if (resultsForDirectory.results.length === 0 && !isOmniSearchActive) {
-          message = _reactForAtom.React.createElement(
+          message = _react.default.createElement(
             'span',
             null,
-            _reactForAtom.React.createElement('span', { className: 'icon icon-x' }),
+            _react.default.createElement('span', { className: 'icon icon-x' }),
             'No results'
           );
         }
@@ -585,7 +589,7 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
           numResultsForService++;
           numTotalResultsRendered++;
           const isSelected = serviceName === this.state.selectedService && dirName === this.state.selectedDirectory && itemIndex === this.state.selectedItemIndex;
-          return _reactForAtom.React.createElement(
+          return _react.default.createElement(
             'li',
             {
               className: (0, (_classnames || _load_classnames()).default)({
@@ -604,22 +608,22 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
         // hide folders if only 1 level would be shown, or if no results were found
         const showDirectories = directoryNames.length > 1 && (!isOmniSearchActive || resultsForDirectory.results.length > 0);
         if (showDirectories) {
-          directoryLabel = _reactForAtom.React.createElement(
+          directoryLabel = _react.default.createElement(
             'div',
             { className: 'list-item' },
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'span',
               { className: 'icon icon-file-directory' },
               (_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(dirName)
             )
           );
         }
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'li',
           { className: (0, (_classnames || _load_classnames()).default)({ 'list-nested-item': showDirectories }), key: dirName },
           directoryLabel,
           message,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'ul',
             { className: 'list-tree' },
             itemComponents
@@ -628,20 +632,20 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
       });
       let serviceLabel = null;
       if (isOmniSearchActive && numResultsForService > 0) {
-        serviceLabel = _reactForAtom.React.createElement(
+        serviceLabel = _react.default.createElement(
           'div',
           { className: 'list-item' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: 'icon icon-gear' },
             serviceTitle
           )
         );
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'li',
           { className: 'list-nested-item', key: serviceName },
           serviceLabel,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'ul',
             { className: 'list-tree' },
             directoriesForService
@@ -653,41 +657,41 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
     const hasSearchResult = numTotalResultsRendered > 0;
     let omniSearchStatus = null;
     if (isOmniSearchActive && numQueriesOutstanding > 0) {
-      omniSearchStatus = _reactForAtom.React.createElement(
+      omniSearchStatus = _react.default.createElement(
         'span',
         null,
-        _reactForAtom.React.createElement('span', { className: 'loading loading-spinner-tiny inline-block' }),
+        _react.default.createElement('span', { className: 'loading loading-spinner-tiny inline-block' }),
         'Loading...'
       );
     } else if (isOmniSearchActive && !hasSearchResult) {
-      omniSearchStatus = _reactForAtom.React.createElement(
+      omniSearchStatus = _react.default.createElement(
         'li',
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           null,
-          _reactForAtom.React.createElement('span', { className: 'icon icon-x' }),
+          _react.default.createElement('span', { className: 'icon icon-x' }),
           'No results'
         )
       );
     }
     const disableOpenAll = !hasSearchResult || !this.state.activeTab.canOpenAll;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: 'select-list omnisearch-modal',
         ref: 'modal',
         onKeyPress: this._handleKeyPress },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'omnisearch-search-bar' },
-        _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
           className: 'omnisearch-pane',
           ref: 'queryInput',
           initialValue: this.state.initialQuery,
           placeholderText: this.state.activeTab.prompt
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           {
             className: 'omnisearch-open-all',
@@ -697,13 +701,13 @@ class QuickSelectionComponent extends _reactForAtom.React.Component {
         )
       ),
       this._renderTabs(),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'omnisearch-results' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'omnisearch-pane' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'ul',
             { className: 'list-tree', ref: 'selectionList' },
             services,

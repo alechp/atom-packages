@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AttachUiComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AttachProcessInfo;
 
@@ -61,7 +61,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class AttachUiComponent extends _reactForAtom.React.Component {
+class AttachUiComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -83,33 +83,33 @@ class AttachUiComponent extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'block' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-debugger-php-launch-attach-ui-select-project' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           null,
           'Selected Project Directory: '
         ),
-        _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+        _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
           className: 'inline-block nuclide-debugger-connection-box',
           options: this.state.pathMenuItems,
           onChange: this._handlePathsDropdownChange,
           value: this.state.selectedPathIndex
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'padded text-right' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           { onClick: this._handleCancelButtonClick },
           'Cancel'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           {
             buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY,

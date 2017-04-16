@@ -30,7 +30,9 @@ function _load_FileTreeStore() {
   return _FileTreeStore = require('./FileTreeStore');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _nuclideUri;
 
@@ -46,24 +48,25 @@ function _load_nuclideRemoteConnection() {
   return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-let atomPanel; /**
-                * Copyright (c) 2015-present, Facebook, Inc.
-                * All rights reserved.
-                *
-                * This source code is licensed under the license found in the LICENSE file in
-                * the root directory of this source tree.
-                *
-                * 
-                */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
+let atomPanel;
 let dialogComponent;
 
 class FileSystemActions {
@@ -174,7 +177,7 @@ class FileSystemActions {
   }
 
   _getHgRepositoryForPath(filePath) {
-    const repository = (0, (_vcs || _load_vcs()).repositoryForPath)(filePath);
+    const repository = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(filePath);
     if (repository != null && repository.getType() === 'hg') {
       return repository;
     }
@@ -245,11 +248,11 @@ class FileSystemActions {
     this._openDialog({
       iconClassName: 'icon-arrow-right',
       initialValue: (_nuclideUri || _load_nuclideUri()).default.basename(nodePath),
-      message: node.isContainer ? _reactForAtom.React.createElement(
+      message: node.isContainer ? _react.default.createElement(
         'span',
         null,
         'Enter the new path for the directory.'
-      ) : _reactForAtom.React.createElement(
+      ) : _react.default.createElement(
         'span',
         null,
         'Enter the new path for the file.'
@@ -285,7 +288,7 @@ class FileSystemActions {
     this._openDialog({
       iconClassName: 'icon-arrow-right',
       initialValue,
-      message: _reactForAtom.React.createElement(
+      message: _react.default.createElement(
         'span',
         null,
         'Enter the new path for the duplicate.'
@@ -324,13 +327,13 @@ class FileSystemActions {
   _openAddDialog(entryType, path, onConfirm, additionalOptions = {}) {
     this._openDialog({
       iconClassName: 'icon-file-add',
-      message: _reactForAtom.React.createElement(
+      message: _react.default.createElement(
         'span',
         null,
         'Enter the path for the new ',
         entryType,
         ' in the root:',
-        _reactForAtom.React.createElement('br', null),
+        _react.default.createElement('br', null),
         path
       ),
       onConfirm,
@@ -343,13 +346,13 @@ class FileSystemActions {
     this._closeDialog();
     const dialogHostElement = document.createElement('div');
     atomPanel = atom.workspace.addModalPanel({ item: dialogHostElement });
-    dialogComponent = _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_FileDialogComponent || _load_FileDialogComponent()).default, props), dialogHostElement);
+    dialogComponent = _reactDom.default.render(_react.default.createElement((_FileDialogComponent || _load_FileDialogComponent()).default, props), dialogHostElement);
   }
 
   _closeDialog() {
     if (atomPanel != null) {
       if (dialogComponent != null) {
-        _reactForAtom.ReactDOM.unmountComponentAtNode(atomPanel.getItem());
+        _reactDom.default.unmountComponentAtNode(atomPanel.getItem());
         dialogComponent = null;
       }
 

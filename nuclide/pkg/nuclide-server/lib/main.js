@@ -12,7 +12,13 @@ let main = (() => {
     process.on('SIGHUP', function () {});
 
     try {
-      const { port } = args;
+      const { port, expiration_days } = args;
+      if (expiration_days) {
+        setTimeout(function () {
+          logger.warn(`NuclideServer exiting - ${expiration_days} day expiration time reached.`);
+          (0, (_nuclideLogging || _load_nuclideLogging()).flushLogsAndExit)(0);
+        }, expiration_days * 24 * 60 * 60 * 1000);
+      }
       let { key, cert, ca } = args;
       if (key && cert && ca) {
         key = _fs.default.readFileSync(key);

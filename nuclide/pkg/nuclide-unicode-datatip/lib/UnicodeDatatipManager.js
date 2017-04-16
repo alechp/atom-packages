@@ -32,12 +32,7 @@ class UnicodeDatatipManager {
       inclusionPriority: 1
     };
 
-    service.addProvider(datatipProvider);
-    this.datatipService = service;
-    const disposable = new _atom.Disposable(() => {
-      service.removeProvider(datatipProvider);
-      this.datatipService = null;
-    });
+    const disposable = service.addProvider(datatipProvider);
     this._disposables.add(disposable);
     return disposable;
   }

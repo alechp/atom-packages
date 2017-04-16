@@ -5,7 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.syncBlockDecorations = syncBlockDecorations;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Instead of destroying all the decorations and re-rendering them on each edit,
@@ -20,6 +24,16 @@ var _reactForAtom = require('react-for-atom');
  *
  * @return an array of markers to be destroyed when the decorations are no longer needed.
  */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
 function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate, getElementWithProps, syncWidth = false) {
   const editor = editorElement.getModel();
   const decorations = editor.getDecorations({ diffBlockType });
@@ -44,7 +58,7 @@ function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate
 
     if (shouldUpdate(value, properties)) {
       const { element, customProps } = getElementWithProps(value);
-      _reactForAtom.ReactDOM.render(element, item);
+      _reactDom.default.render(element, item);
 
       Object.assign(properties, customProps);
 
@@ -70,9 +84,9 @@ function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate
     // The position should be `after` if the element is at the end of the file.
     const position = lineNumber >= editor.getLineCount() - 1 ? 'after' : 'before';
     const item = document.createElement('div');
-    _reactForAtom.ReactDOM.render(element, item);
+    _reactDom.default.render(element, item);
     marker.onDidDestroy(() => {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(item);
+      _reactDom.default.unmountComponentAtNode(item);
     });
     editor.decorateMarker(marker, Object.assign({}, customProps, {
       type: 'block',
@@ -84,12 +98,4 @@ function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate
   }
 
   return markers;
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}

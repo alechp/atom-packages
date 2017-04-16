@@ -49,9 +49,7 @@ exports.default = (() => {
     });
 
     const testWindow = remote.BrowserWindow.getAllWindows().find(function (browserWindow) {
-      return !initialWindows.includes(browserWindow) &&
-      // $FlowFixMe: Missing def
-      browserWindow.getURL().includes('initialize-test-window.js');
+      return !initialWindows.includes(browserWindow);
     });
 
     if (testWindow == null) {

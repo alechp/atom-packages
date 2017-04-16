@@ -24,8 +24,8 @@
 
 require('immutable');
 require('log4js');
-require('react-for-atom').React;
-require('react-for-atom').ReactDOM;
+require('react');
+require('react-dom');
 require('redux');
 require('rxjs/bundles/Rx.min.js');
 

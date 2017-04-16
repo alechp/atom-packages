@@ -83,6 +83,7 @@ function highlightedOutlines(outline, editor) {
 function treeToUiTree(outlineTree, nameOnly) {
   const shortName = nameOnly && outlineTree.representativeName != null;
   return {
+    icon: nameOnly ? undefined : outlineTree.icon,
     plainText: shortName ? outlineTree.representativeName : outlineTree.plainText,
     tokenizedText: shortName ? undefined : outlineTree.tokenizedText,
     startPosition: outlineTree.startPosition,

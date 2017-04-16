@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.deactivate = deactivate;
 exports.consumePlatformService = consumePlatformService;
 
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
 var _atom = require('atom');
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
@@ -17,6 +23,8 @@ function _load_nuclideIosCommon() {
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -59,8 +67,8 @@ function provideIosDevices(buckRoot, ruleType, buildTarget) {
       name: 'iOS Simulators',
       platforms: [{
         name: 'iOS Simulators',
-        tasks: getTasks(ruleType),
-        runTask: (builder, taskType, target, device) => _runTask(builder, taskType, ruleType, target, device),
+        tasksForDevice: device => getTasks(buckRoot, ruleType),
+        runTask: (builder, taskType, target, device) => _runTask(buckRoot, builder, taskType, ruleType, target, device),
         deviceGroups: [{
           name: 'iOS Simulators',
           devices: simulators.map(simulator => ({
@@ -74,15 +82,19 @@ function provideIosDevices(buckRoot, ruleType, buildTarget) {
   });
 }
 
-function getTasks(ruleType) {
-  const tasks = new Set(['build', 'test', 'debug']);
+function getTasks(buckRoot, ruleType) {
+  const tasks = new Set(['build']);
   if (RUNNABLE_RULE_TYPES.has(ruleType)) {
     tasks.add('run');
+  }
+  if (!(_nuclideUri || _load_nuclideUri()).default.isRemote(buckRoot)) {
+    tasks.add('test');
+    tasks.add('debug');
   }
   return tasks;
 }
 
-function _runTask(builder, taskType, ruleType, buildTarget, device) {
+function _runTask(buckRoot, builder, taskType, ruleType, buildTarget, device) {
   if (!device) {
     throw new Error('Invariant violation: "device"');
   }
@@ -106,14 +118,32 @@ function _runTask(builder, taskType, ruleType, buildTarget, device) {
     throw new Error('Invariant violation: "typeof udid === \'string\'"');
   }
 
-  const subcommand = _getSubcommand(taskType, ruleType);
   const flavor = `iphonesimulator-${arch}`;
-  const newTarget = Object.assign({}, buildTarget, { flavors: buildTarget.flavors.concat([flavor]) });
+  const newTarget = Object.assign({}, buildTarget, {
+    flavors: buildTarget.flavors.concat([flavor])
+  });
 
-  return builder.runSubcommand(subcommand, newTarget, {}, taskType === 'debug', udid);
+  if ((_nuclideUri || _load_nuclideUri()).default.isRemote(buckRoot)) {
+    let runRemoteTask;
+    try {
+      // $FlowFB
+      const remoteWorkflow = require('./fb-RemoteWorkflow');
+      runRemoteTask = () => {
+        return remoteWorkflow.runRemoteTask(buckRoot, builder, taskType, ruleType, buildTarget, udid, flavor);
+      };
+    } catch (_) {
+      runRemoteTask = () => {
+        throw new Error('Remote workflow currently unsupported for this target.');
+      };
+    }
+
+    return runRemoteTask();
+  } else {
+    return builder.runSubcommand(_getLocalSubcommand(taskType, ruleType), newTarget, {}, taskType === 'debug', udid);
+  }
 }
 
-function _getSubcommand(taskType, ruleType) {
+function _getLocalSubcommand(taskType, ruleType) {
   if (taskType !== 'run' && taskType !== 'debug') {
     return taskType;
   }

@@ -88,10 +88,12 @@ class AutocompleteCacher {
     return (0, _asyncToGenerator.default)(function* () {
       const firstResult = yield firstResultPromise;
       if (firstResult != null) {
-        return _this2._config.updateResults(request, firstResult);
-      } else {
-        return resultFromLanguageService;
+        const updated = _this2._config.updateResults(request, firstResult);
+        if (updated != null) {
+          return updated;
+        }
       }
+      return resultFromLanguageService;
     })();
   }
 

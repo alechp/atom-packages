@@ -11,7 +11,7 @@ function _load_ArcToolbarSection() {
   return _ArcToolbarSection = _interopRequireDefault(require('../ArcToolbarSection'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22,9 +22,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * too.
  */
 function createExtraUiComponent(model) {
-  return class ExtraUi extends _reactForAtom.React.Component {
+  return class ExtraUi extends _react.default.Component {
     render() {
-      return _reactForAtom.React.createElement((_ArcToolbarSection || _load_ArcToolbarSection()).default, { model: model });
+      return _react.default.createElement((_ArcToolbarSection || _load_ArcToolbarSection()).default, { model: model });
     }
   };
 } /**

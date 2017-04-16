@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLastCommandInfo = exports.resolveBuildTargetName = exports.queryWithArgs = exports.query = exports.getHTTPServerPort = exports.buildRuleTypeFor = exports.showOutput = exports.resolveAlias = exports.listFlavors = exports.listAliases = exports.getBuckConfig = exports.getOwners = exports.getBuildFile = exports.MULTIPLE_TARGET_RULE_TYPE = undefined;
+exports.getLastCommandInfo = exports.queryWithArgs = exports.query = exports.getHTTPServerPort = exports._buildRuleTypeFor = exports.buildRuleTypeFor = exports.showOutput = exports.resolveAlias = exports.listFlavors = exports.listAliases = exports.getBuckConfig = exports.getOwners = exports.getBuildFile = exports.MULTIPLE_TARGET_RULE_TYPE = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
@@ -37,7 +37,10 @@ let getBuildFile = exports.getBuildFile = (() => {
 
 let _runBuckCommandFromProjectRoot = (() => {
   var _ref2 = (0, _asyncToGenerator.default)(function* (rootPath, args, commandOptions, addClientId = true, readOnly = true) {
-    const { pathToBuck, buckCommandOptions: options } = yield _getBuckCommandAndOptions(rootPath, commandOptions);
+    const {
+      pathToBuck,
+      buckCommandOptions: options
+    } = yield _getBuckCommandAndOptions(rootPath, commandOptions);
 
     const newArgs = addClientId ? args.concat(CLIENT_ID_ARGS) : args;
     logger.debug('Buck command:', pathToBuck, newArgs, options);
@@ -268,8 +271,8 @@ let resolveAlias = exports.resolveAlias = (() => {
 
 
 let showOutput = exports.showOutput = (() => {
-  var _ref11 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget) {
-    const args = ['targets', '--json', '--show-output', aliasOrTarget];
+  var _ref11 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget, extraArguments = []) {
+    const args = ['targets', '--json', '--show-output', aliasOrTarget].concat(extraArguments);
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
     return JSON.parse(result.stdout.trim());
   });
@@ -280,7 +283,39 @@ let showOutput = exports.showOutput = (() => {
 })();
 
 let buildRuleTypeFor = exports.buildRuleTypeFor = (() => {
-  var _ref12 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget) {
+  var _ref12 = (0, _asyncToGenerator.default)(function* (rootPath, aliasesOrTargets) {
+    const resolvedRuleTypes = yield Promise.all(aliasesOrTargets.trim().split(/\s+/).map(function (target) {
+      return _buildRuleTypeFor(rootPath, target);
+    }));
+
+    if (resolvedRuleTypes.length === 1) {
+      return resolvedRuleTypes[0];
+    } else {
+      return {
+        buildTarget: {
+          qualifiedName: aliasesOrTargets,
+          flavors: []
+        },
+        type: MULTIPLE_TARGET_RULE_TYPE
+      };
+    }
+  });
+
+  return function buildRuleTypeFor(_x24, _x25) {
+    return _ref12.apply(this, arguments);
+  };
+})();
+
+let _buildRuleTypeFor = exports._buildRuleTypeFor = (() => {
+  var _ref13 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget) {
+    let flavors;
+    if (aliasOrTarget.includes('#')) {
+      const nameComponents = aliasOrTarget.split('#');
+      flavors = nameComponents.length === 2 ? nameComponents[1].split(',') : [];
+    } else {
+      flavors = [];
+    }
+
     const canonicalName = _normalizeNameForBuckQuery(aliasOrTarget);
     const args = ['query', canonicalName, '--json', '--output-attributes', 'buck.type'];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
@@ -290,16 +325,28 @@ let buildRuleTypeFor = exports.buildRuleTypeFor = (() => {
     if (targets.length === 0) {
       throw new Error(`Error determining rule type of '${aliasOrTarget}'.`);
     }
+    let qualifiedName;
+    let type;
     // target: and target/... build a set of targets.
     // These don't have a single rule type so let's just return something.
     if (targets.length > 1) {
-      return MULTIPLE_TARGET_RULE_TYPE;
+      qualifiedName = canonicalName;
+      type = MULTIPLE_TARGET_RULE_TYPE;
+    } else {
+      qualifiedName = targets[0];
+      type = json[qualifiedName]['buck.type'];
     }
-    return json[targets[0]]['buck.type'];
+    return {
+      buildTarget: {
+        qualifiedName,
+        flavors
+      },
+      type
+    };
   });
 
-  return function buildRuleTypeFor(_x24, _x25) {
-    return _ref12.apply(this, arguments);
+  return function _buildRuleTypeFor(_x26, _x27) {
+    return _ref13.apply(this, arguments);
   };
 })();
 
@@ -307,15 +354,35 @@ let buildRuleTypeFor = exports.buildRuleTypeFor = (() => {
 
 
 let getHTTPServerPort = exports.getHTTPServerPort = (() => {
-  var _ref13 = (0, _asyncToGenerator.default)(function* (rootPath) {
+  var _ref14 = (0, _asyncToGenerator.default)(function* (rootPath) {
+    let port = _cachedPorts.get(rootPath);
+    if (port != null) {
+      if (port === -1) {
+        return port;
+      }
+      // If there are other builds on the promise queue, wait them out.
+      // This ensures that we don't return the port for another build.
+      yield getPool(rootPath, false).submit(function () {
+        return Promise.resolve();
+      });
+      const msg = yield getWebSocketStream(rootPath, port).refCount().take(1).toPromise().catch(function () {
+        return null;
+      });
+      if (msg != null && msg.type === 'SocketConnected') {
+        return port;
+      }
+    }
+
     const args = ['server', 'status', '--json', '--http-port'];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
     const json = JSON.parse(result.stdout);
-    return json['http.port'];
+    port = json['http.port'];
+    _cachedPorts.set(rootPath, port);
+    return port;
   });
 
-  return function getHTTPServerPort(_x26) {
-    return _ref13.apply(this, arguments);
+  return function getHTTPServerPort(_x28) {
+    return _ref14.apply(this, arguments);
   };
 })();
 
@@ -323,15 +390,15 @@ let getHTTPServerPort = exports.getHTTPServerPort = (() => {
 
 
 let query = exports.query = (() => {
-  var _ref14 = (0, _asyncToGenerator.default)(function* (rootPath, queryString) {
+  var _ref15 = (0, _asyncToGenerator.default)(function* (rootPath, queryString) {
     const args = ['query', '--json', queryString];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
     const json = JSON.parse(result.stdout);
     return json;
   });
 
-  return function query(_x27, _x28) {
-    return _ref14.apply(this, arguments);
+  return function query(_x29, _x30) {
+    return _ref15.apply(this, arguments);
   };
 })();
 
@@ -347,7 +414,7 @@ let query = exports.query = (() => {
 
 
 let queryWithArgs = exports.queryWithArgs = (() => {
-  var _ref15 = (0, _asyncToGenerator.default)(function* (rootPath, queryString, args) {
+  var _ref16 = (0, _asyncToGenerator.default)(function* (rootPath, queryString, args) {
     const completeArgs = ['query', '--json', queryString].concat(args);
     const result = yield _runBuckCommandFromProjectRoot(rootPath, completeArgs);
     const json = JSON.parse(result.stdout);
@@ -362,26 +429,7 @@ let queryWithArgs = exports.queryWithArgs = (() => {
     return json;
   });
 
-  return function queryWithArgs(_x29, _x30, _x31) {
-    return _ref15.apply(this, arguments);
-  };
-})();
-
-let resolveBuildTargetName = exports.resolveBuildTargetName = (() => {
-  var _ref16 = (0, _asyncToGenerator.default)(function* (buckRoot, nameOrAlias) {
-    const canonicalName = _normalizeNameForBuckQuery(nameOrAlias);
-    const qualifiedName = yield resolveAlias(buckRoot, canonicalName);
-    let flavors;
-    if (nameOrAlias.includes('#')) {
-      const nameComponents = nameOrAlias.split('#');
-      flavors = nameComponents.length === 2 ? nameComponents[1].split(',') : [];
-    } else {
-      flavors = [];
-    }
-    return { qualifiedName, flavors };
-  });
-
-  return function resolveBuildTargetName(_x32, _x33) {
+  return function queryWithArgs(_x31, _x32, _x33) {
     return _ref16.apply(this, arguments);
   };
 })();
@@ -566,7 +614,11 @@ function buildWithOutput(rootPath, buildTargets, extraArguments) {
  *   onCompleted: Only called if the build completes successfully.
  */
 function testWithOutput(rootPath, buildTargets, extraArguments, debug) {
-  return _buildWithOutput(rootPath, buildTargets, { test: true, extraArguments, debug }).publish();
+  return _buildWithOutput(rootPath, buildTargets, {
+    test: true,
+    extraArguments,
+    debug
+  }).publish();
 }
 
 /**
@@ -608,7 +660,7 @@ function _buildWithOutput(rootPath, buildTargets, options) {
     baseOptions: Object.assign({}, options),
     buildTargets
   });
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(_getBuckCommandAndOptions(rootPath)).switchMap(({ pathToBuck, buckCommandOptions }) => (0, (_process || _load_process()).observeProcess)(() => (0, (_process || _load_process()).safeSpawn)(pathToBuck, args, buckCommandOptions)).startWith({
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(_getBuckCommandAndOptions(rootPath)).switchMap(({ pathToBuck, buckCommandOptions }) => (0, (_process || _load_process()).observeProcess)(pathToBuck, args, Object.assign({}, buckCommandOptions)).startWith({
     kind: 'stdout',
     data: `Starting "${pathToBuck} ${_getArgsStringSkipClientId(args)}"`
   }));
@@ -684,6 +736,8 @@ function _normalizeNameForBuckQuery(aliasOrTarget) {
   }
   return canonicalName;
 }
+
+const _cachedPorts = new Map();
 
 function getWebSocketStream(rootPath, httpPort) {
   return (0, (_createBuckWebSocket || _load_createBuckWebSocket()).default)(httpPort).publish();

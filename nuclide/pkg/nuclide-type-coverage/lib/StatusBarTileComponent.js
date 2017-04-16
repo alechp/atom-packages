@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StatusBarTileComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _addTooltip;
 
@@ -41,7 +41,7 @@ const REALLY_BAD_THRESHOLD = 50;
 const NOT_GREAT_THRESHOLD = 80;
 const COLOR_DISPLAY_SETTING = 'nuclide-type-coverage.colorizeStatusBar';
 
-class StatusBarTileComponent extends _reactForAtom.React.Component {
+class StatusBarTileComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -66,7 +66,7 @@ class StatusBarTileComponent extends _reactForAtom.React.Component {
       }, colorClasses));
       const formattedPercentage = `${Math.floor(percentage)}%`;
       const tooltipString = getTooltipString(formattedPercentage, result.providerName);
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         {
           style: { cursor: 'pointer' },

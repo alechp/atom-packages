@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _FileReferencesView;
 
@@ -29,8 +31,6 @@ function _load_string() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Number of files to show on every page.
-const PAGE_SIZE = 10;
-// Start loading more once the user scrolls within this many pixels of the bottom.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -41,9 +41,11 @@ const PAGE_SIZE = 10;
  * 
  */
 
+const PAGE_SIZE = 10;
+// Start loading more once the user scrolls within this many pixels of the bottom.
 const SCROLL_LOAD_THRESHOLD = 250;
 
-class FindReferencesView extends _reactForAtom.React.Component {
+class FindReferencesView extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -77,7 +79,7 @@ class FindReferencesView extends _reactForAtom.React.Component {
   }
 
   _onScroll(evt) {
-    const root = _reactForAtom.ReactDOM.findDOMNode(this.refs.root);
+    const root = _reactDom.default.findDOMNode(this.refs.root);
     // $FlowFixMe
     if (this.state.loading || root.clientHeight >= root.scrollHeight) {
       return;
@@ -96,7 +98,7 @@ class FindReferencesView extends _reactForAtom.React.Component {
   }
 
   render() {
-    const children = this.state.references.map((fileRefs, i) => _reactForAtom.React.createElement((_FileReferencesView || _load_FileReferencesView()).default, Object.assign({
+    const children = this.state.references.map((fileRefs, i) => _react.default.createElement((_FileReferencesView || _load_FileReferencesView()).default, Object.assign({
       key: i,
       isSelected: this.state.selected === i
     }, fileRefs, {
@@ -107,16 +109,16 @@ class FindReferencesView extends _reactForAtom.React.Component {
     const refCount = this.props.model.getReferenceCount();
     const fileCount = this.props.model.getFileCount();
     if (this.state.fetched < fileCount) {
-      children.push(_reactForAtom.React.createElement('div', {
+      children.push(_react.default.createElement('div', {
         key: 'loading',
         className: 'nuclide-find-references-loading loading-spinner-medium'
       }));
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-find-references' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-find-references-count panel-heading' },
         refCount,
@@ -129,13 +131,13 @@ class FindReferencesView extends _reactForAtom.React.Component {
         (0, (_string || _load_string()).pluralize)('file', fileCount),
         ' for',
         ' ',
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'highlight-info' },
           this.props.model.getSymbolName()
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'ul',
         { className: 'nuclide-find-references-files list-tree has-collapsable-children',
           onScroll: this._onScroll, ref: 'root', tabIndex: '0' },

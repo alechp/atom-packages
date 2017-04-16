@@ -23,6 +23,16 @@ function _load_Actions() {
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
 function setProjectRootEpic(actions, store) {
   return actions.ofType((_Actions || _load_Actions()).SET_PROJECT_ROOT).switchMap(action => {
     if (!(action.type === (_Actions || _load_Actions()).SET_PROJECT_ROOT)) {
@@ -38,16 +48,6 @@ function setProjectRootEpic(actions, store) {
 }
 
 // Intentionally not exposed in Actions; this shouldn't be used externally.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 function setRuleType(ruleType) {
   return { type: (_Actions || _load_Actions()).SET_RULE_TYPE, ruleType };
 }
@@ -65,14 +65,14 @@ function setBuildTargetEpic(actions, store) {
     const { buildTarget } = action;
     const { buckRoot } = store.getState();
     if (buckRoot == null || buildTarget === '') {
-      return _rxjsBundlesRxMinJs.Observable.of(setRuleType(null));
+      return _rxjsBundlesRxMinJs.Observable.of(null);
     }
     const buckService = (0, (_nuclideBuckBase || _load_nuclideBuckBase()).getBuckService)(buckRoot);
     if (buckService == null) {
-      return _rxjsBundlesRxMinJs.Observable.of(setRuleType(null));
+      return _rxjsBundlesRxMinJs.Observable.of(null);
     }
-    return _rxjsBundlesRxMinJs.Observable.fromPromise(buckService.buildRuleTypeFor(buckRoot, buildTarget)).catch(() => _rxjsBundlesRxMinJs.Observable.of(null)).switchMap(ruleType => _rxjsBundlesRxMinJs.Observable.of(setRuleType(ruleType)));
-  });
+    return _rxjsBundlesRxMinJs.Observable.defer(() => buckService.buildRuleTypeFor(buckRoot, buildTarget)).catch(() => _rxjsBundlesRxMinJs.Observable.of(null));
+  }).switchMap(ruleType => _rxjsBundlesRxMinJs.Observable.of(setRuleType(ruleType)));
 }
 
 function setRuleTypeEpic(actions, store) {
@@ -89,7 +89,7 @@ function setRuleTypeEpic(actions, store) {
         throw new Error('Invariant violation: "state.buckRoot"');
       }
 
-      return state.platformService.getPlatformGroups(state.buckRoot, ruleType, state.buildTarget).map(platformGroups => setPlatformGroups(platformGroups));
+      return state.platformService.getPlatformGroups(state.buckRoot, ruleType.type, state.buildTarget).map(platformGroups => setPlatformGroups(platformGroups));
     } else {
       return _rxjsBundlesRxMinJs.Observable.of(setPlatformGroups([]));
     }

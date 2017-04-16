@@ -1,7 +1,5 @@
 'use strict';
 
-var _atom = require('atom');
-
 var _nuclideAnalytics;
 
 function _load_nuclideAnalytics() {
@@ -114,21 +112,6 @@ class Activation {
     this._getStatusBarTile().consumeStatusBar(statusBar);
   }
 
-  consumeToolBar(getToolBar) {
-    const toolBar = getToolBar('nuclide-diagnostics-ui');
-    toolBar.addButton({
-      icon: 'law',
-      callback: 'nuclide-diagnostics-ui:toggle-table',
-      tooltip: 'Toggle Diagnostics Table',
-      priority: 100
-    });
-    const disposable = new _atom.Disposable(() => {
-      toolBar.removeItems();
-    });
-    this._subscriptions.add(disposable);
-    return disposable;
-  }
-
   deserializeDiagnosticsPanelModel() {
     return this._createDiagnosticsPanelModel();
   }
@@ -143,20 +126,6 @@ class Activation {
 
   serialize() {
     return this._state;
-  }
-
-  getHomeFragments() {
-    return {
-      feature: {
-        title: 'Diagnostics',
-        icon: 'law',
-        description: 'Displays diagnostics, errors, and lint warnings for your files and projects.',
-        command: () => {
-          atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-diagnostics-ui:toggle-table', { visible: true });
-        }
-      },
-      priority: 4
-    };
   }
 
   _createDiagnosticsPanelModel() {

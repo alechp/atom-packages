@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,7 +33,7 @@ const ButtonToolbar = exports.ButtonToolbar = props => {
     children,
     className
   } = props;
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     { className: (0, (_classnames || _load_classnames()).default)('btn-toolbar', className) },
     children

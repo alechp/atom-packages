@@ -5,7 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = addTooltip;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
 * Adds a self-disposing Atom's tooltip to a react element.
@@ -18,6 +22,16 @@ var _reactForAtom = require('react-for-atom');
 *   this._myDiv = c;
 * }} />
 */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
 function addTooltip(options) {
   let prevRefDisposable;
 
@@ -31,7 +45,7 @@ function addTooltip(options) {
 
     if (elementRef != null) {
       // $FlowFixMe -- findDOMNode takes a React.Component or an HTMLElement.
-      const node = _reactForAtom.ReactDOM.findDOMNode(elementRef);
+      const node = _reactDom.default.findDOMNode(elementRef);
 
       // Sooooo... Atom tooltip does the keybinding lookup at creation time
       // instead of display time. And, it uses a CSS selector to figure out
@@ -51,12 +65,4 @@ function addTooltip(options) {
       });
     }
   };
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}

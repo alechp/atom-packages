@@ -5,10 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.hgRepositoryForEditor = hgRepositoryForEditor;
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 /**
@@ -22,7 +22,7 @@ function _load_vcs() {
  */
 
 function hgRepositoryForEditor(editor) {
-  const repo = (0, (_vcs || _load_vcs()).repositoryForPath)(editor.getPath() || '');
+  const repo = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(editor.getPath() || '');
   if (!repo || repo.getType() !== 'hg') {
     return null;
   }

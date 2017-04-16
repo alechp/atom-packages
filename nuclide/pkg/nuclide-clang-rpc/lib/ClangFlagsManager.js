@@ -484,7 +484,12 @@ class ClangFlagsManager {
       const buildTarget = target + '#compilation-database';
       // Since this is a background process, avoid stressing the system.
       const maxLoad = _os.default.cpus().length / 2;
-      const buildReport = yield (_nuclideBuckRpc || _load_nuclideBuckRpc()).build(buckProjectRoot, [buildTarget, '-L', String(maxLoad)], { commandOptions: { timeout: BUCK_TIMEOUT } });
+      const buildReport = yield (_nuclideBuckRpc || _load_nuclideBuckRpc()).build(buckProjectRoot, [
+      // Small builds, like those used for a compilation database, can degrade overall
+      // `buck build` performance by unnecessarily invalidating the Action Graph cache.
+      // See https://buckbuild.com/concept/buckconfig.html#client.skip-action-graph-cache
+      // for details on the importance of using skip-action-graph-cache=true.
+      '--config', 'client.skip-action-graph-cache=true', buildTarget, '-L', String(maxLoad)], { commandOptions: { timeout: BUCK_TIMEOUT } });
       if (!buildReport.success) {
         const error = `Failed to build ${buildTarget}`;
         logger.error(error);

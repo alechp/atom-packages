@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DebuggerDatatipComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LazyNestedValueComponent;
 
@@ -21,7 +21,7 @@ function _load_SimpleValueComponent() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class DebuggerDatatipComponent extends _reactForAtom.React.Component {
+class DebuggerDatatipComponent extends _react.default.Component {
 
   render() {
     const {
@@ -30,13 +30,13 @@ class DebuggerDatatipComponent extends _reactForAtom.React.Component {
       watchExpressionStore
     } = this.props;
     const fetchChildren = watchExpressionStore.getProperties.bind(watchExpressionStore);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-datatip' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: 'nuclide-debugger-datatip-value' },
-        _reactForAtom.React.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
+        _react.default.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
           evaluationResult: evaluationResult,
           expression: expression,
           fetchChildren: fetchChildren,

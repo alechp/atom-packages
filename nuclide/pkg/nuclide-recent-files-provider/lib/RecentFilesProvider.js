@@ -4,6 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RecentFilesProvider = undefined;
+
+var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
 exports.setRecentFilesService = setRecentFilesService;
 
 var _nuclideUri;
@@ -12,7 +15,7 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _collection;
 
@@ -103,7 +106,13 @@ const RecentFilesProvider = exports.RecentFilesProvider = {
     action: 'nuclide-recent-files-provider:toggle-provider'
   },
 
-  executeQuery(query) {
+  isEligibleForDirectories(directories) {
+    return (0, _asyncToGenerator.default)(function* () {
+      return true;
+    })();
+  },
+
+  executeQuery(query, directories) {
     return Promise.resolve(getRecentFilesMatching(query));
   },
 
@@ -112,32 +121,32 @@ const RecentFilesProvider = exports.RecentFilesProvider = {
     const filePath = item.path.substring(0, item.path.lastIndexOf(filename));
     const date = item.timestamp == null ? null : new Date(item.timestamp);
     const datetime = date === null ? '' : date.toLocaleString();
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: 'recent-files-provider-result',
         style: { opacity: opacityForTimestamp(item.timestamp || Date.now()) },
         title: datetime },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'recent-files-provider-filepath-container' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           {
             className: 'icon icon-file-text file recent-files-provider-file-path',
             'data-name': filename },
           filePath
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'recent-files-provider-file-name' },
           filename
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'recent-files-provider-datetime-container' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'recent-files-provider-datetime-label' },
           date === null ? 'At some point' : (0, (_string || _load_string()).relativeDate)(date)

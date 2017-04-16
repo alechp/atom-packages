@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RadioGroupExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -31,7 +31,7 @@ const labels = ['choose', 'from', 'one of', 'several', 'options']; /**
                                                                     * 
                                                                     */
 
-class RadioGroupExample extends _reactForAtom.React.Component {
+class RadioGroupExample extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -48,10 +48,10 @@ class RadioGroupExample extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Block || _load_Block()).Block,
       null,
-      _reactForAtom.React.createElement((_RadioGroup || _load_RadioGroup()).default, {
+      _react.default.createElement((_RadioGroup || _load_RadioGroup()).default, {
         selectedIndex: this.state.selectedIndex,
         optionLabels: labels,
         onSelectedChange: this.onSelectedChange

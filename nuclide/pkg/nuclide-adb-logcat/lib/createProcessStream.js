@@ -38,7 +38,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 function createProcessStream() {
-  const processEvents = (0, (_process || _load_process()).observeProcess)(spawnAdbLogcat).share();
+  const processEvents = (0, (_process || _load_process()).observeProcess)((_featureConfig || _load_featureConfig()).default.get('nuclide-adb-logcat.pathToAdb'), ['logcat', '-v', 'long']).share();
   const stdoutEvents = processEvents.filter(event => event.kind === 'stdout')
   // Not all versions of adb have a way to skip historical logs so we just ignore the first
   // second.
@@ -74,10 +74,6 @@ function createProcessStream() {
   }, { event: null, lastError: null }).map(acc => acc.event))
   // Only get the text from stdout.
   .filter(event => event.kind === 'stdout').map(event => event.data && event.data.replace(/\r*\n$/, ''));
-}
-
-function spawnAdbLogcat() {
-  return (0, (_process || _load_process()).safeSpawn)((_featureConfig || _load_featureConfig()).default.get('nuclide-adb-logcat.pathToAdb'), ['logcat', '-v', 'long']);
 }
 
 function parseError(line) {

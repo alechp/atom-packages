@@ -15,7 +15,7 @@ let createEditorForNuclide = (() => {
     try {
       let buffer;
       try {
-        buffer = yield (0, (_loadingNotification || _load_loadingNotification()).default)((0, (_textBuffer || _load_textBuffer()).loadBufferForUri)(uri), `Opening \`${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(uri)}\`...`, 1000);
+        buffer = yield (0, (_loadingNotification || _load_loadingNotification()).default)((0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).loadBufferForUri)(uri), `Opening \`${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(uri)}\`...`, 1000);
       } catch (err) {
         // Suppress ENOENT errors which occur if the file doesn't exist.
         // This is the same thing Atom does when opening a file (given a URI) that doesn't exist.
@@ -28,7 +28,7 @@ let createEditorForNuclide = (() => {
         // as `loaded` and the proper events are fired. The effect of all of this
         // is that files that don't exist remotely anymore are shown as empty
         // unsaved text editors.
-        buffer = (0, (_textBuffer || _load_textBuffer()).bufferForUri)(uri);
+        buffer = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).bufferForUri)(uri);
         buffer.finishLoading();
       }
       // When in "large file mode", syntax highlighting and line wrapping are
@@ -147,16 +147,16 @@ exports.createRemoteDirectorySearcher = createRemoteDirectorySearcher;
 exports.getHomeFragments = getHomeFragments;
 exports.provideRemoteProjectsService = provideRemoteProjectsService;
 
-var _textBuffer;
-
-function _load_textBuffer() {
-  return _textBuffer = require('../../commons-atom/text-buffer');
-}
-
 var _nuclideLogging;
 
 function _load_nuclideLogging() {
   return _nuclideLogging = require('../../nuclide-logging');
+}
+
+var _nuclideRemoteConnection;
+
+function _load_nuclideRemoteConnection() {
+  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
 }
 
 var _utils;
@@ -178,12 +178,6 @@ function _load_loadingNotification() {
 }
 
 var _atom = require('atom');
-
-var _nuclideRemoteConnection;
-
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
-}
 
 var _nuclideAnalytics;
 
@@ -306,6 +300,11 @@ function addRemoteFolderToProject(connection) {
       logger.info('Remaining remote projects using Nuclide Server - no prompt to shutdown');
       const shutdownIfLast = false;
       closeConnection(shutdownIfLast);
+      return;
+    }
+
+    if (connection.alwaysShutdownIfLast()) {
+      closeConnection(true);
       return;
     }
 

@@ -20,7 +20,7 @@ function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _SettingsPaneItem;
 
@@ -60,7 +60,7 @@ function deactivate() {
 function consumeWorkspaceViewsService(api) {
   subscriptions.add(api.addOpener(uri => {
     if (uri === (_SettingsPaneItem2 || _load_SettingsPaneItem2()).WORKSPACE_VIEW_URI) {
-      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_SettingsPaneItem || _load_SettingsPaneItem()).default, null));
+      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_SettingsPaneItem || _load_SettingsPaneItem()).default, null));
     }
   }), () => api.destroyWhere(item => item instanceof (_SettingsPaneItem || _load_SettingsPaneItem()).default), atom.commands.add('atom-workspace', 'nuclide-settings:toggle', event => {
     api.toggle((_SettingsPaneItem2 || _load_SettingsPaneItem2()).WORKSPACE_VIEW_URI, event.detail);

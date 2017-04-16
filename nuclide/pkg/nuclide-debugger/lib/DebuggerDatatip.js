@@ -51,16 +51,16 @@ let debuggerDatatip = exports.debuggerDatatip = (() => {
   };
 })();
 
-var _range;
-
-function _load_range() {
-  return _range = require('../../commons-atom/range');
-}
-
 var _bindObservableAsProps;
 
 function _load_bindObservableAsProps() {
   return _bindObservableAsProps = require('../../nuclide-ui/bindObservableAsProps');
+}
+
+var _EvaluationExpressionProvider;
+
+function _load_EvaluationExpressionProvider() {
+  return _EvaluationExpressionProvider = require('../../nuclide-language-service/lib/EvaluationExpressionProvider');
 }
 
 var _DebuggerStore;
@@ -88,21 +88,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 const DEFAULT_WORD_REGEX = /\w+/gi;
-function defaultGetEvaluationExpression(editor, position) {
-  const extractedIdentifier = (0, (_range || _load_range()).wordAtPosition)(editor, position, DEFAULT_WORD_REGEX);
-  if (extractedIdentifier == null) {
-    return Promise.resolve(null);
-  }
-  const {
-    wordMatch,
-    range
-  } = extractedIdentifier;
-  const [expression] = wordMatch;
-  return Promise.resolve({
-    expression,
-    range
-  });
-}
 
 function getEvaluationExpression(model, editor, position) {
   const { scopeName } = editor.getGrammar();
@@ -115,5 +100,5 @@ function getEvaluationExpression(model, editor, position) {
       break;
     }
   }
-  return matchingProvider === null ? defaultGetEvaluationExpression(editor, position) : matchingProvider.getEvaluationExpression(editor, position);
+  return matchingProvider === null ? Promise.resolve((0, (_EvaluationExpressionProvider || _load_EvaluationExpressionProvider()).getEvaluationExpressionFromRegexp)(editor, position, DEFAULT_WORD_REGEX)) : matchingProvider.getEvaluationExpression(editor, position);
 }

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OpenFilesListComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -39,7 +39,7 @@ function _load_goToLocation() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class OpenFilesListComponent extends _reactForAtom.React.PureComponent {
+class OpenFilesListComponent extends _react.default.PureComponent {
 
   constructor(props) {
     super(props);
@@ -102,18 +102,18 @@ class OpenFilesListComponent extends _reactForAtom.React.PureComponent {
   render() {
     const sortedEntries = propsToEntries(this.props);
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-file-tree-open-files' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_PanelComponentScroller || _load_PanelComponentScroller()).PanelComponentScroller,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'ul',
           { className: 'list-tree nuclide-file-tree-open-files-list' },
           sortedEntries.map(e => {
             const isHoveredUri = this.state.hoveredUri === e.uri;
-            return _reactForAtom.React.createElement(
+            return _react.default.createElement(
               'li',
               {
                 className: (0, (_classnames || _load_classnames()).default)('list-item', {
@@ -125,7 +125,7 @@ class OpenFilesListComponent extends _reactForAtom.React.PureComponent {
                 onMouseEnter: this._onListItemMouseEnter.bind(this, e),
                 onMouseLeave: this._onListItemMouseLeave,
                 ref: e.isSelected ? 'selectedRow' : null },
-              _reactForAtom.React.createElement('span', {
+              _react.default.createElement('span', {
                 className: (0, (_classnames || _load_classnames()).default)('icon', {
                   'icon-primitive-dot': e.isModified && !isHoveredUri,
                   'icon-x': isHoveredUri || !e.isModified,
@@ -133,7 +133,7 @@ class OpenFilesListComponent extends _reactForAtom.React.PureComponent {
                 }),
                 onClick: this._onCloseClick.bind(this, e)
               }),
-              _reactForAtom.React.createElement(
+              _react.default.createElement(
                 'span',
                 { className: 'icon icon-file-text', 'data-name': e.name },
                 e.name

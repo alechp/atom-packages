@@ -26,7 +26,7 @@ function _load_classnames() {
 
 var _electron = _interopRequireDefault(require('electron'));
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,7 +49,7 @@ if (!(remote != null)) {
 // For backwards compat, we have to do some conversion here.
 
 
-class Dropdown extends _reactForAtom.React.Component {
+class Dropdown extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -70,7 +70,7 @@ class Dropdown extends _reactForAtom.React.Component {
       selectedLabel = this._renderSelectedLabel(selectedOption);
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       DropdownButton,
       {
         className: this.props.className,
@@ -184,13 +184,13 @@ function DropdownButton(props) {
     'nuclide-ui-dropdown-flat': props.isFlat === true
   });
 
-  const label = props.children == null ? null : _reactForAtom.React.createElement(
+  const label = props.children == null ? null : _react.default.createElement(
     'span',
     { className: 'nuclide-dropdown-label-text-wrapper' },
     props.children
   );
 
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     ButtonComponent,
     {
       tooltip: props.tooltip,
@@ -199,7 +199,7 @@ function DropdownButton(props) {
       disabled: props.disabled === true,
       onClick: props.onExpand || noop },
     label,
-    _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, {
+    _react.default.createElement((_Icon || _load_Icon()).Icon, {
       icon: 'triangle-down',
       className: 'nuclide-ui-dropdown-icon'
     })

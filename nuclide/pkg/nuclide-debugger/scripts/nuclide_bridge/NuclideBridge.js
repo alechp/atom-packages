@@ -68,6 +68,7 @@ class NuclideBridge {
     this._debuggerPausedCount = 0;
     this._suppressBreakpointNotification = false;
     this._settings = {};
+    this._callframeId = -1;
 
     ipcRenderer.on('command', this._handleIpcCommand.bind(this));
 
@@ -269,6 +270,7 @@ class NuclideBridge {
       const selectedFrame = target.debuggerModel.callFrames[callframeIndex];
       target.debuggerModel.setSelectedCallFrame(selectedFrame);
       this._updateScopes(selectedFrame);
+      this._callframeId = selectedFrame.id;
     }
   }
 
@@ -374,6 +376,16 @@ class NuclideBridge {
         expression,
         id
       });
+
+      if (!wasThrown) {
+        // Evaluate could have had a side effect. Force a refresh of scopes for the current
+        // frame.
+        mainTarget.debuggerModel.threadStore.getRefreshedThreadStack(callFrames => {
+          const frames = callFrames != null && callFrames.length > 0 ? callFrames : mainTarget.debuggerModel.callFrames;
+
+          frames.filter(frame => frame.id === this._callframeId).forEach(frame => this._updateScopes(frame));
+        });
+      }
     });
   }
 
@@ -507,12 +519,13 @@ class NuclideBridge {
   }
 
   _getIPCBreakpointFromEvent(event) {
-    const { breakpoint, uiLocation } = event.data;
+    const { breakpoint, uiLocation, resolved } = event.data;
     return {
       sourceURL: uiLocation.uiSourceCode.uri(),
       lineNumber: uiLocation.lineNumber,
       condition: breakpoint.condition(),
-      enabled: breakpoint.enabled()
+      enabled: breakpoint.enabled(),
+      resolved: resolved || false
     };
   }
 
@@ -542,23 +555,18 @@ class NuclideBridge {
 
   // Synchronizes nuclide BreakpointStore and BreakpointManager
   _syncBreakpoints() {
-    try {
-      this._suppressBreakpointNotification = true;
-      this._parseBreakpointSources();
+    this._parseBreakpointSources();
 
-      // Add the ones that don't.
-      this._unresolvedBreakpoints = new (_collection || _load_collection()).MultiMap();
-      this._allBreakpoints.forEach(breakpoint => {
-        if (!this._addBreakpoint(breakpoint)) {
-          // No API exists for adding breakpoints to source files that are not
-          // yet known, store it locally and try to add them later.
-          this._unresolvedBreakpoints.set(breakpoint.sourceURL, [breakpoint.lineNumber]);
-        }
-      });
-      this._emitter.emit('unresolved-breakpoints-changed', null);
-    } finally {
-      this._suppressBreakpointNotification = false;
-    }
+    // Add the ones that don't.
+    this._unresolvedBreakpoints = new (_collection || _load_collection()).MultiMap();
+    this._allBreakpoints.forEach(breakpoint => {
+      if (!this._addBreakpoint(breakpoint)) {
+        // No API exists for adding breakpoints to source files that are not
+        // yet known, store it locally and try to add them later.
+        this._unresolvedBreakpoints.set(breakpoint.sourceURL, [breakpoint.lineNumber]);
+      }
+    });
+    this._emitter.emit('unresolved-breakpoints-changed', null);
   }
 
   _addBreakpoint(breakpoint) {

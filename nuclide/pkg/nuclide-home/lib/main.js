@@ -3,6 +3,28 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
+let displayChangelog = (() => {
+  var _ref = (0, _asyncToGenerator.default)(function* () {
+    const markdownPreviewPkg = atom.packages.getLoadedPackage('markdown-preview');
+    if (markdownPreviewPkg != null) {
+      yield atom.packages.activatePackage('markdown-preview');
+      const fbChangelogPath = (_nuclideUri || _load_nuclideUri()).default.join((0, (_systemInfo || _load_systemInfo()).getAtomNuclideDir)(), 'fb-CHANGELOG.md');
+      const osChangelogPath = (_nuclideUri || _load_nuclideUri()).default.join((0, (_systemInfo || _load_systemInfo()).getAtomNuclideDir)(), 'CHANGELOG.md');
+      const fbChangeLogExists = yield (_fsPromise || _load_fsPromise()).default.exists(fbChangelogPath);
+      const changelogPath = fbChangeLogExists ? fbChangelogPath : osChangelogPath;
+      // eslint-disable-next-line nuclide-internal/atom-apis
+      yield atom.workspace.open(encodeURI(`markdown-preview://${changelogPath}`));
+    }
+  });
+
+  return function displayChangelog() {
+    return _ref.apply(this, arguments);
+  };
+})();
+
 exports.activate = activate;
 exports.setHomeFragments = setHomeFragments;
 exports.deactivate = deactivate;
@@ -18,6 +40,30 @@ var _featureConfig;
 
 function _load_featureConfig() {
   return _featureConfig = _interopRequireDefault(require('../../commons-atom/featureConfig'));
+}
+
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
+var _fsPromise;
+
+function _load_fsPromise() {
+  return _fsPromise = _interopRequireDefault(require('../../commons-node/fsPromise'));
+}
+
+var _runtimeInfo;
+
+function _load_runtimeInfo() {
+  return _runtimeInfo = require('../../commons-node/runtime-info');
+}
+
+var _systemInfo;
+
+function _load_systemInfo() {
+  return _systemInfo = require('../../commons-node/system-info');
 }
 
 var _UniversalDisposable;
@@ -50,7 +96,7 @@ function _load_immutable() {
   return _immutable = _interopRequireDefault(require('immutable'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -71,10 +117,25 @@ let subscriptions = null;
  * 
  */
 
+/* global localStorage */
+
 const allHomeFragmentsStream = new _rxjsBundlesRxMinJs.BehaviorSubject((_immutable || _load_immutable()).default.Set());
 
 function activate(state) {
   considerDisplayingHome();
+  const runtimeInfo = (0, (_runtimeInfo || _load_runtimeInfo()).getRuntimeInformation)();
+  if (!runtimeInfo.isDevelopment && (_featureConfig || _load_featureConfig()).default.get('nuclide-home.showChangelogs')) {
+    const key = `nuclide-home.changelog-shown-${runtimeInfo.nuclideVersion}`;
+    // Only display the changelog if this is the first time loading this version.
+    // Note that displaying the Home page blocks the changelog for the version:
+    // the intention here is to avoid showing the changelog for new users.
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, 'true');
+      if (!(_featureConfig || _load_featureConfig()).default.get('nuclide-home.showHome')) {
+        displayChangelog();
+      }
+    }
+  }
   subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
   subscriptions.add(
   // eslint-disable-next-line nuclide-internal/atom-apis
@@ -107,10 +168,12 @@ function deactivate() {
 function consumeWorkspaceViewsService(api) {
   subscriptions.add(api.addOpener(uri => {
     if (uri === (_HomePaneItem2 || _load_HomePaneItem2()).WORKSPACE_VIEW_URI) {
-      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_HomePaneItem || _load_HomePaneItem()).default, { allHomeFragmentsStream: allHomeFragmentsStream }));
+      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_HomePaneItem || _load_HomePaneItem()).default, { allHomeFragmentsStream: allHomeFragmentsStream }));
     }
   }), () => api.destroyWhere(item => item instanceof (_HomePaneItem || _load_HomePaneItem()).default), atom.commands.add('atom-workspace', 'nuclide-home:toggle', event => {
     api.toggle((_HomePaneItem2 || _load_HomePaneItem2()).WORKSPACE_VIEW_URI, event.detail);
+  }), atom.commands.add('atom-workspace', 'nuclide-docs:open', event => {
+    _electron.shell.openExternal('https://nuclide.io/');
   }));
   considerDisplayingHome();
 }

@@ -2,7 +2,7 @@
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -145,7 +145,7 @@ class Activation {
           throw new Error('Invariant violation: "this._paneItemStates != null"');
         }
 
-        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_HealthPaneItem || _load_HealthPaneItem()).default, { stateStream: this._paneItemStates }));
+        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_HealthPaneItem || _load_HealthPaneItem()).default, { stateStream: this._paneItemStates }));
       }
     }), () => api.destroyWhere(item => item instanceof (_HealthPaneItem || _load_HealthPaneItem()).default), atom.commands.add('atom-workspace', 'nuclide-health:toggle', event => {
       api.toggle((_HealthPaneItem2 || _load_HealthPaneItem2()).WORKSPACE_VIEW_URI, event.detail);

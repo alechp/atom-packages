@@ -186,6 +186,10 @@ class AtomLanguageService {
     })();
   }
 
+  getCachedLanguageServices() {
+    return this._connectionToLanguageService.values();
+  }
+
   observeLanguageServices() {
     return this._connectionToLanguageService.observeValues().switchMap(languageService => {
       return _rxjsBundlesRxMinJs.Observable.fromPromise(languageService);

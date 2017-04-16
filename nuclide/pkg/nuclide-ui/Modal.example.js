@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ModalExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -19,7 +19,9 @@ function _load_Modal() {
   return _Modal = require('./Modal');
 }
 
-class ModalExample extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class ModalExample extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -38,24 +40,24 @@ class ModalExample extends _reactForAtom.React.Component {
 
   render() {
     const { isModalShown } = this.state;
-    const modal = isModalShown ? _reactForAtom.React.createElement(
+    const modal = isModalShown ? _react.default.createElement(
       (_Modal || _load_Modal()).Modal,
       { onDismiss: this._hideModal },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         null,
         'I\'m a modal. You can add any content you like.'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { onClick: this._hideModal },
         'hide modal'
       )
     ) : null;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { onClick: this._showModal },
         'show modal'

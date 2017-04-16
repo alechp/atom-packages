@@ -5,12 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TextRenderer = TextRenderer;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function TextRenderer(evaluationResult) {
   const { type, value } = evaluationResult;
   if (type === 'text') {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
       value

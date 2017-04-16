@@ -1,5 +1,163 @@
 # Nuclide Changelog
 
+## v0.217.0
+
+**Debugger**
+* Fixed a bug causing fetching native processes on a remote server with many running processes was saturating Nuclide server remote connection and slowing things down.
+
+**Flow**
+* Fix a bug that could break Flow integration when the .flowconfig changed to specify a different Flow version.
+
+**PHP/Hack Debugger**
+
+* UX: Improved wording of several confusing error messages.
+* Fixed issue where the console indicated it was ready for use before it actually was, and attempts to use it resulted in odd behavior.
+* Fixed issue where issuing an eval command caused a breakpoint to be hit in xdebug_includes.php instead of the script being debugged.
+* Requests window now indicates if a thread is stopped due to an Exception vs hitting a breakpoint.
+* Fixed issue where unchecking “Pause on exception” and hitting continue did not stop breaking in on requests hitting exceptions.
+* Launch script window now resolves “~” to your home directory path when launching a script.
+* Added a “recently launched scripts” drop-down to the launch dialog.
+* Debugger now shows an error and exits if it fails to attach to an HHVM instance rather than waiting forever.
+* Debugger now shows an error and exits if an invalid HHVM binary path is specified for launching a script.
+
+**Source Control**
+
+* Remove diff-view and source control sidebar features from the public release of Nuclide.
+
+According to user feedback, these features have enjoyed very low usage outside of Facebook, negatively impact the performance of Nuclide, and generally don't (yet) meet the quality bar we'd like to set for Nuclide.
+
+In order to improve on this, we will be moving these features to a Facebook-internal version of Nuclide for the foreseeable future, allowing us to iterate more quickly, clean up tech debt, and polish the experience.
+
+## v0.216.0
+
+### Hotfix from 0.215.0
+
+* Limit the number of console records serialized to avoid UI freezes.
+
+## v0.215.0
+
+General
+
+* Fixed issue causing flow not to be found when running Nuclide on Windows with the flow-bin npm package installed.
+* This changelog will automatically open when Nuclide updates.
+* Nuclide server certificates now expire after 14 days.
+* .python2 / .python3 files are now respected by the Python linter.
+
+Hack
+
+* You can now use Cmd-/ to toggle <!-- comments --> in XHP.
+
+Debugger
+
+* Added ability to show if breakpoints are unresolved or disabled in the gutter to the left of a source line.
+* Remember if breakpoints are disabled across Nuclide sessions.
+* Added ability to enable/disable breakpoints by right clicking them in the gutter.
+
+PHP / Hack Debugger
+
+* UX: added display of Vector/Map/Set counts.
+* Fixed issue where breakpoints appear to keep hitting after you have removed or disabled them.
+* Fixed issue where “loading” spinner on the Requests debugger pane sometimes spins forever.
+
+## v0.214.0
+
+### Hotfix from 0.213.0
+
+* Fix update to bookmark from source control sidebar failing.
+
+## v0.213.0
+
+### Hotfixes from 0.212.0
+
+* Fixed odd stretching behavior of some panels (Diagnostics, Conflict Resolver)
+* Properly deserialize timestamps in console
+
+## v0.212.0
+
+### GENERAL
+
+* Remote file deletions are now debounced by 1s, so tools like hg revert should no longer mark tabs as modified.
+* Console is now windowed, improving Nuclide performance when there are a lot of entries
+* Fixed exception thrown on Windows when expanding “~” to the user's home directory path in a file path.
+
+### C++
+
+* Faster autocomplete (thanks to Nat's autocomplete cacher).
+* Additionally, autocompletion results are now fuzzily matched.
+* Buck builds from within Nuclide should be significantly (5-10s) faster than before.
+
+### Debugger
+
+* Replaced callstack window with a table, fixed many rendering issues with call stacks
+* Added ability to copy callstack to clipboard by right-clicking the call stack table
+* Fixed issues with multiple nested scrollbars in Threads, Callstack, and Scopes debugger panes
+* Fixed issue causing Threads pane to have a “loading” spinner forever when breaking into a C++ target
+* Fixed large numbers (anything bigger than JavaScript's max int) being truncated or displayed incorrectly in all debuggers. This fixes outputting FBIDs in the PHP/Hack debugger.
+* Breakpoints in the gutter in the Nuclide editor now indicate if the bp is disabled or unresolved
+* Fixed a regression causing all breakpoints to show as unresolved in PHP/Hack debugger
+
+### Source Control
+
+* Increased timeout for updating bookmarks to 5 minutes
+
+### Quality Jam
+
+* Improve console styling for light/dark them combinations
+* Test runner: fix misc. UI issues
+* “Find References” context menu item now uses the right-clicked symbol rather than the editor cursor.
+* Fixed issue where fuzzy filename search would fail if it took more than 60s to index.
+* Flow type-hint tooltips will no longer appear over whitespace.
+* Removed “Context View” toolbar icon (you can still find it in View > Toggle Context View)
+
+
+## v0.211.0
+
+# Hotfix
+
+* Fix 'resolve' button not working from Merge Conflicts pane.
+* Fix right clicking on uncommitted changes throwing 'invalid rootpath error'.
+* Properly respect Atom's 'Close Deleted File Tabs' option for remote files.
+
+## v0.210.0
+
+### Highlights
+
+* Minimally required version of Atom is now 1.15.0.
+
+### C++
+
+* Update clang version since PCH was broken in older versions.
+* Optimize how Nuclide invokes Buck to build compilation database.
+
+### Console
+
+* Improved the way console records are highlighted to make them more readable.
+
+### Debugger
+
+* Support right clicking and deleting a single breakpoint.
+* Show loading spinner while waiting for debugger async break.
+* Speed up fetching thread stacks on debugger pause.
+* Show 'Unresolved breakpoint' tooltip when hovering over unresolved breakpoint label.
+* Fixes unresolvable breakpoints always show as resolved if set after debugger is attached.
+* 'Single thread stepping' checkbox doesn't disappear when switching to debugger that doesn't support it.
+
+### Flow
+
+* Add outline support for export default arrow & anonymous functions.
+
+### Source Control
+
+* Fixes context menu not showing on uncommitted changes list.
+
+### Bug Fixes + Misc
+
+* File Tree: Fixed scrolling during a Working Set definition.
+* File Tree: Fixed contents occasionally not being rendered on visibility toggle.
+* Outline View: Fixes flashing and hiding of outline view.
+* Removed react-for-atom, replacing it with react instead.
+
+
 ## v0.209.0
 
 ### Debugger

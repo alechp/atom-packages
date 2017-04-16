@@ -686,6 +686,10 @@ splitTextByNewLine = (text) ->
   else
     text.split(/\r?\n/g)
 
+replaceDecorationClassBy = (fn, decoration) ->
+  props = decoration.getProperties()
+  decoration.setProperties(_.defaults({class: fn(props.class)}, props))
+
 # Modify range used for undo/redo flash highlight to make it feel naturally for human.
 #  - Trim starting new line("\n")
 #     "\nabc" -> "abc"
@@ -735,6 +739,137 @@ expandRangeToWhiteSpaces = (editor, range) ->
 
   return range # fallback
 
+# Split and join after mutate item by callback with keep original separator unchanged.
+#
+# 1. Trim leading and trainling white spaces and remember
+# 1. Split text with given pattern and remember original separators.
+# 2. Change order by callback
+# 3. Join with original spearator and concat with remembered leading and trainling white spaces.
+#
+splitAndJoinBy = (text, pattern, fn) ->
+  leadingSpaces = trailingSpaces = ''
+  start = text.search(/\S/)
+  end = text.search(/\s*$/)
+  leadingSpaces = trailingSpaces = ''
+  leadingSpaces = text[0...start] if start isnt -1
+  trailingSpaces = text[end...] if end isnt -1
+  text = text[start...end]
+
+  flags = 'g'
+  flags += 'i' if pattern.ignoreCase
+  regexp = new RegExp("(#{pattern.source})", flags)
+  # e.g.
+  # When text = "a, b, c", pattern = /,?\s+/
+  #   items = ['a', 'b', 'c'], spearators = [', ', ', ']
+  # When text = "a b\n c", pattern = /,?\s+/
+  #   items = ['a', 'b', 'c'], spearators = [' ', '\n ']
+  items = []
+  separators = []
+  for segment, i in text.split(regexp)
+    if i % 2 is 0
+      items.push(segment)
+    else
+      separators.push(segment)
+  separators.push('')
+  items = fn(items)
+  result = ''
+  for [item, separator] in _.zip(items, separators)
+    result += item + separator
+  leadingSpaces + result + trailingSpaces
+
+class ArgumentsSplitter
+  constructor: ->
+    @allTokens = []
+    @currentSection = null
+
+  settlePending: ->
+    if @pendingToken
+      @allTokens.push({text: @pendingToken, type: @currentSection})
+      @pendingToken = ''
+
+  changeSection: (newSection) ->
+    if @currentSection isnt newSection
+      @settlePending() if @currentSection
+      @currentSection = newSection
+
+splitArguments = (text, joinSpaceSeparatedToken) ->
+  joinSpaceSeparatedToken ?= true
+  separatorChars = "\t, \r\n"
+  quoteChars = "\"'`"
+  closeCharToOpenChar = {
+    ")": "("
+    "}": "{"
+    "]": "["
+  }
+  closePairChars = _.keys(closeCharToOpenChar).join('')
+  openPairChars = _.values(closeCharToOpenChar).join('')
+  escapeChar = "\\"
+
+  pendingToken = ''
+  inQuote = false
+  isEscaped = false
+  # Parse text as list of tokens which is commma separated or white space separated.
+  # e.g. 'a, fun1(b, c), d' => ['a', 'fun1(b, c), 'd']
+  # Not perfect. but far better than simple string split by regex pattern.
+  allTokens = []
+  currentSection = null
+
+  settlePending = ->
+    if pendingToken
+      allTokens.push({text: pendingToken, type: currentSection})
+      pendingToken = ''
+
+  changeSection = (newSection) ->
+    if currentSection isnt newSection
+      settlePending() if currentSection
+      currentSection = newSection
+
+  pairStack = []
+  for char in text
+    if (pairStack.length is 0) and (char in separatorChars)
+      changeSection('separator')
+    else
+      changeSection('argument')
+      if isEscaped
+        isEscaped = false
+      else if char is escapeChar
+        isEscaped = true
+      else if inQuote
+        if (char in quoteChars) and _.last(pairStack) is char
+          pairStack.pop()
+          inQuote = false
+      else if char in quoteChars
+        inQuote = true
+        pairStack.push(char)
+      else if char in openPairChars
+        pairStack.push(char)
+      else if char in closePairChars
+        pairStack.pop() if _.last(pairStack) is closeCharToOpenChar[char]
+
+    pendingToken += char
+  settlePending()
+
+  if joinSpaceSeparatedToken and allTokens.some(({type, text}) -> type is 'separator' and ',' in text)
+    # When some separator contains `,` treat white-space separator is just part of token.
+    # So we move white-space only sparator into tokens by joining mis-separatoed tokens.
+    newAllTokens = []
+    while allTokens.length
+      token = allTokens.shift()
+      switch token.type
+        when 'argument'
+          newAllTokens.push(token)
+        when 'separator'
+          if ',' in token.text
+            newAllTokens.push(token)
+          else
+            # 1. Concatnate white-space-separator and next-argument
+            # 2. Then join into latest argument
+            lastArg = newAllTokens.pop() ? {text: '', 'argument'}
+            lastArg.text += token.text + (allTokens.shift()?.text ? '') # concat with next-argument
+            newAllTokens.push(lastArg)
+    allTokens = newAllTokens
+  allTokens
+
 scanEditorInDirection = (editor, direction, pattern, options={}, fn) ->
   {allowNextLine, from, scanRange} = options
   if not from? and not scanRange?
@@ -758,6 +893,52 @@ scanEditorInDirection = (editor, direction, pattern, options={}, fn) ->
       event.stop()
       return
     fn(event)
+
+adjustIndentWithKeepingLayout = (editor, range) ->
+  # Adjust indentLevel with keeping original layout of pasting text.
+  # Suggested indent level of range.start.row is correct as long as range.start.row have minimum indent level.
+  # But when we paste following already indented three line text, we have to adjust indent level
+  #  so that `varFortyTwo` line have suggestedIndentLevel.
+  #
+  #        varOne: value # suggestedIndentLevel is determined by this line
+  #   varFortyTwo: value # We need to make final indent level of this row to be suggestedIndentLevel.
+  #      varThree: value
+  #
+  # So what we are doing here is apply suggestedIndentLevel with fixing issue above.
+  # 1. Determine minimum indent level among pasted range(= range ) excluding empty row
+  # 2. Then update indentLevel of each rows to final indentLevel of minimum-indented row have suggestedIndentLevel.
+  suggestedLevel = editor.suggestedIndentForBufferRow(range.start.row)
+  minLevel = null
+  rowAndActualLevels = []
+  for row in [range.start.row...range.end.row]
+    actualLevel = getIndentLevelForBufferRow(editor, row)
+    rowAndActualLevels.push([row, actualLevel])
+    unless isEmptyRow(editor, row)
+      minLevel = Math.min(minLevel ? Infinity, actualLevel)
+
+  if minLevel? and (deltaToSuggestedLevel = suggestedLevel - minLevel)
+    for [row, actualLevel] in rowAndActualLevels
+      newLevel = actualLevel + deltaToSuggestedLevel
+      editor.setIndentationForBufferRow(row, newLevel)
+
+# Check point containment with end position exclusive
+rangeContainsPointWithEndExclusive = (range, point) ->
+  range.start.isLessThanOrEqual(point) and
+    range.end.isGreaterThan(point)
+
+traverseTextFromPoint = (point, text) ->
+  point.traverse(getTraversalForText(text))
+
+getTraversalForText = (text) ->
+  row = 0
+  column = 0
+  for char in text
+    if char is "\n"
+      row++
+      column = 0
+    else
+      column++
+  [row, column]
 
 module.exports = {
   assertWithException
@@ -842,7 +1023,13 @@ module.exports = {
   toggleClassList
   toggleCaseForCharacter
   splitTextByNewLine
+  replaceDecorationClassBy
   humanizeBufferRange
   expandRangeToWhiteSpaces
+  splitAndJoinBy
+  splitArguments
   scanEditorInDirection
+  adjustIndentWithKeepingLayout
+  rangeContainsPointWithEndExclusive
+  traverseTextFromPoint
 }

@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ContextViewPanel = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Icon;
 
 function _load_Icon() {
   return _Icon = require('../../nuclide-ui/Icon');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -24,14 +26,14 @@ function _load_Icon() {
  */
 
 const ContextViewPanel = exports.ContextViewPanel = props => {
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     { className: 'nuclide-context-view-content padded' },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'p',
       null,
-      props.locked ? _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'lock' }) : null,
-      'Click on a symbol to see more information about it.'
+      props.locked ? _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'lock' }) : null,
+      'Click on a symbol (variable, function, type, etc) in an open file to see more information about it below.'
     ),
     props.children
   );

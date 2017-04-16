@@ -11,19 +11,21 @@ function _load_Button() {
   return _Button = require('../../../nuclide-ui/Button');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function TaskRunnerButton(props) {
   const IconComponent = props.iconComponent;
-  const icon = IconComponent ? _reactForAtom.React.createElement(IconComponent, null) : null;
+  const icon = IconComponent ? _react.default.createElement(IconComponent, null) : null;
   const buttonProps = Object.assign({}, props);
   delete buttonProps.label;
   delete buttonProps.iconComponent;
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     (_Button || _load_Button()).Button,
     Object.assign({}, buttonProps, {
       className: 'nuclide-task-runner-task-runner-button' }),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'div',
       { className: 'nuclide-task-runner-task-runner-icon-wrapper' },
       icon

@@ -104,7 +104,7 @@ class MercurialConflictContext {
       if (_this3._conflictingRepository == null) {
         throw new Error('Mercurial merge conflict resolver doesn\'t have a conflicting repository');
       }
-      yield _this3._conflictingRepository.resolveConflictedFile(filePath);
+      yield _this3._conflictingRepository.resolveConflictedFile(filePath).toPromise();
       _this3._cachedMergeConflicts = _this3._cachedMergeConflicts.filter(function (mergeConflict) {
         return mergeConflict.path !== filePath;
       });
@@ -142,7 +142,7 @@ class MercurialConflictContext {
             notification.dismiss();
             _this4.clearConflictState();
             try {
-              yield repository.continueRebase();
+              yield repository.continueRebase().toPromise();
               atom.notifications.addInfo('Rebase continued');
             } catch (error) {
               atom.notifications.addError('Failed to continue rebase\n' + 'You will have to run `hg rebase --continue` manually.');

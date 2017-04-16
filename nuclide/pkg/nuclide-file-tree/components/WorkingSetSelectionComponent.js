@@ -11,7 +11,9 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _UniversalDisposable;
 
@@ -39,7 +41,17 @@ function _load_HR() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class WorkingSetSelectionComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -69,7 +81,7 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const node = _reactForAtom.ReactDOM.findDOMNode(this);
+    const node = _reactDom.default.findDOMNode(this);
     // $FlowFixMe
     node.focus();
     this._disposables.add(atom.commands.add(
@@ -102,14 +114,14 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
   }
 
   componentDidUpdate() {
-    const node = _reactForAtom.ReactDOM.findDOMNode(this);
+    const node = _reactDom.default.findDOMNode(this);
     // $FlowFixMe
     node.focus();
   }
 
   render() {
     const applicableDefinitions = this.state.applicableDefinitions.map((def, index) => {
-      return _reactForAtom.React.createElement(ApplicableDefinitionLine, {
+      return _react.default.createElement(ApplicableDefinitionLine, {
         key: def.name,
         def: def,
         index: index,
@@ -124,23 +136,23 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
     let notApplicableSection;
     if (this.state.notApplicableDefinitions.length > 0) {
       const notApplicableDefinitions = this.state.notApplicableDefinitions.map(def => {
-        return _reactForAtom.React.createElement(NonApplicableDefinitionLine, {
+        return _react.default.createElement(NonApplicableDefinitionLine, {
           key: def.name,
           def: def,
           onDeleteWorkingSet: this._deleteWorkingSet
         });
       });
 
-      notApplicableSection = _reactForAtom.React.createElement(
+      notApplicableSection = _react.default.createElement(
         'div',
         null,
-        _reactForAtom.React.createElement((_HR || _load_HR()).HR, null),
-        _reactForAtom.React.createElement(
+        _react.default.createElement((_HR || _load_HR()).HR, null),
+        _react.default.createElement(
           'span',
           null,
           'The working sets below are not applicable to your current project folders'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'ol',
           { className: 'list-group' },
           notApplicableDefinitions
@@ -148,13 +160,13 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
       );
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: 'select-list',
         tabIndex: '0',
         onBlur: this._checkFocus },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'ol',
         { className: 'list-group mark-active', style: { 'max-height': '80vh' } },
         applicableDefinitions
@@ -172,7 +184,7 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
   }
 
   _checkFocus(event) {
-    const node = _reactForAtom.ReactDOM.findDOMNode(this);
+    const node = _reactDom.default.findDOMNode(this);
     // If the next active element (`event.relatedTarget`) is not a descendant of this modal, close
     // the modal.
     // $FlowFixMe
@@ -194,17 +206,10 @@ class WorkingSetSelectionComponent extends _reactForAtom.React.Component {
   }
 }
 
-exports.WorkingSetSelectionComponent = WorkingSetSelectionComponent; /**
-                                                                      * Copyright (c) 2015-present, Facebook, Inc.
-                                                                      * All rights reserved.
-                                                                      *
-                                                                      * This source code is licensed under the license found in the LICENSE file in
-                                                                      * the root directory of this source tree.
-                                                                      *
-                                                                      * 
-                                                                      */
+exports.WorkingSetSelectionComponent = WorkingSetSelectionComponent;
 
-class ApplicableDefinitionLine extends _reactForAtom.React.Component {
+
+class ApplicableDefinitionLine extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -221,29 +226,29 @@ class ApplicableDefinitionLine extends _reactForAtom.React.Component {
       clearfix: true
     };
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'li',
       {
         className: (0, (_classnames || _load_classnames()).default)(classes),
         onMouseOver: () => this.props.onSelect(this.props.index),
         onClick: this._lineOnClick },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         { className: 'pull-right' },
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+        _react.default.createElement((_Button || _load_Button()).Button, {
           icon: 'trashcan',
           onClick: this._deleteButtonOnClick,
           tabIndex: '-1',
           title: 'Delete this working set'
         }),
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+        _react.default.createElement((_Button || _load_Button()).Button, {
           icon: 'pencil',
           onClick: this._editButtonOnClick,
           tabIndex: '-1',
           title: 'Edit this working set'
         })
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         null,
         this.props.def.name
@@ -266,7 +271,7 @@ class ApplicableDefinitionLine extends _reactForAtom.React.Component {
   }
 }
 
-class NonApplicableDefinitionLine extends _reactForAtom.React.Component {
+class NonApplicableDefinitionLine extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -275,17 +280,17 @@ class NonApplicableDefinitionLine extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'li',
       { className: 'clearfix' },
-      _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+      _react.default.createElement((_Button || _load_Button()).Button, {
         className: 'pull-right',
         icon: 'trashcan',
         onClick: this._deleteButtonOnClick,
         tabIndex: '-1',
         title: 'Delete this working set'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: 'text-subtle' },
         this.props.def.name

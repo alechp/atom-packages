@@ -8,7 +8,7 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Icon;
 
@@ -104,6 +104,9 @@ class ThreadStore {
           // If the debugger just transitioned from running to paused, the debug server should
           // be sending updated thread stacks. This may take a moment.
           this._threadsReloading = true;
+        } else if (payload.data === (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.RUNNING) {
+          // The UI is never waiting for threads if it's running.
+          this._threadsReloading = false;
         }
         this._debuggerMode = payload.data;
         this._emitter.emit('change');
@@ -172,10 +175,11 @@ class ThreadStore {
         atom.workspace.open(path, { searchAllPanes: true }).then(function (editor) {
           const buffer = editor.getBuffer();
           const rowRange = buffer.rangeForRow(notificationLineNumber);
-          _this._threadChangeDatatip = datatipService.createPinnedDataTip(_this._createAlertComponentClass(message), rowRange, true, /* pinnable */
-          editor, function (pinnedDatatip) {
-            datatipService.deletePinnedDatatip(pinnedDatatip);
-          });
+          _this._threadChangeDatatip = datatipService.createPinnedDataTip({
+            component: _this._createAlertComponentClass(message),
+            range: rowRange,
+            pinnable: true
+          }, editor);
         });
       }
     })();
@@ -198,10 +202,10 @@ class ThreadStore {
   }
 
   _createAlertComponentClass(message) {
-    return () => _reactForAtom.React.createElement(
+    return () => _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-thread-switch-alert' },
-      _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'alert' }),
+      _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'alert' }),
       message
     );
   }

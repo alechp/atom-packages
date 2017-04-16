@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.arrayRemove = arrayRemove;
 exports.arrayEqual = arrayEqual;
 exports.arrayCompact = arrayCompact;
+exports.arrayFlatten = arrayFlatten;
+exports.arrayUnique = arrayUnique;
 exports.arrayFindLastIndex = arrayFindLastIndex;
 exports.mapUnion = mapUnion;
 exports.mapFilter = mapFilter;
@@ -65,6 +67,26 @@ function arrayCompact(array) {
     }
   }
   return result;
+}
+
+/**
+ * Flattens an Array<Array<T>> into just an Array<T>
+ */
+function arrayFlatten(array) {
+  const result = [];
+  for (const subArray of array) {
+    result.push(...subArray);
+  }
+  return result;
+}
+
+/**
+ * Removes duplicates from Array<T>.
+ * Uses SameValueZero for equality purposes, which is like '===' except it deems
+ * two NaNs equal. http://www.ecma-international.org/ecma-262/6.0/#sec-samevaluezero
+ */
+function arrayUnique(array) {
+  return Array.from(new Set(array));
 }
 
 /**

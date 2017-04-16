@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _electron = _interopRequireDefault(require('electron'));
 
@@ -24,7 +24,7 @@ if (!(remote != null)) {
   throw new Error('Invariant violation: "remote != null"');
 }
 
-class PromptButton extends _reactForAtom.React.Component {
+class PromptButton extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -32,15 +32,15 @@ class PromptButton extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       { className: 'nuclide-console-prompt-wrapper', onClick: this._handleClick },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: 'nuclide-console-prompt-label' },
         this.props.children
       ),
-      _reactForAtom.React.createElement('span', { className: 'icon icon-chevron-right' })
+      _react.default.createElement('span', { className: 'icon icon-chevron-right' })
     );
   }
 

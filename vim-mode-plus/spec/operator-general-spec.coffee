@@ -2,13 +2,13 @@
 settings = require '../lib/settings'
 
 describe "Operator general", ->
-  [set, ensure, keystroke, editor, editorElement, vimState] = []
+  [set, ensure, ensureByDispatch, keystroke, editor, editorElement, vimState] = []
 
   beforeEach ->
     getVimState (state, vim) ->
       vimState = state
       {editor, editorElement} = vimState
-      {set, ensure, keystroke} = vim
+      {set, ensure, ensureByDispatch, keystroke} = vim
 
   afterEach ->
     vimState.globalState.reset('register')
@@ -654,6 +654,9 @@ describe "Operator general", ->
         ensure ['"', input: 'A', 'y y'], register: a: text: "012 345\n012 345\n"
 
     describe "with a motion", ->
+      beforeEach ->
+        settings.set('useClipboardAsDefaultRegister', false)
+
       it "yank from here to destnation of motion", ->
         ensure 'y e', cursor: [0, 4], register: {'"': text: '345'}
 
@@ -810,6 +813,8 @@ describe "Operator general", ->
   describe "the p keybinding", ->
     describe "with single line character contents", ->
       beforeEach ->
+        settings.set('useClipboardAsDefaultRegister', false)
+
         set textC: "|012\n"
         set register: '"': text: '345'
         set register: 'a': text: 'a'
@@ -939,6 +944,109 @@ describe "Operator general", ->
            678\n
           """
 
+    # HERE
+    # -------------------------
+    describe "put-after-with-auto-indent command", ->
+      beforeEach ->
+        waitsForPromise ->
+          settings.set('useClipboardAsDefaultRegister', false)
+          atom.packages.activatePackage('language-javascript')
+        runs ->
+          set grammar: 'source.js'
+
+      describe "paste with auto-indent", ->
+        it "inserts the contents of the default register", ->
+          set
+            register: '"': {text: " 345\n", type: 'linewise'}
+            textC_: """
+            if| () {
+            }
+            """
+          ensureByDispatch 'vim-mode-plus:put-after-with-auto-indent',
+            textC_: """
+            if () {
+              |345
+            }
+            """
+
+        it "multi-line register contents with auto indent", ->
+          registerContent = """
+            if(3) {
+              if(4) {}
+            }
+            """
+          set
+            register: '"': {text: registerContent, type: 'linewise'}
+            textC: """
+            if (1) {
+              |if (2) {
+              }
+            }
+            """
+          ensureByDispatch 'vim-mode-plus:put-after-with-auto-indent',
+            textC: """
+            if (1) {
+              if (2) {
+                |if(3) {
+                  if(4) {}
+                }
+              }
+            }
+            """
+
+      describe "when pasting already indented multi-lines register content", ->
+        beforeEach ->
+          set
+            textC: """
+            if (1) {
+              |if (2) {
+              }
+            }
+            """
+
+        it "keep original layout", ->
+          registerContent = """
+               a: 123,
+            bbbb: 456,
+            """
+
+          set register: '"': {text: registerContent, type: 'linewise'}
+          ensureByDispatch 'vim-mode-plus:put-after-with-auto-indent',
+            textC: """
+            if (1) {
+              if (2) {
+                   |a: 123,
+                bbbb: 456,
+              }
+            }
+            """
+
+        it "keep original layout [register content have blank row]", ->
+          registerContent = """
+            if(3) {
+            __abc
+
+            __def
+            }
+            """.replace(/_/g, ' ')
+
+          set register: '"': {text: registerContent, type: 'linewise'}
+          ensureByDispatch 'vim-mode-plus:put-after-with-auto-indent',
+            textC_: """
+            if (1) {
+              if (2) {
+                |if(3) {
+                  abc
+            ____
+                  def
+                }
+              }
+            }
+            """
+    # HERE
+    # -------------------------
+
+
     describe "pasting twice", ->
       beforeEach ->
         set
@@ -1034,6 +1142,17 @@ describe "Operator general", ->
       ensure 'r enter',
         text: '\n2\n\n4\n\n'
         cursor: [[1, 0], [3, 0]]
+
+    it "auto indent when replaced with singe new line", ->
+      set
+        textC_: """
+        __a|bc
+        """
+      ensure 'r enter',
+        textC_: """
+        __a
+        __|c
+        """
 
     it "composes properly with motions", ->
       ensure ['2 r', input: 'x'], text: 'xx\nxx\n\n'

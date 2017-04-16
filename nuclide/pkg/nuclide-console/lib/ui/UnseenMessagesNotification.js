@@ -10,7 +10,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,18 +24,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class NewMessagesNotification extends _reactForAtom.React.Component {
+class NewMessagesNotification extends _react.default.Component {
 
   render() {
     const className = (0, (_classnames || _load_classnames()).default)('nuclide-console-new-messages-notification', 'badge', 'badge-info', {
       visible: this.props.visible
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: className,
         onClick: this.props.onClick },
-      _reactForAtom.React.createElement('span', {
+      _react.default.createElement('span', {
         className: 'nuclide-console-new-messages-notification-icon icon icon-nuclicon-arrow-down'
       }),
       'New Messages'

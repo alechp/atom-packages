@@ -28,7 +28,7 @@ function _load_createExtraUiComponent() {
   return _createExtraUiComponent = require('./ui/createExtraUiComponent');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -116,7 +116,7 @@ function getTaskRunFunction(model, taskType) {
   }
 }
 
-const ArcIcon = () => _reactForAtom.React.createElement(
+const ArcIcon = () => _react.default.createElement(
   'span',
   null,
   'arc'

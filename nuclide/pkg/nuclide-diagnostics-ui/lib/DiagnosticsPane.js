@@ -10,7 +10,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _goToLocation;
 
@@ -72,7 +72,7 @@ const MAX_RESULTS_COUNT = 1000; /**
                                  * 
                                  */
 
-const EmptyComponent = () => _reactForAtom.React.createElement(
+const EmptyComponent = () => _react.default.createElement(
   'div',
   { className: 'nuclide-diagnostics-ui-empty-component' },
   'No diagnostic messages'
@@ -86,7 +86,7 @@ const TypeToHighlightColor = Object.freeze({
 function TypeComponent(props) {
   const text = props.data;
   const highlightColor = TypeToHighlightColor[text.toUpperCase()];
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     (_Highlight || _load_Highlight()).Highlight,
     { color: highlightColor },
     text
@@ -122,9 +122,9 @@ function DescriptionComponent(props) {
   if (message.element != null) {
     return message.element;
   } else if (message.html != null) {
-    return _reactForAtom.React.createElement('span', { dangerouslySetInnerHTML: { __html: message.text } });
+    return _react.default.createElement('span', { dangerouslySetInnerHTML: { __html: message.text } });
   } else {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
       message.text
@@ -147,7 +147,7 @@ function goToDiagnosticLocation(rowData) {
   (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, line, column);
 }
 
-class DiagnosticsPane extends _reactForAtom.React.Component {
+class DiagnosticsPane extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -222,7 +222,7 @@ class DiagnosticsPane extends _reactForAtom.React.Component {
     let maxResultsMessage;
     if (sortedRows.length > MAX_RESULTS_COUNT) {
       sortedRows = sortedRows.slice(0, MAX_RESULTS_COUNT);
-      maxResultsMessage = _reactForAtom.React.createElement(
+      maxResultsMessage = _react.default.createElement(
         'div',
         { className: 'highlight-warning nuclide-diagnostics-ui-table-message' },
         'Max results (',
@@ -230,13 +230,13 @@ class DiagnosticsPane extends _reactForAtom.React.Component {
         ') reached. Fix diagnostics or show only diagnostics for the current file to view more.'
       );
     }
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: (0, (_classnames || _load_classnames()).default)({
           'nuclide-diagnostics-ui-table-container': true,
           'nuclide-diagnostics-ui-table-container-empty': sortedRows.length === 0
         }) },
-      _reactForAtom.React.createElement((_Table || _load_Table()).Table, {
+      _react.default.createElement((_Table || _load_Table()).Table, {
         collapsable: true,
         columns: this._getColumns(),
         emptyComponent: EmptyComponent,

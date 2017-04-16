@@ -10,7 +10,9 @@ function _load_AtomInput() {
   return _AtomInput = require('../../nuclide-ui/AtomInput');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _atom = require('atom');
 
@@ -40,17 +42,16 @@ function _load_ButtonGroup() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const PROFILE_NAME_LABEL = 'Profile Name'; /**
+                                            * Copyright (c) 2015-present, Facebook, Inc.
+                                            * All rights reserved.
+                                            *
+                                            * This source code is licensed under the license found in the LICENSE file in
+                                            * the root directory of this source tree.
+                                            *
+                                            * 
+                                            */
 
-const PROFILE_NAME_LABEL = 'Profile Name';
 const DEFAULT_SERVER_COMMAND_PLACEHOLDER = '(DEFAULT)';
 
 const emptyFunction = () => {};
@@ -58,7 +59,7 @@ const emptyFunction = () => {};
 /**
  * A form that is used to create a new connection profile.
  */
-class CreateConnectionProfileForm extends _reactForAtom.React.Component {
+class CreateConnectionProfileForm extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -68,7 +69,7 @@ class CreateConnectionProfileForm extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const root = _reactForAtom.ReactDOM.findDOMNode(this);
+    const root = _reactDom.default.findDOMNode(this);
     this.disposables.add(
     // Hitting enter when this panel has focus should confirm the dialog.
     // $FlowFixMe
@@ -91,25 +92,25 @@ class CreateConnectionProfileForm extends _reactForAtom.React.Component {
   render() {
     const initialFields = this.props.initialFormFields;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'form-group' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'label',
           null,
           PROFILE_NAME_LABEL,
           ':'
         ),
-        _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
           initialValue: '',
           ref: 'profile-name',
           unstyled: true
         })
       ),
-      _reactForAtom.React.createElement((_ConnectionDetailsForm || _load_ConnectionDetailsForm()).default, {
+      _react.default.createElement((_ConnectionDetailsForm || _load_ConnectionDetailsForm()).default, {
         initialUsername: initialFields.username,
         initialServer: initialFields.server,
         initialCwd: initialFields.cwd,
@@ -124,18 +125,18 @@ class CreateConnectionProfileForm extends _reactForAtom.React.Component {
         onDidChange: emptyFunction,
         ref: 'connection-details'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: { display: 'flex', justifyContent: 'flex-end' } },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this._clickCancel },
             'Cancel'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY, onClick: this._clickSave },
             'Save'

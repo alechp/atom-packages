@@ -8,7 +8,7 @@ _ = require 'underscore-plus'
 settings = require './settings'
 HoverManager = require './hover-manager'
 SearchInput = require './search-input'
-{getVisibleEditors, matchScopes, translatePointAndClip} = require './utils'
+{getVisibleEditors, matchScopes, translatePointAndClip, haveSomeNonEmptySelection} = require './utils'
 swrap = require './selection-wrapper'
 
 OperationStack = require './operation-stack'
@@ -217,39 +217,26 @@ class VimState
     } = {}
     @emitter.emit 'did-destroy'
 
-  isInterestingEvent: ({target, type}) ->
-    if @mode is 'insert'
-      false
-    else
-      @editor? and
-        target?.closest?('atom-text-editor') is @editorElement and
-        not @isMode('visual', 'blockwise') and
-        not type.startsWith('vim-mode-plus:')
-
   checkSelection: (event) ->
+    return unless atom.workspace.getActiveTextEditor() is @editor
     return if @operationStack.isProcessing()
-    return unless @isInterestingEvent(event)
+    return if @mode is 'insert'
+    # Intentionally using target.closest('atom-text-editor')
+    # Don't use target.getModel() which is work for CustomEvent but not work for mouse event.
+    return unless @editorElement is event.target?.closest?('atom-text-editor')
+    return if event.type.startsWith('vim-mode-plus') # to match vim-mode-plus: and vim-mode-plus-user:
 
-    nonEmptySelecitons = @editor.getSelections().filter (selection) -> not selection.isEmpty()
-    if nonEmptySelecitons.length
-      wise = swrap.detectWise(@editor)
+    if haveSomeNonEmptySelection(@editor)
       @editorElement.component.updateSync()
+      wise = swrap.detectWise(@editor)
       if @isMode('visual', wise)
         for $selection in swrap.getSelections(@editor)
-          if $selection.hasProperties()
-            $selection.fixPropertyRowToRowRange() if wise is 'linewise'
-          else
-            $selection.saveProperties()
+          $selection.saveProperties()
         @updateCursorsVisibility()
       else
         @activate('visual', wise)
     else
       @activate('normal') if @mode is 'visual'
-
-  saveProperties: (event) ->
-    return unless @isInterestingEvent(event)
-    for selection in @editor.getSelections()
-      swrap(selection).saveProperties()
 
   observeSelections: ->
     checkSelection = @checkSelection.bind(this)
@@ -257,11 +244,11 @@ class VimState
     @subscriptions.add new Disposable =>
       @editorElement.removeEventListener('mouseup', checkSelection)
 
-    # [FIXME]
-    # Hover position get wired when focus-change between more than two pane.
-    # commenting out is far better than introducing Buggy behavior.
-    # @subscriptions.add atom.commands.onWillDispatch(saveProperties)
     @subscriptions.add atom.commands.onDidDispatch(checkSelection)
+
+    @editorElement.addEventListener('focus', checkSelection)
+    @subscriptions.add new Disposable =>
+      @editorElement.removeEventListener('focus', checkSelection)
 
   # What's this?
   # editor.clearSelections() doesn't respect lastCursor positoin.

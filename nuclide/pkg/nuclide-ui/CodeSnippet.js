@@ -11,7 +11,9 @@ function _load_AtomInput() {
   return _AtomInput = require('./AtomInput');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -23,7 +25,7 @@ var _reactForAtom = require('react-for-atom');
  * 
  */
 
-class CodeSnippet extends _reactForAtom.React.Component {
+class CodeSnippet extends _react.default.Component {
 
   componentDidMount() {
     const editor = this.refs.editor.getTextEditor();
@@ -49,7 +51,7 @@ class CodeSnippet extends _reactForAtom.React.Component {
   render() {
     const lineNumbers = [];
     for (let i = this.props.startLine; i <= this.props.endLine; i++) {
-      lineNumbers.push(_reactForAtom.React.createElement(
+      lineNumbers.push(_react.default.createElement(
         'div',
         {
           key: i,
@@ -58,15 +60,15 @@ class CodeSnippet extends _reactForAtom.React.Component {
         i + 1
       ));
     }
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-ui-code-snippet' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-ui-code-snippet-line-number-column' },
         lineNumbers
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'editor',
         initialValue: this.props.text,
         disabled: true,

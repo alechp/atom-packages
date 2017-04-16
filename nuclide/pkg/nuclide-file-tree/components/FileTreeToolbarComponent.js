@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FileTreeToolbarComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _classnames;
 
@@ -63,17 +65,7 @@ function _load_ButtonGroup() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-class FileTreeToolbarComponent extends _reactForAtom.React.Component {
+class FileTreeToolbarComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -137,7 +129,7 @@ class FileTreeToolbarComponent extends _reactForAtom.React.Component {
 
     let selectWorkingSetButton;
     if (!this.state.definitionsAreEmpty && !isEditingWorkingSet) {
-      selectWorkingSetButton = _reactForAtom.React.createElement(SelectWorkingSetButton, {
+      selectWorkingSetButton = _react.default.createElement(SelectWorkingSetButton, {
         onClick: this._toggleWorkingSetsSelector,
         onFocus: this._checkIfClosingSelector,
         isWorkingSetEmpty: workingSet.isEmpty()
@@ -146,7 +138,7 @@ class FileTreeToolbarComponent extends _reactForAtom.React.Component {
 
     let workingSetNameAndSave;
     if (isEditingWorkingSet && !editedWorkingSetIsEmpty) {
-      workingSetNameAndSave = _reactForAtom.React.createElement((_WorkingSetNameAndSaveComponent || _load_WorkingSetNameAndSaveComponent()).WorkingSetNameAndSaveComponent, {
+      workingSetNameAndSave = _react.default.createElement((_WorkingSetNameAndSaveComponent || _load_WorkingSetNameAndSaveComponent()).WorkingSetNameAndSaveComponent, {
         isEditing: this.state.isUpdatingExistingWorkingSet,
         initialName: this.state.updatedWorkingSetName,
         onUpdate: this._updateWorkingSet,
@@ -155,25 +147,25 @@ class FileTreeToolbarComponent extends _reactForAtom.React.Component {
       });
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: (0, (_classnames || _load_classnames()).default)({
           'nuclide-file-tree-toolbar': true,
           'nuclide-file-tree-toolbar-fader': workingSet.isEmpty() && !this.state.selectionIsActive && !this._store.isEditingWorkingSet()
         }) },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         { className: 'pull-right', size: (_ButtonGroup || _load_ButtonGroup()).ButtonGroupSizes.SMALL },
         selectWorkingSetButton,
-        _reactForAtom.React.createElement(DefineWorkingSetButton, {
+        _react.default.createElement(DefineWorkingSetButton, {
           isActive: isEditingWorkingSet,
           isWorkingSetEmpty: workingSet.isEmpty(),
           shouldShowLabel: shouldShowButtonLabel,
           onClick: this._toggleWorkingSetEditMode
         })
       ),
-      _reactForAtom.React.createElement('div', { className: 'clearfix' }),
+      _react.default.createElement('div', { className: 'clearfix' }),
       workingSetNameAndSave
     );
   }
@@ -202,12 +194,12 @@ class FileTreeToolbarComponent extends _reactForAtom.React.Component {
       }
       closed = true;
 
-      _reactForAtom.ReactDOM.unmountComponentAtNode(reactDiv);
+      _reactDom.default.unmountComponentAtNode(reactDiv);
       panel.destroy();
       this.setState({ selectionIsActive: false });
     };
 
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_WorkingSetSelectionComponent || _load_WorkingSetSelectionComponent()).WorkingSetSelectionComponent, {
+    _reactDom.default.render(_react.default.createElement((_WorkingSetSelectionComponent || _load_WorkingSetSelectionComponent()).WorkingSetSelectionComponent, {
       workingSetsStore: this.props.workingSetsStore,
       onClose: onClose,
       onEditWorkingSet: this._editWorkingSet
@@ -279,8 +271,17 @@ class FileTreeToolbarComponent extends _reactForAtom.React.Component {
   }
 }
 
-exports.FileTreeToolbarComponent = FileTreeToolbarComponent;
-class SelectWorkingSetButton extends _reactForAtom.React.Component {
+exports.FileTreeToolbarComponent = FileTreeToolbarComponent; /**
+                                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                                              * All rights reserved.
+                                                              *
+                                                              * This source code is licensed under the license found in the LICENSE file in
+                                                              * the root directory of this source tree.
+                                                              *
+                                                              * 
+                                                              */
+
+class SelectWorkingSetButton extends _react.default.Component {
 
   render() {
     const {
@@ -288,7 +289,7 @@ class SelectWorkingSetButton extends _reactForAtom.React.Component {
       onClick,
       onFocus
     } = this.props;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {
         icon: 'pencil',
@@ -307,7 +308,7 @@ class SelectWorkingSetButton extends _reactForAtom.React.Component {
   }
 }
 
-class DefineWorkingSetButton extends _reactForAtom.React.Component {
+class DefineWorkingSetButton extends _react.default.Component {
 
   render() {
     const {
@@ -316,7 +317,7 @@ class DefineWorkingSetButton extends _reactForAtom.React.Component {
       shouldShowLabel,
       onClick
     } = this.props;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {
         icon: isActive ? undefined : 'plus',

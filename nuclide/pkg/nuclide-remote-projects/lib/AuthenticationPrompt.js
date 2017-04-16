@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** Component to prompt the user for authentication information. */
 /**
@@ -19,7 +21,7 @@ var _reactForAtom = require('react-for-atom');
  * 
  */
 
-class AuthenticationPrompt extends _reactForAtom.React.Component {
+class AuthenticationPrompt extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -64,15 +66,15 @@ class AuthenticationPrompt extends _reactForAtom.React.Component {
     //   enter work
     // * `instructions` are pre-formatted, so apply `whiteSpace: pre` to maintain formatting coming
     //   from the server.
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { ref: 'root' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'block', style: { whiteSpace: 'pre' } },
         this.props.instructions
       ),
-      _reactForAtom.React.createElement('input', {
+      _react.default.createElement('input', {
         tabIndex: '0',
         type: 'password',
         className: 'nuclide-password native-key-bindings',

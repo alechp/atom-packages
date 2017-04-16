@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TreeList = exports.NestedTreeItem = exports.TreeItem = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -32,7 +32,7 @@ const TreeItem = props => {
     children
   } = props,
         remainingProps = _objectWithoutProperties(props, ['className', 'selected', 'children']);
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'li',
     Object.assign({ className: (0, (_classnames || _load_classnames()).default)(className, {
         selected
@@ -40,7 +40,7 @@ const TreeItem = props => {
     }, remainingProps),
     selected && typeof children === 'string'
     // String children must be wrapped to receive correct styles when selected.
-    ? _reactForAtom.React.createElement(
+    ? _react.default.createElement(
       'span',
       null,
       children
@@ -58,19 +58,19 @@ const NestedTreeItem = props => {
     children
   } = props,
         remainingProps = _objectWithoutProperties(props, ['className', 'selected', 'collapsed', 'title', 'children']);
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'li',
     Object.assign({ className: (0, (_classnames || _load_classnames()).default)(className, {
         selected,
         collapsed
       }, 'list-nested-item')
     }, remainingProps),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'div',
       { className: 'list-item' },
       title
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       TreeList,
       null,
       children
@@ -79,7 +79,7 @@ const NestedTreeItem = props => {
 };
 
 exports.NestedTreeItem = NestedTreeItem;
-const TreeList = exports.TreeList = props => _reactForAtom.React.createElement(
+const TreeList = exports.TreeList = props => _react.default.createElement(
   'ul',
   { className: (0, (_classnames || _load_classnames()).default)(props.className, {
       'has-collapsable-children': props.showArrows

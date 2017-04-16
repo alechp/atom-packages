@@ -8,17 +8,16 @@ exports.setBuckRoot = setBuckRoot;
 exports.setBuildTarget = setBuildTarget;
 exports.setDeploymentTarget = setDeploymentTarget;
 exports.setTaskSettings = setTaskSettings;
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const SET_PROJECT_ROOT = exports.SET_PROJECT_ROOT = 'SET_PROJECT_ROOT'; /**
+                                                                         * Copyright (c) 2015-present, Facebook, Inc.
+                                                                         * All rights reserved.
+                                                                         *
+                                                                         * This source code is licensed under the license found in the LICENSE file in
+                                                                         * the root directory of this source tree.
+                                                                         *
+                                                                         * 
+                                                                         */
 
-const SET_PROJECT_ROOT = exports.SET_PROJECT_ROOT = 'SET_PROJECT_ROOT';
 const SET_BUILD_TARGET = exports.SET_BUILD_TARGET = 'SET_BUILD_TARGET';
 const SET_DEPLOYMENT_TARGET = exports.SET_DEPLOYMENT_TARGET = 'SET_DEPLOYMENT_TARGET';
 const SET_TASK_SETTINGS = exports.SET_TASK_SETTINGS = 'SET_TASK_SETTINGS';

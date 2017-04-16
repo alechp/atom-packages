@@ -11,17 +11,17 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class ProgressBar extends _reactForAtom.React.Component {
+class ProgressBar extends _react.default.Component {
 
   render() {
     const className = (0, (_classnames || _load_classnames()).default)('nuclide-task-runner-progress-bar', {
       indeterminate: this._isIndeterminate()
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: className, hidden: !this.props.visible },
       this._renderBar()
@@ -41,7 +41,7 @@ class ProgressBar extends _reactForAtom.React.Component {
       throw new Error('Invariant violation: "this.props.progress != null"');
     }
 
-    return _reactForAtom.React.createElement(Bar, { progress: this.props.progress });
+    return _react.default.createElement(Bar, { progress: this.props.progress });
   }
 }
 
@@ -55,11 +55,11 @@ exports.ProgressBar = ProgressBar; /**
                                     * 
                                     */
 
-class Bar extends _reactForAtom.React.Component {
+class Bar extends _react.default.Component {
 
   render() {
     const pct = Math.max(0, Math.min(100, this.props.progress * 100));
-    return _reactForAtom.React.createElement('div', {
+    return _react.default.createElement('div', {
       className: 'nuclide-task-runner-progress-bar-bar',
       style: { width: `${pct}%` }
     });

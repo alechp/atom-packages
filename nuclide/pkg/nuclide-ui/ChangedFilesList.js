@@ -16,10 +16,10 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../nuclide-vcs-base');
 }
 
 var _nuclideUri;
@@ -28,7 +28,7 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../commons-node/nuclideUri'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Icon;
 
@@ -50,7 +50,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const FILE_CHANGES_INITIAL_PAGE_SIZE = 100;
 
-class ChangedFilesList extends _reactForAtom.React.Component {
+class ChangedFilesList extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -61,14 +61,16 @@ class ChangedFilesList extends _reactForAtom.React.Component {
   }
 
   _getFileClassname(file, fileChangeValue) {
-    const { selectedFile } = this.props;
-    return (0, (_classnames || _load_classnames()).default)('list-item', {
-      selected: file === selectedFile
-    }, (_vcs || _load_vcs()).FileChangeStatusToTextColor[fileChangeValue]);
+    const { commandPrefix, rootPath, selectedFile } = this.props;
+    const repository = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(rootPath);
+    return (0, (_classnames || _load_classnames()).default)('nuclide-file-changes-list-item', 'list-item', {
+      selected: file === selectedFile,
+      [`${commandPrefix}-file-entry`]: repository != null && repository.getType() === 'hg'
+    }, (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatusToTextColor[fileChangeValue]);
   }
 
   render() {
-    const { fileChanges, commandPrefix } = this.props;
+    const { fileChanges } = this.props;
     if (fileChanges.size === 0 && this.props.hideEmptyFolders) {
       return null;
     }
@@ -80,12 +82,9 @@ class ChangedFilesList extends _reactForAtom.React.Component {
       collapsed: this.state.isCollapsed
     });
 
-    const repository = (0, (_vcs || _load_vcs()).repositoryForPath)(this.props.rootPath);
-    const fileClassName = (0, (_classnames || _load_classnames()).default)('icon', 'icon-file-text', 'nuclide-file-changes-file-entry', {
-      [`${commandPrefix}-file-entry`]: repository != null && repository.getType() === 'hg'
-    });
+    const fileClassName = (0, (_classnames || _load_classnames()).default)('icon', 'icon-file-text', 'nuclide-file-changes-file-entry');
 
-    const showMoreFilesElement = fileChanges.size > filesToShow ? _reactForAtom.React.createElement('div', {
+    const showMoreFilesElement = fileChanges.size > filesToShow ? _react.default.createElement('div', {
       className: 'icon icon-ellipsis',
       ref: (0, (_addTooltip || _load_addTooltip()).default)({
         title: 'Show more files with uncommitted changes',
@@ -95,19 +94,19 @@ class ChangedFilesList extends _reactForAtom.React.Component {
       onClick: () => this.setState({ visiblePagesCount: this.state.visiblePagesCount + 1 })
     }) : null;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'ul',
       { className: 'list-tree has-collapsable-children' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'li',
         { className: rootClassName },
-        this.props.shouldShowFolderName ? _reactForAtom.React.createElement(
+        this.props.shouldShowFolderName ? _react.default.createElement(
           'div',
           {
             className: 'list-item',
             key: this.props.rootPath,
             onClick: () => this.setState({ isCollapsed: !this.state.isCollapsed }) },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             {
               className: 'icon icon-file-directory nuclide-file-changes-root-entry',
@@ -115,31 +114,32 @@ class ChangedFilesList extends _reactForAtom.React.Component {
             (_nuclideUri || _load_nuclideUri()).default.basename(this.props.rootPath)
           )
         ) : null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'ul',
           { className: 'list-tree has-flat-children' },
           sizeLimitedFileChanges.map(([filePath, fileChangeValue]) => {
             const baseName = (_nuclideUri || _load_nuclideUri()).default.basename(filePath);
-            return _reactForAtom.React.createElement(
+            return _react.default.createElement(
               'li',
               {
+                'data-name': baseName,
                 'data-path': filePath,
+                'data-root': this.props.rootPath,
                 className: this._getFileClassname(filePath, fileChangeValue),
                 key: filePath,
                 onClick: () => this.props.onFileChosen(filePath) },
-              _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: (_vcs || _load_vcs()).FileChangeStatusToIcon[fileChangeValue] }),
-              _reactForAtom.React.createElement(
+              _react.default.createElement((_Icon || _load_Icon()).Icon, {
+                className: 'nuclide-file-changes-file-entry-icon',
+                icon: (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatusToIcon[fileChangeValue]
+              }),
+              _react.default.createElement(
                 'span',
-                {
-                  className: fileClassName,
-                  'data-name': baseName,
-                  'data-path': filePath,
-                  'data-root': this.props.rootPath },
+                { className: fileClassName },
                 baseName
               )
             );
           }),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'li',
             null,
             showMoreFilesElement

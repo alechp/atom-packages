@@ -11,13 +11,15 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../nuclide-debugger-base');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AttachUiComponent;
 
 function _load_AttachUiComponent() {
   return _AttachUiComponent = require('./AttachUiComponent');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class IwdpLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuclideDebuggerBase()).DebuggerLaunchAttachProvider {
   constructor(debuggingTypeName, targetUri) {
@@ -30,7 +32,7 @@ class IwdpLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuclideDeb
 
   getComponent(action, parentEventEmitter) {
     if (action === 'Attach') {
-      return _reactForAtom.React.createElement((_AttachUiComponent || _load_AttachUiComponent()).AttachUiComponent, {
+      return _react.default.createElement((_AttachUiComponent || _load_AttachUiComponent()).AttachUiComponent, {
         targetUri: this.getTargetUri(),
         parentEmitter: parentEventEmitter
       });

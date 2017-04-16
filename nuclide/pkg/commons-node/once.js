@@ -17,13 +17,13 @@ exports.default = once;
 function once(fn) {
   let fnMaybe = fn;
   let ret;
-  return function () {
+  return function (...args) {
     // The type gymnastics here are so `fn` can be
     // garbage collected once we've used it.
     if (!fnMaybe) {
       return ret;
     } else {
-      ret = fnMaybe.apply(this, arguments);
+      ret = fnMaybe.apply(this, args);
       fnMaybe = null;
       return ret;
     }

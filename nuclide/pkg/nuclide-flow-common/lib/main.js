@@ -60,18 +60,18 @@ function shouldFilter(lastRequest, currentRequest, charsSinceLastRequest) {
 }
 
 function filterResultsByPrefix(prefix, results) {
-  if (results == null) {
-    return null;
-  }
   const replacementPrefix = getReplacementPrefix(prefix);
-  const resultsWithCurrentPrefix = results.map(result => {
+  const resultsWithCurrentPrefix = results.items.map(result => {
     return Object.assign({}, result, {
       replacementPrefix
     });
   });
+  let items;
   // fuzzaldrin-plus filters everything when the query is empty.
   if (replacementPrefix === '') {
-    return resultsWithCurrentPrefix;
+    items = resultsWithCurrentPrefix;
+  } else {
+    items = (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.filter(resultsWithCurrentPrefix, replacementPrefix, { key: 'displayText' });
   }
-  return (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.filter(resultsWithCurrentPrefix, replacementPrefix, { key: 'displayText' });
+  return Object.assign({}, results, { items });
 }

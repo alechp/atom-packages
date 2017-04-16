@@ -10,7 +10,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AtomInput;
 
@@ -62,7 +62,7 @@ function _load_Button() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class ConsoleHeader extends _reactForAtom.React.Component {
+class ConsoleHeader extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -112,7 +112,7 @@ class ConsoleHeader extends _reactForAtom.React.Component {
 
       action();
     };
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {
         className: 'pull-right',
@@ -130,7 +130,7 @@ class ConsoleHeader extends _reactForAtom.React.Component {
       throw new Error('Invariant violation: "source != null"');
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
       option.label,
@@ -150,18 +150,18 @@ class ConsoleHeader extends _reactForAtom.React.Component {
 
     const MultiSelectOption = this._renderOption;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Toolbar || _load_Toolbar()).Toolbar,
       { location: 'top' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ToolbarLeft || _load_ToolbarLeft()).ToolbarLeft,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'nuclide-console-header-filter-icon inline-block' },
-          _reactForAtom.React.createElement((_FunnelIcon || _load_FunnelIcon()).FunnelIcon, null)
+          _react.default.createElement((_FunnelIcon || _load_FunnelIcon()).FunnelIcon, null)
         ),
-        _reactForAtom.React.createElement((_ModalMultiSelect || _load_ModalMultiSelect()).ModalMultiSelect, {
+        _react.default.createElement((_ModalMultiSelect || _load_ModalMultiSelect()).ModalMultiSelect, {
           labelComponent: MultiSelectLabel,
           optionComponent: MultiSelectOption,
           size: (_Button || _load_Button()).ButtonSizes.SMALL,
@@ -170,31 +170,33 @@ class ConsoleHeader extends _reactForAtom.React.Component {
           onChange: this.props.onSelectedSourcesChange,
           className: 'inline-block'
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           { className: 'inline-block' },
-          _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+          _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
             className: filterInputClassName,
             size: 'sm',
             width: 200,
             placeholderText: 'Filter',
-            onDidChange: this.props.onFilterTextChange
+            onDidChange: this.props.onFilterTextChange,
+            value: this.props.filterText
           }),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               className: 'nuclide-console-filter-regexp-button',
               size: (_Button || _load_Button()).ButtonSizes.SMALL,
               selected: this.props.enableRegExpFilter,
-              onClick: this._handleReToggleButtonClick },
+              onClick: this._handleReToggleButtonClick,
+              tooltip: { title: 'Use Regex' } },
             '.*'
           )
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ToolbarRight || _load_ToolbarRight()).ToolbarRight,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           {
             size: (_Button || _load_Button()).ButtonSizes.SMALL,
@@ -230,7 +232,7 @@ function sortAlpha(a, b) {
 function MultiSelectLabel(props) {
   const { selectedOptions } = props;
   const label = selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length} Sources`;
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     null,
     'Showing: ',

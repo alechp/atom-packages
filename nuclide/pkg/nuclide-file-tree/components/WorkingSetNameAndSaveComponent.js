@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WorkingSetNameAndSaveComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AtomInput;
 
@@ -19,7 +19,9 @@ function _load_Button() {
   return _Button = require('../../nuclide-ui/Button');
 }
 
-class WorkingSetNameAndSaveComponent extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class WorkingSetNameAndSaveComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -39,20 +41,20 @@ class WorkingSetNameAndSaveComponent extends _reactForAtom.React.Component {
   render() {
     let setNameText;
     if (this.state.name === '') {
-      setNameText = _reactForAtom.React.createElement(
+      setNameText = _react.default.createElement(
         'atom-panel',
         { 'class': 'nuclide-file-tree-working-set-name-missing' },
         'Name is missing'
       );
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-file-tree-working-set-name-outline' },
-        _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
           placeholderText: 'name',
           size: 'sm',
           className: 'nuclide-file-tree-working-set-name inline-block-tight',
@@ -62,7 +64,7 @@ class WorkingSetNameAndSaveComponent extends _reactForAtom.React.Component {
           onCancel: this.props.onCancel
         })
       ),
-      _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+      _react.default.createElement((_Button || _load_Button()).Button, {
         buttonType: (_Button || _load_Button()).ButtonTypes.SUCCESS,
         disabled: this.state.name === '',
         icon: 'check',

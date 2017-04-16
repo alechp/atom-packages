@@ -1,11 +1,7 @@
 'use strict';
 
-// This assertion ensures that atom$AutocompleteSuggestion is a strict subset of Completion. If you
-// are getting errors here, you have probably just updated one without updating the other.
-({});
-
-// Identical to atom$AutocompleteSuggestion. Repeated here so the RPC framework can serialize using
-// this type.
+// This assertion ensures that Completion is a subtype of atom$AutocompleteSuggestion. If you are
+// getting errors here, you have probably just updated one without updating the other.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -15,3 +11,7 @@
  *
  * 
  */
+
+({});
+
+// Subtype of atom$AutocompleteSuggestion.

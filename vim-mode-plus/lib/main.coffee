@@ -22,6 +22,8 @@ module.exports =
     @registerCommands()
     @registerVimStateCommands()
 
+    settings.notifyDeprecatedParams()
+
     if atom.inSpecMode()
       settings.set('strictAssertion', true)
 
@@ -61,6 +63,8 @@ module.exports =
       else
         globalState.set('highlightSearchPattern', null)
 
+    @subscribe(settings.observeConditionalKeymaps()...)
+
   observeVimMode: (fn) ->
     fn() if atom.packages.isPackageActive('vim-mode')
     atom.packages.onDidActivatePackage (pack) ->
@@ -90,8 +94,8 @@ module.exports =
       vimState.destroy()
     VimState.clear()
 
-  subscribe: (arg) ->
-    @subscriptions.add(arg)
+  subscribe: (args...) ->
+    @subscriptions.add(args...)
 
   unsubscribe: (arg) ->
     @subscriptions.remove(arg)
@@ -210,6 +214,37 @@ module.exports =
     @statusBarManager.attach()
     @subscribe new Disposable =>
       @statusBarManager.detach()
+
+  consumeDemoMode: ({onWillAddItem, onDidStart, onDidStop, onDidRemoveHover}) ->
+    @subscribe(
+      onDidStart(-> globalState.set('demoModeIsActive', true))
+      onDidStop(-> globalState.set('demoModeIsActive', false))
+      onDidRemoveHover(@destroyAllDemoModeFlasheMarkers.bind(this))
+      onWillAddItem(({item, event}) =>
+        if event.binding.command.startsWith('vim-mode-plus:')
+          commandElement = item.getElementsByClassName('command')[0]
+          commandElement.textContent = commandElement.textContent.replace(/^vim-mode-plus:/, '')
+
+        element = document.createElement('span')
+        element.classList.add('kind', 'pull-right')
+        element.textContent = @getKindForCommand(event.binding.command)
+        item.appendChild(element)
+      )
+    )
+
+  destroyAllDemoModeFlasheMarkers: ->
+    VimState.forEach (vimState) ->
+      vimState.flashManager.destroyDemoModeMarkers()
+
+  getKindForCommand: (command) ->
+    if command.startsWith('vim-mode-plus')
+      command = command.replace(/^vim-mode-plus:/, '')
+      if command.startsWith('operator-modifier')
+        kind = 'op-modifier'
+      else
+        Base.getKindForCommandName(command) ? 'vmp-other'
+    else
+      'non-vmp'
 
   # Service API
   # -------------------------

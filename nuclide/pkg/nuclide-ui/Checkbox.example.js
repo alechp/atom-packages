@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CheckboxExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,6 +19,8 @@ function _load_Checkbox() {
   return _Checkbox = require('./Checkbox');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const NOOP = () => {}; /**
                         * Copyright (c) 2015-present, Facebook, Inc.
                         * All rights reserved.
@@ -29,33 +31,33 @@ const NOOP = () => {}; /**
                         * 
                         */
 
-const CheckboxExample = () => _reactForAtom.React.createElement(
+const CheckboxExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       checked: false,
       onClick: NOOP,
       onChange: NOOP,
       label: 'A Checkbox.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       onClick: NOOP,
       onChange: NOOP,
       checked: true,
       label: 'A checked Checkbox.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       onClick: NOOP,
       onChange: NOOP,
       disabled: true,
@@ -63,10 +65,10 @@ const CheckboxExample = () => _reactForAtom.React.createElement(
       label: 'A disabled Checkbox.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       onClick: NOOP,
       onChange: NOOP,
       checked: true,
@@ -74,10 +76,10 @@ const CheckboxExample = () => _reactForAtom.React.createElement(
       label: 'A disabled, checked Checkbox.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       onClick: NOOP,
       onChange: NOOP,
       indeterminate: true,

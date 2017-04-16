@@ -5,6 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getAtomProjectRelativePath = getAtomProjectRelativePath;
 exports.getAtomProjectRootPath = getAtomProjectRootPath;
+exports.relativizePathWithDirectory = relativizePathWithDirectory;
+exports.getDirectoryForPath = getDirectoryForPath;
+exports.getFileForPath = getFileForPath;
 exports.observeProjectPaths = observeProjectPaths;
 exports.onDidAddProjectPath = onDidAddProjectPath;
 exports.onDidRemoveProjectPath = onDidRemoveProjectPath;
@@ -49,6 +52,41 @@ function getAtomProjectRelativePath(path) {
 function getAtomProjectRootPath(path) {
   const [projectPath] = atom.project.relativizePath(path);
   return projectPath;
+}
+
+/**
+ * Like `atom.project.relativizePath`, except it returns the `Directory` rather than the path.
+ * It also works for non-children, i.e. this can return `../../x`.
+ *
+ * This is intended to be used as a way to get a File object for any path
+ * without worrying about remote vs. local paths.
+ */
+function relativizePathWithDirectory(path) {
+  for (const directory of atom.project.getDirectories()) {
+    try {
+      const relativePath = (_nuclideUri || _load_nuclideUri()).default.relative(directory.getPath(), path);
+      return [directory, relativePath];
+    } catch (e) {
+      // We have a remote-local mismatch or hostname mismatch.
+    }
+  }
+  return [null, path];
+}
+
+function getDirectoryForPath(path) {
+  const [directory, relativePath] = relativizePathWithDirectory(path);
+  if (directory == null) {
+    return null;
+  }
+  return directory.getSubdirectory(relativePath);
+}
+
+function getFileForPath(path) {
+  const [directory, relativePath] = relativizePathWithDirectory(path);
+  if (directory == null) {
+    return null;
+  }
+  return directory.getFile(relativePath);
 }
 
 function observeProjectPaths(callback) {

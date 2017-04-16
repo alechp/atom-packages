@@ -133,6 +133,15 @@ atom-text-editor .vim-mode-plus-flash {
   &.undo-redo-multiple-changes .region { .flash(vim-mode-plus-flash-undo-redo-multiple-changes, .5s)}
   &.undo-redo-multiple-delete .region { .flash(vim-mode-plus-flash-undo-redo-multiple-delete, .5s)}
 
+  // used for demo-mode integration to stop flash while demo-mode's hover is active
+  &.operator-demo .region { background: @flash-base-color }
+  &.operator-long-demo .region { background: @flash-base-color }
+  &.operator-occurrence-demo .region { background: @flash-added-color }
+  &.operator-remove-occurrence-demo .region { background: @flash-removed-color }
+  &.undo-redo-demo .region { background: @flash-base-color }
+  &.undo-redo-multiple-changes-demo .region { background: @flash-added-color }
+  &.undo-redo-multiple-delete-demo .region { background: @flash-removed-color }
+
   &.search .region {
     .flash(vim-mode-plus-flash-search, .5s);
     z-index: 1;
@@ -157,20 +166,6 @@ atom-text-editor .vim-mode-plus-flash {
 
   &.first { background-color: @background-color-info; }
   &.last { background-color: @background-color-error; }
-}
-
-.vim-mode-plus-hover-light {
-  display: block;
-  color: @text-color-highlight;
-  background-color: @base-background-color;
-  border-radius: @component-border-radius;
-  box-shadow: 0 0 1px @syntax-text-color;
-
-  margin-top: -2.8em;
-  margin-left: -0.3em;
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  text-align: center;
 }
 
 // Input mini editor, e.g surround char.
@@ -343,5 +338,11 @@ atom-workspace.vim-mode-plus--pane-maximized {
   .character-match {
     color: @text-color-highlight;
     font-weight: bold;
+  }
+}
+
+.demo-mode-container {
+  .kind {
+    color: @text-color-selected;
   }
 }

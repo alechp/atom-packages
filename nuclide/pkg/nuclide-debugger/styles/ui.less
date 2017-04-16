@@ -23,16 +23,6 @@
   flex-direction: row-reverse;
 }
 
-.nuclide-debugger-root-close-button {
-  background: transparent;
-  border: none;
-  padding: 0;
-  position: absolute;
-  top: 2.5em;
-  right: 0.5em;
-  z-index: 1;
-}
-
 .nuclide-debugger-root .inspector {
   display: flex;
   flex-direction: column;
@@ -116,9 +106,17 @@ Use flexbox cross-axis stretch to fill the vertical space.
 }
 
 /* General debugger UI */
+.nuclide-debugger-starting-message {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: @component-padding;
+}
+
 .nuclide-debugger-section-content {
   max-height: 20em;
-  overflow-y: auto;
+  overflow-y: visible;
+  overflow-x: visible;
   margin-bottom: 5px;
 }
 
@@ -143,13 +141,14 @@ Use flexbox cross-axis stretch to fill the vertical space.
   font-family: Menlo, Monaco, Consolas, monospace;
   justify-content: space-between;
   min-height: 23px; // Match height of AtomInput to prevent list items from jumping around.
-  overflow: auto;
+  overflow: visible;
 }
 
 .nuclide-debugger-expression-value-content {
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  overflow-x: visible;
 }
 
 .nuclide-debugger-watch-expression-value-content {
@@ -198,9 +197,14 @@ Use flexbox cross-axis stretch to fill the vertical space.
 }
 
 .nuclide-debugger-callstack-item-selected {
-  background-color: @background-color-info;
   color: @text-color-highlight;
   font-weight: bold;
+}
+
+.nuclide-debugger-callstack-list-empty {
+  font-style: italic;
+  padding: 1em;
+  text-align: center;
 }
 
 .nuclide-debugger-callstack-name {
@@ -229,6 +233,16 @@ Use flexbox cross-axis stretch to fill the vertical space.
   svg:hover {
     fill: @text-color-highlight;
   }
+}
+
+.nuclide-debugger-stepping-playpause-button {
+  width: 10px;
+  text-align: left;
+}
+
+.nuclide-debugger-stepping-playpause-button-loading {
+  position: relative;
+  left: -2px;
 }
 
 .nuclide-debugger-stepping-buttongroup {

@@ -10,9 +10,11 @@ function _load_settingsUtils() {
   return _settingsUtils = require('./settings-utils');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
-class SettingsCheckbox extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class SettingsCheckbox extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -31,25 +33,25 @@ class SettingsCheckbox extends _reactForAtom.React.Component {
     const description = this.props.description;
     const value = this.props.value;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'checkbox' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         { htmlFor: id },
-        _reactForAtom.React.createElement('input', {
+        _react.default.createElement('input', {
           checked: value,
           id: id,
           onChange: this._handleChange,
           type: 'checkbox'
         }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'setting-title' },
           title
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'setting-description' },
         description

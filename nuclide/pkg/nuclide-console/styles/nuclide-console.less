@@ -4,15 +4,14 @@
 @nuclide-console-border-size: 1px;
 @nuclide-console-record-background-color-normal: @syntax-background-color;
 @nuclide-console-record-text-color-normal: @syntax-text-color;
-@nuclide-console-record-border-color-normal: @base-border-color;
-@nuclide-console-record-background-color-error: lighten(@background-color-error, 25%);
-@nuclide-console-record-text-color-error: darken(@text-color-error, 40%);
+// Don't use @base-border-color because that's a UI color, and makes light/dark
+// combinations look bad.
+@nuclide-console-record-border-color-normal: darken(@syntax-background-color, 5%);
+@nuclide-console-record-text-color-error: @text-color-error;
 @nuclide-console-record-border-color-error: @background-color-error;
-@nuclide-console-record-background-color-warning: lighten(@background-color-warning, 25%);
-@nuclide-console-record-text-color-warning: darken(@text-color-warning, 40%);
+@nuclide-console-record-text-color-warning: @text-color-warning;
 @nuclide-console-record-border-color-warning: @background-color-warning;
-@nuclide-console-record-background-color-success: lighten(@background-color-success, 25%);
-@nuclide-console-record-text-color-success: darken(@text-color-success, 40%);
+@nuclide-console-record-text-color-success: @text-color-success;
 @nuclide-console-record-border-color-success: @background-color-success;
 @nuclide-console-record-vertical-padding: 1px;
 @nuclide-console-record-horizontal-padding: 5px;
@@ -49,7 +48,8 @@
 .nuclide-ui-toolbar {
   background-color: @pane-item-background-color;
 
-  atom-panel & {
+  atom-dock &,
+  atom-panel & { // TODO(matthewwithanm): Remove this selector when killing workspace views
     background-color: @tool-panel-background-color;
   }
 }
@@ -91,17 +91,12 @@
   }
 }
 
-.nuclide-console-scroll-pane {
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: @syntax-background-color;
-
-  // Hack: This ensures that the scrollbar appears on top of all of the records.
-  //       Without it, the atom-text-editors appear above the scrollbar.
-  transform: translate3d(0, 0, 0);
-}
-
 .nuclide-console-table-wrapper {
+  display: flex;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: @syntax-background-color;
   // Make sure that record text is selectable.
   -webkit-user-select: text;
 }
@@ -109,11 +104,23 @@
 .nuclide-console-record {
   display: flex;
   padding: @nuclide-console-record-vertical-padding @nuclide-console-record-horizontal-padding;
+  padding-left: 2 * @nuclide-console-record-horizontal-padding;
+
+  &::before {
+    width: @nuclide-console-record-horizontal-padding;
+    position: absolute;
+    left: 0;
+    bottom: @nuclide-console-border-size;
+    top: 0;
+    content: '';
+  }
+
   background-color: @nuclide-console-record-background-color-normal;
   border-radius: 0;
   border-top: @nuclide-console-border-size solid @nuclide-console-record-border-color-normal;
   color: @nuclide-console-record-text-color-normal;
-
+  cursor: text;
+  border-left: (@component-padding / 2) solid @syntax-background-color;
   pre {
     background-color: transparent;
 
@@ -160,13 +167,8 @@
   }
 
   &.level-warning {
-    background-color: @nuclide-console-record-background-color-warning;
-    border-color: @nuclide-console-record-border-color-warning;
-
-    // The border on both sides of the warning message should be the warning
-    // color unless it's a higher-level (error).
-    & + :not(.level-error) {
-      border-top-color: @nuclide-console-record-border-color-warning;
+    &::before {
+      background-color: @nuclide-console-record-border-color-warning;
     }
 
     pre, pre a, .nuclide-console-lazy-nested-value div, .nuclide-console-lazy-nested-value span {
@@ -179,13 +181,8 @@
   }
 
   &.level-success {
-    background-color: @nuclide-console-record-background-color-success;
-    border-color: @nuclide-console-record-border-color-success;
-
-    // The border on both sides of the success message should be the success
-    // color unless it's a higher-level.
-    & + :not(.level-error):not(.level-warning) {
-      border-top-color: @nuclide-console-record-border-color-success;
+    &::before {
+      background-color: @nuclide-console-record-border-color-success;
     }
 
     pre, pre a, .nuclide-console-lazy-nested-value div, .nuclide-console-lazy-nested-value span {
@@ -198,12 +195,8 @@
   }
 
   &.level-error {
-    background-color: @nuclide-console-record-background-color-error;
-    border-color: @nuclide-console-record-border-color-error;
-
-    // The border on both sides of the error should be the error color.
-    & + .nuclide-console-record {
-      border-top-color: @nuclide-console-record-border-color-error;
+    &::before {
+      background-color: @nuclide-console-record-border-color-error;
     }
 
     pre, pre a, .nuclide-console-lazy-nested-value div, .nuclide-console-lazy-nested-value span {
@@ -300,6 +293,16 @@
     background-color: @syntax-background-color;
   }
 
+  // Aid visual tracking while hovering over a record (esp. when the console window is very wide).
+  &:hover {
+    & when (lightness(@syntax-background-color) <= 50%) {
+      background-color: lighten(@syntax-background-color, 2%);
+    }
+    & when (lightness(@syntax-background-color) > 50%) {
+      background-color: darken(@syntax-background-color, 3%);
+    }
+  }
+
 }
 
 .nuclide-console-record-content-wrapper {
@@ -322,7 +325,8 @@
   }
 }
 
-.nuclide-console-record-source-label {
+.nuclide-console-record-source-label,
+.nuclide-console-record-timestamp {
   align-self: flex-start;
   margin: 2px 0 0 4px;
   white-space: nowrap;
@@ -333,6 +337,11 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+}
+
+.nuclide-console-record-timestamp {
+  background-color: @nuclide-console-record-background-color-normal;
+  padding: 1px 2px;
 }
 
 .nuclide-console-input-wrapper {
@@ -428,7 +437,7 @@ atom-text-editor[mini].nuclide-console-filter-field {
   }
 
   &.invalid {
-    background-color: @nuclide-console-record-background-color-error;
+    background-color: lighten(@background-color-error, 25%);
     color: @nuclide-console-record-text-color-error;
     border-color: @nuclide-console-record-border-color-error;
   }
@@ -451,4 +460,13 @@ atom-text-editor[mini].nuclide-console-filter-field {
 
 .nuclide-console-header-funnel-icon {
   height: 12px;
+}
+
+.nuclide-console-filtered-reminder {
+  display: flex;
+  font-style: italic;
+
+  a {
+    text-decoration: underline;
+  }
 }

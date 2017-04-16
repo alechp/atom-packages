@@ -4,12 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
-class ContextViewMessage extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class ContextViewMessage extends _react.default.Component {
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
       this.props.message
@@ -32,10 +34,10 @@ exports.default = ContextViewMessage; /**
 
 ContextViewMessage.NO_DEFINITION = 'No definition selected.';
 ContextViewMessage.LOADING = 'Loading...';
-ContextViewMessage.NOT_LOGGED_IN = _reactForAtom.React.createElement(
+ContextViewMessage.NOT_LOGGED_IN = _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'div',
     null,
     'You need to log in to see this data!'

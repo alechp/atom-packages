@@ -19,7 +19,7 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../nuclide-debugger-base');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LaunchAttachStore;
 

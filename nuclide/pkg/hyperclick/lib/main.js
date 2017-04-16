@@ -43,17 +43,6 @@ let hyperclick = null; /**
 
 function activate() {
   hyperclick = new (_Hyperclick || _load_Hyperclick()).default();
-
-  // FB-only: override the symbols-view "Go To Declaration" context menu item
-  // with the Hyperclick "confirm-cursor" command.
-  // TODO(hansonw): Remove when symbols-view has a proper API.
-  try {
-    // $FlowFB
-    const { overrideGoToDeclaration } = require('./fb/overrideGoToDeclaration');
-    overrideGoToDeclaration();
-  } catch (e) {
-    // Ignore.
-  }
 }
 
 function deactivate() {

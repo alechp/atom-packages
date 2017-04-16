@@ -1,23 +1,21 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.activate = activate;
-exports.deactivate = deactivate;
-exports.serialize = serialize;
-exports.getContextMenuForFileTree = getContextMenuForFileTree;
-exports.consumeWorkspaceViewsService = consumeWorkspaceViewsService;
-exports.getProjectSelectionManagerForFileTree = getProjectSelectionManagerForFileTree;
-exports.deserializeFileTreeSidebarComponent = deserializeFileTreeSidebarComponent;
-exports.consumeWorkingSetsStore = consumeWorkingSetsStore;
-exports.consumeCwdApi = consumeCwdApi;
-exports.consumeRemoteProjectsService = consumeRemoteProjectsService;
-
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
+}
+
+var _createPackage;
+
+function _load_createPackage() {
+  return _createPackage = _interopRequireDefault(require('../../commons-atom/createPackage'));
+}
+
+var _event;
+
+function _load_event() {
+  return _event = require('../../commons-node/event');
 }
 
 var _featureConfig;
@@ -32,10 +30,10 @@ function _load_viewableFromReactElement() {
   return _viewableFromReactElement = require('../../commons-atom/viewableFromReactElement');
 }
 
-var _debounce;
+var _textEditor;
 
-function _load_debounce() {
-  return _debounce = _interopRequireDefault(require('../../commons-node/debounce'));
+function _load_textEditor() {
+  return _textEditor = require('../../commons-atom/text-editor');
 }
 
 var _observable;
@@ -68,7 +66,9 @@ function _load_Constants() {
   return _Constants = require('./Constants');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76,25 +76,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Minimum interval (in ms) between onChangeActivePaneItem events before revealing the active pane
  * item in the file tree.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS = 150; /**
+                                                     * Copyright (c) 2015-present, Facebook, Inc.
+                                                     * All rights reserved.
+                                                     *
+                                                     * This source code is licensed under the license found in the LICENSE file in
+                                                     * the root directory of this source tree.
+                                                     *
+                                                     * 
+                                                     */
 
-const OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS = 150;
+const DESERIALIZER_VERSION = atom.workspace.getLeftDock == null ? 1 : 2;
 
 class Activation {
   // Has the package state been restored from a previous session?
-  constructor(state) {
-    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+  constructor(rawState) {
+    let state = rawState || {};
+    const serializedVersionMatches = (state.version || 1) === DESERIALIZER_VERSION;
+    if (!serializedVersionMatches) {
+      state = {};
+    }
+
+    // Disable Atom's bundled 'tree-view' package. If this activation is happening during the
+    // normal startup activation, the `onDidActivateInitialPackages` handler below must unload the
+    // 'tree-view' because it will have been loaded during startup.
+    disableTreeViewPackage();
+
+    // Disabling and unloading Atom's bundled 'tree-view' must happen after activation because this
+    // package's `activate` is called during an traversal of all initial packages to activate.
+    // Disabling a package during the traversal has no effect if this is a startup load because
+    // `PackageManager` does not re-load the list of packages to activate after each iteration.
+    this._didActivateDisposable = atom.packages.onDidActivateInitialPackages(() => {
+      disableTreeViewPackage();
+      this._didActivateDisposable.dispose();
+    });
+
+    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(this._didActivateDisposable, () => {
+      this._fileTreeController.destroy();
+    });
 
     this._fileTreeController = new (_FileTreeController || _load_FileTreeController()).default(state == null ? null : state.tree);
-    this._restored = state != null && state.restored === true;
+    this._restored = state.restored === true;
 
     const excludeVcsIgnoredPathsSetting = 'core.excludeVcsIgnoredPaths';
     const hideIgnoredNamesSetting = 'nuclide-file-tree.hideIgnoredNames';
@@ -161,14 +183,24 @@ class Activation {
   }
 
   dispose() {
-    this._deactivate();
+    // Re-enable Atom's bundled 'tree-view' when this package is disabled to leave the user's
+    // environment the way this package found it.
+    if ((_featureConfig || _load_featureConfig()).default.isFeatureDisabled('nuclide-file-tree') && atom.packages.isPackageDisabled('tree-view')) {
+      atom.packages.enablePackage('tree-view');
+    }
+
     this._disposables.dispose();
   }
 
   serialize() {
     return {
       tree: this._fileTreeController.serialize(),
-      restored: true
+      restored: true,
+      // Scrap our serialization when docks become available. Technically, we only need to scrap
+      // the "restored" value, but this is simpler.
+      // TODO(matthewwithanm): After docks have been in Atom stable for a while, we can just change
+      //   this to "2"
+      version: atom.workspace.getLeftDock == null ? 1 : 2
     };
   }
 
@@ -181,30 +213,20 @@ class Activation {
     });
     this._disposables.add(currentSubscription);
 
-    let updateOpenFilesWorkingSet = this._fileTreeController.updateOpenFilesWorkingSet.bind(this._fileTreeController);
+    const rebuildSignals = _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidAddPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidDestroyPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)((_textEditor || _load_textEditor()).observeTextEditors).flatMap(textEditor => {
+      return (0, (_event || _load_event()).observableFromSubscribeFunction)(textEditor.onDidChangePath.bind(textEditor)).takeUntil((0, (_event || _load_event()).observableFromSubscribeFunction)(textEditor.onDidDestroy.bind(textEditor)));
+    })).debounceTime(OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS);
 
-    this._disposables.add(() => {
-      updateOpenFilesWorkingSet = () => {};
-    });
-
-    const rebuildOpenFilesWorkingSet = (0, (_debounce || _load_debounce()).default)(() => {
+    this._disposables.add(rebuildSignals.subscribe(() => {
       const openUris = atom.workspace.getTextEditors().filter(te => te.getPath() != null && te.getPath() !== '').map(te => te.getPath());
       const openFilesWorkingSet = new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet(openUris);
-      updateOpenFilesWorkingSet(openFilesWorkingSet);
-    }, OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS);
-
-    rebuildOpenFilesWorkingSet();
-
-    const paneObservingDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    paneObservingDisposable.add(atom.workspace.onDidAddPaneItem(rebuildOpenFilesWorkingSet), atom.workspace.onDidDestroyPaneItem(rebuildOpenFilesWorkingSet));
-
-    this._disposables.add(paneObservingDisposable);
+      this._fileTreeController.updateOpenFilesWorkingSet(openFilesWorkingSet);
+    }));
 
     return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
       this._fileTreeController.updateWorkingSetsStore(null);
       this._fileTreeController.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
       this._fileTreeController.updateOpenFilesWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
-      paneObservingDisposable.dispose();
       this._disposables.remove(currentSubscription);
       currentSubscription.dispose();
     });
@@ -265,7 +287,7 @@ class Activation {
     this._fileTreeController.setUsePreviewTabs(usePreviewTabs);
   }
 
-  getContextMenu() {
+  getContextMenuForFileTree() {
     if (!this._fileTreeController) {
       throw new Error('Invariant violation: "this._fileTreeController"');
     }
@@ -273,7 +295,7 @@ class Activation {
     return this._fileTreeController.getContextMenu();
   }
 
-  getProjectSelectionManager() {
+  getProjectSelectionManagerForFileTree() {
     if (!this._fileTreeController) {
       throw new Error('Invariant violation: "this._fileTreeController"');
     }
@@ -281,14 +303,9 @@ class Activation {
     return this._fileTreeController.getProjectSelectionManager();
   }
 
-  _deactivate() {
-    // Guard against deactivate being called twice
-    this._fileTreeController.destroy();
-  }
-
   _createView() {
     // Currently, we assume that only one will be created.
-    this._fileTreeComponent = (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_FileTreeSidebarComponent || _load_FileTreeSidebarComponent()).default, null));
+    this._fileTreeComponent = (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_FileTreeSidebarComponent || _load_FileTreeSidebarComponent()).default, null));
     return this._fileTreeComponent;
   }
 
@@ -310,10 +327,6 @@ class Activation {
   }
 }
 
-let activation;
-let deserializedState;
-let onDidActivateDisposable;
-
 function disableTreeViewPackage() {
   if (!atom.packages.isPackageDisabled('tree-view')) {
     // Calling `disablePackage` on a package first *loads* the package. This step must come
@@ -332,105 +345,4 @@ function disableTreeViewPackage() {
   }
 }
 
-function activate(state) {
-  if (!(activation == null)) {
-    throw new Error('Invariant violation: "activation == null"');
-  }
-  // Disable Atom's bundled 'tree-view' package. If this activation is happening during the
-  // normal startup activation, the `onDidActivateInitialPackages` handler below must unload the
-  // 'tree-view' because it will have been loaded during startup.
-
-
-  disableTreeViewPackage();
-
-  // Disabling and unloading Atom's bundled 'tree-view' must happen after activation because this
-  // package's `activate` is called during an traversal of all initial packages to activate.
-  // Disabling a package during the traversal has no effect if this is a startup load because
-  // `PackageManager` does not re-load the list of packages to activate after each iteration.
-  onDidActivateDisposable = atom.packages.onDidActivateInitialPackages(() => {
-    disableTreeViewPackage();
-    onDidActivateDisposable.dispose();
-  });
-
-  deserializedState = state;
-  activation = new Activation(deserializedState);
-}
-
-function deactivate() {
-  // Re-enable Atom's bundled 'tree-view' when this package is disabled to leave the user's
-  // environment the way this package found it.
-  if ((_featureConfig || _load_featureConfig()).default.isFeatureDisabled('nuclide-file-tree') && atom.packages.isPackageDisabled('tree-view')) {
-    atom.packages.enablePackage('tree-view');
-  }
-
-  if (!onDidActivateDisposable.disposed) {
-    onDidActivateDisposable.dispose();
-  }
-
-  if (activation) {
-    activation.dispose();
-    activation = null;
-  }
-}
-
-function serialize() {
-  if (activation) {
-    return activation.serialize();
-  }
-}
-
-function getContextMenuForFileTree() {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.getContextMenu();
-}
-
-function consumeWorkspaceViewsService(api) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  activation.consumeWorkspaceViewsService(api);
-}
-
-function getProjectSelectionManagerForFileTree() {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.getProjectSelectionManager();
-}
-
-function deserializeFileTreeSidebarComponent() {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.deserializeFileTreeSidebarComponent();
-}
-
-function consumeWorkingSetsStore(workingSetsStore) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.consumeWorkingSetsStore(workingSetsStore);
-}
-
-function consumeCwdApi(cwdApi) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.consumeCwdApi(cwdApi);
-}
-
-function consumeRemoteProjectsService(service) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.consumeRemoteProjectsService(service);
-}
+(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

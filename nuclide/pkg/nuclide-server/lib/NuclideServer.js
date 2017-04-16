@@ -168,6 +168,7 @@ class NuclideServer {
     // ServiceIntegrationTestHelper.
     this._xhrServiceRegistry = {};
     this._setupHeartbeatHandler();
+    this._setupClientInfoHandler();
 
     // Setup error handler.
     this._app.use((error, request, response, next) => {
@@ -184,6 +185,22 @@ class NuclideServer {
 
     this._registerService('/' + (_config || _load_config()).HEARTBEAT_CHANNEL, (0, _asyncToGenerator.default)(function* () {
       return _this._version;
+    }), 'post', true);
+  }
+
+  _setupClientInfoHandler() {
+    var _this2 = this;
+
+    this._registerService('/' + (_config || _load_config()).CLIENTINFO_CHANNEL, (0, _asyncToGenerator.default)(function* () {
+      const clients = {};
+      for (const [clientId, client] of _this2._clients) {
+        const transport = client.getTransport();
+        clients[clientId] = {
+          lastStateChangeTime: transport.getLastStateChangeTime(),
+          state: transport.getState()
+        };
+      }
+      return JSON.stringify({ clients });
     }), 'post', true);
   }
 
@@ -245,21 +262,21 @@ class NuclideServer {
    */
   _registerService(serviceName, serviceFunction, method, isTextResponse) {
     if (this._xhrServiceRegistry[serviceName]) {
-      throw new Error('A service with this name is already registered:', serviceName);
+      throw new Error('A service with this name is already registered: ' + serviceName);
     }
     this._xhrServiceRegistry[serviceName] = serviceFunction;
     this._registerHttpService(serviceName, method, isTextResponse);
   }
 
   _registerHttpService(serviceName, method, isTextResponse) {
-    var _this2 = this;
+    var _this3 = this;
 
     const loweredCaseMethod = method.toLowerCase();
     // $FlowFixMe - Use map instead of computed property.
     this._app[loweredCaseMethod](serviceName, (() => {
-      var _ref2 = (0, _asyncToGenerator.default)(function* (request, response, next) {
+      var _ref3 = (0, _asyncToGenerator.default)(function* (request, response, next) {
         try {
-          const result = yield _this2.callService(serviceName, (0, (_utils || _load_utils()).deserializeArgs)(request.url));
+          const result = yield _this3.callService(serviceName, (0, (_utils || _load_utils()).deserializeArgs)(request.url));
           if (isTextResponse) {
             (0, (_utils || _load_utils()).sendTextResponse)(response, result || '');
           } else {
@@ -272,7 +289,7 @@ class NuclideServer {
       });
 
       return function (_x, _x2, _x3) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       };
     })());
   }

@@ -135,22 +135,15 @@ let getCommitBasedArcConfigDirectory = (() => {
 })();
 
 let getArcExecOptions = (() => {
-  var _ref9 = (0, _asyncToGenerator.default)(function* (cwd, hgEditor) {
+  var _ref9 = (0, _asyncToGenerator.default)(function* (cwd) {
     const options = {
       cwd,
-      env: Object.assign({}, (yield (0, (_process || _load_process()).getOriginalEnvironment)()), {
-        ATOM_BACKUP_EDITOR: 'false'
-      })
+      env: yield (0, (_process || _load_process()).getOriginalEnvironment)()
     };
-
-    if (hgEditor != null) {
-      options.env.HGEDITOR = hgEditor;
-    }
-
     return options;
   });
 
-  return function getArcExecOptions(_x10, _x11) {
+  return function getArcExecOptions(_x10) {
     return _ref9.apply(this, arguments);
   };
 })();
@@ -161,12 +154,6 @@ exports.updatePhabricatorRevision = updatePhabricatorRevision;
 exports.execArcPull = execArcPull;
 exports.execArcLand = execArcLand;
 exports.execArcPatch = execArcPatch;
-
-var _hgUtils;
-
-function _load_hgUtils() {
-  return _hgUtils = require('../../nuclide-hg-rpc/lib/hg-utils');
-}
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -252,7 +239,7 @@ function _callArcDiff(filePath, extraArcDiffArgs) {
 
   return _rxjsBundlesRxMinJs.Observable.fromPromise(getCommitBasedArcConfigDirectory(filePath)).flatMap(arcConfigDir => {
     if (arcConfigDir == null) {
-      throw new Error('Failed to find Arcanist config.  Is this project set up for Arcanist?');
+      return _rxjsBundlesRxMinJs.Observable.throw(new Error('Failed to find Arcanist config.  Is this project set up for Arcanist?'));
     }
     return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(arcConfigDir)).switchMap(opts => (0, (_process || _load_process()).scriptSafeSpawnAndObserveOutput)('arc', args, opts));
   }).share();
@@ -287,23 +274,21 @@ function updatePhabricatorRevision(filePath, message, allowUntracked, lintExcuse
 }
 
 function execArcPull(cwd, fetchLatest, allowDirtyChanges) {
-  return _rxjsBundlesRxMinJs.Observable.fromPromise((0, (_hgUtils || _load_hgUtils()).getEditMergeConfigs)()).switchMap(editMergeConfigs => {
-    const args = ['pull'];
-    if (fetchLatest) {
-      args.push('--latest');
-    }
+  const args = ['pull'];
+  if (fetchLatest) {
+    args.push('--latest');
+  }
 
-    if (allowDirtyChanges) {
-      args.push('--allow-dirty');
-    }
+  if (allowDirtyChanges) {
+    args.push('--allow-dirty');
+  }
 
-    return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd, editMergeConfigs.hgEditor)).switchMap(opts => (0, (_process || _load_process()).observeProcess)(() => (0, (_process || _load_process()).safeSpawn)('arc', args, opts)));
-  }).publish();
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd)).switchMap(opts => (0, (_process || _load_process()).observeProcess)('arc', args, opts)).publish();
 }
 
 function execArcLand(cwd) {
   const args = ['land'];
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd)).switchMap(opts => (0, (_process || _load_process()).observeProcess)(() => (0, (_process || _load_process()).safeSpawn)('arc', args, opts))).publish();
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd)).switchMap(opts => (0, (_process || _load_process()).observeProcess)('arc', args, opts)).publish();
 }
 
 function execArcPatch(cwd, differentialRevision) {
@@ -312,7 +297,7 @@ function execArcPatch(cwd, differentialRevision) {
     args.push('--diff');
   }
   args.push(differentialRevision);
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd)).switchMap(opts => (0, (_process || _load_process()).observeProcess)(() => (0, (_process || _load_process()).safeSpawn)('arc', args, opts))).publish();
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getArcExecOptions(cwd)).switchMap(opts => (0, (_process || _load_process()).observeProcess)('arc', args, opts)).publish();
 }
 
 function execArcLint(cwd, filePaths, skip) {

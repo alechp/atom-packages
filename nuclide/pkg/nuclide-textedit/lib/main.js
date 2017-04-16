@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = applyTextEdits;
+exports.applyTextEdits = applyTextEdits;
+exports.applyTextEditsToBuffer = applyTextEditsToBuffer;
 
 var _textEditor;
 
@@ -40,7 +41,10 @@ function applyTextEdits(path, ...edits) {
     throw new Error('Invariant violation: "editor != null"');
   }
 
-  const buffer = editor.getBuffer();
+  return applyTextEditsToBuffer(editor.getBuffer(), edits);
+}
+
+function applyTextEditsToBuffer(buffer, edits) {
   const checkpoint = buffer.createCheckpoint();
 
   // Iterate through in reverse order. Edits earlier in the file can move around text later in the

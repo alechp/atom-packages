@@ -31,7 +31,7 @@ function _load_Inspector2() {
   return _Inspector2 = require('./ui/Inspector');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65,7 +65,7 @@ function consumeWorkspaceViewsService(api) {
 
   disposables.add(api.addOpener(uri => {
     if (uri === (_Inspector2 || _load_Inspector2()).WORKSPACE_VIEW_URI) {
-      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_Inspector || _load_Inspector()).default, null));
+      return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_Inspector || _load_Inspector()).default, null));
     }
   }), () => api.destroyWhere(item => item instanceof (_Inspector || _load_Inspector()).default), atom.commands.add('atom-workspace', 'nuclide-react-inspector:toggle', event => {
     api.toggle((_Inspector2 || _load_Inspector2()).WORKSPACE_VIEW_URI, event.detail);

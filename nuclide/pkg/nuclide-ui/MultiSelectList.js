@@ -13,11 +13,23 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class MultiSelectList extends _reactForAtom.React.Component {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class MultiSelectList extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -27,12 +39,12 @@ class MultiSelectList extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    this._updateCommands(this.props.commandScope);
+    this._updateCommands();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.commandScope !== this.props.commandScope) {
-      this._updateCommands(this.props.commandScope);
+      this._updateCommands();
     }
   }
 
@@ -40,7 +52,7 @@ class MultiSelectList extends _reactForAtom.React.Component {
     if (this._commandsDisposables != null) {
       this._commandsDisposables.dispose();
     }
-    const el = this.props.commandScope || _reactForAtom.ReactDOM.findDOMNode(this);
+    const el = this.props.commandScope || _reactDom.default.findDOMNode(this);
     this._commandsDisposables = new _atom.CompositeDisposable(atom.commands.add(
     // $FlowFixMe
     el, {
@@ -85,12 +97,12 @@ class MultiSelectList extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: 'nuclide-multi-select-list select-list block',
         tabIndex: '0' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'ol',
         { className: 'list-group mark-active' },
         this._renderOptions()
@@ -108,7 +120,7 @@ class MultiSelectList extends _reactForAtom.React.Component {
         selected,
         active
       });
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'li',
         {
           key: index,
@@ -119,7 +131,7 @@ class MultiSelectList extends _reactForAtom.React.Component {
           onClick: () => {
             this._toggleActive(option.value);
           } },
-        _reactForAtom.React.createElement(OptionComponent, {
+        _react.default.createElement(OptionComponent, {
           option: option,
           active: active,
           selected: selected
@@ -129,16 +141,7 @@ class MultiSelectList extends _reactForAtom.React.Component {
   }
 }
 
-exports.MultiSelectList = MultiSelectList; /**
-                                            * Copyright (c) 2015-present, Facebook, Inc.
-                                            * All rights reserved.
-                                            *
-                                            * This source code is licensed under the license found in the LICENSE file in
-                                            * the root directory of this source tree.
-                                            *
-                                            * 
-                                            */
-
+exports.MultiSelectList = MultiSelectList;
 MultiSelectList.defaultProps = {
   onChange: values => {},
   optionComponent: DefaultOptionComponent,
@@ -148,7 +151,7 @@ MultiSelectList.defaultProps = {
 
 
 function DefaultOptionComponent(props) {
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     null,
     props.option.label

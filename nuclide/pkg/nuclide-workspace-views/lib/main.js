@@ -166,15 +166,60 @@ class Activation {
       }
     };
   }
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
+
+// TODO(matthewwithanm): Delete this (along with the services and package) and refactor to workspace
+// API once docks land
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class CompatActivation {
+  provideWorkspaceViewsService() {
+    return {
+      registerLocation: () => new _atom.Disposable(() => {}),
+      addOpener: opener => atom.workspace.addOpener(opener),
+      destroyWhere(predicate) {
+        atom.workspace.getPanes().forEach(pane => {
+          pane.getItems().forEach(item => {
+            if (predicate(item)) {
+              pane.destroyItem(item);
+            }
+          });
+        });
+      },
+      open(uri, options) {
+        // eslint-disable-next-line nuclide-internal/atom-apis
+        atom.workspace.open(uri, options);
+      },
+      toggle(uri, options) {
+        const visible = options && options.visible;
+        if (visible === true) {
+          // eslint-disable-next-line nuclide-internal/atom-apis
+          atom.workspace.open(uri, { searchAllPanes: true });
+        } else if (visible === false) {
+          // TODO: Add `atom.workspace.hide()` and use that instead.
+          const hasItem = atom.workspace.getPaneItems().some(item => typeof item.getURI === 'function' && item.getURI() === uri);
+          if (hasItem) {
+            // TODO(matthewwithanm): Add this to the Flow defs once docks land
+            // $FlowIgnore
+            atom.workspace.toggle(uri);
+          }
+        } else {
+          // TODO(matthewwithanm): Add this to the Flow defs once docks land
+          // $FlowIgnore
+          atom.workspace.toggle(uri);
+        }
+      }
+    };
+  }
+}
 
 function createPackageStore(rawState) {
   const initialState = (_AppSerialization || _load_AppSerialization()).deserialize(rawState);
@@ -190,4 +235,8 @@ function createPackageStore(rawState) {
   return store;
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+if (typeof atom.workspace.getLeftDock === 'function' && typeof atom.workspace.toggle === 'function') {
+  (0, (_createPackage || _load_createPackage()).default)(module.exports, CompatActivation);
+} else {
+  (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+}

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ButtonSizes = exports.SplitButtonDropdown = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -43,7 +43,7 @@ if (!(remote != null)) {
   throw new Error('Invariant violation: "remote != null"');
 }
 
-class SplitButtonDropdown extends _reactForAtom.React.Component {
+class SplitButtonDropdown extends _react.default.Component {
 
   render() {
     const selectedOption = this._findSelectedOption(this.props.options) || this.props.options[0];
@@ -58,10 +58,10 @@ class SplitButtonDropdown extends _reactForAtom.React.Component {
       selectedLabel: ''
     }));
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       { className: 'nuclide-ui-split-button-dropdown' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         ButtonComponent,
         {
           size: this.props.size == null ? undefined : this.props.size,
@@ -70,7 +70,7 @@ class SplitButtonDropdown extends _reactForAtom.React.Component {
           onClick: this.props.onConfirm },
         selectedOption.selectedLabel || selectedOption.label || ''
       ),
-      _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+      _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
         size: this._getDropdownSize(this.props.size),
         disabled: this.props.changeDisabled === true,
         options: dropdownOptions,

@@ -8,7 +8,8 @@ path = require 'path'
 # Manually specify {fixtures} if you only want to run specific tests.
 # A {fixture} is a relative path + filename (without extension).
 # fixtures = [
-#   # "flavors/math"
+#   # "blocks/fenced-code"
+#   "flavors/math"
 #   # "inlines/entities"
 #   # "issues"
 # ]

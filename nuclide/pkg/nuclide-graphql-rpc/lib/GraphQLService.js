@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GraphQLLanguageService = exports.initialize = undefined;
+exports.initialize = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 /* LanguageService related type imports */
 let initialize = exports.initialize = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (fileNotifier) {
-    return new GraphQLLanguageService(fileNotifier);
+    return new (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ServerLanguageService(fileNotifier, new GraphQLLanguageAnalyzer(fileNotifier));
   });
 
   return function initialize(_x) {
@@ -64,15 +64,6 @@ function _load_GraphQLProcess() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class GraphQLLanguageService extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ServerLanguageService {
-  constructor(fileNotifier) {
-    super(fileNotifier, new GraphQLLanguageAnalyzer(fileNotifier));
-  }
-
-  dispose() {}
-}
-
-exports.GraphQLLanguageService = GraphQLLanguageService;
 class GraphQLLanguageAnalyzer {
 
   constructor(fileNotifier) {
@@ -118,12 +109,12 @@ class GraphQLLanguageAnalyzer {
         const graphQLProcess = yield (0, (_GraphQLProcess || _load_GraphQLProcess()).getGraphQLProcess)(_this2._fileCache, filePath);
 
         if (!graphQLProcess) {
-          return [];
+          return { isIncomplete: false, items: [] };
         }
 
         const result = yield graphQLProcess.getAutocompleteSuggestions(buffer.getText(), position, filePath);
 
-        return result.map(function (completion) {
+        const items = result.map(function (completion) {
           return {
             text: completion.text,
             description: completion.description || null,
@@ -131,6 +122,10 @@ class GraphQLLanguageAnalyzer {
             leftLabelHTML: completion.typeName ? `<span style="color: #E10098;">${completion.typeName}</span>` : null
           };
         });
+        return {
+          isIncomplete: false,
+          items
+        };
       }));
     })();
   }
@@ -173,7 +168,7 @@ class GraphQLLanguageAnalyzer {
           return null;
         }
 
-        return graphQLProcess.getService().getOutline(buffer.getText());
+        return (yield graphQLProcess.getService()).getOutline(buffer.getText());
       }));
     })();
   }

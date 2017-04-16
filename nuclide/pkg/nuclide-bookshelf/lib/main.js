@@ -38,10 +38,10 @@ function _load_utils() {
   return _utils = require('./utils');
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 var _nuclideLogging;
@@ -109,7 +109,7 @@ class Activation {
     };
     const commands = new (_Commands || _load_Commands()).Commands(dispatch, () => states.getValue());
 
-    const addedRepoSubscription = (0, (_vcs || _load_vcs()).getHgRepositoryStream)().subscribe(repository => {
+    const addedRepoSubscription = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).getHgRepositoryStream)().subscribe(repository => {
       // $FlowFixMe wrong repository type
       commands.addProjectRepository(repository);
     });

@@ -29,18 +29,10 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../../commons-node/nuclideUri'));
 }
 
-var _child_process = _interopRequireDefault(require('child_process'));
-
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
-
-/**
- * This function models the executor side of the debugging equation: it receives a stream of
- * instructions from the RN app, executes them, and emits a stream of results.
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -51,6 +43,12 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  * 
  */
 
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
+
+/**
+ * This function models the executor side of the debugging equation: it receives a stream of
+ * instructions from the RN app, executes them, and emits a stream of results.
+ */
 function executeRequests(requests) {
   // Wait until we get the first request, then spawn a worker process for processing them.
   const workerProcess = requests.first().switchMap(createWorker).share();
@@ -78,12 +76,12 @@ function executeRequests(requests) {
 }
 
 function createWorker() {
-  return (0, (_process || _load_process()).createProcessStream)(() =>
+  return (0, (_process || _load_process()).forkProcessStream)(
   // TODO: The node location/path needs to be more configurable. We need to figure out a way to
   //   handle this across the board.
-  _child_process.default.fork((_nuclideUri || _load_nuclideUri()).default.join(__dirname, 'executor.js'), [], {
+  (_nuclideUri || _load_nuclideUri()).default.join(__dirname, 'executor.js'), [], {
     execArgv: ['--debug-brk'],
     execPath: (_featureConfig || _load_featureConfig()).default.get('nuclide-react-native.pathToNode'),
     silent: true
-  }));
+  });
 }

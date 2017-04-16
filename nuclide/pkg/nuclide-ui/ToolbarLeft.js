@@ -5,10 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ToolbarLeft = undefined;
 
-var _reactForAtom = require("react-for-atom");
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const ToolbarLeft = exports.ToolbarLeft = props => {
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     "div",
     { className: "nuclide-ui-toolbar__left" },
     props.children

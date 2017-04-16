@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _projects;
 
@@ -20,6 +20,8 @@ function _load_util() {
   return _util = require('./util');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -30,7 +32,7 @@ function _load_util() {
  * 
  */
 
-class VcsLog extends _reactForAtom.React.Component {
+class VcsLog extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -81,10 +83,10 @@ class VcsLog extends _reactForAtom.React.Component {
             revision = null;
             onClick = null;
           }
-          differentialCell = _reactForAtom.React.createElement(
+          differentialCell = _react.default.createElement(
             'td',
             { className: 'nuclide-vcs-log-differential-cell' },
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'span',
               { className: 'nuclide-vcs-log-differential-cell-text', onClick: onClick },
               revision
@@ -94,26 +96,26 @@ class VcsLog extends _reactForAtom.React.Component {
           differentialCell = null;
         }
 
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'tr',
           { key: logEntry.node },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             { className: 'nuclide-vcs-log-date-cell' },
             this._toDateString(logEntry.date[0])
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             { className: 'nuclide-vcs-log-id-cell' },
             logEntry.node.substring(0, 8)
           ),
           differentialCell,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             { className: 'nuclide-vcs-log-author-cell' },
             (0, (_util || _load_util()).shortNameForAuthor)(logEntry.user)
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'td',
             { className: 'nuclide-vcs-log-summary-cell', title: logEntry.desc },
             parseFirstLine(logEntry.desc)
@@ -125,42 +127,42 @@ class VcsLog extends _reactForAtom.React.Component {
       // copy/paste text from the pane. This has to be applied on a child element of
       // nuclide-vcs-log-scroll-container, or else the native-key-bindings/tabIndex=-1 will
       // interfere with scrolling.
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         { className: 'nuclide-vcs-log-scroll-container' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'native-key-bindings', tabIndex: '-1' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'table',
             null,
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'tbody',
               null,
-              _reactForAtom.React.createElement(
+              _react.default.createElement(
                 'tr',
                 null,
-                _reactForAtom.React.createElement(
+                _react.default.createElement(
                   'th',
                   { className: 'nuclide-vcs-log-header-cell' },
                   'Date'
                 ),
-                _reactForAtom.React.createElement(
+                _react.default.createElement(
                   'th',
                   { className: 'nuclide-vcs-log-header-cell' },
                   'ID'
                 ),
-                showDifferentialRevision ? _reactForAtom.React.createElement(
+                showDifferentialRevision ? _react.default.createElement(
                   'th',
                   { className: 'nuclide-vcs-log-header-cell' },
                   'Revision'
                 ) : null,
-                _reactForAtom.React.createElement(
+                _react.default.createElement(
                   'th',
                   { className: 'nuclide-vcs-log-header-cell' },
                   'Author'
                 ),
-                _reactForAtom.React.createElement(
+                _react.default.createElement(
                   'th',
                   { className: 'nuclide-vcs-log-header-cell' },
                   'Summary'
@@ -172,23 +174,23 @@ class VcsLog extends _reactForAtom.React.Component {
         )
       );
     } else {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'em',
             null,
             'Loading hg log ',
             this._files.join(' ')
           )
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'nuclide-vcs-log-spinner' },
-          _reactForAtom.React.createElement('div', { className: 'loading-spinner-large inline-block' })
+          _react.default.createElement('div', { className: 'loading-spinner-large inline-block' })
         )
       );
     }

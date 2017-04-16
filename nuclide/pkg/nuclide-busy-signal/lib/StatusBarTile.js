@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StatusBarTile = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _StatusBarTileComponent;
 
@@ -13,21 +15,21 @@ function _load_StatusBarTileComponent() {
   return _StatusBarTileComponent = require('./StatusBarTileComponent');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // We want to be the furthest left on the right side of the status bar so as not to leave a
 // conspicuous gap (or cause jitter) when nothing is busy.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const STATUS_BAR_PRIORITY = 1000; /**
+                                   * Copyright (c) 2015-present, Facebook, Inc.
+                                   * All rights reserved.
+                                   *
+                                   * This source code is licensed under the license found in the LICENSE file in
+                                   * the root directory of this source tree.
+                                   *
+                                   * 
+                                   */
 
 /* global MouseEvent */
-
-const STATUS_BAR_PRIORITY = 1000;
 
 class StatusBarTile {
 
@@ -38,7 +40,7 @@ class StatusBarTile {
 
   dispose() {
     if (this._item) {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(this._item);
+      _reactDom.default.unmountComponentAtNode(this._item);
       this._item = null;
     }
     if (this._tile) {
@@ -85,7 +87,7 @@ class StatusBarTile {
 
     const item = this._item;
     if (item) {
-      _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_StatusBarTileComponent || _load_StatusBarTileComponent()).StatusBarTileComponent, props), item);
+      _reactDom.default.render(_react.default.createElement((_StatusBarTileComponent || _load_StatusBarTileComponent()).StatusBarTileComponent, props), item);
       if (this._tooltip) {
         this._tooltip.dispose();
       }

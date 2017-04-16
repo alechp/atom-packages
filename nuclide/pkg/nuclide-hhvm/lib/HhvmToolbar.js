@@ -30,7 +30,9 @@ function _load_Button() {
   return _Button = require('../../nuclide-ui/Button');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -49,7 +51,7 @@ const DEBUG_OPTIONS = [WEB_SERVER_OPTION, SCRIPT_OPTION];
 
 const NO_LAUNCH_DEBUG_OPTIONS = [WEB_SERVER_OPTION];
 
-class HhvmToolbar extends _reactForAtom.React.Component {
+class HhvmToolbar extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -94,10 +96,12 @@ class HhvmToolbar extends _reactForAtom.React.Component {
   render() {
     const store = this.props.projectStore;
     const isDebugScript = store.getDebugMode() === 'script';
-    return _reactForAtom.React.createElement(
+    const isDisabled = !isDebugScript;
+    const value = store.getDebugTarget();
+    return _react.default.createElement(
       'div',
       { className: 'hhvm-toolbar' },
-      _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+      _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
         className: 'inline-block',
         options: this._getMenuItems(),
         value: store.getDebugMode(),
@@ -105,18 +109,23 @@ class HhvmToolbar extends _reactForAtom.React.Component {
         ref: 'dropdown',
         size: 'sm'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'inline-block', style: { width: '300px' } },
-        _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
           ref: 'debugTarget',
-          initialValue: store.getDebugTarget(),
-          disabled: !isDebugScript,
-          onDidChange: this._updateLastScriptCommand,
+          initialValue: value
+          // Ugly hack: prevent people changing the value without disabling so
+          // that they can copy and paste.
+          , onDidChange: isDisabled ? () => {
+            if (this.refs.debugTarget.getText() !== value) {
+              this.refs.debugTarget.setText(value);
+            }
+          } : this._updateLastScriptCommand,
           size: 'sm'
         })
       ),
-      !isDebugScript ? _reactForAtom.React.createElement(
+      !isDebugScript ? _react.default.createElement(
         (_Button || _load_Button()).Button,
         {
           size: 'SMALL',

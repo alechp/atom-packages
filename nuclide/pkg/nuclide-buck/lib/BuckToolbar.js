@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _shallowequal;
 
@@ -56,7 +56,7 @@ function _load_addTooltip() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class BuckToolbar extends _reactForAtom.React.Component {
+class BuckToolbar extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -72,18 +72,21 @@ class BuckToolbar extends _reactForAtom.React.Component {
       isLoadingRule,
       isLoadingPlatforms,
       platformGroups,
+      platformProviderUi,
       projectRoot,
       selectedDeploymentTarget,
       taskSettings
     } = this.props.appState;
+    const extraToolbarUi = platformProviderUi != null ? platformProviderUi.toolbar : null;
+    const extraSettings = platformProviderUi != null ? platformProviderUi.settings : null;
 
     let status;
     if (isLoadingRule || isLoadingPlatforms) {
       const title = isLoadingRule ? 'Loading target build rule...' : 'Loading available platforms...';
-      status = _reactForAtom.React.createElement(
+      status = _react.default.createElement(
         'div',
         { ref: (0, (_addTooltip || _load_addTooltip()).default)({ title, delay: 0 }) },
-        _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, {
+        _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, {
           className: 'inline-block buck-spinner',
           size: 'EXTRA_SMALL'
         })
@@ -102,7 +105,7 @@ class BuckToolbar extends _reactForAtom.React.Component {
 
       title += '<br />Click icon to retry';
 
-      status = _reactForAtom.React.createElement('span', {
+      status = _react.default.createElement('span', {
         className: 'icon icon-alert',
         ref: (0, (_addTooltip || _load_addTooltip()).default)({ title, delay: 0 }),
         onClick: () => this.props.setBuildTarget(buildTarget)
@@ -111,15 +114,17 @@ class BuckToolbar extends _reactForAtom.React.Component {
 
     const widgets = [];
     if (status != null) {
-      widgets.push(_reactForAtom.React.createElement(
+      widgets.push(_react.default.createElement(
         'div',
-        { key: 'status', className: 'nuclide-buck-status inline-block text-center' },
+        {
+          key: 'status',
+          className: 'nuclide-buck-status inline-block text-center' },
         status
       ));
     } else if (platformGroups.length) {
       const options = this._optionsFromPlatformGroups(platformGroups);
 
-      widgets.push(_reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+      widgets.push(_react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
         key: 'simulator-dropdown',
         className: 'inline-block',
         value: selectedDeploymentTarget,
@@ -129,24 +134,29 @@ class BuckToolbar extends _reactForAtom.React.Component {
         title: 'Choose a device',
         selectionComparator: (_shallowequal || _load_shallowequal()).default
       }));
+
+      if (extraToolbarUi) {
+        widgets.push(extraToolbarUi);
+      }
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-buck-toolbar' },
-      _reactForAtom.React.createElement((_BuckToolbarTargetSelector || _load_BuckToolbarTargetSelector()).default, {
+      _react.default.createElement((_BuckToolbarTargetSelector || _load_BuckToolbarTargetSelector()).default, {
         appState: this.props.appState,
         setBuildTarget: this.props.setBuildTarget
       }),
-      _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+      _react.default.createElement((_Button || _load_Button()).Button, {
         className: 'nuclide-buck-settings icon icon-gear',
         size: (_Button || _load_Button()).ButtonSizes.SMALL,
         onClick: () => this._showSettings()
       }),
       widgets,
-      this.state.settingsVisible ? _reactForAtom.React.createElement((_BuckToolbarSettings || _load_BuckToolbarSettings()).default, {
+      this.state.settingsVisible ? _react.default.createElement((_BuckToolbarSettings || _load_BuckToolbarSettings()).default, {
         currentBuckRoot: buckRoot,
         settings: taskSettings,
+        platformProviderSettings: extraSettings,
         onDismiss: () => this._hideSettings(),
         onSave: settings => this._saveSettings(settings)
       }) : null

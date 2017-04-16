@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ListviewExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -31,6 +31,8 @@ function _load_MultiSelectList() {
   return _MultiSelectList = require('./MultiSelectList');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const NOOP = () => {}; /**
                         * Copyright (c) 2015-present, Facebook, Inc.
                         * All rights reserved.
@@ -41,89 +43,89 @@ const NOOP = () => {}; /**
                         * 
                         */
 
-const ListviewExample1 = () => _reactForAtom.React.createElement(
+const ListviewExample1 = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_ListView || _load_ListView()).ListView,
     { alternateBackground: true },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       { value: { id: 1 } },
       'test1'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       { value: { id: 2 } },
       'test2'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       { value: { id: 3 } },
       'test3'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       { value: { id: 4 } },
       'test4'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       { value: { id: 5 } },
       'test5'
     )
   )
 );
-const ListviewExample2 = () => _reactForAtom.React.createElement(
+const ListviewExample2 = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_ListView || _load_ListView()).ListView,
     { alternateBackground: true },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       null,
-      _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         checked: true,
         onClick: NOOP,
         onChange: NOOP,
         label: 'A Checkbox.'
       })
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       null,
-      _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         checked: true,
         onClick: NOOP,
         onChange: NOOP,
         label: 'A Checkbox.'
       })
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       null,
-      _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         checked: true,
         onClick: NOOP,
         onChange: NOOP,
         label: 'A Checkbox.'
       })
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       null,
-      _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         checked: false,
         onClick: NOOP,
         onChange: NOOP,
         label: 'A Checkbox.'
       })
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ListView || _load_ListView()).ListViewItem,
       null,
-      _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         checked: false,
         onClick: NOOP,
         onChange: NOOP,
@@ -133,7 +135,7 @@ const ListviewExample2 = () => _reactForAtom.React.createElement(
   )
 );
 
-class MultiSelectListExample extends _reactForAtom.React.Component {
+class MultiSelectListExample extends _react.default.Component {
   constructor(props) {
     super(props);
     this.state = { value: [2] };
@@ -141,7 +143,7 @@ class MultiSelectListExample extends _reactForAtom.React.Component {
   render() {
     const options = [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }, { value: 3, label: 'Three' }, { value: 4, label: 'Four' }];
 
-    return _reactForAtom.React.createElement((_MultiSelectList || _load_MultiSelectList()).MultiSelectList, {
+    return _react.default.createElement((_MultiSelectList || _load_MultiSelectList()).MultiSelectList, {
       options: options,
       value: this.state.value,
       onChange: value => {

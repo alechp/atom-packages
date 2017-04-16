@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.INDEFINITE_END_COLUMN = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
@@ -44,6 +45,11 @@ const DIAGNOSTIC_REGEX = /^([^\s:]+):([0-9]+):([0-9]+): (.*)$/gm;
 const TEST_FAILURE_START_REGEX = /^FAILURE.*: (.*):([0-9]+): (.*)$/gm;
 const TEST_FAILURE_CONTINUED_REGEX = /^([^:]+):([0-9]+): (.*)$/gm;
 
+// It's expensive to get the real length of the lines (we'd have to read each file).
+// Instead, just use a very large number ("infinity"). The diagnostics UI handles this
+// and won't underline any characters past the end of the line.
+const INDEFINITE_END_COLUMN = exports.INDEFINITE_END_COLUMN = 1e9;
+
 // An intermediate step towards creating real diagnostics.
 
 
@@ -57,7 +63,7 @@ function getFileSystemServiceIfNecessary(fileSystemService, root) {
 
 function pushParsedDiagnostic(fileSystemService, promises, root, file, level, text, line, column) {
   if (fileSystemService != null) {
-    const filePath = (_nuclideUri || _load_nuclideUri()).default.join(root, file);
+    const filePath = (_nuclideUri || _load_nuclideUri()).default.resolve(root, file);
     const localPath = (_nuclideUri || _load_nuclideUri()).default.getPath(filePath);
     promises.push(fileSystemService.exists(localPath).then(exists => !exists ? null : {
       level,
@@ -83,7 +89,7 @@ function makeDiagnostic(result) {
     type: result.level === 'error' ? 'Error' : 'Warning',
     filePath: result.filePath,
     text: result.text,
-    range: new _atom.Range([result.line - 1, 0], [result.line, 0])
+    range: new _atom.Range([result.line - 1, 0], [result.line - 1, INDEFINITE_END_COLUMN])
   };
 }
 

@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _Constants;
+
+function _load_Constants() {
+  return _Constants = require('./Constants');
+}
+
 var _atom = require('atom');
 
 var _nuclideRemoteConnection;
@@ -16,6 +22,26 @@ var _nuclideUri;
 
 function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
+var _featureConfig;
+
+function _load_featureConfig() {
+  return _featureConfig = _interopRequireDefault(require('../../commons-atom/featureConfig'));
+}
+
+var _observable;
+
+function _load_observable() {
+  return _observable = require('../../commons-node/observable');
+}
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
+var _passesGK;
+
+function _load_passesGK() {
+  return _passesGK = _interopRequireDefault(require('../../commons-node/passesGK'));
 }
 
 var _crypto = _interopRequireDefault(require('crypto'));
@@ -150,15 +176,41 @@ function buildHashKey(nodeKey) {
   return _crypto.default.createHash('MD5').update(nodeKey).digest('base64');
 }
 
+function observeUncommittedChangesKindConfigKey() {
+  return (0, (_observable || _load_observable()).cacheWhileSubscribed)((_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).SHOW_UNCOMMITTED_CHANGES_KIND_CONFIG_KEY).map(setting => {
+    // We need to map the unsanitized feature-setting string
+    // into a properly typed value:
+    switch (setting) {
+      case (_Constants || _load_Constants()).ShowUncommittedChangesKind.UNCOMMITTED:
+        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.UNCOMMITTED;
+      case (_Constants || _load_Constants()).ShowUncommittedChangesKind.STACK:
+        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.STACK;
+      default:
+        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.HEAD;
+    }
+  }).distinctUntilChanged());
+}
+
 function updatePathInOpenedEditors(oldPath, newPath) {
   atom.workspace.getTextEditors().forEach(editor => {
     const buffer = editor.getBuffer();
-    if (buffer.getPath() === oldPath) {
+    const bufferPath = buffer.getPath();
+    if (bufferPath == null) {
+      return;
+    }
+
+    if ((_nuclideUri || _load_nuclideUri()).default.contains(oldPath, bufferPath)) {
+      const relativeToOld = (_nuclideUri || _load_nuclideUri()).default.relative(oldPath, bufferPath);
+      const newBufferPath = (_nuclideUri || _load_nuclideUri()).default.join(newPath, relativeToOld);
       // setPath will append the hostname when given the local path, so we
       // strip off the hostname here to avoid including it twice in the path.
-      buffer.setPath((_nuclideUri || _load_nuclideUri()).default.getPath(newPath));
+      buffer.setPath((_nuclideUri || _load_nuclideUri()).default.getPath(newBufferPath));
     }
   });
+}
+
+function areStackChangesEnabled() {
+  return (0, (_passesGK || _load_passesGK()).default)('nuclide_file_tree_stack_changes');
 }
 
 exports.default = {
@@ -176,5 +228,7 @@ exports.default = {
   isLocalEntry,
   isContextClick,
   buildHashKey,
-  updatePathInOpenedEditors
+  observeUncommittedChangesKindConfigKey,
+  updatePathInOpenedEditors,
+  areStackChangesEnabled
 };

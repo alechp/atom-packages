@@ -28,15 +28,23 @@ class QuickOpenProviderRegistry {
   }
 
   getGlobalProviders() {
-    return Array.from(this._globalProviders.values());
+    return [...this._globalProviders.values()];
   }
 
   getDirectoryProviders() {
-    return Array.from(this._directoryProviders.values());
+    return [...this._directoryProviders.values()];
   }
 
   getProviderByName(serviceName) {
     return this._globalProviders.get(serviceName) || this._directoryProviders.get(serviceName);
+  }
+
+  getGlobalProviderByName(serviceName) {
+    return this._globalProviders.get(serviceName);
+  }
+
+  getDirectoryProviderByName(serviceName) {
+    return this._directoryProviders.get(serviceName);
   }
 
   isProviderGlobal(serviceName) {

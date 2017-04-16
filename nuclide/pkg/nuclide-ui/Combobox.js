@@ -25,7 +25,9 @@ function _load_Portal() {
   return _Portal = require('./Portal');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37,7 +39,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * TODO use generic search provider
  * TODO move combobox to separate package.
  */
-class Combobox extends _reactForAtom.React.Component {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class Combobox extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -64,7 +76,7 @@ class Combobox extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const node = _reactForAtom.ReactDOM.findDOMNode(this);
+    const node = _reactDom.default.findDOMNode(this);
     this._subscriptions.add(
     // $FlowFixMe
     atom.commands.add(node, 'core:move-up', this._handleMoveUp),
@@ -201,7 +213,7 @@ class Combobox extends _reactForAtom.React.Component {
   _handleInputFocus() {
     this.requestUpdate(this.state.textInput);
     // $FlowFixMe
-    const boundingRect = _reactForAtom.ReactDOM.findDOMNode(this).getBoundingClientRect();
+    const boundingRect = _reactDom.default.findDOMNode(this).getBoundingClientRect();
     this.setState({
       optionsVisible: true,
       optionsRect: {
@@ -233,7 +245,7 @@ class Combobox extends _reactForAtom.React.Component {
     this.selectValue(selectedValue, () => {
       // Focus the input again because the click will cause the input to blur. This mimics native
       // <select> behavior by keeping focus in the form being edited.
-      const input = _reactForAtom.ReactDOM.findDOMNode(this.refs.freeformInput);
+      const input = _reactDom.default.findDOMNode(this.refs.freeformInput);
       if (input) {
         // $FlowFixMe
         input.focus();
@@ -273,7 +285,7 @@ class Combobox extends _reactForAtom.React.Component {
   }
 
   _scrollSelectedOptionIntoViewIfNeeded() {
-    const selectedOption = _reactForAtom.ReactDOM.findDOMNode(this.refs.selectedOption);
+    const selectedOption = _reactDom.default.findDOMNode(this.refs.selectedOption);
     if (selectedOption) {
       // $FlowFixMe
       selectedOption.scrollIntoViewIfNeeded();
@@ -285,10 +297,10 @@ class Combobox extends _reactForAtom.React.Component {
     const options = [];
 
     if (this.props.loadingMessage && this.state.loadingOptions) {
-      options.push(_reactForAtom.React.createElement(
+      options.push(_react.default.createElement(
         'li',
         { key: 'loading-text', className: 'loading' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'loading-message' },
           this.props.loadingMessage
@@ -298,7 +310,7 @@ class Combobox extends _reactForAtom.React.Component {
 
     if (this.state.error != null && this.props.formatRequestOptionsErrorMessage != null) {
       const message = this.props.formatRequestOptionsErrorMessage(this.state.error);
-      options.push(_reactForAtom.React.createElement(
+      options.push(_react.default.createElement(
         'li',
         { key: 'text-error', className: 'text-error' },
         message
@@ -312,7 +324,7 @@ class Combobox extends _reactForAtom.React.Component {
         const highlightedMatch = option.value.substring(option.matchIndex, endOfMatchIndex);
         const afterMatch = option.value.substring(endOfMatchIndex, option.value.length);
         const isSelected = i === this.state.selectedIndex;
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'li',
           {
             className: isSelected ? 'selected' : null,
@@ -321,7 +333,7 @@ class Combobox extends _reactForAtom.React.Component {
             onMouseOver: this._setSelectedIndex.bind(this, i),
             ref: isSelected ? 'selectedOption' : null },
           beforeMatch,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'strong',
             { className: 'text-highlight' },
             highlightedMatch
@@ -331,7 +343,7 @@ class Combobox extends _reactForAtom.React.Component {
       }));
 
       if (!options.length) {
-        options.push(_reactForAtom.React.createElement(
+        options.push(_react.default.createElement(
           'li',
           { className: 'text-subtle', key: 'no-results-found' },
           'No results found'
@@ -340,16 +352,16 @@ class Combobox extends _reactForAtom.React.Component {
 
       const rect = this.state.optionsRect || { left: 0, top: 0, width: 300 };
 
-      optionsContainer = _reactForAtom.React.createElement(
+      optionsContainer = _react.default.createElement(
         (_Portal || _load_Portal()).Portal,
         { container: this._getOptionsElement() },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'nuclide-combobox-options', style: rect },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'select-list' },
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'ol',
               { className: 'nuclide-combobox-list-group list-group' },
               options
@@ -368,11 +380,11 @@ class Combobox extends _reactForAtom.React.Component {
     const wrapperStyle = {
       width: width == null ? undefined : `${width}px`
     };
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'select-list popover-list popover-list-subtle ' + this.props.className,
         style: wrapperStyle },
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         initialValue: initialTextInput,
         onBlur: this._handleInputBlur,
         onFocus: this._handleInputFocus,
@@ -386,16 +398,7 @@ class Combobox extends _reactForAtom.React.Component {
     );
   }
 }
-exports.Combobox = Combobox; /**
-                              * Copyright (c) 2015-present, Facebook, Inc.
-                              * All rights reserved.
-                              *
-                              * This source code is licensed under the license found in the LICENSE file in
-                              * the root directory of this source tree.
-                              *
-                              * 
-                              */
-
+exports.Combobox = Combobox;
 Combobox.defaultProps = {
   className: '',
   maxOptionCount: 10,

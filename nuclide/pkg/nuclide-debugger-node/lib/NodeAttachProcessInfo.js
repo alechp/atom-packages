@@ -19,23 +19,7 @@ function _load_nuclideRemoteConnection() {
   return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
 }
 
-var _utils;
-
-function _load_utils() {
-  return _utils = require('./utils');
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
 
 class NodeAttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebuggerBase()).DebuggerProcessInfo {
 
@@ -55,11 +39,16 @@ class NodeAttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebugg
   }
 
   _getRpcService() {
-    const debuggerConfig = {
-      logLevel: (0, (_utils || _load_utils()).getConfig)().serverLogLevel
-    };
     const service = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getNodeDebuggerServiceByNuclideUri)(this.getTargetUri());
-    return new service.NodeDebuggerService(debuggerConfig);
+    return new service.NodeDebuggerService();
   }
 }
-exports.NodeAttachProcessInfo = NodeAttachProcessInfo;
+exports.NodeAttachProcessInfo = NodeAttachProcessInfo; /**
+                                                        * Copyright (c) 2015-present, Facebook, Inc.
+                                                        * All rights reserved.
+                                                        *
+                                                        * This source code is licensed under the license found in the LICENSE file in
+                                                        * the root directory of this source tree.
+                                                        *
+                                                        * 
+                                                        */

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderReactRoot = renderReactRoot;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _ReactMountRootElement;
 

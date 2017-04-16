@@ -25,7 +25,11 @@ function _load_treeNodeTraversals() {
   return _treeNodeTraversals = require('./tree-node-traversals');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Toggles the existence of a value in a set. If the value exists, deletes it.
@@ -39,16 +43,6 @@ var _reactForAtom = require('react-for-atom');
  * @returns `true` if the value was added to the set, otherwise `false`. If
  *     `forceHas` is defined, the return value will be equal to `forceHas`.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 function toggleSetHas(set, value, forceHas) {
   let added;
 
@@ -61,14 +55,22 @@ function toggleSetHas(set, value, forceHas) {
   }
 
   return added;
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   */
 
 const FIRST_SELECTED_DESCENDANT_REF = 'firstSelectedDescendant';
 
 /**
  * Generic tree component that operates on LazyTreeNodes.
  */
-class TreeRootComponent extends _reactForAtom.React.Component {
+class TreeRootComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -111,7 +113,7 @@ class TreeRootComponent extends _reactForAtom.React.Component {
       const firstSelectedDescendant = this.refs[FIRST_SELECTED_DESCENDANT_REF];
       if (firstSelectedDescendant !== undefined) {
         // $FlowFixMe
-        _reactForAtom.ReactDOM.findDOMNode(firstSelectedDescendant).scrollIntoViewIfNeeded(false);
+        _reactDom.default.findDOMNode(firstSelectedDescendant).scrollIntoViewIfNeeded(false);
       }
     }
 
@@ -260,7 +262,7 @@ class TreeRootComponent extends _reactForAtom.React.Component {
           ref = FIRST_SELECTED_DESCENDANT_REF;
         }
 
-        const child = _reactForAtom.React.createElement((_TreeNodeComponent || _load_TreeNodeComponent()).TreeNodeComponent, Object.assign({}, item, {
+        const child = _react.default.createElement((_TreeNodeComponent || _load_TreeNodeComponent()).TreeNodeComponent, Object.assign({}, item, {
           isContainer: node.isContainer(),
           isExpanded: this._isNodeExpanded(node),
           isLoading: !node.isCacheValid(),
@@ -316,7 +318,7 @@ class TreeRootComponent extends _reactForAtom.React.Component {
 
     this._allKeys = allKeys;
     this._keyToNode = keyToNode;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-tree-root' },
       children

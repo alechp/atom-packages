@@ -77,7 +77,9 @@ function _load_nullthrows() {
   return _nullthrows = _interopRequireDefault(require('nullthrows'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -88,16 +90,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Manages views for an Atom panel.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
 
   constructor(locationId, serializedState = {}) {
@@ -182,7 +174,7 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
     }
 
     const el = panel.getItem();
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_PanelComponent || _load_PanelComponent()).PanelComponent, {
+    _reactDom.default.render(_react.default.createElement((_PanelComponent || _load_PanelComponent()).PanelComponent, {
       draggingItem: state.showDropAreas,
       active: state.active,
       initialSize: this._size,
@@ -202,7 +194,7 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
         item: el,
         priority: 101 });
       this._disposables.add(() => {
-        _reactForAtom.ReactDOM.unmountComponentAtNode(el);
+        _reactDom.default.unmountComponentAtNode(el);
       }, () => {
         panel.destroy();
       });
@@ -310,7 +302,16 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
   }
 }
 
-exports.PanelLocation = PanelLocation;
+exports.PanelLocation = PanelLocation; /**
+                                        * Copyright (c) 2015-present, Facebook, Inc.
+                                        * All rights reserved.
+                                        *
+                                        * This source code is licensed under the license found in the LICENSE file in
+                                        * the root directory of this source tree.
+                                        *
+                                        * 
+                                        */
+
 function deserializePaneContainer(serialized) {
   const paneContainer = (0, (_createPaneContainer || _load_createPaneContainer()).default)();
   if (serialized != null) {

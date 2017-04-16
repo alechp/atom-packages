@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RpcConnection = undefined;
+exports.RpcConnection = exports.RpcTimeoutError = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
@@ -45,6 +45,12 @@ function _load_config() {
   return _config = require('./config');
 }
 
+var _string;
+
+function _load_string() {
+  return _string = require('../../commons-node/string');
+}
+
 var _nuclideLogging;
 
 function _load_nuclideLogging() {
@@ -53,19 +59,18 @@ function _load_nuclideLogging() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
+                                                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                                                              * All rights reserved.
+                                                                              *
+                                                                              * This source code is licensed under the license found in the LICENSE file in
+                                                                              * the root directory of this source tree.
+                                                                              *
+                                                                              * 
+                                                                              */
 
 const SERVICE_FRAMEWORK_RPC_TIMEOUT_MS = 60 * 1000;
+const LARGE_RESPONSE_SIZE = 100000;
 
 class Subscription {
 
@@ -99,6 +104,17 @@ class Subscription {
   }
 }
 
+// Special marker error for RPC timeouts.
+class RpcTimeoutError extends Error {
+  constructor(...args) {
+    var _temp;
+
+    return _temp = super(...args), this.name = 'RpcTimeoutError', _temp;
+  }
+
+}
+
+exports.RpcTimeoutError = RpcTimeoutError;
 class Call {
 
   constructor(message, timeoutMessage, resolve, reject, cleanup) {
@@ -139,7 +155,7 @@ class Call {
   _timeout() {
     if (!this._complete) {
       this.cleanup();
-      this._reject(new Error(`Timeout after ${SERVICE_FRAMEWORK_RPC_TIMEOUT_MS} for id: ` + `${this._message.id}, ${this._timeoutMessage}.`));
+      this._reject(new RpcTimeoutError(`Timeout after ${SERVICE_FRAMEWORK_RPC_TIMEOUT_MS} for id: ` + `${this._message.id}, ${this._timeoutMessage}.`));
     }
   }
 }
@@ -279,76 +295,74 @@ class RpcConnection {
    *   Promise, or an Observable.
    */
   _sendMessageAndListenForResult(message, returnType, timeoutMessage) {
-    const operation = () => {
-      switch (returnType) {
-        case 'void':
+    switch (returnType) {
+      case 'void':
+        this._transport.send(JSON.stringify(message));
+        return; // No values to return.
+      case 'promise':
+        // Listen for a single message, and resolve or reject a promise on that message.
+        const promise = new Promise((resolve, reject) => {
           this._transport.send(JSON.stringify(message));
-          return; // No values to return.
-        case 'promise':
-          // Listen for a single message, and resolve or reject a promise on that message.
-          return new Promise((resolve, reject) => {
-            this._transport.send(JSON.stringify(message));
-            this._calls.set(message.id, new Call(message, timeoutMessage, resolve, reject, () => {
-              this._calls.delete(message.id);
-            }));
-          });
-        case 'observable':
-          {
-            const id = message.id;
+          this._calls.set(message.id, new Call(message, timeoutMessage, resolve, reject, () => {
+            this._calls.delete(message.id);
+          }));
+        });
+        return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(trackingIdOfMessageAndNetwork(this._objectRegistry, message), () => promise);
+      case 'observable':
+        {
+          const id = message.id;
 
-            if (!!this._subscriptions.has(id)) {
-              throw new Error('Invariant violation: "!this._subscriptions.has(id)"');
-            }
-
-            const sendSubscribe = () => {
-              this._transport.send(JSON.stringify(message));
-            };
-            const sendUnsubscribe = () => {
-              if (!this._transport.isClosed()) {
-                this._transport.send(JSON.stringify((0, (_messages || _load_messages()).createUnsubscribeMessage)(this._getProtocol(), id)));
-              }
-            };
-            let hadSubscription = false;
-            const observable = _rxjsBundlesRxMinJs.Observable.create(observer => {
-              // Only allow a single subscription. This will be the common case,
-              // and adding this restriction allows disposing of the observable
-              // on the remote side after the initial subscription is complete.
-              if (hadSubscription) {
-                throw new Error('Attempt to re-connect with a remote Observable.');
-              }
-              hadSubscription = true;
-
-              const subscription = new Subscription(message, observer);
-              this._subscriptions.set(id, subscription);
-              sendSubscribe();
-
-              // Observable dispose function, which is called on subscription dispose, on stream
-              // completion, and on stream error.
-              return {
-                unsubscribe: () => {
-                  if (!this._subscriptions.has(id)) {
-                    // guard against multiple unsubscribe calls
-                    return;
-                  }
-                  this._subscriptions.delete(id);
-
-                  sendUnsubscribe();
-                }
-              };
-            });
-
-            // Conversion to ConnectableObservable happens in the generated
-            // proxies.
-            return observable;
+          if (!!this._subscriptions.has(id)) {
+            throw new Error('Invariant violation: "!this._subscriptions.has(id)"');
           }
-        default:
-          throw new Error(`Unkown return type: ${returnType}.`);
-      }
-    };
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(trackingIdOfMessageAndNetwork(this._objectRegistry, message), operation);
+
+          const sendSubscribe = () => {
+            this._transport.send(JSON.stringify(message));
+          };
+          const sendUnsubscribe = () => {
+            if (!this._transport.isClosed()) {
+              this._transport.send(JSON.stringify((0, (_messages || _load_messages()).createUnsubscribeMessage)(this._getProtocol(), id)));
+            }
+          };
+          let hadSubscription = false;
+          const observable = _rxjsBundlesRxMinJs.Observable.create(observer => {
+            // Only allow a single subscription. This will be the common case,
+            // and adding this restriction allows disposing of the observable
+            // on the remote side after the initial subscription is complete.
+            if (hadSubscription) {
+              throw new Error('Attempt to re-connect with a remote Observable.');
+            }
+            hadSubscription = true;
+
+            const subscription = new Subscription(message, observer);
+            this._subscriptions.set(id, subscription);
+            sendSubscribe();
+
+            // Observable dispose function, which is called on subscription dispose, on stream
+            // completion, and on stream error.
+            return {
+              unsubscribe: () => {
+                if (!this._subscriptions.has(id)) {
+                  // guard against multiple unsubscribe calls
+                  return;
+                }
+                this._subscriptions.delete(id);
+
+                sendUnsubscribe();
+              }
+            };
+          });
+
+          // Conversion to ConnectableObservable happens in the generated
+          // proxies.
+          return observable;
+        }
+      default:
+        throw new Error(`Unkown return type: ${returnType}.`);
+    }
   }
 
-  _returnPromise(id, timingTracker, candidate, type) {
+  _returnPromise(id, candidate, type) {
     let returnVal = candidate;
     // Ensure that the return value is a promise.
     if (!isThenable(returnVal)) {
@@ -366,10 +380,8 @@ class RpcConnection {
     // Send the result of the promise across the socket.
     returnVal.then(result => {
       this._transport.send(JSON.stringify((0, (_messages || _load_messages()).createPromiseMessage)(this._getProtocol(), id, result)));
-      timingTracker.onSuccess();
     }, error => {
       this._transport.send(JSON.stringify((0, (_messages || _load_messages()).createErrorResponseMessage)(this._getProtocol(), id, error)));
-      timingTracker.onError(error == null ? new Error() : error);
     });
   }
 
@@ -400,23 +412,22 @@ class RpcConnection {
   }
 
   // Returns true if a promise was returned.
-  _returnValue(id, timingTracker, value, type) {
+  _returnValue(id, value, type) {
     switch (type.kind) {
       case 'void':
         break; // No need to send anything back to the user.
       case 'promise':
-        this._returnPromise(id, timingTracker, value, type.type);
-        return true;
+        this._returnPromise(id, value, type.type);
+        break;
       case 'observable':
         this._returnObservable(id, value, type.type);
         break;
       default:
-        throw new Error(`Unkown return type ${type.kind}.`);
+        throw new Error(`Unknown return type ${type.kind}.`);
     }
-    return false;
   }
 
-  _callFunction(id, timingTracker, call) {
+  _callFunction(id, call) {
     var _this3 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
@@ -426,11 +437,11 @@ class RpcConnection {
       } = _this3._getFunctionImplemention(call.method);
       const marshalledArgs = yield _this3._getTypeRegistry().unmarshalArguments(_this3._objectRegistry, call.args, type.argumentTypes);
 
-      return _this3._returnValue(id, timingTracker, localImplementation.apply(_this3, marshalledArgs), type.returnType);
+      _this3._returnValue(id, localImplementation.apply(_this3, marshalledArgs), type.returnType);
     })();
   }
 
-  _callMethod(id, timingTracker, call) {
+  _callMethod(id, call) {
     var _this4 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
@@ -456,11 +467,11 @@ class RpcConnection {
 
       const marshalledArgs = yield _this4._getTypeRegistry().unmarshalArguments(_this4._objectRegistry, call.args, type.argumentTypes);
 
-      return _this4._returnValue(id, timingTracker, object[call.method](...marshalledArgs), type.returnType);
+      _this4._returnValue(id, object[call.method](...marshalledArgs), type.returnType);
     })();
   }
 
-  _callConstructor(id, timingTracker, constructorMessage) {
+  _callConstructor(id, constructorMessage) {
     var _this5 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
@@ -487,7 +498,7 @@ class RpcConnection {
 
       // Return the object, which will automatically be converted to an id through the
       // marshalling system.
-      _this5._returnPromise(id, timingTracker, Promise.resolve(newObject), {
+      _this5._returnPromise(id, Promise.resolve(newObject), {
         kind: 'named',
         name: constructorMessage.interface,
         location: (_builtinTypes || _load_builtinTypes()).builtinLocation
@@ -534,7 +545,17 @@ class RpcConnection {
       case 'next':
       case 'complete':
       case 'error':
-        this._handleResponseMessage(message);
+        const requestMessage = this._handleResponseMessage(message);
+        if (value.length > LARGE_RESPONSE_SIZE && requestMessage != null) {
+          const eventName = trackingIdOfMessage(this._objectRegistry, requestMessage);
+          const args = requestMessage.args != null ? (0, (_string || _load_string()).shorten)(JSON.stringify(requestMessage.args), 100, '...') : '';
+          logger.warn(`${eventName}: Large response of size ${value.length}. Args:`, args);
+          (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('large-rpc-response', {
+            eventName,
+            size: value.length,
+            args
+          });
+        }
         break;
       case 'call':
       case 'call-object':
@@ -548,6 +569,7 @@ class RpcConnection {
     }
   }
 
+  // Handles the response and returns the originating request message (if possible).
   _handleResponseMessage(message) {
     const id = message.id;
     switch (message.type) {
@@ -557,6 +579,7 @@ class RpcConnection {
           if (call != null) {
             const { result } = message;
             call.resolve(result);
+            return call._message;
           }
           break;
         }
@@ -566,6 +589,7 @@ class RpcConnection {
           if (call != null) {
             const { error } = message;
             call.reject(error);
+            return call._message;
           }
           break;
         }
@@ -575,6 +599,7 @@ class RpcConnection {
           if (subscription != null) {
             const { value } = message;
             subscription.next(value);
+            return subscription._message;
           }
           break;
         }
@@ -584,6 +609,7 @@ class RpcConnection {
           if (subscription != null) {
             subscription.complete();
             this._subscriptions.delete(id);
+            return subscription._message;
           }
           break;
         }
@@ -594,6 +620,7 @@ class RpcConnection {
             const { error } = message;
             subscription.error(error);
             this._subscriptions.delete(id);
+            return subscription._message;
           }
           break;
         }
@@ -608,30 +635,21 @@ class RpcConnection {
     return (0, _asyncToGenerator.default)(function* () {
       const id = message.id;
 
-      // Track timings of all function calls, method calls, and object creations.
-      // Note: for Observables we only track how long it takes to create the initial Observable.
-      // while for Promises we track the length of time it takes to resolve or reject.
-      // For returning void, we track the time for the call to complete.
-      const timingTracker = (0, (_nuclideAnalytics || _load_nuclideAnalytics()).startTracking)(trackingIdOfMessage(_this6._objectRegistry, message));
-
       // Here's the main message handler ...
       try {
-        let returnedPromise = false;
         switch (message.type) {
           case 'call':
-            returnedPromise = yield _this6._callFunction(id, timingTracker, message);
+            yield _this6._callFunction(id, message);
             break;
           case 'call-object':
-            returnedPromise = yield _this6._callMethod(id, timingTracker, message);
+            yield _this6._callMethod(id, message);
             break;
           case 'new':
-            yield _this6._callConstructor(id, timingTracker, message);
-            returnedPromise = true;
+            yield _this6._callConstructor(id, message);
             break;
           case 'dispose':
             yield _this6._objectRegistry.disposeObject(message.objectId);
-            _this6._returnPromise(id, timingTracker, Promise.resolve(), (_builtinTypes || _load_builtinTypes()).voidType);
-            returnedPromise = true;
+            _this6._returnPromise(id, Promise.resolve(), (_builtinTypes || _load_builtinTypes()).voidType);
             break;
           case 'unsubscribe':
             _this6._objectRegistry.disposeSubscription(id);
@@ -639,12 +657,8 @@ class RpcConnection {
           default:
             throw new Error(`Unknown message type ${message.type}`);
         }
-        if (!returnedPromise) {
-          timingTracker.onSuccess();
-        }
       } catch (e) {
         logger.error(`Error handling RPC ${message.type} message`, e);
-        timingTracker.onError(e == null ? new Error() : e);
         _this6._transport.send(JSON.stringify((0, (_messages || _load_messages()).createErrorResponseMessage)(_this6._getProtocol(), id, e)));
       }
     })();

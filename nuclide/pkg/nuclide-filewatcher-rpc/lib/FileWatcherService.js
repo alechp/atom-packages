@@ -72,10 +72,20 @@ function _load_nuclideWatchmanHelpers() {
   return _nuclideWatchmanHelpers = require('../../nuclide-watchman-helpers');
 }
 
+var _debounceDeletes;
+
+function _load_debounceDeletes() {
+  return _debounceDeletes = _interopRequireDefault(require('./debounceDeletes'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Cache an observable for each watched entity (file or directory).
 // Multiple watches for the same entity can share the same observable.
+const entityWatches = new (_SharedObservableCache || _load_SharedObservableCache()).default(registerWatch);
+
+// In addition, expose the observer behind each observable so we can
+// dispatch events from the root subscription.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -86,10 +96,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-const entityWatches = new (_SharedObservableCache || _load_SharedObservableCache()).default(registerWatch);
-
-// In addition, expose the observer behind each observable so we can
-// dispatch events from the root subscription.
 const entityObserver = new Map();
 
 let watchmanClient = null;
@@ -109,7 +115,7 @@ function watchDirectory(directoryPath) {
 }
 
 function watchEntity(entityPath, isFile) {
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(getRealPath(entityPath, isFile)).switchMap(realPath => entityWatches.get(realPath));
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getRealPath(entityPath, isFile)).switchMap(realPath => (0, (_debounceDeletes || _load_debounceDeletes()).default)(entityWatches.get(realPath)));
 }
 
 // Register an observable for the given path.
@@ -152,7 +158,6 @@ function onWatcherChange(subscription, entries) {
       // TODO(most): handle `rename`, if needed.
       if (!entry.exists) {
         observer.next('delete');
-        observer.complete();
       } else {
         observer.next('change');
       }

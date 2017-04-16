@@ -12,13 +12,15 @@ function _load_goToLocation() {
   return _goToLocation = require('../../commons-atom/go-to-location');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _DiagnosticsMessage;
 
 function _load_DiagnosticsMessage() {
   return _DiagnosticsMessage = require('../../nuclide-ui/DiagnosticsMessage');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -32,15 +34,15 @@ function _load_DiagnosticsMessage() {
 
 const NOOP = () => {};
 
-class DiagnosticsDatatipComponent extends _reactForAtom.React.Component {
+class DiagnosticsDatatipComponent extends _react.default.Component {
 
   render() {
     // Remove the `fix` property to prevent the fix button from showing up (for now).
     const message = Object.assign({}, this.props.message, { fix: undefined });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-diagnostics-datatip' },
-      _reactForAtom.React.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
+      _react.default.createElement((_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessage, {
         message: message,
         goToLocation: (_goToLocation || _load_goToLocation()).goToLocation,
         fixer: NOOP
@@ -51,5 +53,5 @@ class DiagnosticsDatatipComponent extends _reactForAtom.React.Component {
 
 exports.DiagnosticsDatatipComponent = DiagnosticsDatatipComponent;
 function makeDiagnosticsDatatipComponent(message) {
-  return () => _reactForAtom.React.createElement(DiagnosticsDatatipComponent, { message: message });
+  return () => _react.default.createElement(DiagnosticsDatatipComponent, { message: message });
 }

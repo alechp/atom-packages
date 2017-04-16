@@ -35,7 +35,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53,7 +53,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class ModalMultiSelect extends _reactForAtom.React.Component {
+class ModalMultiSelect extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -75,14 +75,14 @@ class ModalMultiSelect extends _reactForAtom.React.Component {
     const className = (0, (_classnames || _load_classnames()).default)(this.props.className, {
       'btn-warning': this.props.value.length === 0
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {
         className: className,
         disabled: this.props.disabled,
         size: this.props.size,
         onClick: this._showModal },
-      _reactForAtom.React.createElement(LabelComponent, { selectedOptions: selectedOptions }),
+      _react.default.createElement(LabelComponent, { selectedOptions: selectedOptions }),
       this._renderModal()
     );
   }
@@ -123,48 +123,48 @@ class ModalMultiSelect extends _reactForAtom.React.Component {
       return;
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Modal || _load_Modal()).Modal,
       {
         onDismiss: this._dismissModal },
-      _reactForAtom.React.createElement((_MultiSelectList || _load_MultiSelectList()).MultiSelectList, {
+      _react.default.createElement((_MultiSelectList || _load_MultiSelectList()).MultiSelectList, {
         commandScope: atom.views.getView(atom.workspace),
         value: this.state.activeValues,
         options: this.props.options,
         optionComponent: this.props.optionComponent,
         onChange: activeValues => this.setState({ activeValues })
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-modal-multi-select-actions' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this._selectNone },
             'None'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this._selectAll },
             'All'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this._resetSelection },
             'Reset'
           )
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this._dismissModal },
             'Cancel'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY,
@@ -192,7 +192,7 @@ ModalMultiSelect.defaultProps = {
 function DefaultLabelComponent(props) {
   const count = props.selectedOptions.length;
   const noun = count === 1 ? 'Item' : 'Items';
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     null,
     `${count} ${noun} Selected`

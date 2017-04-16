@@ -5,10 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MultiRootChangedFilesView = undefined;
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../nuclide-vcs-base');
 }
 
 var _goToLocation;
@@ -17,13 +17,19 @@ function _load_goToLocation() {
   return _goToLocation = require('../commons-atom/go-to-location');
 }
 
+var _openInDiffView;
+
+function _load_openInDiffView() {
+  return _openInDiffView = require('../commons-atom/open-in-diff-view');
+}
+
 var _nuclideUri;
 
 function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../commons-node/nuclideUri'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _UniversalDisposable;
 
@@ -39,27 +45,23 @@ function _load_ChangedFilesList() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-class MultiRootChangedFilesView extends _reactForAtom.React.Component {
+class MultiRootChangedFilesView extends _react.default.Component {
 
   componentDidMount() {
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    const { commandPrefix, getRevertTargetRevision } = this.props;
+    const { commandPrefix, getRevertTargetRevision, openInDiffViewOption } = this.props;
     this._subscriptions.add(atom.contextMenu.add({
       [`.${commandPrefix}-file-entry`]: [{ type: 'separator' }, {
         label: 'Add to Mercurial',
         command: `${commandPrefix}:add`,
         shouldDisplay: event => {
-          return this._getStatusCodeForFile(event) === (_vcs || _load_vcs()).FileChangeStatus.UNTRACKED;
+          return this._getStatusCodeForFile(event) === (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.UNTRACKED;
+        }
+      }, {
+        label: 'Open in Diff View',
+        command: `${commandPrefix}:open-in-diff-view`,
+        shouldDisplay: event => {
+          return openInDiffViewOption;
         }
       }, {
         label: 'Revert',
@@ -69,14 +71,14 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
           if (statusCode == null) {
             return false;
           }
-          return (_vcs || _load_vcs()).RevertibleStatusCodes.includes(statusCode);
+          return (_nuclideVcsBase || _load_nuclideVcsBase()).RevertibleStatusCodes.includes(statusCode);
         }
       }, {
         label: 'Delete',
         command: `${commandPrefix}:delete-file`,
         shouldDisplay: event => {
           const statusCode = this._getStatusCodeForFile(event);
-          return statusCode !== (_vcs || _load_vcs()).FileChangeStatus.REMOVED;
+          return statusCode !== (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.REMOVED;
         }
       }, {
         label: 'Goto File',
@@ -102,7 +104,7 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
     }));
     this._subscriptions.add(atom.commands.add(`.${commandPrefix}-file-entry`, `${commandPrefix}:delete-file`, event => {
       const nuclideFilePath = this._getFilePathFromEvent(event);
-      (0, (_vcs || _load_vcs()).confirmAndDeletePath)(nuclideFilePath);
+      (0, (_nuclideVcsBase || _load_nuclideVcsBase()).confirmAndDeletePath)(nuclideFilePath);
     }));
     this._subscriptions.add(atom.commands.add(`.${commandPrefix}-file-entry`, `${commandPrefix}:copy-file-name`, event => {
       atom.clipboard.write((_nuclideUri || _load_nuclideUri()).default.basename(this._getFilePathFromEvent(event) || ''));
@@ -110,7 +112,7 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
     this._subscriptions.add(atom.commands.add(`.${commandPrefix}-file-entry`, `${commandPrefix}:add`, event => {
       const filePath = this._getFilePathFromEvent(event);
       if (filePath != null && filePath.length) {
-        (0, (_vcs || _load_vcs()).addPath)(filePath);
+        (0, (_nuclideVcsBase || _load_nuclideVcsBase()).addPath)(filePath);
       }
     }));
     this._subscriptions.add(atom.commands.add(`.${commandPrefix}-file-entry`, `${commandPrefix}:revert`, event => {
@@ -120,7 +122,14 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
         if (getRevertTargetRevision != null) {
           targetRevision = getRevertTargetRevision();
         }
-        (0, (_vcs || _load_vcs()).confirmAndRevertPath)(filePath, targetRevision);
+        (0, (_nuclideVcsBase || _load_nuclideVcsBase()).confirmAndRevertPath)(filePath, targetRevision);
+      }
+    }));
+
+    this._subscriptions.add(atom.commands.add(`.${commandPrefix}-file-entry`, `${commandPrefix}:open-in-diff-view`, event => {
+      const filePath = this._getFilePathFromEvent(event);
+      if (filePath != null && filePath.length) {
+        (0, (_openInDiffView || _load_openInDiffView()).openFileInDiffView)(filePath);
       }
     }));
   }
@@ -152,17 +161,17 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
 
   render() {
     if (this.props.fileChanges.size === 0) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         null,
         'No changes'
       );
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-ui-multi-root-file-tree-container' },
-      Array.from(this.props.fileChanges.entries()).map(([root, fileChanges]) => _reactForAtom.React.createElement((_ChangedFilesList || _load_ChangedFilesList()).default, {
+      Array.from(this.props.fileChanges.entries()).map(([root, fileChanges]) => _react.default.createElement((_ChangedFilesList || _load_ChangedFilesList()).default, {
         key: root,
         fileChanges: fileChanges,
         rootPath: root,
@@ -179,4 +188,12 @@ class MultiRootChangedFilesView extends _reactForAtom.React.Component {
     this._subscriptions.dispose();
   }
 }
-exports.MultiRootChangedFilesView = MultiRootChangedFilesView;
+exports.MultiRootChangedFilesView = MultiRootChangedFilesView; /**
+                                                                * Copyright (c) 2015-present, Facebook, Inc.
+                                                                * All rights reserved.
+                                                                *
+                                                                * This source code is licensed under the license found in the LICENSE file in
+                                                                * the root directory of this source tree.
+                                                                *
+                                                                * 
+                                                                */

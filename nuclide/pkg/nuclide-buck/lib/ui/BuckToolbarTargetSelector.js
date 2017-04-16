@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -52,7 +52,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const NO_ACTIVE_PROJECT_ERROR = 'No active Buck project. Check your Current Working Root.';
 
-class BuckToolbarTargetSelector extends _reactForAtom.React.Component {
+class BuckToolbarTargetSelector extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -115,7 +115,7 @@ class BuckToolbarTargetSelector extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement((_Combobox || _load_Combobox()).Combobox
+    return _react.default.createElement((_Combobox || _load_Combobox()).Combobox
     // Hack to forcibly refresh the combobox when the target changes.
     // TODO(#11581583): Remove this when Combobox is fully controllable.
     , { key: this.props.appState.buildTarget,

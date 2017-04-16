@@ -10,7 +10,7 @@ function _load_BreakpointStore() {
   return _BreakpointStore = _interopRequireDefault(require('./BreakpointStore'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Wrapper for Chrome Devtools frontend view.
  */
-class DebuggerInspector extends _reactForAtom.React.PureComponent {
+class DebuggerInspector extends _react.default.PureComponent {
 
   constructor(props) {
     super(props);
@@ -32,19 +32,19 @@ class DebuggerInspector extends _reactForAtom.React.PureComponent {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'inspector' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'control-bar' },
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+        _react.default.createElement((_Button || _load_Button()).Button, {
           title: 'Detach from the current process.',
           icon: 'x',
           buttonType: (_Button || _load_Button()).ButtonTypes.ERROR,
           onClick: this._handleClickClose
         }),
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+        _react.default.createElement((_Button || _load_Button()).Button, {
           title: '(Debug) Open Web Inspector for the debugger frame.',
           icon: 'gear',
           onClick: this._handleClickDevTools

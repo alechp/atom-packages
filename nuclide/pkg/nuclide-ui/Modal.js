@@ -17,7 +17,7 @@ function _load_Portal() {
   return _Portal = require('./Portal');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -36,7 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class Modal extends _reactForAtom.React.Component {
+class Modal extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -83,10 +83,10 @@ class Modal extends _reactForAtom.React.Component {
   render() {
     const props = Object.assign({}, this.props);
     delete props.onDismiss;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Portal || _load_Portal()).Portal,
       { container: this._container },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         Object.assign({
           tabIndex: '0'

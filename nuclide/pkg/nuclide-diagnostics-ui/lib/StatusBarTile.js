@@ -4,13 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _addTooltip;
+
+function _load_addTooltip() {
+  return _addTooltip = _interopRequireDefault(require('../../nuclide-ui/add-tooltip'));
+}
+
+var _Icon;
+
+function _load_Icon() {
+  return _Icon = require('../../nuclide-ui/Icon');
+}
+
 var _classnames;
 
 function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _UniversalDisposable;
 
@@ -27,15 +41,17 @@ function _load_nuclideAnalytics() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Stick this to the left of remote-projects (-99)
-const STATUS_BAR_PRIORITY = -99.5; /**
-                                    * Copyright (c) 2015-present, Facebook, Inc.
-                                    * All rights reserved.
-                                    *
-                                    * This source code is licensed under the license found in the LICENSE file in
-                                    * the root directory of this source tree.
-                                    *
-                                    * 
-                                    */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+const STATUS_BAR_PRIORITY = -99.5;
 
 class StatusBarTile {
 
@@ -110,14 +126,14 @@ class StatusBarTile {
 
   _render() {
     if (this._item) {
-      _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement(StatusBarTileComponent, this._totalDiagnosticCount), this._item);
+      _reactDom.default.render(_react.default.createElement(StatusBarTileComponent, this._totalDiagnosticCount), this._item);
     }
   }
 
   dispose() {
     this._subscriptions.dispose();
     if (this._item) {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(this._item);
+      _reactDom.default.unmountComponentAtNode(this._item);
       this._item = null;
     }
 
@@ -131,7 +147,7 @@ class StatusBarTile {
 exports.default = StatusBarTile;
 
 
-class StatusBarTileComponent extends _reactForAtom.React.Component {
+class StatusBarTileComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -139,30 +155,47 @@ class StatusBarTileComponent extends _reactForAtom.React.Component {
   }
 
   render() {
+    const errorCount = this.props.errorCount;
+    const warningCount = this.props.warningCount;
+    const hasErrors = errorCount > 0;
+    const hasWarnings = warningCount > 0;
     const errorClassName = (0, (_classnames || _load_classnames()).default)('nuclide-diagnostics-status-bar-highlight', {
-      'highlight': this.props.errorCount === 0,
-      'highlight-error': this.props.errorCount > 0
+      'text-error': hasErrors
     });
     const warningClassName = (0, (_classnames || _load_classnames()).default)('nuclide-diagnostics-status-bar-highlight', {
-      'highlight': this.props.warningCount === 0,
-      'highlight-warning': this.props.warningCount > 0
+      'text-warning': hasWarnings
     });
+    const errorLabel = hasErrors ? errorCount : 'No';
+    const errorSuffix = errorCount !== 1 ? 's' : '';
+    const warningLabel = hasWarnings ? warningCount : 'No';
+    const warningSuffix = warningCount !== 1 ? 's' : '';
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
-      {
-        className: 'nuclide-diagnostics-highlight-group',
-        onClick: this._onClick,
-        title: 'Errors | Warnings' },
-      _reactForAtom.React.createElement(
-        'span',
-        { className: errorClassName },
-        this.props.errorCount
+      null,
+      _react.default.createElement(
+        'a',
+        {
+          className: errorClassName,
+          onClick: this._onClick,
+          ref: (0, (_addTooltip || _load_addTooltip()).default)({
+            title: `${errorLabel} error${errorSuffix}`,
+            placement: 'top'
+          }) },
+        _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'stop' }),
+        errorCount
       ),
-      _reactForAtom.React.createElement(
-        'span',
-        { className: warningClassName },
-        this.props.warningCount
+      _react.default.createElement(
+        'a',
+        {
+          className: warningClassName,
+          onClick: this._onClick,
+          ref: (0, (_addTooltip || _load_addTooltip()).default)({
+            title: `${warningLabel} warning${warningSuffix}`,
+            placement: 'top'
+          }) },
+        _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'alert' }),
+        warningCount
       )
     );
   }

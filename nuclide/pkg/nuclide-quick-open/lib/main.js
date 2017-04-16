@@ -10,7 +10,9 @@ exports.consumeCWD = consumeCWD;
 exports.consumeDeepLinkService = consumeDeepLinkService;
 exports.getHomeFragments = getHomeFragments;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _QuickSelectionComponent;
 
@@ -81,17 +83,16 @@ function _load_QuickSelectionDispatcher2() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Don't pre-fill search input if selection is longer than this:
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const MAX_SELECTION_LENGTH = 1000; /**
+                                    * Copyright (c) 2015-present, Facebook, Inc.
+                                    * All rights reserved.
+                                    *
+                                    * This source code is licensed under the license found in the LICENSE file in
+                                    * the root directory of this source tree.
+                                    *
+                                    * 
+                                    */
 
-const MAX_SELECTION_LENGTH = 1000;
 const ANALYTICS_CHANGE_SELECTION_DEBOUCE = 100;
 
 class Activation {
@@ -191,7 +192,7 @@ class Activation {
       throw new Error('Invariant violation: "searchPanel != null"');
     }
 
-    const searchComponent = _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_QuickSelectionComponent || _load_QuickSelectionComponent()).default, {
+    const searchComponent = _reactDom.default.render(_react.default.createElement((_QuickSelectionComponent || _load_QuickSelectionComponent()).default, {
       quickSelectionActions: this._quickSelectionActions,
       searchResultManager: this._searchResultManager,
       onSelection: this._handleSelection,
@@ -239,7 +240,7 @@ class Activation {
         throw new Error('Invariant violation: "this._searchPanel != null"');
       }
 
-      _reactForAtom.ReactDOM.unmountComponentAtNode(this._searchPanel.getItem());
+      _reactDom.default.unmountComponentAtNode(this._searchPanel.getItem());
       this._searchComponent = null;
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('quickopen-close-panel', {
         'quickopen-session': this._analyticsSessionId || ''

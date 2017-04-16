@@ -7,19 +7,13 @@ exports.Webview = undefined;
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
-class Webview extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class Webview extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +22,7 @@ class Webview extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const element = _reactForAtom.ReactDOM.findDOMNode(this);
+    const element = _reactDom.default.findDOMNode(this);
 
     // Add event listeners. This has the drawbacks of 1) adding an event listener even when we don't
     // have a callback for it and 2) needing to add explicit support for each event type we want to
@@ -52,7 +46,7 @@ class Webview extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement('webview', { className: this.props.className, style: this.props.style });
+    return _react.default.createElement('webview', { className: this.props.className, style: this.props.style });
   }
 
   /**
@@ -62,7 +56,7 @@ class Webview extends _reactForAtom.React.Component {
    * *sigh*
    */
   updateAttributes(prevProps) {
-    const element = _reactForAtom.ReactDOM.findDOMNode(this);
+    const element = _reactDom.default.findDOMNode(this);
     const specialProps = ['className', 'style', 'onDidFinishLoad'];
     const normalProps = Object.keys(this.props).filter(prop => specialProps.indexOf(prop) === -1);
     normalProps.forEach(prop => {
@@ -82,4 +76,12 @@ class Webview extends _reactForAtom.React.Component {
     }
   }
 }
-exports.Webview = Webview;
+exports.Webview = Webview; /**
+                            * Copyright (c) 2015-present, Facebook, Inc.
+                            * All rights reserved.
+                            *
+                            * This source code is licensed under the license found in the LICENSE file in
+                            * the root directory of this source tree.
+                            *
+                            * 
+                            */

@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,7 +36,7 @@ const Icon = props => {
   } = props,
         remainingProps = _objectWithoutProperties(props, ['icon', 'children', 'className']);
   const newClassName = (0, (_classnames || _load_classnames()).default)(className, icon == null ? null : `icon icon-${icon}`);
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     Object.assign({ className: newClassName }, remainingProps),
     children

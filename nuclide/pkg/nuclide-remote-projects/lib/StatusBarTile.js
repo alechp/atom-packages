@@ -16,11 +16,11 @@ function _load_notification() {
   return _notification = require('./notification');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class StatusBarTile extends _reactForAtom.React.Component {
+class StatusBarTile extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -47,7 +47,7 @@ class StatusBarTile extends _reactForAtom.React.Component {
     if (!iconName) {
       return null;
     }
-    return _reactForAtom.React.createElement('span', {
+    return _react.default.createElement('span', {
       className: `icon icon-${iconName} nuclide-remote-projects-status-icon`,
       onClick: this._onStatusBarTileClicked
     });

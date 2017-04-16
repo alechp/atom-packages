@@ -71,7 +71,6 @@ const AnalyticsEvents = Object.freeze({
 });
 
 const GK_DEBUGGER_REQUEST_WINDOW = 'nuclide_debugger_php_request_window';
-const GK_DEBUGGER_THREADS_WINDOW = 'nuclide_debugger_threads_window';
 const GK_DEBUGGER_REQUEST_SENDER = 'nuclide_debugger_request_sender';
 
 /**
@@ -103,18 +102,15 @@ class DebuggerActions {
         atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-debugger:show');
         const debuggerInstance = yield processInfo.debug();
         _this._registerConsole();
-        const supportThreadsWindow = processInfo.supportThreads() && (yield (0, (_passesGK || _load_passesGK()).default)(GK_DEBUGGER_THREADS_WINDOW)) && (yield _this._allowThreadsForPhp(processInfo));
+        const supportThreadsWindow = processInfo.supportThreads() && (yield _this._allowThreadsForPhp(processInfo));
         _this._store.getSettings().set('SupportThreadsWindow', supportThreadsWindow);
         if (supportThreadsWindow) {
           _this._store.getSettings().set('CustomThreadColumns', processInfo.getThreadColumns());
           _this._store.getSettings().set('threadsComponentTitle', processInfo.getThreadsComponentTitle());
         }
         const singleThreadStepping = processInfo.supportSingleThreadStepping();
-        if (singleThreadStepping) {
-          _this._store.getSettings().set('SingleThreadStepping', singleThreadStepping);
-          const singleThreadSteppingEnabled = processInfo.singleThreadSteppingEnabled();
-          _this.toggleSingleThreadStepping(singleThreadSteppingEnabled);
-        }
+        _this._store.getSettings().set('SingleThreadStepping', singleThreadStepping);
+        _this.toggleSingleThreadStepping(singleThreadStepping && processInfo.singleThreadSteppingEnabled());
         if (processInfo.getServiceName() !== 'hhvm' || (yield (0, (_passesGK || _load_passesGK()).default)(GK_DEBUGGER_REQUEST_SENDER))) {
           const customControlButtons = processInfo.customControlButtons();
           if (customControlButtons.length > 0) {
@@ -479,14 +475,15 @@ class DebuggerActions {
     });
   }
 
-  bindBreakpointIPC(path, line, condition, enabled) {
+  bindBreakpointIPC(path, line, condition, enabled, resolved) {
     this._dispatcher.dispatch({
       actionType: (_DebuggerDispatcher || _load_DebuggerDispatcher()).ActionTypes.BIND_BREAKPOINT_IPC,
       data: {
         path,
         line,
         condition,
-        enabled
+        enabled,
+        resolved
       }
     });
   }

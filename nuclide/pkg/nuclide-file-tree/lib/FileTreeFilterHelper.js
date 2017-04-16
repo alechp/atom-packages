@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.matchesFilter = matchesFilter;
 exports.filterName = filterName;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -52,22 +52,22 @@ function filterName(name, filter, isSelected) {
 
     return name.split(new RegExp(`(?:(?=${formatFilter(filter)}))`, 'ig')).map((text, i) => {
       if (matchesFilter(text, filter)) {
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'span',
           { key: filter + i },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: classes },
             text.substr(0, filter.length)
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             null,
             text.substr(filter.length)
           )
         );
       }
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'span',
         { key: filter + i },
         text

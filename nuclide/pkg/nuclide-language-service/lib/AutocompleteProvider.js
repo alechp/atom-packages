@@ -74,17 +74,21 @@ class AutocompleteProvider {
   }
 
   getSuggestions(request) {
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(this._analyticsEventName, () => {
-      if (this._autocompleteCacher != null) {
-        return this._autocompleteCacher.getSuggestions(request);
+    var _this = this;
+
+    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(this._analyticsEventName, (0, _asyncToGenerator.default)(function* () {
+      let result;
+      if (_this._autocompleteCacher != null) {
+        result = yield _this._autocompleteCacher.getSuggestions(request);
       } else {
-        return this._getSuggestionsFromLanguageService(request);
+        result = yield _this._getSuggestionsFromLanguageService(request);
       }
-    });
+      return result != null ? result.items : null;
+    }));
   }
 
   _getSuggestionsFromLanguageService(request) {
-    var _this = this;
+    var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const { editor, activatedManually, prefix } = request;
@@ -92,9 +96,9 @@ class AutocompleteProvider {
       const path = editor.getPath();
       const fileVersion = yield (0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getFileVersionOfEditor)(editor);
 
-      const languageService = _this._connectionToLanguageService.getForUri(path);
+      const languageService = _this2._connectionToLanguageService.getForUri(path);
       if (languageService == null || fileVersion == null) {
-        return [];
+        return { isIncomplete: false, items: [] };
       }
 
       return (yield languageService).getAutocompleteSuggestions(fileVersion, position, activatedManually == null ? false : activatedManually, prefix);

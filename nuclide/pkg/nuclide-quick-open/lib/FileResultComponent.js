@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _fileTypeClass;
 
@@ -31,7 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 function renderSubsequence(seq, props) {
-  return seq.length === 0 ? null : _reactForAtom.React.createElement(
+  return seq.length === 0 ? null : _react.default.createElement(
     'span',
     props,
     seq
@@ -89,7 +89,7 @@ class FileResultComponent {
     const filenameClasses = ['file', 'icon', (0, (_fileTypeClass || _load_fileTypeClass()).default)(filePath)].join(' ');
     // `data-name` is support for the "file-icons" package.
     // See: https://atom.io/packages/file-icons
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: filenameClasses, 'data-name': (_nuclideUri || _load_nuclideUri()).default.basename(filePath) },
       pathComponents

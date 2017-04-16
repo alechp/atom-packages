@@ -41,11 +41,11 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class Toolbar extends _reactForAtom.React.Component {
+class Toolbar extends _react.default.Component {
 
   render() {
     const className = (0, (_classnames || _load_classnames()).default)('nuclide-task-runner-toolbar', {
@@ -58,31 +58,31 @@ class Toolbar extends _reactForAtom.React.Component {
     let dropdownVisibility = { visibility: 'hidden' };
     if (taskRunners.length === 0 && !this.props.toolbarDisabled) {
       dropdownVisibility = { display: 'none' };
-      taskRunnerSpecificContent = _reactForAtom.React.createElement(NoTaskRunnersMessage, null);
+      taskRunnerSpecificContent = _react.default.createElement(NoTaskRunnersMessage, null);
     } else if (activeTaskRunner) {
       const taskRunnerState = this.props.statesForTaskRunners.get(activeTaskRunner);
       if (taskRunnerState) {
         taskRunnerOptions = getTaskRunnerOptions(taskRunners, this.props.statesForTaskRunners);
         const ExtraUi = this.props.extraUiComponent;
-        const extraUi = ExtraUi ? _reactForAtom.React.createElement(ExtraUi, { key: 'extraui' }) : null;
+        const extraUi = ExtraUi ? _react.default.createElement(ExtraUi, { key: 'extraui' }) : null;
         const taskButtons = this._renderTaskButtons();
         taskRunnerSpecificContent = [taskButtons, extraUi];
         dropdownVisibility = {};
       }
     }
 
-    const ButtonComponent = buttonProps => _reactForAtom.React.createElement((_TaskRunnerButton || _load_TaskRunnerButton()).TaskRunnerButton, Object.assign({}, buttonProps, { iconComponent: this.props.iconComponent }));
+    const ButtonComponent = buttonProps => _react.default.createElement((_TaskRunnerButton || _load_TaskRunnerButton()).TaskRunnerButton, Object.assign({}, buttonProps, { iconComponent: this.props.iconComponent }));
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: `${className} padded` },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-task-runner-toolbar-contents' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'inline-block', style: dropdownVisibility },
-          _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+          _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
             buttonComponent: ButtonComponent,
             value: activeTaskRunner,
             options: taskRunnerOptions,
@@ -94,20 +94,20 @@ class Toolbar extends _reactForAtom.React.Component {
         ),
         taskRunnerSpecificContent
       ),
-      _reactForAtom.React.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { progress: this.props.progress, visible: this.props.taskIsRunning })
+      _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { progress: this.props.progress, visible: this.props.taskIsRunning })
     );
   }
 
   _renderTaskButtons() {
     const taskButtons = this._getButtonsForTasks();
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       { className: 'inline-block', key: 'taskButtons' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         null,
         taskButtons,
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+        _react.default.createElement((_Button || _load_Button()).Button, {
           className: 'nuclide-task-button',
           key: 'stop',
           size: (_Button || _load_Button()).ButtonSizes.SMALL,
@@ -137,7 +137,7 @@ class Toolbar extends _reactForAtom.React.Component {
     }
 
     return state.tasks.filter(task => task.hidden !== true).map(task => {
-      return _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+      return _react.default.createElement((_Button || _load_Button()).Button, {
         className: 'nuclide-task-button',
         key: task.type,
         size: (_Button || _load_Button()).ButtonSizes.SMALL,
@@ -178,11 +178,11 @@ function getTaskRunnerOptions(taskRunners, statesForTaskRunners) {
 
 function NoTaskRunnersMessage() {
   const featureLink = 'https://nuclide.io/docs/features/task-runner/';
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'span',
     { style: { 'white-space': 'nowrap' } },
     'Install and enable a ',
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'a',
       { href: featureLink },
       'task runner'

@@ -4,9 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require("react-for-atom");
+var _react = _interopRequireDefault(require("react"));
 
-class HandlesTableComponent extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class HandlesTableComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -27,49 +29,49 @@ class HandlesTableComponent extends _reactForAtom.React.Component {
 
   render() {
     if (this.props.handles.length === 0) {
-      return _reactForAtom.React.createElement("div", null);
+      return _react.default.createElement("div", null);
     }
 
     const handleSummaries = this.getHandleSummaries(this.props.handles);
-    const component = _reactForAtom.React.createElement(
+    const component = _react.default.createElement(
       "div",
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         "h3",
         null,
         this.props.title
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         "table",
         { className: "table" },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           "thead",
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             "tr",
             null,
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               "th",
               { width: "10%" },
               "ID"
             ),
-            this.props.columns.map((column, c) => _reactForAtom.React.createElement(
+            this.props.columns.map((column, c) => _react.default.createElement(
               "th",
               { key: c, width: `${column.widthPercentage}%` },
               column.title
             ))
           )
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           "tbody",
           null,
           Object.keys(handleSummaries).map(key => {
             const handleSummary = handleSummaries[key];
             const previousHandle = this.previousHandleSummaries[key];
-            return _reactForAtom.React.createElement(
+            return _react.default.createElement(
               "tr",
               { key: key, className: previousHandle ? '' : 'nuclide-health-handle-new' },
-              _reactForAtom.React.createElement(
+              _react.default.createElement(
                 "th",
                 null,
                 key
@@ -79,7 +81,7 @@ class HandlesTableComponent extends _reactForAtom.React.Component {
                 if (previousHandle && previousHandle[c] !== handleSummary[c]) {
                   className = 'nuclide-health-handle-updated';
                 }
-                return _reactForAtom.React.createElement(
+                return _react.default.createElement(
                   "td",
                   { key: c, className: className },
                   handleSummary[c]

@@ -9,6 +9,18 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 var _atom = require('atom');
 
+var _fuzzaldrinPlus;
+
+function _load_fuzzaldrinPlus() {
+  return _fuzzaldrinPlus = _interopRequireDefault(require('fuzzaldrin-plus'));
+}
+
+var _AutocompleteCacher;
+
+function _load_AutocompleteCacher() {
+  return _AutocompleteCacher = _interopRequireDefault(require('../../commons-atom/AutocompleteCacher'));
+}
+
 var _collection;
 
 function _load_collection() {
@@ -214,8 +226,15 @@ function getCompletionPrefix(editor) {
 }
 
 class AutocompleteHelpers {
+
   static getAutocompleteSuggestions(request) {
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('nuclide-clang-atom.autocomplete', () => AutocompleteHelpers._getAutocompleteSuggestions(request));
+    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('nuclide-clang-atom.autocomplete', (0, _asyncToGenerator.default)(function* () {
+      const results = yield AutocompleteHelpers._cacher.getSuggestions(request);
+      if (results != null) {
+        return [...results];
+      }
+      return [];
+    }));
   }
 
   static _getAutocompleteSuggestions(request) {
@@ -227,14 +246,14 @@ class AutocompleteHelpers {
       if (!activatedManually && prefix === '') {
         const wordPrefix = editor.getLastCursor().getCurrentWordPrefix();
         if (!VALID_EMPTY_SUFFIX.test(wordPrefix)) {
-          return [];
+          return null;
         }
       }
 
       const indentation = editor.indentationForBufferRow(row);
       const data = yield (0, (_libclang || _load_libclang()).getCompletions)(editor, prefix);
       if (data == null) {
-        return [];
+        return null;
       }
 
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('clang.autocompleteResults', {
@@ -273,7 +292,8 @@ class AutocompleteHelpers {
           type,
           leftLabel: completion.result_type,
           rightLabel,
-          description: completion.brief_comment || completion.result_type
+          description: completion.brief_comment || completion.result_type,
+          filterText: completion.typed_name
         };
       });
     })();
@@ -281,6 +301,18 @@ class AutocompleteHelpers {
 }
 
 exports.default = AutocompleteHelpers;
+AutocompleteHelpers._cacher = new (_AutocompleteCacher || _load_AutocompleteCacher()).default(AutocompleteHelpers._getAutocompleteSuggestions, {
+  updateResults(request, results) {
+    const { editor } = request;
+    const prefix = getCompletionPrefix(editor);
+    // We hit the results limit, so there may be unlisted results.
+    // Needs to match the value in clang_server.py.
+    if (results.length === 200) {
+      return null;
+    }
+    return (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.filter(results, prefix, { key: 'filterText' }).map(result => Object.assign({}, result, { replacementPrefix: prefix }));
+  }
+});
 const __test__ = exports.__test__ = {
   getCompletionBodyMultiLine,
   getCompletionBodyInline

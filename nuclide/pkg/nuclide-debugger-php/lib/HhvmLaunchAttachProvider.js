@@ -11,7 +11,7 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../nuclide-debugger-base');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LaunchUiComponent;
 
@@ -24,6 +24,8 @@ var _AttachUiComponent;
 function _load_AttachUiComponent() {
   return _AttachUiComponent = require('./AttachUiComponent');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -46,12 +48,12 @@ class HhvmLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuclideDeb
 
   getComponent(action, parentEventEmitter) {
     if (action === 'Launch') {
-      return _reactForAtom.React.createElement((_LaunchUiComponent || _load_LaunchUiComponent()).LaunchUiComponent, {
+      return _react.default.createElement((_LaunchUiComponent || _load_LaunchUiComponent()).LaunchUiComponent, {
         targetUri: this.getTargetUri(),
         parentEmitter: parentEventEmitter
       });
     } else if (action === 'Attach') {
-      return _reactForAtom.React.createElement((_AttachUiComponent || _load_AttachUiComponent()).AttachUiComponent, {
+      return _react.default.createElement((_AttachUiComponent || _load_AttachUiComponent()).AttachUiComponent, {
         targetUri: this.getTargetUri(),
         parentEmitter: parentEventEmitter
       });

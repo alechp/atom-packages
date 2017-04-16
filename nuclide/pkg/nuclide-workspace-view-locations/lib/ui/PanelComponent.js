@@ -41,32 +41,33 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const MINIMUM_SIZE = 100; /**
+                           * Copyright (c) 2015-present, Facebook, Inc.
+                           * All rights reserved.
+                           *
+                           * This source code is licensed under the license found in the LICENSE file in
+                           * the root directory of this source tree.
+                           *
+                           * 
+                           */
 
 /* global getComputedStyle */
 
-const MINIMUM_SIZE = 100;
 const DEFAULT_INITIAL_SIZE = 300;
 const HANDLE_SIZE = 4;
 
 /**
  * A container for centralizing the logic for making panels resizable.
  */
-class PanelComponent extends _reactForAtom.React.Component {
+class PanelComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -147,7 +148,7 @@ class PanelComponent extends _reactForAtom.React.Component {
    * [1] https://github.com/atom/tree-view/blob/v0.201.5/lib/tree-view.coffee#L722
    */
   _repaint() {
-    const element = _reactForAtom.ReactDOM.findDOMNode(this);
+    const element = _reactDom.default.findDOMNode(this);
     // $FlowFixMe
     const isVisible = getComputedStyle(element).getPropertyValue('visibility');
 
@@ -191,37 +192,32 @@ class PanelComponent extends _reactForAtom.React.Component {
     const className = (0, (_classnames || _load_classnames()).default)('nuclide-workspace-views-panel', this.props.position);
     const maskClassName = (0, (_classnames || _load_classnames()).default)('nuclide-workspace-views-panel-mask', { 'nuclide-panel-should-animate': this.state.shouldAnimate });
 
-    // Obviously we need to render the contents if the panels open. But we also need to render them
-    // if it's not open but animating.
-    // TODO: Track whether animation is in progress and use that instead of `shouldAnimate`.
-    const contents = open || this.state.shouldAnimate ? _reactForAtom.React.createElement(
-      'div',
-      { className: 'nuclide-workspace-views-panel-content' },
-      _reactForAtom.React.createElement((_View || _load_View()).View, { item: this.props.paneContainer })
-    ) : null;
-
-    const handle = _reactForAtom.React.createElement(Handle, {
+    const handle = _react.default.createElement(Handle, {
       position: this.props.position,
       mode: open ? 'resize' : 'open',
       onResizeStart: this._handleResizeHandleDragStart,
       toggle: this.props.toggle
     });
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: wrapperClassName },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: maskClassName, style: { [widthOrHeight]: open ? size : HANDLE_SIZE } },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: className, style: { [widthOrHeight]: size } },
           handle,
-          contents,
-          _reactForAtom.React.createElement(ResizeCursorOverlay, { position: this.props.position, resizing: this.state.resizing })
+          _react.default.createElement(
+            'div',
+            { className: 'nuclide-workspace-views-panel-content' },
+            _react.default.createElement((_View || _load_View()).View, { item: this.props.paneContainer })
+          ),
+          _react.default.createElement(ResizeCursorOverlay, { position: this.props.position, resizing: this.state.resizing })
         )
       ),
-      _reactForAtom.React.createElement((_ToggleButton || _load_ToggleButton()).ToggleButton, {
+      _react.default.createElement((_ToggleButton || _load_ToggleButton()).ToggleButton, {
         ref: this._handleToggleButton,
         onDragEnter: this._revealDropTarget,
         visible: this.state.showToggleButton || this.props.draggingItem && !open,
@@ -243,7 +239,7 @@ class PanelComponent extends _reactForAtom.React.Component {
     // sporadically with the correct target.
     _rxjsBundlesRxMinJs.Observable.merge(_rxjsBundlesRxMinJs.Observable.fromEvent(window, 'drag').filter(event => {
       const toggleButtonEl = this._toggleButtonEl;
-      const el = _reactForAtom.ReactDOM.findDOMNode(this);
+      const el = _reactDom.default.findDOMNode(this);
       if (el == null || toggleButtonEl == null) {
         return false;
       }
@@ -257,7 +253,7 @@ class PanelComponent extends _reactForAtom.React.Component {
 
   _handleToggleButton(toggleButton) {
     // $FlowFixMe
-    this._toggleButtonEl = toggleButton == null ? null : _reactForAtom.ReactDOM.findDOMNode(toggleButton);
+    this._toggleButtonEl = toggleButton == null ? null : _reactDom.default.findDOMNode(toggleButton);
   }
 
   _handleDragLeave() {
@@ -283,7 +279,7 @@ class PanelComponent extends _reactForAtom.React.Component {
       return;
     }
 
-    const containerEl = _reactForAtom.ReactDOM.findDOMNode(this);
+    const containerEl = _reactDom.default.findDOMNode(this);
     let size = 0;
     switch (this.props.position) {
       case 'left':
@@ -328,7 +324,7 @@ class PanelComponent extends _reactForAtom.React.Component {
       // The item may not have been activated yet. If that's the case, just use the first item.
       const activePaneItem = this.props.paneContainer.getActivePaneItem() || this.props.paneContainer.getPaneItems()[0];
       if (activePaneItem != null) {
-        initialSize = getPreferredInitialSize(activePaneItem, this.props.position);
+        initialSize = getPreferredSize(activePaneItem, this.props.position);
       }
     }
     return initialSize == null ? DEFAULT_INITIAL_SIZE : initialSize;
@@ -339,14 +335,14 @@ exports.PanelComponent = PanelComponent;
 PanelComponent.defaultProps = {
   onResize: width => {}
 };
-function getPreferredInitialSize(item, position) {
+function getPreferredSize(item, position) {
   switch (position) {
     case 'top':
     case 'bottom':
-      return typeof item.getPreferredInitialHeight === 'function' ? item.getPreferredInitialHeight() : null;
+      return typeof item.getPreferredHeight === 'function' ? item.getPreferredHeight() : null;
     case 'left':
     case 'right':
-      return typeof item.getPreferredInitialWidth === 'function' ? item.getPreferredInitialWidth() : null;
+      return typeof item.getPreferredWidth === 'function' ? item.getPreferredWidth() : null;
     default:
       throw new Error(`Invalid position: ${position}`);
   }
@@ -355,7 +351,7 @@ function getPreferredInitialSize(item, position) {
 function ResizeCursorOverlay(props) {
   // We create an overlay to always display the resize cursor while the user is resizing the panel,
   // even if their mouse leaves the handle.
-  return props.resizing ? _reactForAtom.React.createElement('div', { className: `nuclide-workspace-views-panel-resize-cursor-overlay ${props.position}` }) : null;
+  return props.resizing ? _react.default.createElement('div', { className: `nuclide-workspace-views-panel-resize-cursor-overlay ${props.position}` }) : null;
 }
 
 function Handle(props) {
@@ -364,7 +360,7 @@ function Handle(props) {
     'nuclide-workspace-views-panel-handle-resize': props.mode === 'resize',
     'nuclide-workspace-views-panel-handle-open': props.mode === 'open'
   });
-  return _reactForAtom.React.createElement('div', {
+  return _react.default.createElement('div', {
     className: className,
     style: { [widthOrHeight]: HANDLE_SIZE },
     onMouseDown: props.mode === 'resize' ? props.onResizeStart : null,

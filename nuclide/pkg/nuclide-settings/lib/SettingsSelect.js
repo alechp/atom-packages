@@ -16,11 +16,11 @@ function _load_settingsUtils() {
   return _settingsUtils = require('./settings-utils');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class SettingsSelect extends _reactForAtom.React.Component {
+class SettingsSelect extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -44,7 +44,7 @@ class SettingsSelect extends _reactForAtom.React.Component {
     const optionElements = [];
     if (options.enum) {
       options.enum.forEach((option, i) => {
-        optionElements.push(_reactForAtom.React.createElement(
+        optionElements.push(_react.default.createElement(
           'option',
           { value: option, key: i },
           option
@@ -52,24 +52,24 @@ class SettingsSelect extends _reactForAtom.React.Component {
       });
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         { className: 'control-label' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'setting-title' },
           title
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'setting-description' },
           description
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'select',
         {
           className: 'form-control',

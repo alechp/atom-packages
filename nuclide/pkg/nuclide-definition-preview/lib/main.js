@@ -31,7 +31,7 @@ function _load_DefinitionPreviewView() {
   return _DefinitionPreviewView = require('./DefinitionPreviewView');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,7 +52,7 @@ class Activation {
 
   constructor() {
     this.provider = {
-      getElementFactory: () => _reactForAtom.React.createFactory((_DefinitionPreviewView || _load_DefinitionPreviewView()).DefinitionPreviewView),
+      getElementFactory: () => _react.default.createFactory((_DefinitionPreviewView || _load_DefinitionPreviewView()).DefinitionPreviewView),
       id: PROVIDER_ID,
       title: PROVIDER_TITLE
     };

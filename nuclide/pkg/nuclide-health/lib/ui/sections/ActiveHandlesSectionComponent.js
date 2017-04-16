@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _HandlesTableComponent;
 
@@ -14,18 +14,18 @@ function _load_HandlesTableComponent() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class ActiveHandlesSectionComponent extends _reactForAtom.React.Component {
+class ActiveHandlesSectionComponent extends _react.default.Component {
 
   render() {
     if (!this.props.activeHandlesByType || Object.keys(this.props.activeHandlesByType).length === 0) {
-      return _reactForAtom.React.createElement('div', null);
+      return _react.default.createElement('div', null);
     }
 
     // Note that widthPercentage properties should add up to 90 since the ID column always adds 10.
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
+      _react.default.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
         key: 2,
         title: 'TLS Sockets',
         handles: this.props.activeHandlesByType.tlssocket,
@@ -44,7 +44,7 @@ class ActiveHandlesSectionComponent extends _reactForAtom.React.Component {
           widthPercentage: 10
         }]
       }),
-      _reactForAtom.React.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
+      _react.default.createElement((_HandlesTableComponent || _load_HandlesTableComponent()).default, {
         key: 3,
         title: 'Other handles',
         handles: this.props.activeHandlesByType.other,

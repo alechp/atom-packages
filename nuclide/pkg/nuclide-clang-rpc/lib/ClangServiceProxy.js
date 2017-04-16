@@ -2586,6 +2586,22 @@ Object.defineProperty(module.exports, "defs", {
             }
           },
           optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 73
+          },
+          name: "typed_name",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 73
+            },
+            kind: "string"
+          },
+          optional: false
         }]
       }
     },
@@ -2594,28 +2610,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 73
+        line: 76
       },
       name: "ClangDeclaration",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 73
+          line: 76
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 74
+            line: 77
           },
           name: "file",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 74
+              line: 77
             },
             kind: "named",
             name: "NuclideUri"
@@ -2625,14 +2641,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 75
+            line: 78
           },
           name: "point",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 75
+              line: 78
             },
             kind: "named",
             name: "atom$Point"
@@ -2642,21 +2658,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 76
+            line: 79
           },
           name: "spelling",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 76
+              line: 79
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 76
+                line: 79
               },
               kind: "string"
             }
@@ -2666,21 +2682,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 77
+            line: 80
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 77
+              line: 80
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 77
+                line: 80
               },
               kind: "string"
             }
@@ -2690,14 +2706,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 78
+            line: 81
           },
           name: "extent",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 78
+              line: 81
             },
             kind: "named",
             name: "atom$Range"
@@ -2711,28 +2727,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 81
+        line: 84
       },
       name: "ClangCursor",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 81
+          line: 84
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 82
+            line: 85
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 82
+              line: 85
             },
             kind: "string"
           },
@@ -2741,14 +2757,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 83
+            line: 86
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 83
+              line: 86
             },
             kind: "named",
             name: "ClangCursorType"
@@ -2758,14 +2774,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 84
+            line: 87
           },
           name: "cursor_usr",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 84
+              line: 87
             },
             kind: "string"
           },
@@ -2774,21 +2790,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 85
+            line: 88
           },
           name: "file",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 85
+              line: 88
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 85
+                line: 88
               },
               kind: "named",
               name: "NuclideUri"
@@ -2799,14 +2815,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 86
+            line: 89
           },
           name: "extent",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 86
+              line: 89
             },
             kind: "named",
             name: "atom$Range"
@@ -2816,14 +2832,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 87
+            line: 90
           },
           name: "is_definition",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 87
+              line: 90
             },
             kind: "boolean"
           },
@@ -2836,28 +2852,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 90
+        line: 93
       },
       name: "ClangOutlineTree",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 90
+          line: 93
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 91
+            line: 94
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 91
+              line: 94
             },
             kind: "string"
           },
@@ -2866,14 +2882,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 92
+            line: 95
           },
           name: "extent",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 92
+              line: 95
             },
             kind: "named",
             name: "atom$Range"
@@ -2883,14 +2899,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 93
+            line: 96
           },
           name: "cursor_kind",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 93
+              line: 96
             },
             kind: "named",
             name: "ClangCursorType"
@@ -2900,14 +2916,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 95
+            line: 98
           },
           name: "cursor_type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 95
+              line: 98
             },
             kind: "string"
           },
@@ -2916,21 +2932,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 98
+            line: 101
           },
           name: "params",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 98
+              line: 101
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 98
+                line: 101
               },
               kind: "string"
             }
@@ -2940,21 +2956,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 100
+            line: 103
           },
           name: "tparams",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 100
+              line: 103
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 100
+                line: 103
               },
               kind: "string"
             }
@@ -2964,21 +2980,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 102
+            line: 105
           },
           name: "children",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 102
+              line: 105
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 102
+                line: 105
               },
               kind: "named",
               name: "ClangOutlineTree"
@@ -2993,28 +3009,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 105
+        line: 108
       },
       name: "ClangLocalReferences",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 105
+          line: 108
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 106
+            line: 109
           },
           name: "cursor_name",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 106
+              line: 109
             },
             kind: "string"
           },
@@ -3023,14 +3039,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 107
+            line: 110
           },
           name: "cursor_kind",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 107
+              line: 110
             },
             kind: "string"
           },
@@ -3039,21 +3055,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 108
+            line: 111
           },
           name: "references",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 108
+              line: 111
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 108
+                line: 111
               },
               kind: "named",
               name: "atom$Range"

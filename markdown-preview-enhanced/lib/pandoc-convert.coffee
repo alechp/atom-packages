@@ -5,7 +5,6 @@ matter = require 'gray-matter'
 {Directory} = require 'atom'
 async = require 'async'
 Viz = require '../dependencies/viz/viz.js'
-plantumlAPI = require './puml'
 codeChunkAPI = require './code-chunk'
 {svgAsPngUri} = require '../dependencies/save-svg-as-png/save-svg-as-png.js'
 processGraphs = require './process-graphs'
@@ -91,8 +90,8 @@ processOutputConfig = (config, args)->
   if config['template']
     args.push('--template=' + config['template'])
 
-loadOutputYAML = (rootDirectoryPath, config)->
-  yamlPath = path.resolve(rootDirectoryPath, '_output.yaml')
+loadOutputYAML = (fileDirectoryPath, config)->
+  yamlPath = path.resolve(fileDirectoryPath, '_output.yaml')
   try
     yaml = fs.readFileSync yamlPath
   catch error
@@ -113,12 +112,12 @@ loadOutputYAML = (rootDirectoryPath, config)->
 
   Object.assign({}, data, config)
 
-processConfigPaths = (config, rootDirectoryPath, projectDirectoryPath)->
+processConfigPaths = (config, fileDirectoryPath, projectDirectoryPath)->
   # same as the one in processPaths function
   # TODO: refactor in the future
   resolvePath = (src)->
     if src.startsWith('/')
-      return path.relative(rootDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
+      return path.relative(fileDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
     else # ./test.png or test.png
       return src
 
@@ -153,14 +152,14 @@ processConfigPaths = (config, rootDirectoryPath, projectDirectoryPath)->
     if outputConfig['template']
       outputConfig['template'] = helper(outputConfig['template'])
 
-processPaths = (text, rootDirectoryPath, projectDirectoryPath)->
+processPaths = (text, fileDirectoryPath, projectDirectoryPath)->
   match = null
   offset = 0
   output = ''
 
   resolvePath = (src)->
     if src.startsWith('/')
-      return path.relative(rootDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
+      return path.relative(fileDirectoryPath, path.resolve(projectDirectoryPath, '.'+src))
     else # ./test.png or test.png
       return src
 
@@ -180,17 +179,70 @@ processPaths = (text, rootDirectoryPath, projectDirectoryPath)->
 
   text
 
+# callback(error, html)
+pandocRender = (text='', {args, projectDirectoryPath, fileDirectoryPath}, callback)->
+  args = args or []
+  args = ['-f', atom.config.get('markdown-preview-enhanced.pandocMarkdownFlavor'), # -tex_math_dollars doesn't work properly
+          '-t', 'html']
+          .concat(args).filter((arg)->arg.length)
+
+  ###
+  convert code chunk
+  ```{python id:"haha"}
+  to
+  ```{.python data-code-chunk"{id: haha}"}
+  ###
+
+  outputString = ""
+  lines = text.split('\n')
+  i = 0
+  inCodeBlock = false
+  while i < lines.length
+    line = lines[i]
+
+    codeChunkMatch = line.match /^\`\`\`\{(\w+)\s*(.*)\}\s*/
+    if codeChunkMatch # code chunk
+      lang = codeChunkMatch[1].trim()
+      dataArgs = codeChunkMatch[2].trim().replace(/('|")/g, '\\$1') # escape
+      dataCodeChunk = "{#{lang} #{dataArgs}}"
+
+      outputString += "```{.r data-code-chunk=\"#{dataCodeChunk}\"}\n"
+      i += 1
+      continue
+
+    if line.startsWith '```'
+      inCodeBlock = not inCodeBlock
+
+    if line.match(/^\[toc\]/i) and !inCodeBlock
+      line = '[MPETOC]'
+
+    outputString += line + '\n'
+    i += 1
+
+  # console.log(outputString)
+
+  # change working directory
+  cwd = process.cwd()
+  process.chdir(fileDirectoryPath)
+
+  pandocPath = atom.config.get('markdown-preview-enhanced.pandocPath')
+  program = execFile pandocPath, args, (error, stdout, stderr)->
+    process.chdir(cwd)
+    return callback(error or stderr, stdout)
+  program.stdin.end(outputString)
+
 ###
 @param {String} text: markdown string
 @param {Object} all properties are required!
-  @param {String} rootDirectoryPath
+  @param {String} fileDirectoryPath
   @param {String} projectDirectoryPath
   @param {String} sourceFilePath
 callback(err, outputFilePath)
 ###
-pandocConvert = (text, {rootDirectoryPath, projectDirectoryPath, sourceFilePath}, config={}, callback=null)->
-  config = loadOutputYAML rootDirectoryPath, config
-  args = []
+pandocConvert = (text, {fileDirectoryPath, projectDirectoryPath, sourceFilePath, deleteImages}, config={}, callback=null)->
+  deleteImages = deleteImages or true
+  config = loadOutputYAML fileDirectoryPath, config
+  args = ['-f', atom.config.get('markdown-preview-enhanced.pandocMarkdownFlavor')]
 
   extension = null
   outputConfig = null
@@ -220,7 +272,7 @@ pandocConvert = (text, {rootDirectoryPath, projectDirectoryPath, sourceFilePath}
     if outputFilePath.startsWith('/')
       outputFilePath = path.resolve(projectDirectoryPath, '.'+outputFilePath)
     else
-      outputFilePath = path.resolve(rootDirectoryPath, outputFilePath)
+      outputFilePath = path.resolve(fileDirectoryPath, outputFilePath)
 
     if documentFormat != 'custom_document' and path.extname(outputFilePath) != '.' + extension
       return atom.notifications.addError('Invalid extension for ' + documentFormat, detail: 'required .' + extension + ', but ' + path.extname(outputFilePath) + ' was provided.')
@@ -232,7 +284,7 @@ pandocConvert = (text, {rootDirectoryPath, projectDirectoryPath, sourceFilePath}
     args.push '-o', outputFilePath
 
   # resolve paths in front-matter(yaml)
-  processConfigPaths config, rootDirectoryPath, projectDirectoryPath
+  processConfigPaths config, fileDirectoryPath, projectDirectoryPath
 
   if outputConfig
     processOutputConfig outputConfig, args
@@ -241,14 +293,14 @@ pandocConvert = (text, {rootDirectoryPath, projectDirectoryPath, sourceFilePath}
   text = matter.stringify(text, config)
 
   # import external files
-  text = fileImport(text, {rootDirectoryPath, projectDirectoryPath, useAbsoluteImagePath: true}).outputString
+  text = fileImport(text, {fileDirectoryPath, projectDirectoryPath, useAbsoluteImagePath: false}).outputString
 
   # change link path to relative path
-  text = processPaths text, rootDirectoryPath, projectDirectoryPath
+  text = processPaths text, fileDirectoryPath, projectDirectoryPath
 
   # change working directory
   cwd = process.cwd()
-  process.chdir(rootDirectoryPath)
+  process.chdir(fileDirectoryPath)
 
   # citation
   if config['bibliography'] or config['references']
@@ -257,20 +309,25 @@ pandocConvert = (text, {rootDirectoryPath, projectDirectoryPath, sourceFilePath}
   atom.notifications.addInfo('Your document is being prepared', detail: ':)')
 
   # mermaid / viz / wavedrom graph
-  processGraphs text, {rootDirectoryPath, projectDirectoryPath, imageDirectoryPath: rootDirectoryPath}, (text, imagePaths=[])->
+  processGraphs text, {fileDirectoryPath, projectDirectoryPath, imageDirectoryPath: fileDirectoryPath}, (text, imagePaths=[])->
     # console.log args.join(' ')
     #
     # pandoc will cause error if directory doesn't exist,
     # therefore I will create directory first.
     directory = new Directory(path.dirname(outputFilePath))
     directory.create().then (flag)->
-      program = execFile 'pandoc', args, (err)->
-        # remove images
-        imagePaths.forEach (p)->
-          fs.unlink(p)
+      pandocPath = atom.config.get('markdown-preview-enhanced.pandocPath')
+      program = execFile pandocPath, args, (err)->
+        if deleteImages
+          # remove images
+          imagePaths.forEach (p)->
+            fs.unlink(p)
 
         process.chdir(cwd) # change cwd back
         return callback(err, outputFilePath) if callback
       program.stdin.end(text)
 
-module.exports = pandocConvert
+module.exports = {
+  pandocConvert,
+  pandocRender
+}

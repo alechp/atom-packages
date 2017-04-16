@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.IconExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,15 +19,17 @@ function _load_Icon() {
   return _Icon = require('./Icon');
 }
 
-const IconExample = () => _reactForAtom.React.createElement(
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const IconExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'gift' }),
-    _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'heart' }),
-    _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: 'info' })
+    _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'gift' }),
+    _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'heart' }),
+    _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'info' })
   )
 ); /**
     * Copyright (c) 2015-present, Facebook, Inc.
@@ -39,34 +41,34 @@ const IconExample = () => _reactForAtom.React.createElement(
     * 
     */
 
-const IconWithTextExample = () => _reactForAtom.React.createElement(
+const IconWithTextExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Icon || _load_Icon()).Icon,
         { icon: 'gift' },
         'gift'
       )
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Icon || _load_Icon()).Icon,
         { icon: 'heart' },
         'heart'
       )
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Icon || _load_Icon()).Icon,
         { icon: 'info' },
         'info'

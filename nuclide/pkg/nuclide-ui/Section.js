@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Section = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -30,7 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class Section extends _reactForAtom.React.Component {
+class Section extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -69,15 +69,15 @@ class Section extends _reactForAtom.React.Component {
       conditionalProps.title = collapsed ? 'Click to expand' : 'Click to collapse';
     }
     const HeadlineComponent = getHeadlineComponent(this.props.size);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: this.props.className },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         HeadlineComponent,
         Object.assign({ className: iconClass }, conditionalProps),
         this.props.headline
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: collapsed ? { display: 'none' } : {} },
         this.props.children

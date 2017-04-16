@@ -22,7 +22,9 @@ function _load_Checkbox() {
   return _Checkbox = require('../../nuclide-ui/Checkbox');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _nuclideUri;
 
@@ -35,7 +37,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Component that displays UI to create a new file.
  */
-class FileDialogComponent extends _reactForAtom.React.Component {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+class FileDialogComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -57,7 +69,7 @@ class FileDialogComponent extends _reactForAtom.React.Component {
     const input = this.refs.input;
     this._disposables.add(atom.commands.add(
     // $FlowFixMe
-    _reactForAtom.ReactDOM.findDOMNode(input), {
+    _reactDom.default.findDOMNode(input), {
       'core:confirm': this._confirm,
       'core:cancel': this._close
     }));
@@ -87,7 +99,7 @@ class FileDialogComponent extends _reactForAtom.React.Component {
     for (const name in this.props.additionalOptions) {
       const message = this.props.additionalOptions[name];
       const checked = this.state.options[name];
-      const checkbox = _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+      const checkbox = _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
         key: name,
         checked: checked,
         onChange: this._handleAdditionalOptionChanged.bind(this, name),
@@ -101,15 +113,15 @@ class FileDialogComponent extends _reactForAtom.React.Component {
     // tree-view.
     //
     // [1] https://github.com/atom/tree-view/blob/v0.200.0/lib/dialog.coffee#L7
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'tree-view-dialog', ref: 'dialog' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         { className: labelClassName },
         this.props.message
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         initialValue: this.props.initialValue,
         ref: 'input'
       }),
@@ -144,16 +156,7 @@ class FileDialogComponent extends _reactForAtom.React.Component {
     }
   }
 }
-exports.default = FileDialogComponent; /**
-                                        * Copyright (c) 2015-present, Facebook, Inc.
-                                        * All rights reserved.
-                                        *
-                                        * This source code is licensed under the license found in the LICENSE file in
-                                        * the root directory of this source tree.
-                                        *
-                                        * 
-                                        */
-
+exports.default = FileDialogComponent;
 FileDialogComponent.defaultProps = {
   additionalOptions: {}
 };

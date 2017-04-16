@@ -11,7 +11,9 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _string;
 
@@ -68,10 +70,10 @@ const ButtonTypeClassnames = Object.freeze({
 /**
  * Generic Button wrapper.
  */
-class Button extends _reactForAtom.React.Component {
+class Button extends _react.default.Component {
 
   focus() {
-    const node = _reactForAtom.ReactDOM.findDOMNode(this);
+    const node = _reactDom.default.findDOMNode(this);
     if (node == null) {
       return;
     }
@@ -102,7 +104,7 @@ class Button extends _reactForAtom.React.Component {
       [buttonTypeClassname]: buttonType != null
     });
     const Wrapper = wrapperElement == null ? 'button' : wrapperElement;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       Wrapper,
       Object.assign({ className: newClassName, ref: ref }, remainingProps),
       children

@@ -8,12 +8,14 @@ _ = require 'underscore-plus'
   setBufferRow
   moveCursorToFirstCharacterAtRow
   ensureEndsWithNewLineForBufferRow
+  adjustIndentWithKeepingLayout
 } = require './utils'
 swrap = require './selection-wrapper'
 Base = require './base'
 
 class Operator extends Base
   @extend(false)
+  @operationKind: 'operator'
   requireTarget: true
   recordable: true
 
@@ -193,7 +195,7 @@ class Operator extends Base
 
   setTextToRegister: (text, selection) ->
     text += "\n" if (@target.isLinewise() and (not text.endsWith('\n')))
-    @vimState.register.set({text, selection}) if text
+    @vimState.register.set(null, {text, selection}) if text
 
   normalizeSelectionsIfNecessary: ->
     if @target?.isMotion() and (@mode is 'visual')
@@ -615,6 +617,18 @@ class PutBefore extends Operator
     return newRange
 
 class PutAfter extends PutBefore
+  @extend()
+  location: 'after'
+
+class PutBeforeWithAutoIndent extends PutBefore
+  @extend()
+
+  pasteLinewise: (selection, text) ->
+    newRange = super
+    adjustIndentWithKeepingLayout(@editor, newRange)
+    return newRange
+
+class PutAfterWithAutoIndent extends PutBeforeWithAutoIndent
   @extend()
   location: 'after'
 

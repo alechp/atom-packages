@@ -6,12 +6,28 @@ Object.defineProperty(exports, "__esModule", {
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * We need to create this custom HTML element so we can hook into the view
  * registry. The overlay decoration only works through the view registry.
  */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+/* global HTMLElement */
+
 class SuggestionListElement extends HTMLElement {
 
   initialize(model) {
@@ -20,11 +36,11 @@ class SuggestionListElement extends HTMLElement {
   }
 
   attachedCallback() {
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement(SuggestionList, { suggestionList: this._model }), this);
+    _reactDom.default.render(_react.default.createElement(SuggestionList, { suggestionList: this._model }), this);
   }
 
   detachedCallback() {
-    _reactForAtom.ReactDOM.unmountComponentAtNode(this);
+    _reactDom.default.unmountComponentAtNode(this);
   }
 
   dispose() {
@@ -32,19 +48,9 @@ class SuggestionListElement extends HTMLElement {
       this.parentNode.removeChild(this);
     }
   }
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
 
-/* global HTMLElement */
-
-class SuggestionList extends _reactForAtom.React.Component {
+class SuggestionList extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -93,10 +99,10 @@ class SuggestionList extends _reactForAtom.React.Component {
     // Prevent scrolling the editor when scrolling the suggestion list.
     const stopPropagation = event => event.stopPropagation();
     // $FlowFixMe
-    _reactForAtom.ReactDOM.findDOMNode(this.refs.scroller).addEventListener('mousewheel', stopPropagation);
+    _reactDom.default.findDOMNode(this.refs.scroller).addEventListener('mousewheel', stopPropagation);
     this._subscriptions.add(new _atom.Disposable(() => {
       // $FlowFixMe
-      _reactForAtom.ReactDOM.findDOMNode(this.refs.scroller).removeEventListener('mousewheel', stopPropagation);
+      _reactDom.default.findDOMNode(this.refs.scroller).removeEventListener('mousewheel', stopPropagation);
     }));
 
     const keydown = event => {
@@ -118,14 +124,14 @@ class SuggestionList extends _reactForAtom.React.Component {
       if (index === this.state.selectedIndex) {
         className += ' selected';
       }
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'li',
         { className: className,
           key: index,
           onMouseDown: this._boundConfirm,
           onMouseEnter: this._setSelectedIndex.bind(this, index) },
         item.title,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'right-label' },
           item.rightLabel
@@ -133,10 +139,10 @@ class SuggestionList extends _reactForAtom.React.Component {
       );
     });
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'popover-list select-list hyperclick-suggestion-list-scroller', ref: 'scroller' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'ol',
         { className: 'list-group', ref: 'selectionList' },
         itemComponents
@@ -206,7 +212,7 @@ class SuggestionList extends _reactForAtom.React.Component {
   }
 
   _updateScrollPosition() {
-    const listNode = _reactForAtom.ReactDOM.findDOMNode(this.refs.selectionList);
+    const listNode = _reactDom.default.findDOMNode(this.refs.selectionList);
     // $FlowFixMe
     const selectedNode = listNode.getElementsByClassName('selected')[0];
     // $FlowFixMe

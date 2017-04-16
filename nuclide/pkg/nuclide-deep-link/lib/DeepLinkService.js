@@ -36,6 +36,8 @@ if (!(ipcRenderer != null)) {
   throw new Error('Invariant violation: "ipcRenderer != null"');
 }
 
+const CHANNEL = 'nuclide-url-open';
+
 class DeepLinkService {
 
   constructor() {
@@ -43,7 +45,7 @@ class DeepLinkService {
     this._observables = new (_SharedObservableCache || _load_SharedObservableCache()).default(path => {
       return _rxjsBundlesRxMinJs.Observable.create(observer => {
         this._observers.set(path, observer);
-        return () => this._observers.delete(path, observer);
+        return () => this._observers.delete(path);
       }).share();
     });
 
@@ -51,7 +53,7 @@ class DeepLinkService {
     // These events will be sent from lib/url-main.js.
     // TODO: Use real Atom URI handler from
     // https://github.com/atom/atom/pull/11399.
-    _rxjsBundlesRxMinJs.Observable.fromEvent(ipcRenderer, 'nuclide-url-open', (event, data) => data).subscribe(({ message, params }) => {
+    _rxjsBundlesRxMinJs.Observable.fromEvent(ipcRenderer, CHANNEL, (event, data) => data).subscribe(({ message, params }) => {
       const path = message.replace(/\/+$/, '');
       const observer = this._observers.get(path);
       if (observer != null) {
@@ -66,6 +68,11 @@ class DeepLinkService {
 
   subscribeToPath(path, callback) {
     return new (_UniversalDisposable || _load_UniversalDisposable()).default(this._observables.get(path).subscribe(callback));
+  }
+
+  sendDeepLink(browserWindow, path, params) {
+    browserWindow.webContents.send(CHANNEL, { message: path, params });
+    browserWindow.focus();
   }
 }
 exports.default = DeepLinkService;

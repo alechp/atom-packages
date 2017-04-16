@@ -2,8 +2,15 @@ Baby = require('babyparse')
 path = require 'path'
 fs = require 'fs'
 
+{protocolsWhiteListRegExp} = require('./protocols-whitelist')
+
 markdownFileExtensions = atom.config.get('markdown-preview-enhanced.fileExtension').split(',').map((x)->x.trim()) or ['.md', '.mmark', '.markdown']
 
+
+fileExtensionToLanguageMap = {
+  'vhd': 'vhdl',
+  'erl': 'erlang'
+}
 
 # Convert 2D array to markdown table.
 # The first row is headings.
@@ -30,7 +37,7 @@ _2DArrayToMarkdownTable = (_2DArr)->
 ###
 @param {String} inputString, required
 @param {Object} filesCache, optional
-@param {String} rootDirectoryPath, required
+@param {String} fileDirectoryPath, required
 @param {String} projectDirectoryPath, required
 @param {Boolean} useAbsoluteImagePath, optional
 @param {Object} editor, optional
@@ -42,7 +49,7 @@ return
           heightsDelta is used to correct scroll sync. please refer to md.coffee
 }
 ###
-fileImport = (inputString, {filesCache, rootDirectoryPath, projectDirectoryPath, useAbsoluteImagePath, editor})->
+fileImport = (inputString, {filesCache, fileDirectoryPath, projectDirectoryPath, useAbsoluteImagePath, editor})->
   heightsDelta = []
   acc = 0
 
@@ -57,45 +64,46 @@ fileImport = (inputString, {filesCache, rootDirectoryPath, projectDirectoryPath,
 
     acc = acc + height
 
-  outputString = inputString.replace /(^|\n)\@import(\s+)\"([^\"]+)\"/g, (whole, prefix, spaces, filePath, offset)->
+  outputString = inputString.replace /^\@import(\s+)\"([^\"]+)\";*/gm, (whole, spaces, filePath, offset)->
     start = 0
     if editor
       start = (inputString.slice(0, offset + 1).match(/\n/g)?.length) or 0
 
-    if filePath.match(/^(http|https|file|atom)\:\/\//)
+    filePath = filePath.trim()
+    if filePath.match(protocolsWhiteListRegExp)
       absoluteFilePath = filePath
     else if filePath.startsWith('/')
       absoluteFilePath = path.resolve(projectDirectoryPath, '.' + filePath)
     else
-      absoluteFilePath = path.resolve(rootDirectoryPath, filePath)
+      absoluteFilePath = path.resolve(fileDirectoryPath, filePath)
 
     if filesCache?[absoluteFilePath] # already in cache
       updateHeightsDelta(filesCache[absoluteFilePath], start) if editor
-      return prefix + filesCache[absoluteFilePath]
+      return filesCache[absoluteFilePath]
 
     extname = path.extname(filePath)
     output = ''
     if extname in ['.jpeg', '.jpg', '.gif', '.png', '.apng', '.svg', '.bmp'] # image
-      if filePath.match(/^(http|https|file)\:\/\//)
-        output = "![](#{filePath})  "
+      if filePath.match(protocolsWhiteListRegExp)
+        imageSrc = filePath
       else if useAbsoluteImagePath
-        output = "![](#{'/' + path.relative(projectDirectoryPath, absoluteFilePath) + '?' + Math.random()})  "
+        imageSrc = '/' + path.relative(projectDirectoryPath, absoluteFilePath) + '?' + Math.random()
       else
-        output = "![](#{path.relative(rootDirectoryPath, absoluteFilePath) + '?' + Math.random()})  "
-
+        imageSrc = path.relative(fileDirectoryPath, absoluteFilePath) + '?' + Math.random()
+      output = "![](#{encodeURI(imageSrc)})  "
       filesCache?[absoluteFilePath] = output
     else
       try
         fileContent = fs.readFileSync(absoluteFilePath, {encoding: 'utf-8'})
 
         if extname in markdownFileExtensions # markdown files
-          output = fileImport(fileContent, {filesCache, projectDirectoryPath, useAbsoluteImagePath: true, rootDirectoryPath: path.dirname(absoluteFilePath)}).outputString + '  '
+          output = fileImport(fileContent, {filesCache, projectDirectoryPath, useAbsoluteImagePath: true, fileDirectoryPath: path.dirname(absoluteFilePath)}).outputString + '  '
           filesCache?[absoluteFilePath] = output
         else if extname == '.html' # html file
           output = '<div>' + fileContent + '</div>  '
           filesCache?[absoluteFilePath] = output
         else if extname == '.csv'  # csv file
-          parseResult = Baby.parse(fileContent)
+          parseResult = Baby.parse(fileContent.trim())
           if parseResult.errors.length
             output = "<pre>#{parseResult.errors[0]}</pre>  "
           else
@@ -109,19 +117,20 @@ fileImport = (inputString, {filesCache, rootDirectoryPath, projectDirectoryPath,
           output = "```@mermaid\n#{fileContent}\n```  "
           filesCache?[absoluteFilePath] = output
         else if extname in ['.puml', '.plantuml'] # plantuml
-          output = "```@puml\n#{fileContent}\n```  "
+          output = "```@puml\n' @mpe_file_directory_path:#{path.dirname(absoluteFilePath)}\n#{fileContent}\n```  "
           filesCache?[absoluteFilePath] = output
         else if extname in ['.wavedrom']
           output = "```@wavedrom\n#{fileContent}\n```  "
           filesCache?[absoluteFilePath] = output
         else # codeblock
-          output = "```#{extname.slice(1, extname.length)}  \n#{fileContent}\n```  "
+          fileExtension = extname.slice(1, extname.length)
+          output = "```#{fileExtensionToLanguageMap[fileExtension] or fileExtension}  \n#{fileContent}\n```  "
           filesCache?[absoluteFilePath] = output
       catch e # failed to load file
-        output = "#{prefix}<pre>#{e.toString()}</pre>  "
+        output = "<pre>#{e.toString()}</pre>  "
 
     updateHeightsDelta(output, start) if editor
-    return prefix + output
+    return output
 
   # console.log(heightsDelta, outputString)
   return {outputString, heightsDelta}

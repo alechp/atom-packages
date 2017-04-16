@@ -10,7 +10,7 @@ function _load_Icon() {
   return _Icon = require('./Icon');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -26,7 +26,7 @@ function _load_nullthrows() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class Tabs extends _reactForAtom.React.Component {
+class Tabs extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -42,12 +42,12 @@ class Tabs extends _reactForAtom.React.Component {
   }
 
   _renderTabMenu() {
-    const closeButton = this.props.closeable ? _reactForAtom.React.createElement('div', { className: 'close-icon', onClick: this.props.onClose }) : null;
+    const closeButton = this.props.closeable ? _react.default.createElement('div', { className: 'close-icon', onClick: this.props.onClose }) : null;
     const tabs = this.props.tabs.map(tab => {
-      const icon = tab.icon == null ? null : _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: tab.icon });
+      const icon = tab.icon == null ? null : _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: tab.icon });
       const handler = {};
       handler[this.props.triggeringEvent] = this._handleTabChange.bind(this, tab.name);
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'li',
         Object.assign({
           className: (0, (_classnames || _load_classnames()).default)({
@@ -56,7 +56,7 @@ class Tabs extends _reactForAtom.React.Component {
           }),
           key: tab.name
         }, handler),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'title' },
           icon,
@@ -65,7 +65,7 @@ class Tabs extends _reactForAtom.React.Component {
         closeButton
       );
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'ul',
       { className: 'tab-bar list-inline inset-panel' },
       tabs
@@ -73,7 +73,7 @@ class Tabs extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-tabs' },
       this._renderTabMenu()

@@ -64,9 +64,7 @@ class Activation {
       inclusionPriority: 1,
       datatip
     };
-    this.datatipService = service;
-    service.addProvider(datatipProvider);
-    const disposable = new _atom.Disposable(() => service.removeProvider(datatipProvider));
+    const disposable = service.addProvider(datatipProvider);
     this._disposables.add(disposable);
     return disposable;
   }

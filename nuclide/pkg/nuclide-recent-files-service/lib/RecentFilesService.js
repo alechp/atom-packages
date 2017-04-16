@@ -6,11 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _atom = require('atom');
 
-var _nuclideAnalytics;
-
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
-}
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 class RecentFilesService {
   // Map uses `Map`'s insertion ordering to keep files in order.
@@ -45,24 +49,14 @@ class RecentFilesService {
    * Returns a reverse-chronological list of recently opened files.
    */
   getRecentFiles() {
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('RecentFilesService.getRecentFiles', () => {
-      return Array.from(this._fileList).reverse().map(pair => ({
-        path: pair[0],
-        timestamp: pair[1]
-      }));
-    });
+    return Array.from(this._fileList).reverse().map(pair => ({
+      path: pair[0],
+      timestamp: pair[1]
+    }));
   }
 
   dispose() {
     this._subscriptions.dispose();
   }
 }
-exports.default = RecentFilesService; /**
-                                       * Copyright (c) 2015-present, Facebook, Inc.
-                                       * All rights reserved.
-                                       *
-                                       * This source code is licensed under the license found in the LICENSE file in
-                                       * the root directory of this source tree.
-                                       *
-                                       * 
-                                       */
+exports.default = RecentFilesService;

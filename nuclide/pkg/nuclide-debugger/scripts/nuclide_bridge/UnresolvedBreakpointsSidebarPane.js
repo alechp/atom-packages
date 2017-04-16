@@ -10,17 +10,9 @@ function _load_NuclideBridge() {
   return _NuclideBridge = _interopRequireDefault(require('./NuclideBridge'));
 }
 
-var _react;
+var _react = _interopRequireDefault(require('react'));
 
-function _load_react() {
-  return _react = _interopRequireDefault(require('react'));
-}
-
-var _reactDom;
-
-function _load_reactDom() {
-  return _reactDom = _interopRequireDefault(require('react-dom'));
-}
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _nuclideUri;
 
@@ -48,7 +40,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class UnresolvedBreakpointsComponent extends (_react || _load_react()).default.Component {
+class UnresolvedBreakpointsComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -82,7 +74,7 @@ class UnresolvedBreakpointsComponent extends (_react || _load_react()).default.C
 
       const longRep = `${pathname}:${breakpoint.line + 1}`;
       const shortRep = `${(_nuclideUri || _load_nuclideUri()).default.basename(pathname)}:${breakpoint.line + 1}`;
-      return (_react || _load_react()).default.createElement(
+      return _react.default.createElement(
         'li',
         {
           key: longRep,
@@ -92,10 +84,10 @@ class UnresolvedBreakpointsComponent extends (_react || _load_react()).default.C
         shortRep
       );
     });
-    return (_react || _load_react()).default.createElement(
+    return _react.default.createElement(
       'ol',
       { className: 'breakpoint-list' },
-      this.state.breakpoints.length > 0 ? children : (_react || _load_react()).default.createElement(
+      this.state.breakpoints.length > 0 ? children : _react.default.createElement(
         'div',
         { className: 'info' },
         'None'
@@ -127,7 +119,7 @@ class UnresolvedBreakpointsSidebarPane extends (_WebInspector || _load_WebInspec
 
     this.registerRequiredCSS('components/breakpointsList.css');
 
-    (_reactDom || _load_reactDom()).default.render((_react || _load_react()).default.createElement(UnresolvedBreakpointsComponent, null), this.bodyElement);
+    _reactDom.default.render(_react.default.createElement(UnresolvedBreakpointsComponent, null), this.bodyElement);
 
     this.expand();
   }

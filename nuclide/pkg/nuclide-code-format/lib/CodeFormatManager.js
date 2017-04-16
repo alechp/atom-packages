@@ -14,6 +14,12 @@ function _load_textEditor() {
   return _textEditor = require('../../commons-atom/text-editor');
 }
 
+var _nuclideTextedit;
+
+function _load_nuclideTextedit() {
+  return _nuclideTextedit = require('../../nuclide-textedit');
+}
+
 var _config;
 
 function _load_config() {
@@ -21,16 +27,6 @@ function _load_config() {
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
 
 class CodeFormatManager {
 
@@ -126,23 +122,28 @@ class CodeFormatManager {
       } else {
         // Format selections should start at the begining of the line,
         // and include the last selected line end.
-        formatRange = new _atom.Range([selectionStart.row, 0], [selectionEnd.row + 1, 0]);
+        // (If the user has already selected complete rows, then depending on how they
+        // did it, their caret might be either (1) at the end of their last selected line
+        // or (2) at the first column of the line AFTER their selection. In both cases
+        // we snap the formatRange to end at the first column of the line after their
+        // selection.)
+        formatRange = new _atom.Range([selectionStart.row, 0], selectionEnd.column === 0 ? selectionEnd : [selectionEnd.row + 1, 0]);
       }
       const contents = editor.getText();
 
       try {
         const provider = matchingProviders[0];
         if (provider.formatCode != null && (!selectionRangeEmpty || provider.formatEntireFile == null)) {
-          const formatted = yield provider.formatCode(editor, formatRange);
+          const edits = yield provider.formatCode(editor, formatRange);
           // Throws if contents have changed since the time of triggering format code.
           _this3._checkContentsAreSame(contents, editor.getText());
-
-          if (selectionRangeEmpty) {
-            buffer.setTextViaDiff(formatted);
-          } else {
-            editor.setTextInBufferRange(formatRange, formatted);
+          // Ensure that edits are in reverse-sorted order.
+          edits.sort(function (a, b) {
+            return b.oldRange.compare(a.oldRange);
+          });
+          if (!(0, (_nuclideTextedit || _load_nuclideTextedit()).applyTextEditsToBuffer)(editor.getBuffer(), edits)) {
+            throw new Error('Could not apply edits to text buffer.');
           }
-          return true;
         } else if (provider.formatEntireFile != null) {
           const { newCursor, formatted } = yield provider.formatEntireFile(editor, formatRange);
           // Throws if contents have changed since the time of triggering format code.
@@ -155,10 +156,10 @@ class CodeFormatManager {
           // We call setCursorBufferPosition even when there is no newCursor,
           // because it unselects the text selection.
           editor.setCursorBufferPosition(newPosition);
-          return true;
         } else {
           throw new Error('code-format providers must implement formatCode or formatEntireFile');
         }
+        return true;
       } catch (e) {
         if (displayErrors) {
           atom.notifications.addError('Failed to format code: ' + e.message);
@@ -192,4 +193,12 @@ class CodeFormatManager {
     this._pendingFormats.clear();
   }
 }
-exports.default = CodeFormatManager;
+exports.default = CodeFormatManager; /**
+                                      * Copyright (c) 2015-present, Facebook, Inc.
+                                      * All rights reserved.
+                                      *
+                                      * This source code is licensed under the license found in the LICENSE file in
+                                      * the root directory of this source tree.
+                                      *
+                                      * 
+                                      */

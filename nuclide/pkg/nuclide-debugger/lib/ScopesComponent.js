@@ -11,7 +11,7 @@ function _load_WatchExpressionStore() {
   return _WatchExpressionStore = require('./WatchExpressionStore');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LazyNestedValueComponent;
 
@@ -43,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class ScopesComponent extends _reactForAtom.React.Component {
+class ScopesComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -69,16 +69,16 @@ class ScopesComponent extends _reactForAtom.React.Component {
       name,
       value
     } = binding;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: 'nuclide-debugger-expression-value-row',
         key: index },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         {
           className: 'nuclide-debugger-expression-value-content' },
-        _reactForAtom.React.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
+        _react.default.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
           expression: name,
           evaluationResult: value,
           fetchChildren: fetchChildren,
@@ -92,17 +92,17 @@ class ScopesComponent extends _reactForAtom.React.Component {
   _renderScopeSection(fetchChildren, scope) {
     // Non-local scopes should be collapsed by default since users typically care less about them.
     const collapsedByDefault = scope.name !== 'Locals';
-    const noLocals = scope.name !== 'Locals' || scope.scopeVariables.length > 0 ? null : _reactForAtom.React.createElement(
+    const noLocals = scope.name !== 'Locals' || scope.scopeVariables.length > 0 ? null : _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-expression-value-row' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: 'nuclide-debugger-expression-value-content' },
         '(no variables)'
       )
     );
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Section || _load_Section()).Section,
       {
         collapsable: true,
@@ -120,7 +120,7 @@ class ScopesComponent extends _reactForAtom.React.Component {
       scopes
     } = this.props;
     if (scopes == null || scopes.length === 0) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'span',
         null,
         '(no variables)'
@@ -128,7 +128,7 @@ class ScopesComponent extends _reactForAtom.React.Component {
     }
     const fetchChildren = watchExpressionStore.getProperties.bind(watchExpressionStore);
     const scopeSections = scopes.map(this._renderScopeSection.bind(this, fetchChildren));
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-expression-value-list' },
       scopeSections

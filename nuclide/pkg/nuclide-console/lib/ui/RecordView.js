@@ -10,7 +10,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _LazyNestedValueComponent;
 
@@ -36,40 +36,84 @@ function _load_TextRenderer() {
   return _TextRenderer = require('../../../nuclide-ui/TextRenderer');
 }
 
+var _MeasuredComponent;
+
+function _load_MeasuredComponent() {
+  return _MeasuredComponent = require('../../../nuclide-ui/MeasuredComponent');
+}
+
+var _debounce;
+
+function _load_debounce() {
+  return _debounce = _interopRequireDefault(require('../../../commons-node/debounce'));
+}
+
+var _observable;
+
+function _load_observable() {
+  return _observable = require('../../../commons-node/observable');
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const URL_REGEX = /(https?:\/\/[\S]+)/i; /**
-                                          * Copyright (c) 2015-present, Facebook, Inc.
-                                          * All rights reserved.
-                                          *
-                                          * This source code is licensed under the license found in the LICENSE file in
-                                          * the root directory of this source tree.
-                                          *
-                                          * 
-                                          */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
-class RecordView extends _reactForAtom.React.Component {
+const URL_REGEX = /(https?:\/\/[\S]+)/i;
+const ONE_DAY = 1000 * 60 * 60 * 24;
+class RecordView extends _react.default.Component {
 
-  _renderContent(record) {
+  constructor(props) {
+    super(props);
+    this.measureAndNotifyHeight = this.measureAndNotifyHeight.bind(this);
+    this._handleRecordWrapper = this._handleRecordWrapper.bind(this);
+
+    // The MeasuredComponent can call this many times in quick succession as the
+    // child components render, so we debounce it since we only want to know about
+    // the height change once everything has settled down
+    this._debouncedMeasureAndNotifyHeight = (0, (_debounce || _load_debounce()).default)(this.measureAndNotifyHeight, 10);
+  }
+
+  componentDidMount() {
+    // We initially assume a height for the record. After it is actually
+    // rendered we need it to measure its actual height and report it
+    this.measureAndNotifyHeight();
+  }
+
+  componentWillUnmount() {
+    if (this._rafDisposable != null) {
+      this._rafDisposable.unsubscribe();
+    }
+  }
+
+  _renderContent(displayableRecord) {
+    const { record } = displayableRecord;
     if (record.kind === 'request') {
       // TODO: We really want to use a text editor to render this so that we can get syntax
       // highlighting, but they're just too expensive. Figure out a less-expensive way to get syntax
       // highlighting.
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'pre',
         null,
         record.text || ' '
       );
     } else if (record.kind === 'response') {
       const executor = this.props.getExecutor(record.sourceId);
-      return this._renderNestedValueComponent(record, executor);
+      return this._renderNestedValueComponent(displayableRecord, executor);
     } else if (record.data != null) {
       const provider = this.props.getProvider(record.sourceId);
-      return this._renderNestedValueComponent(record, provider);
+      return this._renderNestedValueComponent(displayableRecord, provider);
     } else {
       // If there's not text, use a space to make sure the row doesn't collapse.
       const text = record.text || ' ';
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'pre',
         null,
         parseText(text)
@@ -81,47 +125,96 @@ class RecordView extends _reactForAtom.React.Component {
     return !(0, (_shallowequal || _load_shallowequal()).default)(this.props, nextProps);
   }
 
-  _renderNestedValueComponent(record, provider) {
+  _renderNestedValueComponent(displayableRecord, provider) {
+    const { record, expansionStateId } = displayableRecord;
     const getProperties = provider == null ? null : provider.getProperties;
     const type = record.data == null ? null : record.data.type;
     const simpleValueComponent = getComponent(type);
-    return _reactForAtom.React.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
+    return _react.default.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
       className: 'nuclide-console-lazy-nested-value',
       evaluationResult: record.data,
       fetchChildren: getProperties,
       simpleValueComponent: simpleValueComponent,
       shouldCacheChildren: true,
-      expansionStateId: this
+      expansionStateId: expansionStateId
     });
   }
 
   render() {
-    const { record } = this.props;
-    const classNames = (0, (_classnames || _load_classnames()).default)('nuclide-console-record', `level-${record.level || 'log'}`, {
-      request: record.kind === 'request',
-      response: record.kind === 'response'
+    const { displayableRecord } = this.props;
+    const { record } = displayableRecord;
+    const {
+      level,
+      kind,
+      timestamp,
+      sourceId
+    } = record;
+
+    const classNames = (0, (_classnames || _load_classnames()).default)('nuclide-console-record', `level-${level || 'log'}`, {
+      request: kind === 'request',
+      response: kind === 'response'
     });
 
     const iconName = getIconName(record);
-    const icon = iconName ? _reactForAtom.React.createElement('span', { className: `icon icon-${iconName}` }) : null;
-    const sourceLabel = this.props.showSourceLabel ? _reactForAtom.React.createElement(
+    const icon = iconName ? _react.default.createElement('span', { className: `icon icon-${iconName}` }) : null;
+    const sourceLabel = this.props.showSourceLabel ? _react.default.createElement(
       'span',
       {
-        className: `nuclide-console-record-source-label ${getHighlightClassName(record.level)}` },
-      record.sourceId
+        className: `nuclide-console-record-source-label ${getHighlightClassName(level)}` },
+      sourceId
     ) : null;
-
-    return _reactForAtom.React.createElement(
-      'div',
-      { className: classNames },
-      icon,
-      _reactForAtom.React.createElement(
+    let renderedTimestamp;
+    if (timestamp != null) {
+      const timestampLabel = Date.now() - timestamp > ONE_DAY ? timestamp.toLocaleString() : timestamp.toLocaleTimeString();
+      renderedTimestamp = _react.default.createElement(
         'div',
-        { className: 'nuclide-console-record-content-wrapper' },
-        this._renderContent(record)
-      ),
-      sourceLabel
+        { className: 'nuclide-console-record-timestamp' },
+        timestampLabel
+      );
+    }
+    return _react.default.createElement(
+      (_MeasuredComponent || _load_MeasuredComponent()).MeasuredComponent,
+      { onMeasurementsChanged: this._debouncedMeasureAndNotifyHeight },
+      _react.default.createElement(
+        'div',
+        {
+          ref: this._handleRecordWrapper,
+          className: classNames },
+        icon,
+        _react.default.createElement(
+          'div',
+          { className: 'nuclide-console-record-content-wrapper' },
+          this._renderContent(displayableRecord)
+        ),
+        sourceLabel,
+        renderedTimestamp
+      )
     );
+  }
+
+  measureAndNotifyHeight() {
+    // This method is called after the necessary DOM mutations have
+    // already occurred, however it is possible that the updates have
+    // not been flushed to the screen. So the height change update
+    // is deferred until the rendering is complete so that
+    // this._wrapper.offsetHeight gives us the correct final height
+    if (this._rafDisposable != null) {
+      this._rafDisposable.unsubscribe();
+    }
+    this._rafDisposable = (_observable || _load_observable()).nextAnimationFrame.subscribe(() => {
+      if (this._wrapper == null) {
+        return;
+      }
+      const { offsetHeight } = this._wrapper;
+      const { displayableRecord, onHeightChange } = this.props;
+      if (offsetHeight !== displayableRecord.height) {
+        onHeightChange(displayableRecord.id, offsetHeight);
+      }
+    });
+  }
+
+  _handleRecordWrapper(wrapper) {
+    this._wrapper = wrapper;
   }
 }
 
@@ -177,7 +270,7 @@ function parseText(text) {
   return text.split(URL_REGEX).map((chunk, i) => {
     // Since we're splitting on the URL regex, every other piece will be a URL.
     const isURL = i % 2 !== 0;
-    return isURL ? _reactForAtom.React.createElement(
+    return isURL ? _react.default.createElement(
       'a',
       { key: `d${i}`, href: chunk, target: '_blank' },
       chunk

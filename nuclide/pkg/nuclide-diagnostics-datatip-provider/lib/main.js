@@ -93,8 +93,7 @@ function consumeDatatipService(service) {
     throw new Error('Invariant violation: "disposables"');
   }
 
-  service.addProvider(datatipProvider);
-  const disposable = new _atom.Disposable(() => service.removeProvider(datatipProvider));
+  const disposable = service.addProvider(datatipProvider);
   disposables.add(disposable);
   return disposable;
 }

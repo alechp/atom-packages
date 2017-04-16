@@ -7,6 +7,15 @@ module.exports =
     @statusBarTile?.destroy()
     @statusBarTile = null
 
+  providePlatformIOIDETerminal: ->
+    updateProcessEnv: (variables) ->
+      for name, value of variables
+        process.env[name] = value
+    run: (commands) =>
+      @statusBarTile.runCommandInNewTerminal commands
+    getTerminalViews: () =>
+      @statusBarTile.terminalViews
+
   provideRunInTerminal: ->
     run: (commands) =>
       @statusBarTile.runCommandInNewTerminal commands
@@ -34,6 +43,11 @@ module.exports =
         runInsertedText:
           title: 'Run Inserted Text'
           description: 'Run text inserted via `platformio-ide-terminal:insert-text` as a command? **This will append an end-of-line character to input.**'
+          type: 'boolean'
+          default: true
+        selectToCopy:
+          title: 'Select To Copy'
+          description: 'Copies text to clipboard when selection happens.'
           type: 'boolean'
           default: true
     core:
@@ -70,7 +84,7 @@ module.exports =
               path = require 'path'
               path.resolve(process.env.SystemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe')
             else
-              process.env.SHELL
+              process.env.SHELL || '/bin/bash'
         shellArguments:
           title: 'Shell Arguments'
           description: 'Specify some arguments to use when launching the shell.'

@@ -233,7 +233,7 @@ class ServerConnection {
       _this._monitorConnectionHeartbeat();
 
       ServerConnection._connections.set(_this.getRemoteHostname(), _this);
-      (0, (_RemoteConnectionConfigurationManager || _load_RemoteConnectionConfigurationManager()).setConnectionConfig)(_this._config, ip);
+      (0, (_RemoteConnectionConfigurationManager || _load_RemoteConnectionConfigurationManager()).setConnectionConfig)(_this._config, ip.address);
       ServerConnection._emitter.emit('did-add', _this);
     })();
   }
@@ -287,11 +287,12 @@ class ServerConnection {
       options = {
         ca: this._config.certificateAuthorityCertificate,
         cert: this._config.clientCertificate,
-        key: this._config.clientKey
+        key: this._config.clientKey,
+        family: this._config.family
       };
       uri = `https://${this.getRemoteHostname()}:${this.getPort()}`;
     } else {
-      options = null;
+      options = { family: this._config.family };
       uri = `http://${this.getRemoteHostname()}:${this.getPort()}`;
     }
 

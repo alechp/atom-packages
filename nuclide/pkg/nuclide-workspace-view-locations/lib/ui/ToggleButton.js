@@ -17,7 +17,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,22 +31,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class ToggleButton extends _reactForAtom.React.Component {
+class ToggleButton extends _react.default.Component {
 
   render() {
     const className = (0, (_classnames || _load_classnames()).default)('nuclide-workspace-views-toggle-button', this.props.position, {
       'nuclide-workspace-views-toggle-button-visible': this.props.visible
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: className },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         {
           className: `nuclide-workspace-views-toggle-button-inner ${this.props.position}`,
           onClick: this.props.toggle,
           onDragEnter: this.props.onDragEnter },
-        _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: getIconName(this.props.position, this.props.open) })
+        _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: getIconName(this.props.position, this.props.open) })
       )
     );
   }

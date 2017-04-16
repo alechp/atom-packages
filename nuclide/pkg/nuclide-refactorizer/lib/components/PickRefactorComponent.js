@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PickRefactorComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -21,25 +21,27 @@ function _load_refactorActions() {
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-class PickRefactorComponent extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class PickRefactorComponent extends _react.default.Component {
 
   render() {
     const { availableRefactorings } = this.props.pickPhase;
     if (availableRefactorings.length === 0) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
         null,
         'No refactorings available at this location'
       );
     }
 
-    const elements = availableRefactorings.map((r, i) => _reactForAtom.React.createElement(
+    const elements = availableRefactorings.map((r, i) => _react.default.createElement(
       'div',
       { key: i, className: 'nuclide-refactorizer-refactor-option' },
       this._renderRefactorOption(r)
     ));
     // Class used to identify this element in integration tests
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-refactorizer-pick-refactor' },
       elements
@@ -53,7 +55,7 @@ class PickRefactorComponent extends _reactForAtom.React.Component {
   _renderRefactorOption(refactoring) {
     switch (refactoring.kind) {
       case 'rename':
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           (_Button || _load_Button()).Button
           // Used to identify this element in integration tests
           ,
@@ -65,10 +67,10 @@ class PickRefactorComponent extends _reactForAtom.React.Component {
         );
       case 'freeform':
         // TODO: Make sure the buttons are aligned.
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           'div',
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               className: 'nuclide-refactorizer-pick-freeform',

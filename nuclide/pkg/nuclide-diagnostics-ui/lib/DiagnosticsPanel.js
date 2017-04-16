@@ -40,7 +40,7 @@ function _load_ToolbarRight() {
   return _ToolbarRight = require('../../nuclide-ui/ToolbarRight');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -59,7 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Dismissable panel that displays the diagnostics from nuclide-diagnostics-store.
  */
-class DiagnosticsPanel extends _reactForAtom.React.Component {
+class DiagnosticsPanel extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -92,23 +92,23 @@ class DiagnosticsPanel extends _reactForAtom.React.Component {
 
     let linterWarning = null;
     if (this.props.warnAboutLinter) {
-      linterWarning = _reactForAtom.React.createElement(
+      linterWarning = _react.default.createElement(
         (_Toolbar || _load_Toolbar()).Toolbar,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ToolbarCenter || _load_ToolbarCenter()).ToolbarCenter,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: 'inline-block highlight-info' },
             'nuclide-diagnostics is not compatible with the linter package. We recommend that you\xA0',
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'a',
               { onClick: this.props.disableLinter },
               'disable the linter package'
             ),
             '.\xA0',
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'a',
               { href: 'http://nuclide.io/docs/advanced-topics/linter-package-compatibility/' },
               'Learn More'
@@ -122,51 +122,51 @@ class DiagnosticsPanel extends _reactForAtom.React.Component {
     const errorSpanClassName = `inline-block ${errorCount > 0 ? 'text-error' : ''}`;
     const warningSpanClassName = `inline-block ${warningCount > 0 ? 'text-warning' : ''}`;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
-      { style: { display: 'flex', flex: 1, flexDirection: 'column' } },
+      { style: { display: 'flex', flex: 1, flexDirection: 'column', width: '100%' } },
       linterWarning,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Toolbar || _load_Toolbar()).Toolbar,
         { location: 'top' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ToolbarLeft || _load_ToolbarLeft()).ToolbarLeft,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: errorSpanClassName },
             'Errors: ',
             errorCount
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: warningSpanClassName },
             'Warnings: ',
             warningCount
           )
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ToolbarRight || _load_ToolbarRight()).ToolbarRight,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: 'inline-block' },
-            _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+            _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
               checked: this.props.showTraces,
-              label: 'Show full diagnostic traces',
+              label: 'Full description',
               onChange: this._onShowTracesChange
             })
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             { className: 'inline-block' },
-            _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+            _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
               checked: this.props.filterByActiveTextEditor,
-              label: 'Show only diagnostics for current file',
+              label: 'Current file only',
               onChange: this._onFilterByActiveTextEditorChange
             })
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               onClick: this._openAllFilesWithErrors,
@@ -178,7 +178,7 @@ class DiagnosticsPanel extends _reactForAtom.React.Component {
           )
         )
       ),
-      _reactForAtom.React.createElement((_DiagnosticsPane || _load_DiagnosticsPane()).default, {
+      _react.default.createElement((_DiagnosticsPane || _load_DiagnosticsPane()).default, {
         showFileName: !this.props.filterByActiveTextEditor,
         diagnostics: diagnostics,
         showTraces: showTraces

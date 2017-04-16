@@ -10,13 +10,15 @@ function _load_AtomInput() {
   return _AtomInput = require('../../nuclide-ui/AtomInput');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _settingsUtils;
 
 function _load_settingsUtils() {
   return _settingsUtils = require('./settings-utils');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -28,7 +30,7 @@ function _load_settingsUtils() {
  * 
  */
 
-class SettingsInput extends _reactForAtom.React.Component {
+class SettingsInput extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -105,33 +107,33 @@ class SettingsInput extends _reactForAtom.React.Component {
     const value = this._getValue();
     const placeholder = this._getPlaceholder();
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         { className: 'control-label' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'setting-title' },
           title
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'setting-description' },
           description
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'controls' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'editor-container' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'subview',
             null,
-            _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+            _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
               className: id,
               initialValue: value,
               onDidChange: this._handleChange,

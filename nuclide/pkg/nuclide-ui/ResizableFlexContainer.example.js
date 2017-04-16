@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ResizableFlexContainerExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _ResizableFlexContainer;
 
 function _load_ResizableFlexContainer() {
   return _ResizableFlexContainer = require('./ResizableFlexContainer');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -23,47 +25,47 @@ function _load_ResizableFlexContainer() {
  * 
  */
 
-const ResizableFlexContainerExample = () => _reactForAtom.React.createElement(
+const ResizableFlexContainerExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'div',
     { style: { display: 'flex', height: 100 } },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexContainer,
       {
         direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.HORIZONTAL },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
         'HORIZONTAL Content1 (1 flex scale)'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 0.5 },
         'HORIZONTAL Content2 (0.5 flex scale)'
       )
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     'div',
     { style: { display: 'flex', height: 200 } },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexContainer,
       {
         direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.VERTICAL,
         flexScales: [0.5, 1, 0.5] },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 0.5 },
         'VERTICAL Content1 (0.5 flex scale)'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
         'VERTICAL Content2 (1 flex scale)'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 0.5 },
         'VERTICAL Content3 (0.5 flex scale)'

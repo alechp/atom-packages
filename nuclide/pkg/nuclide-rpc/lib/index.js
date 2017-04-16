@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.loadServicesConfig = exports.RpcProcess = exports.SocketServer = exports.SocketTransport = exports.StreamTransport = exports.LoopbackTransports = exports.RpcConnection = exports.ServiceRegistry = undefined;
+exports.loadServicesConfig = exports.RpcProcess = exports.SocketServer = exports.SocketTransport = exports.StreamTransport = exports.LoopbackTransports = exports.RpcTimeoutError = exports.RpcConnection = exports.ServiceRegistry = undefined;
 
 var _ServiceRegistry;
 
@@ -28,6 +28,12 @@ Object.defineProperty(exports, 'RpcConnection', {
   enumerable: true,
   get: function () {
     return (_RpcConnection || _load_RpcConnection()).RpcConnection;
+  }
+});
+Object.defineProperty(exports, 'RpcTimeoutError', {
+  enumerable: true,
+  get: function () {
+    return (_RpcConnection || _load_RpcConnection()).RpcTimeoutError;
   }
 });
 

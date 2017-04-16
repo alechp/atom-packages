@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Toggle = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A toggle component with an input toggle and a label. We restrict the label to a string
  * to ensure this component is pure.
  */
-class Toggle extends _reactForAtom.React.Component {
+class Toggle extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -45,20 +45,20 @@ class Toggle extends _reactForAtom.React.Component {
       onClick,
       toggled
     } = this.props;
-    const text = label === '' ? null : _reactForAtom.React.createElement(
+    const text = label === '' ? null : _react.default.createElement(
       'span',
       { className: 'nuclide-ui-toggle-label-text' },
       ' ',
       label
     );
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'label',
       {
         className: (0, (_classnames || _load_classnames()).default)(className, 'nuclide-ui-toggle-label', {
           'nuclide-ui-toggle-disabled': disabled
         }),
         onClick: onClick && (0, (_ignoreTextSelectionEvents || _load_ignoreTextSelectionEvents()).default)(onClick) },
-      _reactForAtom.React.createElement('input', {
+      _react.default.createElement('input', {
         checked: toggled,
         className: 'input-toggle',
         disabled: disabled,

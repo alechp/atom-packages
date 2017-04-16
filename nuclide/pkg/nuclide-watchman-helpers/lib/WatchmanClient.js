@@ -89,6 +89,7 @@ class WatchmanClient {
 
       const client = yield _this2._clientPromise;
       client.on('end', function () {
+        logger.info('Watchman client ended');
         client.removeAllListeners();
         _this2._serializedReconnect();
       });
@@ -123,6 +124,7 @@ class WatchmanClient {
     return (0, _asyncToGenerator.default)(function* () {
       logger.error('Watchman client disconnected, reconnecting a new client!');
       yield _this3._initWatchmanClient();
+      logger.info('Watchman client re-initialized, restoring subscriptions');
       yield _this3._restoreSubscriptions();
     })();
   }

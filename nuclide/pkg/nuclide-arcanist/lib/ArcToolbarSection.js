@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _ArcToolbarModel;
 
@@ -30,6 +30,8 @@ function _load_Dropdown() {
   return _Dropdown = require('../../nuclide-ui/Dropdown');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -40,7 +42,7 @@ function _load_Dropdown() {
  * 
  */
 
-class ArcToolbarSection extends _reactForAtom.React.Component {
+class ArcToolbarSection extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -80,7 +82,7 @@ class ArcToolbarSection extends _reactForAtom.React.Component {
     if (error == null) {
       return null;
     }
-    return _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
+    return _react.default.createElement((_Button || _load_Button()).Button, {
       icon: 'sync',
       size: (_Button || _load_Button()).ButtonSizes.SMALL,
       onClick: this._reloadBuildTargets,
@@ -93,13 +95,13 @@ class ArcToolbarSection extends _reactForAtom.React.Component {
     if (!model.isArcSupported()) {
       return null;
     }
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'inline-block' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         null,
-        _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+        _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
           className: 'nuclide-arcanist-toolbar-targets-dropdown',
           size: 'sm',
           value: model.getActiveBuildTarget(),

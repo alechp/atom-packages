@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 59
+          line: 57
         },
         kind: "named",
         name: "NuclideUri"
@@ -24,14 +24,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 59
+          line: 57
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 59
+            line: 57
           },
           kind: "named",
           name: "NuclideUri"
@@ -47,7 +47,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 67
+          line: 65
         },
         kind: "named",
         name: "NuclideUri"
@@ -59,14 +59,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 67
+          line: 65
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 67
+            line: 65
           },
           kind: "any"
         }
@@ -81,7 +81,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 83
+          line: 81
         },
         kind: "named",
         name: "NuclideUri"
@@ -92,7 +92,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 84
+          line: 82
         },
         kind: "string"
       }
@@ -103,14 +103,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 85
+          line: 83
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 85
+            line: 83
           },
           kind: "string"
         }
@@ -125,7 +125,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 93
+          line: 91
         },
         kind: "named",
         name: "NuclideUri"
@@ -137,14 +137,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 93
+          line: 91
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 93
+            line: 91
           },
           kind: "string"
         }
@@ -159,7 +159,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 98
+          line: 96
         },
         kind: "named",
         name: "NuclideUri"
@@ -171,28 +171,28 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 98
+          line: 96
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 98
+            line: 96
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 99
+              line: 97
             },
             name: "projectId",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 99
+                line: 97
               },
               kind: "string"
             },
@@ -201,14 +201,14 @@ module.exports = _client => {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 100
+              line: 98
             },
             name: "directory",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 100
+                line: 98
               },
               kind: "named",
               name: "NuclideUri"
@@ -227,7 +227,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 113
+          line: 111
         },
         kind: "named",
         name: "NuclideUri"
@@ -239,14 +239,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 113
+          line: 111
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 113
+            line: 111
           },
           kind: "string"
         }
@@ -261,7 +261,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 119
+          line: 117
         },
         kind: "named",
         name: "NuclideUri"
@@ -272,14 +272,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 120
+          line: 118
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 120
+            line: 118
           },
           kind: "string"
         }
@@ -291,7 +291,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 121
+          line: 119
         },
         kind: "named",
         name: "ArcDiagnostic"
@@ -306,7 +306,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 223
+          line: 214
         },
         kind: "named",
         name: "NuclideUri"
@@ -317,7 +317,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 224
+          line: 215
         },
         kind: "boolean"
       }
@@ -327,14 +327,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 225
+          line: 216
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 225
+            line: 216
           },
           kind: "string"
         }
@@ -346,21 +346,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 226
+          line: 217
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 226
+            line: 217
           },
           name: "stderr",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 226
+              line: 217
             },
             kind: "string"
           },
@@ -369,14 +369,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 226
+            line: 217
           },
           name: "stdout",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 226
+              line: 217
             },
             kind: "string"
           },
@@ -393,7 +393,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 232
+          line: 223
         },
         kind: "named",
         name: "NuclideUri"
@@ -404,7 +404,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 233
+          line: 224
         },
         kind: "string"
       }
@@ -414,7 +414,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 234
+          line: 225
         },
         kind: "boolean"
       }
@@ -424,14 +424,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 235
+          line: 226
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 235
+            line: 226
           },
           kind: "string"
         }
@@ -442,7 +442,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 236
+          line: 227
         },
         kind: "boolean"
       }
@@ -453,21 +453,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 237
+          line: 228
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 237
+            line: 228
           },
           name: "stderr",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 237
+              line: 228
             },
             kind: "string"
           },
@@ -476,14 +476,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 237
+            line: 228
           },
           name: "stdout",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 237
+              line: 228
             },
             kind: "string"
           },
@@ -500,7 +500,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 251
+          line: 242
         },
         kind: "named",
         name: "NuclideUri"
@@ -511,7 +511,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 252
+          line: 243
         },
         kind: "boolean"
       }
@@ -521,7 +521,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 253
+          line: 244
         },
         kind: "boolean"
       }
@@ -532,7 +532,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 254
+          line: 245
         },
         kind: "named",
         name: "ProcessMessage"
@@ -547,7 +547,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 272
+          line: 261
         },
         kind: "named",
         name: "NuclideUri"
@@ -559,7 +559,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 273
+          line: 262
         },
         kind: "named",
         name: "ProcessMessage"
@@ -574,7 +574,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 281
+          line: 270
         },
         kind: "named",
         name: "NuclideUri"
@@ -585,7 +585,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 282
+          line: 271
         },
         kind: "string"
       }
@@ -596,7 +596,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 283
+          line: 272
         },
         kind: "named",
         name: "ProcessMessage"
@@ -675,35 +675,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 43
+        line: 41
       },
       name: "ArcDiagnostic",
       definition: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 43
+          line: 41
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 44
+            line: 42
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 44
+              line: 42
             },
             kind: "union",
             types: [{
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 44
+                line: 42
               },
               kind: "string-literal",
               value: "Error"
@@ -711,7 +711,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 44
+                line: 42
               },
               kind: "string-literal",
               value: "Warning"
@@ -722,14 +722,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 45
+            line: 43
           },
           name: "text",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 45
+              line: 43
             },
             kind: "string"
           },
@@ -738,14 +738,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 46
+            line: 44
           },
           name: "filePath",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 46
+              line: 44
             },
             kind: "named",
             name: "NuclideUri"
@@ -755,14 +755,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 47
+            line: 45
           },
           name: "row",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 47
+              line: 45
             },
             kind: "number"
           },
@@ -771,14 +771,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 48
+            line: 46
           },
           name: "col",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 48
+              line: 46
             },
             kind: "number"
           },
@@ -787,21 +787,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 49
+            line: 47
           },
           name: "code",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 49
+              line: 47
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 49
+                line: 47
               },
               kind: "string"
             }
@@ -811,14 +811,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 52
+            line: 50
           },
           name: "original",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 52
+              line: 50
             },
             kind: "string"
           },
@@ -827,14 +827,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 53
+            line: 51
           },
           name: "replacement",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 53
+              line: 51
             },
             kind: "string"
           },
@@ -848,13 +848,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 59
+        line: 57
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 59
+          line: 57
         },
         kind: "function",
         argumentTypes: [{
@@ -863,7 +863,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 59
+              line: 57
             },
             kind: "named",
             name: "NuclideUri"
@@ -873,21 +873,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 59
+            line: 57
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 59
+              line: 57
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 59
+                line: 57
               },
               kind: "named",
               name: "NuclideUri"
@@ -902,13 +902,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 67
+        line: 65
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 67
+          line: 65
         },
         kind: "function",
         argumentTypes: [{
@@ -917,7 +917,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 67
+              line: 65
             },
             kind: "named",
             name: "NuclideUri"
@@ -927,21 +927,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 67
+            line: 65
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 67
+              line: 65
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 67
+                line: 65
               },
               kind: "any"
             }
@@ -955,13 +955,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 82
+        line: 80
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 82
+          line: 80
         },
         kind: "function",
         argumentTypes: [{
@@ -970,7 +970,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 83
+              line: 81
             },
             kind: "named",
             name: "NuclideUri"
@@ -981,7 +981,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 84
+              line: 82
             },
             kind: "string"
           }
@@ -990,21 +990,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 85
+            line: 83
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 85
+              line: 83
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 85
+                line: 83
               },
               kind: "string"
             }
@@ -1018,13 +1018,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 93
+        line: 91
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 93
+          line: 91
         },
         kind: "function",
         argumentTypes: [{
@@ -1033,7 +1033,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 93
+              line: 91
             },
             kind: "named",
             name: "NuclideUri"
@@ -1043,21 +1043,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 93
+            line: 91
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 93
+              line: 91
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 93
+                line: 91
               },
               kind: "string"
             }
@@ -1071,13 +1071,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 98
+        line: 96
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 98
+          line: 96
         },
         kind: "function",
         argumentTypes: [{
@@ -1086,7 +1086,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 98
+              line: 96
             },
             kind: "named",
             name: "NuclideUri"
@@ -1096,35 +1096,35 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 98
+            line: 96
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 98
+              line: 96
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 98
+                line: 96
               },
               kind: "object",
               fields: [{
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 99
+                  line: 97
                 },
                 name: "projectId",
                 type: {
                   location: {
                     type: "source",
                     fileName: "ArcanistService.js",
-                    line: 99
+                    line: 97
                   },
                   kind: "string"
                 },
@@ -1133,14 +1133,14 @@ Object.defineProperty(module.exports, "defs", {
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 100
+                  line: 98
                 },
                 name: "directory",
                 type: {
                   location: {
                     type: "source",
                     fileName: "ArcanistService.js",
-                    line: 100
+                    line: 98
                   },
                   kind: "named",
                   name: "NuclideUri"
@@ -1158,13 +1158,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 113
+        line: 111
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 113
+          line: 111
         },
         kind: "function",
         argumentTypes: [{
@@ -1173,7 +1173,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 113
+              line: 111
             },
             kind: "named",
             name: "NuclideUri"
@@ -1183,21 +1183,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 113
+            line: 111
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 113
+              line: 111
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 113
+                line: 111
               },
               kind: "string"
             }
@@ -1211,13 +1211,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 118
+        line: 116
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 118
+          line: 116
         },
         kind: "function",
         argumentTypes: [{
@@ -1226,7 +1226,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 119
+              line: 117
             },
             kind: "named",
             name: "NuclideUri"
@@ -1237,14 +1237,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 120
+              line: 118
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 120
+                line: 118
               },
               kind: "string"
             }
@@ -1254,14 +1254,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 121
+            line: 119
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 121
+              line: 119
             },
             kind: "named",
             name: "ArcDiagnostic"
@@ -1272,6 +1272,112 @@ Object.defineProperty(module.exports, "defs", {
     createPhabricatorRevision: {
       kind: "function",
       name: "createPhabricatorRevision",
+      location: {
+        type: "source",
+        fileName: "ArcanistService.js",
+        line: 213
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "ArcanistService.js",
+          line: 213
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "filePath",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 214
+            },
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }, {
+          name: "isPrepareMode",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 215
+            },
+            kind: "boolean"
+          }
+        }, {
+          name: "lintExcuse",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 216
+            },
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 216
+              },
+              kind: "string"
+            }
+          }
+        }],
+        returnType: {
+          location: {
+            type: "source",
+            fileName: "ArcanistService.js",
+            line: 217
+          },
+          kind: "observable",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 217
+            },
+            kind: "object",
+            fields: [{
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 217
+              },
+              name: "stderr",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 217
+                },
+                kind: "string"
+              },
+              optional: true
+            }, {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 217
+              },
+              name: "stdout",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 217
+                },
+                kind: "string"
+              },
+              optional: true
+            }]
+          }
+        }
+      }
+    },
+    updatePhabricatorRevision: {
+      kind: "function",
+      name: "updatePhabricatorRevision",
       location: {
         type: "source",
         fileName: "ArcanistService.js",
@@ -1296,118 +1402,12 @@ Object.defineProperty(module.exports, "defs", {
             name: "NuclideUri"
           }
         }, {
-          name: "isPrepareMode",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 224
-            },
-            kind: "boolean"
-          }
-        }, {
-          name: "lintExcuse",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 225
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 225
-              },
-              kind: "string"
-            }
-          }
-        }],
-        returnType: {
-          location: {
-            type: "source",
-            fileName: "ArcanistService.js",
-            line: 226
-          },
-          kind: "observable",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 226
-            },
-            kind: "object",
-            fields: [{
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 226
-              },
-              name: "stderr",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 226
-                },
-                kind: "string"
-              },
-              optional: true
-            }, {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 226
-              },
-              name: "stdout",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 226
-                },
-                kind: "string"
-              },
-              optional: true
-            }]
-          }
-        }
-      }
-    },
-    updatePhabricatorRevision: {
-      kind: "function",
-      name: "updatePhabricatorRevision",
-      location: {
-        type: "source",
-        fileName: "ArcanistService.js",
-        line: 231
-      },
-      type: {
-        location: {
-          type: "source",
-          fileName: "ArcanistService.js",
-          line: 231
-        },
-        kind: "function",
-        argumentTypes: [{
-          name: "filePath",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 232
-            },
-            kind: "named",
-            name: "NuclideUri"
-          }
-        }, {
           name: "message",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 233
+              line: 224
             },
             kind: "string"
           }
@@ -1417,7 +1417,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 234
+              line: 225
             },
             kind: "boolean"
           }
@@ -1427,14 +1427,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 235
+              line: 226
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 235
+                line: 226
               },
               kind: "string"
             }
@@ -1445,7 +1445,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 236
+              line: 227
             },
             kind: "boolean"
           }
@@ -1454,28 +1454,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 237
+            line: 228
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 237
+              line: 228
             },
             kind: "object",
             fields: [{
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 237
+                line: 228
               },
               name: "stderr",
               type: {
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 237
+                  line: 228
                 },
                 kind: "string"
               },
@@ -1484,14 +1484,14 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 237
+                line: 228
               },
               name: "stdout",
               type: {
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 237
+                  line: 228
                 },
                 kind: "string"
               },
@@ -1507,13 +1507,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 250
+        line: 241
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 250
+          line: 241
         },
         kind: "function",
         argumentTypes: [{
@@ -1522,7 +1522,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 251
+              line: 242
             },
             kind: "named",
             name: "NuclideUri"
@@ -1533,7 +1533,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 252
+              line: 243
             },
             kind: "boolean"
           }
@@ -1543,7 +1543,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 253
+              line: 244
             },
             kind: "boolean"
           }
@@ -1552,14 +1552,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 254
+            line: 245
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 254
+              line: 245
             },
             kind: "named",
             name: "ProcessMessage"
@@ -1573,13 +1573,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 271
+        line: 260
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 271
+          line: 260
         },
         kind: "function",
         argumentTypes: [{
@@ -1588,7 +1588,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 272
+              line: 261
             },
             kind: "named",
             name: "NuclideUri"
@@ -1598,14 +1598,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 273
+            line: 262
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 273
+              line: 262
             },
             kind: "named",
             name: "ProcessMessage"
@@ -1619,13 +1619,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 280
+        line: 269
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 280
+          line: 269
         },
         kind: "function",
         argumentTypes: [{
@@ -1634,7 +1634,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 281
+              line: 270
             },
             kind: "named",
             name: "NuclideUri"
@@ -1645,7 +1645,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 282
+              line: 271
             },
             kind: "string"
           }
@@ -1654,14 +1654,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 283
+            line: 272
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 283
+              line: 272
             },
             kind: "named",
             name: "ProcessMessage"

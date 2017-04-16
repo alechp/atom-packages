@@ -43,7 +43,7 @@ SEMVERISH_RE = re.compile(r'^(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?$')
 
 # Certificates store is ~/.certs
 CERTS_DIR = os.path.join(HOME_FOLDER, '.certs')
-CERTS_EXPIRATION_DAYS = 7
+CERTS_EXPIRATION_DAYS = 14
 
 # Default core dump location on Linux machines.
 CORE_DUMP_PATH = '/var/tmp/cores'
@@ -278,7 +278,10 @@ class NuclideServerManager(object):
                 quiet=self.options.quiet,
                 debug=self.options.debug,
                 inspect=self.options.inspect,
-                abort_on_uncaught_exception=self.options.dump_core)
+                abort_on_uncaught_exception=self.options.dump_core,
+                # After the server certificate expires, clients won't be able to connect.
+                # Automatically exit to avoid zombie servers.
+                expiration_days=CERTS_EXPIRATION_DAYS + 1)
 
 
 def get_option_parser():
@@ -367,7 +370,7 @@ if __name__ == '__main__':
             _, hard_limit = resource.getrlimit(resource.RLIMIT_CORE)
             resource.setrlimit(resource.RLIMIT_CORE, (resource.RLIM_INFINITY, hard_limit))
         except Exception as e:
-            logger.warn('Failed to enable core dump (%s)', e.message)
+            logger.warn('Failed to enable core dump (%s)' % e)
 
     # Clean up old core dumps. They're pretty large, so don't hog disk space.
     try:
@@ -381,7 +384,7 @@ if __name__ == '__main__':
             for core in cores[:len(cores) - MAX_CORE_DUMPS]:
                 os.remove(core)
     except Exception as e:
-        logger.warn('Failed to clean up old core dumps (%s)', e.message)
+        logger.warn('Failed to clean up old core dumps (%s)' % e)
         pass
 
     if options.command == 'start':

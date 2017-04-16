@@ -7,8 +7,31 @@ exports.openArcDeepLink = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
+// Check if any other open windows have the given path.
+let searchOtherWindows = (() => {
+  var _ref = (0, _asyncToGenerator.default)(function* (path) {
+    const windows = yield Promise.all(_electron.remote.BrowserWindow.getAllWindows().map(function (browserWindow) {
+      return new Promise(function (resolve, reject) {
+        // In case `atom` hasn't been initialized yet.
+        browserWindow.webContents.executeJavaScript('atom && atom.project.getPaths()', function (result) {
+          // Guard against null returns (and also help Flow).
+          const containsPath = Array.isArray(result) && result.find(function (project) {
+            return typeof project === 'string' && (_nuclideUri || _load_nuclideUri()).default.contains(path, project);
+          });
+          resolve(containsPath ? browserWindow : null);
+        });
+      });
+    }));
+    return windows.find(Boolean);
+  });
+
+  return function searchOtherWindows(_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
 let openArcDeepLink = exports.openArcDeepLink = (() => {
-  var _ref = (0, _asyncToGenerator.default)(function* (params, remoteProjectsService) {
+  var _ref2 = (0, _asyncToGenerator.default)(function* (params, remoteProjectsService, deepLinkService, cwd = null) {
     const { project, path, line, column } = params;
     try {
       if (!(typeof project === 'string')) {
@@ -31,10 +54,17 @@ let openArcDeepLink = exports.openArcDeepLink = (() => {
 
       let matches = yield (0, (_getMatchingProjects || _load_getMatchingProjects()).default)(project, atom.project.getPaths());
       if (matches.length === 0) {
-        // See if we had this project open previously, and try re-opening it.
-        const lastPath = yield (0, (_tryReopenProject || _load_tryReopenProject()).default)(project, remoteProjectsService);
+        const lastPath = (0, (_nuclideArcanistBase || _load_nuclideArcanistBase()).getLastProjectPath)(project);
         if (lastPath != null) {
-          matches = yield (0, (_getMatchingProjects || _load_getMatchingProjects()).default)(project, [lastPath]);
+          const otherWindow = yield searchOtherWindows(lastPath);
+          if (otherWindow != null) {
+            deepLinkService.sendDeepLink(otherWindow, 'open-arc', params);
+            return;
+          }
+          // See if we had this project open previously, and try re-opening it.
+          if (yield (0, (_tryReopenProject || _load_tryReopenProject()).default)(project, lastPath, remoteProjectsService)) {
+            matches = yield (0, (_getMatchingProjects || _load_getMatchingProjects()).default)(project, [lastPath]);
+          }
         }
       }
 
@@ -52,16 +82,22 @@ let openArcDeepLink = exports.openArcDeepLink = (() => {
       let match = matches[0];
       if (matches.length > 1) {
         const existing = yield (0, (_promise || _load_promise()).asyncFilter)(matches, (() => {
-          var _ref2 = (0, _asyncToGenerator.default)(function* (directory) {
+          var _ref3 = (0, _asyncToGenerator.default)(function* (directory) {
             const fsService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getFileSystemServiceByNuclideUri)(directory);
             return fsService.exists((_nuclideUri || _load_nuclideUri()).default.join((_nuclideUri || _load_nuclideUri()).default.getPath(directory), paths[0]));
           });
 
-          return function (_x3) {
-            return _ref2.apply(this, arguments);
+          return function (_x5) {
+            return _ref3.apply(this, arguments);
           };
         })());
-        match = existing[0] || match;
+        if (cwd != null && existing.includes(cwd)) {
+          match = cwd;
+        } else if (existing[0]) {
+          match = existing[0];
+        } else if (cwd != null && matches.includes(cwd)) {
+          match = cwd;
+        }
       }
 
       for (let i = 0; i < paths.length; i++) {
@@ -75,10 +111,18 @@ let openArcDeepLink = exports.openArcDeepLink = (() => {
     }
   });
 
-  return function openArcDeepLink(_x, _x2) {
-    return _ref.apply(this, arguments);
+  return function openArcDeepLink(_x2, _x3, _x4) {
+    return _ref2.apply(this, arguments);
   };
 })();
+
+var _electron = require('electron');
+
+var _nuclideArcanistBase;
+
+function _load_nuclideArcanistBase() {
+  return _nuclideArcanistBase = require('../../nuclide-arcanist-base');
+}
 
 var _goToLocation;
 
@@ -127,6 +171,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  */
+
+if (!(_electron.remote != null)) {
+  throw new Error('Invariant violation: "remote != null"');
+}
 
 function ensureArray(x) {
   return typeof x === 'string' ? [x] : x;

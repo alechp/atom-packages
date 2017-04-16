@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ToggleExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,6 +19,8 @@ function _load_Toggle() {
   return _Toggle = require('./Toggle');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const NOOP = () => {}; /**
                         * Copyright (c) 2015-present, Facebook, Inc.
                         * All rights reserved.
@@ -29,33 +31,33 @@ const NOOP = () => {}; /**
                         * 
                         */
 
-const ToggleExample = () => _reactForAtom.React.createElement(
+const ToggleExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Toggle || _load_Toggle()).Toggle, {
+    _react.default.createElement((_Toggle || _load_Toggle()).Toggle, {
       toggled: false,
       onClick: NOOP,
       onChange: NOOP,
       label: 'A Toggle.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Toggle || _load_Toggle()).Toggle, {
+    _react.default.createElement((_Toggle || _load_Toggle()).Toggle, {
       onClick: NOOP,
       onChange: NOOP,
       toggled: true,
       label: 'A toggled Toggle.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Toggle || _load_Toggle()).Toggle, {
+    _react.default.createElement((_Toggle || _load_Toggle()).Toggle, {
       onClick: NOOP,
       onChange: NOOP,
       disabled: true,
@@ -63,10 +65,10 @@ const ToggleExample = () => _reactForAtom.React.createElement(
       label: 'A disabled Toggle.'
     })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Toggle || _load_Toggle()).Toggle, {
+    _react.default.createElement((_Toggle || _load_Toggle()).Toggle, {
       onClick: NOOP,
       onChange: NOOP,
       toggled: true,

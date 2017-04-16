@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
-var _arcanist;
+var _nuclideArcanistBase;
 
-function _load_arcanist() {
-  return _arcanist = require('../../commons-atom/arcanist');
+function _load_nuclideArcanistBase() {
+  return _nuclideArcanistBase = require('../../nuclide-arcanist-base');
 }
 
 var _nuclideUri;
@@ -40,7 +40,7 @@ exports.default = (() => {
         let currentDir = dir;
         while (true) {
           // eslint-disable-next-line no-await-in-loop
-          const info = yield (0, (_arcanist || _load_arcanist()).findArcProjectIdAndDirectory)(currentDir);
+          const info = yield (0, (_nuclideArcanistBase || _load_nuclideArcanistBase()).findArcProjectIdAndDirectory)(currentDir);
           if (info == null) {
             break;
           }

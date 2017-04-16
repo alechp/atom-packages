@@ -54,7 +54,7 @@ function _load_ConsoleContainer() {
   return _ConsoleContainer = require('./ui/ConsoleContainer');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _redux;
 
@@ -75,6 +75,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  */
+
+const MAX_SERIALIZED_RECORDS = 1000;
 
 class Activation {
 
@@ -126,7 +128,7 @@ class Activation {
   consumeWorkspaceViewsService(api) {
     this._disposables.add(api.addOpener(uri => {
       if (uri === (_ConsoleContainer || _load_ConsoleContainer()).WORKSPACE_VIEW_URI) {
-        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
+        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
       }
     }), () => api.destroyWhere(item => item instanceof (_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer), atom.commands.add('atom-workspace', 'nuclide-console:toggle', event => {
       api.toggle((_ConsoleContainer || _load_ConsoleContainer()).WORKSPACE_VIEW_URI, event.detail);
@@ -134,7 +136,7 @@ class Activation {
   }
 
   deserializeConsoleContainer() {
-    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_reactForAtom.React.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
+    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
   }
 
   provideOutputService() {
@@ -188,7 +190,7 @@ class Activation {
       return {};
     }
     return {
-      records: this._store.getState().records
+      records: this._store.getState().records.slice(-MAX_SERIALIZED_RECORDS)
     };
   }
 }
@@ -197,8 +199,7 @@ function deserializeAppState(rawState) {
   return {
     executors: new Map(),
     currentExecutorId: null,
-    // For performance reasons, we won't restore records until we've figured out windowing.
-    records: [],
+    records: rawState && rawState.records ? rawState.records.map(deserializeRecord) : [],
     history: [],
     providers: new Map(),
     providerStatuses: new Map(),
@@ -207,6 +208,20 @@ function deserializeAppState(rawState) {
     // here to conform to the AppState type defintion.
     maxMessageCount: Number.POSITIVE_INFINITY
   };
+}
+
+function deserializeRecord(record) {
+  return Object.assign({}, record, {
+    timestamp: parseDate(record.timestamp) || new Date(0)
+  });
+}
+
+function parseDate(raw) {
+  if (raw == null) {
+    return null;
+  }
+  const date = new Date(raw);
+  return isNaN(date.getTime()) ? null : date;
 }
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

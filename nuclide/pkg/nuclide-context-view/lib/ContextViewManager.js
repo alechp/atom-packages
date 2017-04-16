@@ -17,7 +17,9 @@ function _load_collection() {
   return _collection = require('../../commons-node/collection');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _debounced;
 
@@ -65,17 +67,16 @@ function _load_NoProvidersView() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const EDITOR_DEBOUNCE_INTERVAL = 500; /**
+                                       * Copyright (c) 2015-present, Facebook, Inc.
+                                       * All rights reserved.
+                                       *
+                                       * This source code is licensed under the license found in the LICENSE file in
+                                       * the root directory of this source tree.
+                                       *
+                                       * 
+                                       */
 
-const EDITOR_DEBOUNCE_INTERVAL = 500;
 const POSITION_DEBOUNCE_INTERVAL = 500;
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/context-view';
 
@@ -273,7 +274,7 @@ class ContextViewManager {
   }
 
   _disposeView() {
-    _reactForAtom.ReactDOM.unmountComponentAtNode(this._panelDOMElement);
+    _reactDom.default.unmountComponentAtNode(this._panelDOMElement);
     if (this._defServiceSubscription != null) {
       this._defServiceSubscription.unsubscribe();
       this._defServiceSubscription = null;
@@ -290,7 +291,7 @@ class ContextViewManager {
         setLocked: this._setLocked
       });
       if (element != null) {
-        return _reactForAtom.React.createElement(
+        return _react.default.createElement(
           (_ProviderContainer || _load_ProviderContainer()).ProviderContainer,
           { title: prov.title, key: index },
           element
@@ -300,10 +301,10 @@ class ContextViewManager {
 
     // If there are no context providers to show, show a message instead
     if (providerElements.length === 0) {
-      providerElements.push(_reactForAtom.React.createElement((_NoProvidersView || _load_NoProvidersView()).NoProvidersView, { key: 0 }));
+      providerElements.push(_react.default.createElement((_NoProvidersView || _load_NoProvidersView()).NoProvidersView, { key: 0 }));
     }
 
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement(
+    _reactDom.default.render(_react.default.createElement(
       (_ContextViewPanel || _load_ContextViewPanel()).ContextViewPanel,
       {
         definition: this.currentDefinition,
@@ -328,7 +329,7 @@ class ContextViewManager {
     return 'info';
   }
 
-  getPreferredInitialWidth() {
+  getPreferredWidth() {
     return 300;
   }
 
@@ -337,7 +338,7 @@ class ContextViewManager {
   }
 
   getDefaultLocation() {
-    return 'right-panel';
+    return 'right';
   }
 
   didChangeVisibility(visible) {

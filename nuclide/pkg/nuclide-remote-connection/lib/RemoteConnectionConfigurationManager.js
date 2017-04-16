@@ -137,6 +137,7 @@ function encryptConfig(remoteProjectConfig) {
   return {
     host: remoteProjectConfig.host,
     port: remoteProjectConfig.port,
+    family: remoteProjectConfig.family,
     certificateAuthorityCertificate: certificateAuthorityCertificate.toString(),
     clientCertificate: clientCertificate.toString(),
     clientKey: clientKeyWithSalt
@@ -189,6 +190,7 @@ function decryptConfig(remoteProjectConfig) {
   return {
     host: remoteProjectConfig.host,
     port: remoteProjectConfig.port,
+    family: remoteProjectConfig.family,
     certificateAuthorityCertificate: new Buffer(certificateAuthorityCertificate),
     clientCertificate: new Buffer(clientCertificate),
     clientKey: new Buffer(restoredClientKey)

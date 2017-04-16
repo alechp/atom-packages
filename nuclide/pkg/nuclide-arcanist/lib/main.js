@@ -8,12 +8,6 @@ function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../../commons-atom/createPackage'));
 }
 
-var _registerGrammar;
-
-function _load_registerGrammar() {
-  return _registerGrammar = _interopRequireDefault(require('../../commons-atom/register-grammar'));
-}
-
 var _nuclideBusySignal;
 
 function _load_nuclideBusySignal() {
@@ -46,7 +40,6 @@ class Activation {
   constructor(state) {
     this._disposables = new _atom.CompositeDisposable();
     this._busySignalProvider = new (_nuclideBusySignal || _load_nuclideBusySignal()).DedupedBusySignalProviderBase();
-    (0, (_registerGrammar || _load_registerGrammar()).default)('source.json', ['.arcconfig']);
   }
 
   dispose() {
@@ -61,6 +54,13 @@ class Activation {
     const provider = new (_ArcanistDiagnosticsProvider || _load_ArcanistDiagnosticsProvider()).ArcanistDiagnosticsProvider(this._busySignalProvider);
     this._disposables.add(provider);
     return provider;
+  }
+
+  consumeCwdApi(api) {
+    this._cwdApi = api;
+    return new _atom.Disposable(() => {
+      this._cwdApi = null;
+    });
   }
 
   consumeTaskRunnerServiceApi(api) {
@@ -81,7 +81,9 @@ class Activation {
    */
   consumeDeepLinkService(deepLink) {
     this._disposables.add(deepLink.subscribeToPath('open-arc', params => {
-      (0, (_openArcDeepLink || _load_openArcDeepLink()).openArcDeepLink)(params, this._remoteProjectsService);
+      const maybeCwd = this._cwdApi ? this._cwdApi.getCwd() : null;
+      const maybeCwdPath = maybeCwd ? maybeCwd.getPath() : null;
+      (0, (_openArcDeepLink || _load_openArcDeepLink()).openArcDeepLink)(params, this._remoteProjectsService, deepLink, maybeCwdPath);
     }));
   }
 

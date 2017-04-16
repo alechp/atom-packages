@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TabExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -23,35 +23,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const tabs = [{
   name: 'one',
-  tabContent: _reactForAtom.React.createElement(
+  tabContent: _react.default.createElement(
     'div',
     null,
     'One'
   )
 }, {
   name: 'two',
-  tabContent: _reactForAtom.React.createElement(
+  tabContent: _react.default.createElement(
     'div',
     null,
     'Two'
   )
 }, {
   name: 'three',
-  tabContent: _reactForAtom.React.createElement(
+  tabContent: _react.default.createElement(
     'div',
     null,
     'Three'
   )
 }, {
   name: 'four',
-  tabContent: _reactForAtom.React.createElement(
+  tabContent: _react.default.createElement(
     'div',
     null,
     'Four'
   )
 }, {
   name: 'five',
-  tabContent: _reactForAtom.React.createElement(
+  tabContent: _react.default.createElement(
     'div',
     null,
     'Five'
@@ -66,7 +66,7 @@ const tabs = [{
      * 
      */
 
-class TabExample extends _reactForAtom.React.Component {
+class TabExample extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -84,16 +84,16 @@ class TabExample extends _reactForAtom.React.Component {
 
   render() {
     const { activeTabName } = this.state;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Block || _load_Block()).Block,
       null,
-      _reactForAtom.React.createElement((_Tabs || _load_Tabs()).default, {
+      _react.default.createElement((_Tabs || _load_Tabs()).default, {
         tabs: tabs,
         activeTabName: activeTabName,
         triggeringEvent: 'onClick',
         onActiveTabChange: this.handleTabChange
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: { padding: '2em 0 2em 0' } },
         'Showing content for tab "',

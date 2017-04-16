@@ -6,9 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.DiagnosticsMessageText = undefined;
 exports.separateUrls = separateUrls;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _electron = require('electron');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Exported for testing.
 function separateUrls(message) {
@@ -48,15 +50,18 @@ function separateUrls(message) {
    * 
    */
 
-function renderTextWithLinks(message) {
-  const parts = separateUrls(message).map((part, index) => {
+const LEADING_WHITESPACE_RE = /^\s+/;
+const NBSP = '\xa0';
+function renderRowWithLinks(message, rowIndex) {
+  const messageWithWhitespace = message.replace(LEADING_WHITESPACE_RE, whitespace => NBSP.repeat(whitespace.length));
+  const parts = separateUrls(messageWithWhitespace).map((part, index) => {
     if (!part.isUrl) {
       return part.text;
     } else {
       const openUrl = () => {
         _electron.shell.openExternal(part.url);
       };
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'a',
         { href: '#', key: index, onClick: openUrl },
         part.url
@@ -64,9 +69,9 @@ function renderTextWithLinks(message) {
     }
   });
 
-  return _reactForAtom.React.createElement(
-    'span',
-    null,
+  return _react.default.createElement(
+    'div',
+    { key: rowIndex },
     parts
   );
 }
@@ -76,15 +81,15 @@ const DiagnosticsMessageText = exports.DiagnosticsMessageText = props => {
     message
   } = props;
   if (message.html != null) {
-    return _reactForAtom.React.createElement('span', { dangerouslySetInnerHTML: { __html: message.html } });
+    return _react.default.createElement('span', { dangerouslySetInnerHTML: { __html: message.html } });
   } else if (message.text != null) {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
-      renderTextWithLinks(message.text)
+      message.text.split('\n').map(renderRowWithLinks)
     );
   } else {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
       'Diagnostic lacks message.'

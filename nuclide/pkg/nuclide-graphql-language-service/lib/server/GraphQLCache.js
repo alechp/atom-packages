@@ -365,7 +365,7 @@ class GraphQLCache {
       const schemaDSL = yield new Promise(function (resolve) {
         return _fs.default.readFile(schemaPath, 'utf8', function (error, content) {
           if (error) {
-            throw new Error(error);
+            throw new Error(String(error));
           }
           resolve(content);
         });

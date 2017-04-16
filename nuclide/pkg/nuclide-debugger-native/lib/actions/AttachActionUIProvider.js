@@ -7,7 +7,7 @@ exports.name = undefined;
 exports.getComponent = getComponent;
 exports.isEnabled = isEnabled;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AttachUIComponent;
 
@@ -27,6 +27,8 @@ function _load_LaunchAttachStore() {
   return _LaunchAttachStore = require('../LaunchAttachStore');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -39,7 +41,7 @@ function _load_LaunchAttachStore() {
 
 function getComponent(store, actions, parentEventEmitter) {
   actions.updateAttachTargetList();
-  return _reactForAtom.React.createElement((_AttachUIComponent || _load_AttachUIComponent()).AttachUIComponent, {
+  return _react.default.createElement((_AttachUIComponent || _load_AttachUIComponent()).AttachUIComponent, {
     store: store,
     actions: actions,
     parentEmitter: parentEventEmitter

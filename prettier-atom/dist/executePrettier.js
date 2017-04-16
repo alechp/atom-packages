@@ -1,14 +1,17 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var prettierEslint = require('prettier-eslint');
-var prettier = require('prettier');
 
 var _require = require('loophole'),
     allowUnsafeNewFunction = _require.allowUnsafeNewFunction;
 
 var _require2 = require('./helpers'),
     getPrettierOptions = _require2.getPrettierOptions,
+    getPrettierEslintOptions = _require2.getPrettierEslintOptions,
     getCurrentFilePath = _require2.getCurrentFilePath,
+    getPrettier = _require2.getPrettier,
     shouldDisplayErrors = _require2.shouldDisplayErrors,
     shouldUseEslint = _require2.shouldUseEslint,
     runLinter = _require2.runLinter;
@@ -16,10 +19,11 @@ var _require2 = require('./helpers'),
 var EMBEDDED_JS_REGEX = /<script\b[^>]*>([\s\S]*?)(?=<\/script>)/gi;
 
 var displayError = function displayError(error) {
-  var message = 'prettier-atom: ' + error.toString();
-  var detail = error.stack.toString();
-
-  atom.notifications.addError(message, { detail: detail, dismissable: true });
+  atom.notifications.addError('prettier-atom failed!', {
+    detail: error,
+    stack: error.stack,
+    dismissable: true
+  });
 };
 
 var handleError = function handleError(error) {
@@ -31,10 +35,17 @@ var executePrettier = function executePrettier(editor, text) {
   try {
     if (shouldUseEslint()) {
       return allowUnsafeNewFunction(function () {
-        return prettierEslint({ text: text, filePath: getCurrentFilePath(editor) });
+        return prettierEslint(_extends({}, getPrettierEslintOptions(), {
+          text: text,
+          filePath: getCurrentFilePath(editor)
+        }));
       });
     }
-    return prettier.format(text, getPrettierOptions(editor));
+
+    var prettier = getPrettier(getCurrentFilePath(editor));
+    var prettierOptions = getPrettierOptions(editor);
+
+    return prettier.format(text, prettierOptions);
   } catch (error) {
     return handleError(error);
   }
@@ -45,7 +56,8 @@ var executePrettierOnBufferRange = function executePrettierOnBufferRange(editor,
   var textToTransform = editor.getTextInBufferRange(bufferRange);
   var transformed = executePrettier(editor, textToTransform);
 
-  if (!transformed) return;
+  var isTextUnchanged = transformed === textToTransform;
+  if (!transformed || isTextUnchanged) return;
 
   editor.setTextInBufferRange(bufferRange, transformed);
   editor.setCursorScreenPosition(cursorPositionPriorToFormat);

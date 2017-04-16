@@ -11,7 +11,9 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _atom = require('atom');
 
@@ -23,6 +25,13 @@ function _load_Icon() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const DefaultEmptyComponent = () => _react.default.createElement(
+  'div',
+  { className: 'nuclide-ui-table-empty-message' },
+  'Empty table'
+);
+
+// ColumnKey must be unique within the containing collection.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -33,14 +42,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-const DefaultEmptyComponent = () => _reactForAtom.React.createElement(
-  'div',
-  { className: 'nuclide-ui-table-empty-message' },
-  'Empty table'
-);
-
-// ColumnKey must be unique within the containing collection.
-class Table extends _reactForAtom.React.Component {
+class Table extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -121,7 +123,7 @@ class Table extends _reactForAtom.React.Component {
     document.addEventListener('mouseup', this._handleResizerGlobalMouseUp);
     this._resizeStartX = event.pageX;
     // $FlowFixMe
-    this._tableWidth = _reactForAtom.ReactDOM.findDOMNode(this.refs.table).getBoundingClientRect().width;
+    this._tableWidth = _reactDom.default.findDOMNode(this.refs.table).getBoundingClientRect().width;
     this._columnBeingResized = key;
     this._globalEventsDisposable = new _atom.Disposable(() => {
       document.removeEventListener('mousemove', this._handleResizerGlobalMouseMove);
@@ -190,7 +192,7 @@ class Table extends _reactForAtom.React.Component {
   }
 
   _renderEmptyCellContent() {
-    return _reactForAtom.React.createElement('div', null);
+    return _react.default.createElement('div', null);
   }
 
   render() {
@@ -211,7 +213,7 @@ class Table extends _reactForAtom.React.Component {
         title,
         key
       } = column;
-      const resizeHandle = i === columns.length - 1 ? null : _reactForAtom.React.createElement('div', {
+      const resizeHandle = i === columns.length - 1 ? null : _react.default.createElement('div', {
         className: 'nuclide-ui-table-header-resize-handle',
         onMouseDown: this._handleResizerMouseDown.bind(this, key),
         onClick: e => {
@@ -223,7 +225,7 @@ class Table extends _reactForAtom.React.Component {
       const optionalHeaderCellProps = {};
       if (width != null) {
         optionalHeaderCellProps.style = {
-          width: width + '%'
+          width: width * 100 + '%'
         };
       }
       let sortIndicator;
@@ -232,16 +234,15 @@ class Table extends _reactForAtom.React.Component {
         optionalHeaderCellProps.onClick = this._handleSortByColumn.bind(this, key);
         titleOverlay += ' – click to sort';
         if (sortedColumn === key) {
-          sortIndicator = _reactForAtom.React.createElement(
+          sortIndicator = _react.default.createElement(
             'span',
-            null,
-            ' ',
-            _reactForAtom.React.createElement((_Icon || _load_Icon()).Icon, { icon: sortDescending ? 'triangle-down' : 'triangle-up' })
+            { className: 'nuclide-ui-table-sort-indicator' },
+            _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: sortDescending ? 'triangle-down' : 'triangle-up' })
           );
         }
       }
-      return _reactForAtom.React.createElement(
-        'th',
+      return _react.default.createElement(
+        'div',
         Object.assign({
           className: (0, (_classnames || _load_classnames()).default)({
             'nuclide-ui-table-header-cell': true,
@@ -267,23 +268,22 @@ class Table extends _reactForAtom.React.Component {
         } = column;
         let datum = data[key];
         if (Component != null) {
-          datum = _reactForAtom.React.createElement(Component, { data: datum });
+          datum = _react.default.createElement(Component, { data: datum });
         } else if (datum == null) {
           datum = this._renderEmptyCellContent();
         }
         const cellStyle = {};
-        if (i === 0) {
-          const width = this.state.columnWidthRatios[key];
-          if (width != null) {
-            cellStyle.width = width + '%';
-          }
+        const width = this.state.columnWidthRatios[key];
+        if (width != null) {
+          cellStyle.width = width * 100 + '%';
         }
-        return _reactForAtom.React.createElement(
-          'td',
+        return _react.default.createElement(
+          'div',
           {
             className: 'nuclide-ui-table-body-cell',
             key: j,
-            style: cellStyle },
+            style: cellStyle,
+            title: datum != null ? String(datum) : null },
           datum
         );
       });
@@ -292,10 +292,11 @@ class Table extends _reactForAtom.React.Component {
         rowProps.onClick = this._handleRowClick.bind(this, i);
       }
       const isSelectedRow = selectedIndex != null && i === selectedIndex;
-      return _reactForAtom.React.createElement(
-        'tr',
+      return _react.default.createElement(
+        'div',
         Object.assign({
           className: (0, (_classnames || _load_classnames()).default)(rowClassName, {
+            'nuclide-ui-table-row': true,
             'nuclide-ui-table-row-selectable': selectable,
             'nuclide-ui-table-row-selected': isSelectedRow,
             'nuclide-ui-table-row-alternate': alternateBackground !== false && i % 2 === 1,
@@ -308,52 +309,36 @@ class Table extends _reactForAtom.React.Component {
     });
     if (rows.length === 0) {
       const EmptyComponent = this.props.emptyComponent || DefaultEmptyComponent;
-      body = _reactForAtom.React.createElement(
-        'tr',
-        null,
-        _reactForAtom.React.createElement(
-          'td',
-          null,
-          _reactForAtom.React.createElement(EmptyComponent, null)
-        )
-      );
+      body = _react.default.createElement(EmptyComponent, null);
     }
     const scrollableBodyStyle = {};
     if (maxBodyHeight != null) {
       scrollableBodyStyle.maxHeight = maxBodyHeight;
       scrollableBodyStyle.overflowY = 'auto';
     }
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: className },
-      _reactForAtom.React.createElement(
-        'table',
+      _react.default.createElement(
+        'div',
         {
           className: 'nuclide-ui-table',
           ref: 'table' },
-        _reactForAtom.React.createElement(
-          'thead',
+        _react.default.createElement(
+          'div',
           { className: 'nuclide-ui-table-header' },
-          _reactForAtom.React.createElement(
-            'tr',
-            null,
-            header
-          )
+          header
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: scrollableBodyStyle },
-        _reactForAtom.React.createElement(
-          'table',
+        _react.default.createElement(
+          'div',
           {
             className: 'nuclide-ui-table nuclide-ui-table-body native-key-bindings',
             tabIndex: '-1' },
-          _reactForAtom.React.createElement(
-            'tbody',
-            null,
-            body
-          )
+          body
         )
       )
     );

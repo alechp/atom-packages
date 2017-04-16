@@ -729,14 +729,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 15
+            line: 14
           },
-          name: "plainText",
+          name: "icon",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 15
+              line: 14
             },
             kind: "string"
           },
@@ -745,26 +745,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 16
-          },
-          name: "tokenizedText",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 16
-            },
-            kind: "named",
-            name: "TokenizedText"
-          },
-          optional: true
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 17
           },
-          name: "representativeName",
+          name: "plainText",
           type: {
             location: {
               type: "source",
@@ -778,14 +761,47 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
+            line: 18
+          },
+          name: "tokenizedText",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 18
+            },
+            kind: "named",
+            name: "TokenizedText"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
             line: 19
+          },
+          name: "representativeName",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 19
+            },
+            kind: "string"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 21
           },
           name: "startPosition",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 19
+              line: 21
             },
             kind: "named",
             name: "atom$Point"
@@ -795,14 +811,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 20
+            line: 22
           },
           name: "endPosition",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 20
+              line: 22
             },
             kind: "named",
             name: "atom$Point"
@@ -812,21 +828,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 21
+            line: 23
           },
           name: "children",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 21
+              line: 23
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 21
+                line: 23
               },
               kind: "named",
               name: "OutlineTree"
@@ -841,35 +857,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 24
+        line: 26
       },
       name: "Outline",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 24
+          line: 26
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 25
+            line: 27
           },
           name: "outlineTrees",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 25
+              line: 27
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 25
+                line: 27
               },
               kind: "named",
               name: "OutlineTree"

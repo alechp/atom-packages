@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MeasuredComponent = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _observeElementDimensions;
 
 function _load_observeElementDimensions() {
   return _observeElementDimensions = require('../commons-atom/observe-element-dimensions');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** A container which invokes a callback function supplied in props whenever the
  * container's height and width measurements change. The callback is invoked once
@@ -27,7 +29,7 @@ function _load_observeElementDimensions() {
  * 
  */
 
-class MeasuredComponent extends _reactForAtom.React.Component {
+class MeasuredComponent extends _react.default.Component {
   // Listens to the container DOM node for mutations
   constructor(props) {
     super(props);
@@ -47,7 +49,7 @@ class MeasuredComponent extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { ref: this._updateDomNode },
       this.props.children

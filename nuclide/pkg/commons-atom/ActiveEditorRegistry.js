@@ -69,12 +69,18 @@ function getConcreteConfig(config) {
 
 class ActiveEditorRegistry {
 
-  constructor(resultFunction, config = {}, eventSources = getDefaultEventSources()) {
+  constructor(resultFunction, config = {}, eventSources = {}) {
     this._config = getConcreteConfig(config);
     this._resultFunction = resultFunction;
     this._providerRegistry = new (_ProviderRegistry || _load_ProviderRegistry()).default();
     this._newProviderEvents = new _rxjsBundlesRxMinJs.Subject();
-    this._resultsStream = this._createResultsStream(eventSources);
+    this._resultsStream = this._createResultsStream({
+      activeEditors: eventSources.activeEditors || (0, (_debounced || _load_debounced()).observeActiveEditorsDebounced)(),
+      changesForEditor: eventSources.changesForEditor || (editor => (0, (_debounced || _load_debounced()).editorChangesDebounced)(editor)),
+      savesForEditor: eventSources.savesForEditor || (editor => {
+        return (0, (_event || _load_event()).observableFromSubscribeFunction)(callback => editor.onDidSave(callback)).mapTo(undefined);
+      })
+    });
   }
 
   consumeProvider(provider) {
@@ -166,14 +172,4 @@ class ActiveEditorRegistry {
     })();
   }
 }
-
 exports.default = ActiveEditorRegistry;
-function getDefaultEventSources() {
-  return {
-    activeEditors: (0, (_debounced || _load_debounced()).observeActiveEditorsDebounced)(),
-    changesForEditor: editor => (0, (_debounced || _load_debounced()).editorChangesDebounced)(editor),
-    savesForEditor: editor => {
-      return (0, (_event || _load_event()).observableFromSubscribeFunction)(callback => editor.onDidSave(callback)).mapTo(undefined);
-    }
-  };
-}

@@ -119,11 +119,42 @@ function convertSearchResults(hackRoot, searchResponse) {
       column: entry.char_start - 1,
       name: entry.name,
       path: resultFile,
-      length: entry.char_end - entry.char_start + 1,
-      scope: entry.scope,
-      additionalInfo: entry.desc
+      containerName: entry.scope,
+      icon: bestIconForDesc(entry.desc),
+      hoverText: entry.desc
     });
   }
 
   return result;
+}
+
+const ICONS = {
+  'interface': 'puzzle',
+  'function': 'zap',
+  'method': 'zap',
+  'typedef': 'tag',
+  'class': 'code',
+  'abstract class': 'code',
+  'constant': 'quote',
+  'trait': 'checklist',
+  'enum': 'file-binary',
+  'default': null,
+  'unknown': 'squirrel'
+};
+
+function bestIconForDesc(desc) {
+  if (!desc) {
+    return ICONS.default;
+  }
+  // Look for exact match.
+  if (ICONS[desc]) {
+    return ICONS[desc];
+  }
+  // Look for presence match, e.g. in 'static method in FooBarClass'.
+  for (const keyword in ICONS) {
+    if (desc.indexOf(keyword) !== -1) {
+      return ICONS[keyword];
+    }
+  }
+  return ICONS.unknown;
 }

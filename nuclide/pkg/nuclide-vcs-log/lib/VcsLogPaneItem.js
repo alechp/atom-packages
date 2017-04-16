@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _CustomPaneItem;
 
@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class VcsLogPaneItem extends (_CustomPaneItem || _load_CustomPaneItem()).CustomPaneItem {
   __renderPaneItem(options) {
-    return _reactForAtom.React.createElement((_VcsLog || _load_VcsLog()).default, options.initialProps);
+    return _react.default.createElement((_VcsLog || _load_VcsLog()).default, options.initialProps);
   }
 
   updateWithLogEntries(logEntries) {

@@ -10,11 +10,13 @@ function _load_AtomTextEditor() {
   return _AtomTextEditor = require('../../../nuclide-ui/AtomTextEditor');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
-class Console extends _reactForAtom.React.Component {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+class Console extends _react.default.Component {
   render() {
-    return _reactForAtom.React.createElement((_AtomTextEditor || _load_AtomTextEditor()).AtomTextEditor, {
+    return _react.default.createElement((_AtomTextEditor || _load_AtomTextEditor()).AtomTextEditor, {
       gutterHidden: true,
       path: '.ansi',
       readOnly: true,

@@ -13,7 +13,7 @@ function _load_featureConfig() {
   return _featureConfig = _interopRequireDefault(require('../../commons-atom/featureConfig'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _SettingsCategory;
 
@@ -51,7 +51,7 @@ const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/settings
                                                                                     * 
                                                                                     */
 
-class NuclideSettingsPaneItem extends _reactForAtom.React.Component {
+class NuclideSettingsPaneItem extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -173,7 +173,7 @@ class NuclideSettingsPaneItem extends _reactForAtom.React.Component {
     Object.keys(configData).sort().forEach(categoryName => {
       const packages = configData[categoryName];
       if (Object.keys(packages).length > 0) {
-        elements.push(_reactForAtom.React.createElement((_SettingsCategory || _load_SettingsCategory()).default, {
+        elements.push(_react.default.createElement((_SettingsCategory || _load_SettingsCategory()).default, {
           key: categoryName,
           name: categoryName,
           packages: packages
@@ -181,27 +181,27 @@ class NuclideSettingsPaneItem extends _reactForAtom.React.Component {
       }
     });
     const settings = elements.length === 0 ? null : elements;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'pane-item padded settings-gadgets-pane' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'settings-view panels panels-item' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'panels' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'panels-item' },
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               'section',
               { className: 'section' },
-              _reactForAtom.React.createElement(
+              _react.default.createElement(
                 (_Section || _load_Section()).Section,
                 {
                   headline: 'Filter',
                   collapsable: true },
-                _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+                _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
                   size: 'lg',
                   placeholderText: 'Filter by setting title or description',
                   onDidChange: this._onFilterTextChanged
@@ -231,7 +231,7 @@ class NuclideSettingsPaneItem extends _reactForAtom.React.Component {
   }
 
   getDefaultLocation() {
-    return 'pane';
+    return 'center';
   }
 
   getURI() {

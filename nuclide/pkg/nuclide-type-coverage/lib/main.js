@@ -26,7 +26,9 @@ exports.consumeCoverageProvider = consumeCoverageProvider;
 exports.consumeStatusBar = consumeStatusBar;
 exports.getDiagnosticsProvider = getDiagnosticsProvider;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _atom = require('atom');
 
@@ -64,15 +66,17 @@ function _load_coverageDiagnostics() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const STATUS_BAR_PRIORITY = 1000; /**
-                                   * Copyright (c) 2015-present, Facebook, Inc.
-                                   * All rights reserved.
-                                   *
-                                   * This source code is licensed under the license found in the LICENSE file in
-                                   * the root directory of this source tree.
-                                   *
-                                   * 
-                                   */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+const STATUS_BAR_PRIORITY = 1000;
 
 class Activation {
 
@@ -102,13 +106,13 @@ class Activation {
     });
 
     const resultStream = this._activeEditorRegistry.getResultsStream();
-    _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_StatusBarTile || _load_StatusBarTile()).StatusBarTile, {
+    _reactDom.default.render(_react.default.createElement((_StatusBarTile || _load_StatusBarTile()).StatusBarTile, {
       results: resultStream,
       isActive: this._shouldRenderDiagnostics,
       onClick: () => this._toggleEvents.next()
     }), item);
     const disposable = new _atom.Disposable(() => {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(item);
+      _reactDom.default.unmountComponentAtNode(item);
       statusBarTile.destroy();
     });
     this._disposables.add(disposable);

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HighlightExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,49 +19,51 @@ function _load_Highlight() {
   return _Highlight = require('./Highlight');
 }
 
-const HighlightExample = () => _reactForAtom.React.createElement(
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const HighlightExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Highlight || _load_Highlight()).Highlight,
       null,
       'Default'
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Highlight || _load_Highlight()).Highlight,
       { color: (_Highlight || _load_Highlight()).HighlightColors.info },
       'Info'
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Highlight || _load_Highlight()).Highlight,
       { color: (_Highlight || _load_Highlight()).HighlightColors.success },
       'Success'
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Highlight || _load_Highlight()).Highlight,
       { color: (_Highlight || _load_Highlight()).HighlightColors.warning },
       'Warning'
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Highlight || _load_Highlight()).Highlight,
       { color: (_Highlight || _load_Highlight()).HighlightColors.error },
       'Error'

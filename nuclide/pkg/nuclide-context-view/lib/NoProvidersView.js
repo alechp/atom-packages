@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.NoProvidersView = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * This view is rendered when no context providers are registered.
  */
 const NoProvidersView = exports.NoProvidersView = () => {
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     'div',
     null,
     'No providers registered!'

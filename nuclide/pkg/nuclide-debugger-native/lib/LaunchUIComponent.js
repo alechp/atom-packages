@@ -17,7 +17,7 @@ function _load_nuclideDebuggerBase() {
   return _nuclideDebuggerBase = require('../../nuclide-debugger-base');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _AtomInput;
 
@@ -37,6 +37,8 @@ function _load_ButtonGroup() {
   return _ButtonGroup = require('../../nuclide-ui/ButtonGroup');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -47,7 +49,7 @@ function _load_ButtonGroup() {
  * 
  */
 
-class LaunchUIComponent extends _reactForAtom.React.Component {
+class LaunchUIComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -74,73 +76,73 @@ class LaunchUIComponent extends _reactForAtom.React.Component {
     // TODO: smart fill the working directory textbox.
     // TODO: make tab stop between textbox work.
     // Reserve tabIndex [1~10] to header portion of the UI so we start from "11" here.
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'block' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         null,
         'Executable: '
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'launchExecutable',
         tabIndex: '11',
         placeholderText: 'Input the executable path you want to launch'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         null,
         'Arguments: '
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'launchArguments',
         tabIndex: '12',
         placeholderText: 'Arguments to the executable'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         null,
         'Environment Variables: '
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'launchEnvironmentVariables',
         tabIndex: '13',
         placeholderText: 'Environment variables (e.g., SHELL=/bin/bash PATH=/bin)'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         null,
         'Working directory: '
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'launchWorkingDirectory',
         tabIndex: '14',
         placeholderText: 'Working directory for the launched executable'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'label',
         null,
         'Stdin file: '
       ),
-      _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         ref: 'stdinFilePath',
         tabIndex: '15',
         placeholderText: 'Redirect stdin to this file'
       }),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: { display: 'flex', flexDirection: 'row-reverse' } },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               tabIndex: '17',
               onClick: this._cancelClick },
             'Cancel'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY,

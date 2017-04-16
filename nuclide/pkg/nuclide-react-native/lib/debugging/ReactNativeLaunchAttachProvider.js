@@ -17,7 +17,9 @@ function _load_DebugUiComponent() {
   return _DebugUiComponent = require('./DebugUiComponent');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class ReactNativeLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuclideDebuggerBase()).DebuggerLaunchAttachProvider {
   getActions() {
@@ -29,7 +31,7 @@ class ReactNativeLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuc
       throw new Error('Invariant violation: "action === \'Attach\'"');
     }
 
-    return _reactForAtom.React.createElement((_DebugUiComponent || _load_DebugUiComponent()).DebugUiComponent, { targetUri: this.getTargetUri(), parentEmitter: parentEventEmitter });
+    return _react.default.createElement((_DebugUiComponent || _load_DebugUiComponent()).DebugUiComponent, { targetUri: this.getTargetUri(), parentEmitter: parentEventEmitter });
   }
 
   dispose() {}

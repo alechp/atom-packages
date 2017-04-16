@@ -11,7 +11,7 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _ignoreTextSelectionEvents;
 
@@ -34,7 +34,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 /**
  * Use ListViewItem in conjunction with ListView.
  */
-class ListViewItem extends _reactForAtom.React.Component {
+class ListViewItem extends _react.default.Component {
 
   _select(value, index, event) {
     this.props.onSelect(value, index);
@@ -50,7 +50,7 @@ class ListViewItem extends _reactForAtom.React.Component {
       value
     } = _props,
           remainingProps = _objectWithoutProperties(_props, ['children', 'index', 'value']);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       Object.assign({
         className: 'nuclide-ui-listview-item'
@@ -62,7 +62,7 @@ class ListViewItem extends _reactForAtom.React.Component {
 }
 
 exports.ListViewItem = ListViewItem;
-class ListView extends _reactForAtom.React.Component {
+class ListView extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -81,7 +81,7 @@ class ListView extends _reactForAtom.React.Component {
       alternateBackground,
       selectable
     } = this.props;
-    const renderedItems = _reactForAtom.React.Children.map(children, (child, index) => _reactForAtom.React.cloneElement(child, {
+    const renderedItems = _react.default.Children.map(children, (child, index) => _react.default.cloneElement(child, {
       index,
       onSelect: this._handleSelect
     }));
@@ -91,7 +91,7 @@ class ListView extends _reactForAtom.React.Component {
       'nuclide-ui-listview-highlight-odd': alternateBackground,
       'nuclide-ui-listview-selectable': selectable
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: className, tabIndex: -1 },
       renderedItems

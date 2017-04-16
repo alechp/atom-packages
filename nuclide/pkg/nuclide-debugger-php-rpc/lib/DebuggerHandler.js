@@ -255,6 +255,9 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
 
     return (0, _asyncToGenerator.default)(function* () {
       const frames = yield _this7._connectionMultiplexer.getConnectionStackFrames(id);
+      if (frames == null || frames.stack == null || frames.stack.length === 0) {
+        return null;
+      }
       return _this7._convertFrame(frames.stack[0], 0);
     })();
   }
@@ -270,11 +273,19 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
       if (!hasSource) {
         location.scriptId = '';
       }
+
+      let scopeChain = null;
+      try {
+        scopeChain = yield _this8._connectionMultiplexer.getScopesForFrame(frameIndex);
+      } catch (e) {
+        // Couldn't get scopes.
+      }
+
       return {
         callFrameId: (0, (_frame || _load_frame()).idOfFrame)(frame),
         functionName: (0, (_frame || _load_frame()).functionOfFrame)(frame),
         location,
-        scopeChain: yield _this8._connectionMultiplexer.getScopesForFrame(frameIndex)
+        scopeChain
       };
     })();
   }
@@ -292,7 +303,7 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
     if (!this._hadFirstContinuationCommand) {
       this._hadFirstContinuationCommand = true;
       this.sendMethod('Debugger.resumed');
-      this._connectionMultiplexer.listen();
+      this._subscriptions.add(this._connectionMultiplexer.listen(this._endSession.bind(this)));
       return;
     }
     this._connectionMultiplexer.resume();
@@ -373,20 +384,38 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
           text: requestSwitchMessage
         });
       }
+      const enabledConnectionId = _this11._connectionMultiplexer.getEnabledConnectionId();
       _this11.sendMethod('Debugger.paused', {
         callFrames: yield _this11._getStackFrames(),
         reason: 'breakpoint', // TODO: better reason?
         threadSwitchMessage: requestSwitchMessage,
         data: {},
-        stopThreadId: _this11._connectionMultiplexer.getEnabledConnectionId()
+        stopThreadId: enabledConnectionId
       });
+
+      // Send an update for the enabled thread to cause the request window in the
+      // front-end to update.
+      if (enabledConnectionId != null) {
+        const frame = yield _this11._getTopFrameForConnection(enabledConnectionId);
+        _this11.sendMethod('Debugger.threadUpdated', {
+          thread: {
+            id: String(enabledConnectionId),
+            name: String(enabledConnectionId),
+            address: frame != null ? frame.functionName : 'N/A',
+            location: frame != null ? frame.location : null,
+            hasSource: true,
+            stopReason: _this11._connectionMultiplexer.getConnectionStopReason(enabledConnectionId),
+            description: 'N/A'
+          }
+        });
+      }
     })();
   }
 
   _sendFakeLoaderBreakpoint() {
     this.sendMethod('Debugger.paused', {
       callFrames: [],
-      reason: 'breakpoint', // TODO: better reason?
+      reason: 'initial break',
       data: {}
     });
   }

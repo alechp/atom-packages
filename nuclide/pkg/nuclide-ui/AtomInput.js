@@ -13,7 +13,9 @@ function _load_classnames() {
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _string;
 
@@ -26,17 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * An input field rendered as an <atom-text-editor mini />.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-class AtomInput extends _reactForAtom.React.Component {
+class AtomInput extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -155,7 +147,7 @@ class AtomInput extends _reactForAtom.React.Component {
       // component class when "Use Shadow DOM" is disabled, this element should never have children.
       // If an element has no children, React guarantees it will never re-render the element (which
       // would wipe out the web component's work in this case).
-      _reactForAtom.React.createElement('atom-text-editor', {
+      _react.default.createElement('atom-text-editor', {
         'class': className,
         mini: true,
         onClick: this.props.onClick,
@@ -183,7 +175,7 @@ class AtomInput extends _reactForAtom.React.Component {
 
   getTextEditorElement() {
     // $FlowFixMe
-    return _reactForAtom.ReactDOM.findDOMNode(this);
+    return _reactDom.default.findDOMNode(this);
   }
 
   _updateWidth(prevWidth) {
@@ -198,7 +190,16 @@ class AtomInput extends _reactForAtom.React.Component {
     this.getTextEditorElement().focus();
   }
 }
-exports.AtomInput = AtomInput;
+exports.AtomInput = AtomInput; /**
+                                * Copyright (c) 2015-present, Facebook, Inc.
+                                * All rights reserved.
+                                *
+                                * This source code is licensed under the license found in the LICENSE file in
+                                * the root directory of this source tree.
+                                *
+                                * 
+                                */
+
 AtomInput.defaultProps = {
   disabled: false,
   autofocus: false,

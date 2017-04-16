@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class FileTreeSidebarFilterComponent extends _reactForAtom.React.Component {
+class FileTreeSidebarFilterComponent extends _react.default.Component {
 
   render() {
     const { filter, found } = this.props;
@@ -36,7 +36,7 @@ class FileTreeSidebarFilterComponent extends _reactForAtom.React.Component {
     });
     const text = `search for: ${filter}`;
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: classes },
       text

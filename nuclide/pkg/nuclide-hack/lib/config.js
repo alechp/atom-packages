@@ -35,7 +35,6 @@ const SHOW_TYPE_COVERAGE_CONFIG_PATH = exports.SHOW_TYPE_COVERAGE_CONFIG_PATH = 
 function getConfig() {
   return (_featureConfig || _load_featureConfig()).default.getWithDefaults(HACK_CONFIG_PATH, {
     hhClientPath: '',
-    useIdeConnection: false,
     logLevel: 'INFO'
   });
 }

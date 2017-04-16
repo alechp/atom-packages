@@ -13,7 +13,9 @@ function _load_classnames() {
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _goToLocation;
 
@@ -35,9 +37,6 @@ function _load_DiagnosticsPopup() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const GUTTER_ID = 'nuclide-diagnostics-gutter';
-
-// Needs to be the same as glyph-height in gutter.atom-text-editor.less.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -48,6 +47,9 @@ const GUTTER_ID = 'nuclide-diagnostics-gutter';
  * 
  */
 
+const GUTTER_ID = 'nuclide-diagnostics-gutter';
+
+// Needs to be the same as glyph-height in gutter.atom-text-editor.less.
 const GLYPH_HEIGHT = 15; // px
 
 const POPUP_DISPOSE_TIMEOUT = 100;
@@ -203,7 +205,7 @@ function createGutterItem(messages, gutterMarkerCssClass, fixer) {
   };
   const dispose = () => {
     if (popupElement) {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(popupElement);
+      _reactDom.default.unmountComponentAtNode(popupElement);
 
       if (!(popupElement.parentNode != null)) {
         throw new Error('Invariant violation: "popupElement.parentNode != null"');
@@ -267,7 +269,7 @@ function showPopupFor(messages, item, goToLocation, fixer) {
     (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('diagnostics-gutter-goto-location');
   };
 
-  _reactForAtom.ReactDOM.render(_reactForAtom.React.createElement((_DiagnosticsPopup || _load_DiagnosticsPopup()).DiagnosticsPopup, {
+  _reactDom.default.render(_react.default.createElement((_DiagnosticsPopup || _load_DiagnosticsPopup()).DiagnosticsPopup, {
     left: left,
     top: top,
     messages: messages,

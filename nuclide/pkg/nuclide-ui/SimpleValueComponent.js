@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _ValueComponentClassNames;
 
@@ -17,6 +17,8 @@ var _TextRenderer;
 function _load_TextRenderer() {
   return _TextRenderer = require('./TextRenderer');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -31,7 +33,7 @@ function _load_TextRenderer() {
 // TODO @jxg export debugger typedefs from main module. (t11406963)
 function renderNullish(evaluationResult) {
   const { type } = evaluationResult;
-  return type === 'undefined' || type === 'null' ? _reactForAtom.React.createElement(
+  return type === 'undefined' || type === 'null' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.nullish },
     type
@@ -43,16 +45,16 @@ function renderString(evaluationResult) {
     type,
     value
   } = evaluationResult;
-  return type === 'string' ? _reactForAtom.React.createElement(
+  return type === 'string' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.string },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'span',
       { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.stringOpeningQuote },
       '"'
     ),
     value,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'span',
       { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.stringClosingQuote },
       '"'
@@ -65,16 +67,16 @@ function renderNumber(evaluationResult) {
     type,
     value
   } = evaluationResult;
-  return type === 'number' ? _reactForAtom.React.createElement(
+  return type === 'number' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.number },
-    value
+    String(value)
   ) : null;
 }
 
 function renderBoolean(evaluationResult) {
   const { type, value } = evaluationResult;
-  return type === 'boolean' ? _reactForAtom.React.createElement(
+  return type === 'boolean' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.boolean },
     String(value)
@@ -87,7 +89,7 @@ function renderDefault(evaluationResult) {
 
 const valueRenderers = [(_TextRenderer || _load_TextRenderer()).TextRenderer, renderString, renderNumber, renderNullish, renderBoolean, renderDefault];
 
-class SimpleValueComponent extends _reactForAtom.React.Component {
+class SimpleValueComponent extends _react.default.Component {
 
   render() {
     const {
@@ -105,7 +107,7 @@ class SimpleValueComponent extends _reactForAtom.React.Component {
       displayValue = evaluationResult.description || '(N/A)';
     }
     if (expression == null) {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'span',
         null,
         displayValue
@@ -113,12 +115,12 @@ class SimpleValueComponent extends _reactForAtom.React.Component {
     }
     // TODO @jxg use a text editor to apply proper syntax highlighting for expressions
     // (t11408154)
-    const renderedExpression = _reactForAtom.React.createElement(
+    const renderedExpression = _react.default.createElement(
       'span',
       { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.identifier },
       expression
     );
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       null,
       renderedExpression,

@@ -68,7 +68,9 @@ function registerOutputProvider(outputProvider) {
     records: outputProvider.messages.map(message => Object.assign({}, message, {
       kind: 'message',
       sourceId: outputProvider.id,
-      scopeName: null
+      scopeName: null,
+      // Eventually, we'll want to allow providers to specify custom timestamps for records.
+      timestamp: new Date()
     }))
   }));
 }

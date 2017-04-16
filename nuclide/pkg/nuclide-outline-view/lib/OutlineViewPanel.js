@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OutlineViewPanelState = exports.WORKSPACE_VIEW_URI = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _renderReactRoot;
 
@@ -20,6 +20,8 @@ function _load_OutlineView() {
 }
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/outline-view'; /**
                                                                                         * Copyright (c) 2015-present, Facebook, Inc.
@@ -46,7 +48,7 @@ class OutlineViewPanelState {
     return 'list-unordered';
   }
 
-  getPreferredInitialWidth() {
+  getPreferredWidth() {
     return 300;
   }
 
@@ -55,7 +57,7 @@ class OutlineViewPanelState {
   }
 
   getDefaultLocation() {
-    return 'right-panel';
+    return 'right';
   }
 
   didChangeVisibility(visible) {
@@ -64,7 +66,7 @@ class OutlineViewPanelState {
 
   getElement() {
     const outlines = this._visibility.switchMap(visible => visible ? this._outlines : _rxjsBundlesRxMinJs.Observable.of({ kind: 'empty' }));
-    return (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_reactForAtom.React.createElement((_OutlineView || _load_OutlineView()).OutlineView, { outlines: outlines }));
+    return (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_react.default.createElement((_OutlineView || _load_OutlineView()).OutlineView, { outlines: outlines }));
   }
 
   serialize() {

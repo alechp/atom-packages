@@ -36,10 +36,10 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 var _nuclideAnalytics;
@@ -101,7 +101,7 @@ function getRepoPathToEditors() {
   const reposToEditors = new Map();
   atom.workspace.getTextEditors().filter(textEditor => textEditor.getPath() != null && textEditor.getPath() !== '').map(textEditor => ({
     textEditor,
-    repository: (0, (_vcs || _load_vcs()).repositoryForPath)(textEditor.getPath() || '')
+    repository: (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(textEditor.getPath() || '')
   })).filter(({ repository }) => repository != null).forEach(({ repository, textEditor }) => {
     if (!repository) {
       throw new Error('Invariant violation: "repository"');

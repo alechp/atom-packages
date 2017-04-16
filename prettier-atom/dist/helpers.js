@@ -6,6 +6,7 @@ var _require = require('atom-linter'),
 var fs = require('fs');
 var minimatch = require('minimatch');
 var path = require('path');
+var bundledPrettier = require('prettier');
 
 // constants
 var LINE_SEPERATOR_REGEX = /(\r|\n|\r\n)/;
@@ -35,6 +36,28 @@ var getDirFromFilePath = function getDirFromFilePath(filePath) {
 
 var getNearestEslintignorePath = function getNearestEslintignorePath(filePath) {
   return findCached(getDirFromFilePath(filePath), '.eslintignore');
+};
+
+var getLocalPrettierPath = function getLocalPrettierPath(filePath) {
+  if (!filePath) return null;
+
+  var indexPath = path.join('node_modules', 'prettier', 'index.js');
+  var dirPath = getDirFromFilePath(filePath);
+
+  return dirPath ? findCached(dirPath, indexPath) : null;
+};
+
+var getPrettier = function getPrettier(filePath) {
+  var prettierPath = getLocalPrettierPath(filePath);
+
+  // charypar: This is currently the best way to use local prettier instance.
+  // Using the CLI introduces a noticeable delay and there is currently no
+  // way to use prettier as a long-running process for formatting files as needed
+  //
+  // See https://github.com/prettier/prettier/issues/918
+  //
+  // $FlowFixMe when possible, don't use dynamic require
+  return prettierPath ? require(prettierPath) : bundledPrettier; // eslint-disable-line
 };
 
 var getFilePathRelativeToEslintignore = function getFilePathRelativeToEslintignore(filePath) {
@@ -86,6 +109,10 @@ var shouldDisplayErrors = function shouldDisplayErrors() {
 
 var getPrettierOption = function getPrettierOption(key) {
   return getConfigOption('prettierOptions.' + key);
+};
+
+var getPrettierEslintOption = function getPrettierEslintOption(key) {
+  return getConfigOption('prettierEslintOptions.' + key);
 };
 
 var getCurrentFilePath = function getCurrentFilePath(editor) {
@@ -144,7 +171,15 @@ var getPrettierOptions = function getPrettierOptions(editor) {
     singleQuote: getPrettierOption('singleQuote'),
     trailingComma: getPrettierOption('trailingComma'),
     bracketSpacing: getPrettierOption('bracketSpacing'),
+    semi: getPrettierOption('semi'),
+    useTabs: getPrettierOption('useTabs'),
     jsxBracketSameLine: getPrettierOption('jsxBracketSameLine')
+  };
+};
+
+var getPrettierEslintOptions = function getPrettierEslintOptions() {
+  return {
+    prettierLast: getPrettierEslintOption('prettierLast')
   };
 };
 
@@ -156,7 +191,9 @@ module.exports = {
   getConfigOption: getConfigOption,
   shouldDisplayErrors: shouldDisplayErrors,
   getPrettierOption: getPrettierOption,
+  getPrettierEslintOption: getPrettierEslintOption,
   getCurrentFilePath: getCurrentFilePath,
+  getPrettier: getPrettier,
   isInScope: isInScope,
   isCurrentScopeEmbeddedScope: isCurrentScopeEmbeddedScope,
   isFilePathEslintignored: isFilePathEslintignored,
@@ -168,5 +205,6 @@ module.exports = {
   shouldUseEslint: shouldUseEslint,
   shouldRespectEslintignore: shouldRespectEslintignore,
   getPrettierOptions: getPrettierOptions,
+  getPrettierEslintOptions: getPrettierEslintOptions,
   runLinter: runLinter
 };

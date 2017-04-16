@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Checkbox = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _classnames;
 
@@ -31,17 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A checkbox component with an input checkbox and a label. We restrict the label to a string
  * to ensure this component is pure.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-class Checkbox extends _reactForAtom.React.PureComponent {
+class Checkbox extends _react.default.PureComponent {
 
   constructor(props) {
     super(props);
@@ -69,7 +61,7 @@ class Checkbox extends _reactForAtom.React.PureComponent {
    */
   _setIndeterminate() {
     // $FlowFixMe
-    _reactForAtom.ReactDOM.findDOMNode(this.refs.input).indeterminate = this.props.indeterminate;
+    _reactDom.default.findDOMNode(this.refs.input).indeterminate = this.props.indeterminate;
   }
 
   render() {
@@ -82,17 +74,18 @@ class Checkbox extends _reactForAtom.React.PureComponent {
       label,
       onClick,
       tooltip,
-      title
+      title,
+      onMouseDown
     } = this.props;
 
     const ref = tooltip ? (0, (_addTooltip || _load_addTooltip()).default)(tooltip) : null;
-    const text = label === '' ? null : _reactForAtom.React.createElement(
+    const text = label === '' ? null : _react.default.createElement(
       'span',
       { className: 'nuclide-ui-checkbox-label-text' },
       ' ',
       label
     );
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'label',
       {
         className: (0, (_classnames || _load_classnames()).default)(className, 'nuclide-ui-checkbox-label', {
@@ -101,11 +94,12 @@ class Checkbox extends _reactForAtom.React.PureComponent {
         ref: ref,
         onClick: onClick && (0, (_ignoreTextSelectionEvents || _load_ignoreTextSelectionEvents()).default)(onClick),
         title: title },
-      _reactForAtom.React.createElement('input', {
+      _react.default.createElement('input', {
         checked: checked,
         className: 'input-checkbox nuclide-ui-checkbox',
         disabled: disabled,
         onChange: this._onChange,
+        onMouseDown: onMouseDown,
         ref: 'input',
         type: 'checkbox'
       }),
@@ -113,10 +107,20 @@ class Checkbox extends _reactForAtom.React.PureComponent {
     );
   }
 }
-exports.Checkbox = Checkbox;
+exports.Checkbox = Checkbox; /**
+                              * Copyright (c) 2015-present, Facebook, Inc.
+                              * All rights reserved.
+                              *
+                              * This source code is licensed under the license found in the LICENSE file in
+                              * the root directory of this source tree.
+                              *
+                              * 
+                              */
+
 Checkbox.defaultProps = {
   disabled: false,
   indeterminate: false,
   label: '',
-  onClick(event) {}
+  onClick(event) {},
+  onMouseDown(event) {}
 };

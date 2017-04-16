@@ -79,7 +79,9 @@ stdout: ${stdout}, stderr: ${stderr}`;
 })();
 
 exports.hackRangeToAtomRange = hackRangeToAtomRange;
+exports.hackSpanToAtomRange = hackSpanToAtomRange;
 exports.atomPointOfHackRangeStart = atomPointOfHackRangeStart;
+exports.atomPointFromHack = atomPointFromHack;
 
 var _process;
 
@@ -127,11 +129,23 @@ const HH_SERVER_BUSY_MESSAGE = 'hh_server is busy';
 
 
 let hhPromiseQueue = null;function hackRangeToAtomRange(position) {
-  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(atomPointOfHackRangeStart(position), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(position.line - 1, position.char_end));
+  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(atomPointOfHackRangeStart(position),
+  // Atom ranges exclude the endpoint.
+  atomPointFromHack(position.line, position.char_end + 1));
+}
+
+function hackSpanToAtomRange(span) {
+  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(atomPointFromHack(span.line_start, span.char_start),
+  // Atom ranges exclude the endpoint.
+  atomPointFromHack(span.line_end, span.char_end + 1));
 }
 
 function atomPointOfHackRangeStart(position) {
-  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(position.line - 1, position.char_start - 1);
+  return atomPointFromHack(position.line, position.char_start);
+}
+
+function atomPointFromHack(hackLine, hackColumn) {
+  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(hackLine - 1, hackColumn - 1);
 }
 
 function trackingIdOfHackArgs(args) {

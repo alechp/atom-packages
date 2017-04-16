@@ -6,16 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
-var _debounce;
+var _Constants;
 
-function _load_debounce() {
-  return _debounce = _interopRequireDefault(require('../../commons-node/debounce'));
-}
-
-var _UniversalDisposable;
-
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
+function _load_Constants() {
+  return _Constants = require('./Constants');
 }
 
 var _FileTreeDispatcher;
@@ -48,10 +42,10 @@ function _load_immutable() {
   return _immutable = _interopRequireDefault(require('immutable'));
 }
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 var _nuclideHgRpc;
@@ -72,8 +66,35 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
 }
 
+var _event;
+
+function _load_event() {
+  return _event = require('../../commons-node/event');
+}
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
+var _collection;
+
+function _load_collection() {
+  return _collection = require('../../commons-node/collection');
+}
+
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+let instance;
+
+/**
+ * Implements the Flux pattern for our file tree. All state for the file tree will be kept in
+ * FileTreeStore and the only way to update the store is through methods on FileTreeActions. The
+ * dispatcher is a mechanism through which FileTreeActions interfaces with FileTreeStore.
+ */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -84,13 +105,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-let instance;
-
-/**
- * Implements the Flux pattern for our file tree. All state for the file tree will be kept in
- * FileTreeStore and the only way to update the store is through methods on FileTreeActions. The
- * dispatcher is a mechanism through which FileTreeActions interfaces with FileTreeStore.
- */
 class FileTreeActions {
 
   static getInstance() {
@@ -205,6 +219,13 @@ class FileTreeActions {
     });
   }
 
+  setIsCalculatingChanges(isCalculatingChanges) {
+    this._dispatcher.dispatch({
+      actionType: (_FileTreeDispatcher2 || _load_FileTreeDispatcher2()).ActionTypes.SET_IS_CALCULATING_CHANGES,
+      isCalculatingChanges
+    });
+  }
+
   setIgnoredNames(ignoredNames) {
     this._dispatcher.dispatch({
       actionType: (_FileTreeDispatcher2 || _load_FileTreeDispatcher2()).ActionTypes.SET_IGNORED_NAMES,
@@ -315,7 +336,7 @@ class FileTreeActions {
         return (_FileTreeHelpers || _load_FileTreeHelpers()).default.dirPathToKey(directory.getPath());
       });
       const rootRepos = yield Promise.all(rootDirectories.map(function (directory) {
-        return (0, (_vcs || _load_vcs()).repositoryForPath)(directory.getPath());
+        return (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(directory.getPath());
       }));
 
       // t7114196: Given the current implementation of HgRepositoryClient, each root directory will
@@ -354,7 +375,7 @@ class FileTreeActions {
 
       // Unsubscribe from removedRepos.
       removedRepos.forEach(function (repo) {
-        return _this._repositoryRemoved(repo, rootKeysForRepository);
+        return _this._repositoryRemoved(repo);
       });
 
       // Create subscriptions for addedRepos.
@@ -525,23 +546,58 @@ class FileTreeActions {
 
     return (0, _asyncToGenerator.default)(function* () {
       // We support HgRepositoryClient and GitRepositoryAsync objects.
-      if (repo.getType() !== 'hg' && repo.getType() !== 'git' || repo.isDestroyed()) {
-        return;
-      }
-      const statusCodeForPath = _this2._getCachedPathStatuses(repo);
 
-      for (const rootKeyForRepo of rootKeysForRepository.get(repo)) {
-        _this2.setVcsStatuses(rootKeyForRepo, statusCodeForPath);
+      // Observe the repository so that the VCS statuses are kept up to date.
+      // This observer should fire off an initial value after we subscribe to it,
+      let vcsChanges = _rxjsBundlesRxMinJs.Observable.empty();
+      let vcsCalculating = _rxjsBundlesRxMinJs.Observable.of(false);
+
+      if (repo.isDestroyed()) {
+        // Don't observe anything on a destroyed repo.
+      } else if (repo.getType() === 'git' || !(yield (_FileTreeHelpers || _load_FileTreeHelpers()).default.areStackChangesEnabled())) {
+        // Different repo types emit different events at individual and refresh updates.
+        // Hence, the need to debounce and listen to both change types.
+        vcsChanges = _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(repo.onDidChangeStatus.bind(repo)), (0, (_event || _load_event()).observableFromSubscribeFunction)(repo.onDidChangeStatuses.bind(repo))).debounceTime(1000).startWith(null).map(function (_) {
+          return _this2._getCachedPathStatuses(repo);
+        });
+      } else if (repo.getType() === 'hg') {
+        // We special-case the HgRepository because it offers up the
+        // required observable directly, and because it actually allows us to pick
+        const hgRepo = repo;
+
+        const hgChanges = (_FileTreeHelpers || _load_FileTreeHelpers()).default.observeUncommittedChangesKindConfigKey().map(function (kind) {
+          switch (kind) {
+            case (_Constants || _load_Constants()).ShowUncommittedChangesKind.UNCOMMITTED:
+              return hgRepo.observeUncommittedStatusChanges();
+            case (_Constants || _load_Constants()).ShowUncommittedChangesKind.HEAD:
+              return hgRepo.observeHeadStatusChanges();
+            case (_Constants || _load_Constants()).ShowUncommittedChangesKind.STACK:
+              return hgRepo.observeStackStatusChanges();
+            default:
+              const error = _rxjsBundlesRxMinJs.Observable.throw(new Error('Unrecognized ShowUncommittedChangesKind config'));
+              return { statusChanges: error, isCalculatingChanges: error };
+          }
+        }).share();
+
+        vcsChanges = hgChanges.switchMap(function (c) {
+          return c.statusChanges;
+        }).map((_collection || _load_collection()).objectFromMap);
+        vcsCalculating = hgChanges.switchMap(function (c) {
+          return c.isCalculatingChanges;
+        });
       }
-      // Now that the initial VCS statuses are set, subscribe to changes to the Repository so that the
-      // VCS statuses are kept up to date.
-      const debouncedChangeStatuses = (0, (_debounce || _load_debounce()).default)(_this2._onDidChangeStatusesForRepository.bind(_this2, repo, rootKeysForRepository),
-      /* wait */1000,
-      /* immediate */false);
-      // Different repo types emit different events at individual and refresh updates.
-      // Hence, the need to debounce and listen to both change types.
-      const changeStatusesSubscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default(repo.onDidChangeStatuses(debouncedChangeStatuses), repo.onDidChangeStatus(debouncedChangeStatuses));
-      _this2._disposableForRepository = _this2._disposableForRepository.set(repo, changeStatusesSubscriptions);
+
+      const subscription = vcsChanges.subscribe(function (statusCodeForPath) {
+        for (const rootKeyForRepo of rootKeysForRepository.get(repo)) {
+          _this2.setVcsStatuses(rootKeyForRepo, statusCodeForPath);
+        }
+      });
+
+      const subscriptionCalculating = vcsCalculating.subscribe(function (isCalculatingChanges) {
+        _this2.setIsCalculatingChanges(isCalculatingChanges);
+      });
+
+      _this2._disposableForRepository = _this2._disposableForRepository.set(repo, new (_UniversalDisposable || _load_UniversalDisposable()).default(subscription, subscriptionCalculating));
     })();
   }
 
@@ -593,15 +649,9 @@ class FileTreeActions {
     return absoluteCodePaths;
   }
 
-  _onDidChangeStatusesForRepository(repo, rootKeysForRepository) {
-    for (const rootKey of rootKeysForRepository.get(repo)) {
-      this.setVcsStatuses(rootKey, this._getCachedPathStatuses(repo));
-    }
-  }
-
   _repositoryRemoved(repo) {
     const disposable = this._disposableForRepository.get(repo);
-    if (!disposable) {
+    if (disposable == null) {
       // There is a small chance that the add/remove of the Repository could happen so quickly that
       // the entry for the repo in _disposableForRepository has not been set yet.
       // TODO: Report a soft error for this.

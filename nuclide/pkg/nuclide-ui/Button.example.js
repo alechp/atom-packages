@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ButtonExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -49,6 +49,8 @@ function _load_SplitButtonDropdown() {
   return _SplitButtonDropdown = require('./SplitButtonDropdown');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -61,114 +63,114 @@ function _load_SplitButtonDropdown() {
 
 /* global alert */
 
-const ButtonSizeExample = () => _reactForAtom.React.createElement(
+const ButtonSizeExample = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block', size: 'EXTRA_SMALL' },
     'extra_small'
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block', size: 'SMALL' },
     'small'
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block' },
     'regular'
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block', size: 'LARGE' },
     'large'
   )
 );
 
-const ButtonDisabledExample = () => _reactForAtom.React.createElement(
+const ButtonDisabledExample = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block' },
     'enabled'
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Button || _load_Button()).Button,
     { className: 'inline-block', disabled: true },
     'disabled'
   )
 );
 
-const ButtonColorExample = () => _reactForAtom.React.createElement(
+const ButtonColorExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'PRIMARY' },
         'primary'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'INFO' },
         'info'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'SUCCESS' },
         'success'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'WARNING' },
         'warning'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'ERROR' },
         'error'
       )
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       'p',
       null,
       'selected:'
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { selected: true, buttonType: 'PRIMARY' },
         'primary'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { selected: true, buttonType: 'INFO' },
         'info'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { selected: true, buttonType: 'SUCCESS' },
         'success'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { selected: true, buttonType: 'WARNING' },
         'warning'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { selected: true, buttonType: 'ERROR' },
         'error'
@@ -177,110 +179,110 @@ const ButtonColorExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const ButtonIconExample = () => _reactForAtom.React.createElement(
+const ButtonIconExample = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
     null,
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'gear' }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'cloud-download' }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'code' }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'check' }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'device-mobile' }),
-    _reactForAtom.React.createElement((_Button || _load_Button()).Button, { icon: 'alert' })
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'gear' }),
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'cloud-download' }),
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'code' }),
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'check' }),
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'device-mobile' }),
+    _react.default.createElement((_Button || _load_Button()).Button, { icon: 'alert' })
   )
 );
 
-const ButtonGroupExample = () => _reactForAtom.React.createElement(
+const ButtonGroupExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       { size: 'EXTRA_SMALL' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'SUCCESS' },
         'extra small'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'button'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'group'
       )
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       { size: 'SMALL' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'SUCCESS' },
         'small'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'button'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'group'
       )
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'SUCCESS' },
         'regular'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'button'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'group'
       )
     )
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
       { size: 'LARGE' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         { buttonType: 'SUCCESS' },
         'large'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'button'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'group'
@@ -289,40 +291,40 @@ const ButtonGroupExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const ButtonToolbarExample = () => _reactForAtom.React.createElement(
+const ButtonToolbarExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_ButtonToolbar || _load_ButtonToolbar()).ButtonToolbar,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           null,
           'ButtonGroup'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           null,
           'in a'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           null,
           'toolbar'
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'single buttons'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         null,
         'in toolbar'
@@ -333,10 +335,10 @@ const ButtonToolbarExample = () => _reactForAtom.React.createElement(
 
 const DropdownExample = (() => {
   const options = [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }, { value: 3, label: 'Three' }, { value: 4, label: 'Four' }];
-  return () => _reactForAtom.React.createElement(
+  return () => _react.default.createElement(
     'div',
     null,
-    _reactForAtom.React.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
+    _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
       options: options,
       value: 2
     })
@@ -345,10 +347,10 @@ const DropdownExample = (() => {
 
 const SplitButtonDropdownExample = (() => {
   const options = [{ value: 1, label: 'Build', icon: 'tools' }, { value: 2, label: 'Run', icon: 'triangle-right', selectedLabel: 'Run It!' }, { value: 3, label: 'Rocket', icon: 'rocket' }, { type: 'separator' }, { value: 4, label: 'Squirrel', icon: 'squirrel' }, { value: 5, label: 'Beaker', icon: 'telescope', disabled: true }];
-  return () => _reactForAtom.React.createElement(
+  return () => _react.default.createElement(
     'div',
     null,
-    _reactForAtom.React.createElement((_SplitButtonDropdown || _load_SplitButtonDropdown()).SplitButtonDropdown, {
+    _react.default.createElement((_SplitButtonDropdown || _load_SplitButtonDropdown()).SplitButtonDropdown, {
       options: options,
       value: 2,
       onConfirm:
@@ -358,7 +360,7 @@ const SplitButtonDropdownExample = (() => {
   );
 })();
 
-class ModalMultiSelectExample extends _reactForAtom.React.Component {
+class ModalMultiSelectExample extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -367,7 +369,7 @@ class ModalMultiSelectExample extends _reactForAtom.React.Component {
 
   render() {
     const options = [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }, { value: 3, label: 'Three' }, { value: 4, label: 'Four' }];
-    return _reactForAtom.React.createElement((_ModalMultiSelect || _load_ModalMultiSelect()).ModalMultiSelect, {
+    return _react.default.createElement((_ModalMultiSelect || _load_ModalMultiSelect()).ModalMultiSelect, {
       options: options,
       onChange: value => {
         this.setState({ value });

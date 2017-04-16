@@ -53,16 +53,6 @@ function _load_() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class MultiProjectLanguageService {
   // Maps project dir => LanguageService
   constructor(logger, fileCache, projectFileName, fileExtensions, languageServiceFactory) {
@@ -115,20 +105,43 @@ class MultiProjectLanguageService {
     })();
   }
 
-  getLanguageServiceForFile(filePath) {
+  _getLanguageServicesForFiles(filePaths) {
     var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const projectDir = yield _this2.findProjectDir(filePath);
+      const promises = filePaths.map((() => {
+        var _ref = (0, _asyncToGenerator.default)(function* (filePath) {
+          const service = yield _this2._getLanguageServiceForFile(filePath);
+          return service ? [service, filePath] : null;
+        });
+
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      })());
+
+      const fileServices = yield Promise.all(promises);
+
+      const results = (0, (_collection || _load_collection()).collect)((0, (_collection || _load_collection()).arrayCompact)(fileServices));
+
+      return Array.from(results);
+    })();
+  }
+
+  getLanguageServiceForFile(filePath) {
+    var _this3 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const projectDir = yield _this3.findProjectDir(filePath);
       if (projectDir == null) {
         return null;
       }
 
-      const process = _this2._processes.get(projectDir);
+      const process = _this3._processes.get(projectDir);
       process.then(function (result) {
         // If we fail to connect, then retry on next request.
         if (result == null) {
-          _this2._processes.delete(projectDir);
+          _this3._processes.delete(projectDir);
         }
       });
       return process;
@@ -156,19 +169,19 @@ class MultiProjectLanguageService {
   }
 
   getAllLanguageServices() {
-    var _this3 = this;
+    var _this4 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const lsPromises = [..._this3._processes.values()];
+      const lsPromises = [..._this4._processes.values()];
       return (0, (_collection || _load_collection()).arrayCompact)((yield Promise.all(lsPromises)));
     })();
   }
 
   getDiagnostics(fileVersion) {
-    var _this4 = this;
+    var _this5 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this4._getLanguageServiceForFile(fileVersion.filePath)).getDiagnostics(fileVersion);
+      return (yield _this5._getLanguageServiceForFile(fileVersion.filePath)).getDiagnostics(fileVersion);
     })();
   }
 
@@ -183,106 +196,135 @@ class MultiProjectLanguageService {
   }
 
   getAutocompleteSuggestions(fileVersion, position, activatedManually, prefix) {
-    var _this5 = this;
+    var _this6 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this5._getLanguageServiceForFile(fileVersion.filePath)).getAutocompleteSuggestions(fileVersion, position, activatedManually, prefix);
+      return (yield _this6._getLanguageServiceForFile(fileVersion.filePath)).getAutocompleteSuggestions(fileVersion, position, activatedManually, prefix);
     })();
   }
 
   getDefinition(fileVersion, position) {
-    var _this6 = this;
+    var _this7 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this6._getLanguageServiceForFile(fileVersion.filePath)).getDefinition(fileVersion, position);
+      return (yield _this7._getLanguageServiceForFile(fileVersion.filePath)).getDefinition(fileVersion, position);
     })();
   }
 
   getDefinitionById(file, id) {
-    var _this7 = this;
+    var _this8 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this7._getLanguageServiceForFile(file)).getDefinitionById(file, id);
+      return (yield _this8._getLanguageServiceForFile(file)).getDefinitionById(file, id);
     })();
   }
 
   findReferences(fileVersion, position) {
-    var _this8 = this;
+    var _this9 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this8._getLanguageServiceForFile(fileVersion.filePath)).findReferences(fileVersion, position);
+      return (yield _this9._getLanguageServiceForFile(fileVersion.filePath)).findReferences(fileVersion, position);
     })();
   }
 
   getCoverage(filePath) {
-    var _this9 = this;
+    var _this10 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this9._getLanguageServiceForFile(filePath)).getCoverage(filePath);
+      return (yield _this10._getLanguageServiceForFile(filePath)).getCoverage(filePath);
     })();
   }
 
   getOutline(fileVersion) {
-    var _this10 = this;
+    var _this11 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this10._getLanguageServiceForFile(fileVersion.filePath)).getOutline(fileVersion);
+      return (yield _this11._getLanguageServiceForFile(fileVersion.filePath)).getOutline(fileVersion);
     })();
   }
 
   typeHint(fileVersion, position) {
-    var _this11 = this;
+    var _this12 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this11._getLanguageServiceForFile(fileVersion.filePath)).typeHint(fileVersion, position);
+      return (yield _this12._getLanguageServiceForFile(fileVersion.filePath)).typeHint(fileVersion, position);
     })();
   }
 
   highlight(fileVersion, position) {
-    var _this12 = this;
+    var _this13 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this12._getLanguageServiceForFile(fileVersion.filePath)).highlight(fileVersion, position);
+      return (yield _this13._getLanguageServiceForFile(fileVersion.filePath)).highlight(fileVersion, position);
     })();
   }
 
   formatSource(fileVersion, range) {
-    var _this13 = this;
+    var _this14 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this13._getLanguageServiceForFile(fileVersion.filePath)).formatSource(fileVersion, range);
+      return (yield _this14._getLanguageServiceForFile(fileVersion.filePath)).formatSource(fileVersion, range);
     })();
   }
 
   formatEntireFile(fileVersion, range) {
-    var _this14 = this;
+    var _this15 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this14._getLanguageServiceForFile(fileVersion.filePath)).formatEntireFile(fileVersion, range);
+      return (yield _this15._getLanguageServiceForFile(fileVersion.filePath)).formatEntireFile(fileVersion, range);
     })();
   }
 
   getEvaluationExpression(fileVersion, position) {
-    var _this15 = this;
+    var _this16 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this15._getLanguageServiceForFile(fileVersion.filePath)).getEvaluationExpression(fileVersion, position);
+      return (yield _this16._getLanguageServiceForFile(fileVersion.filePath)).getEvaluationExpression(fileVersion, position);
+    })();
+  }
+
+  supportsSymbolSearch(directories) {
+    var _this17 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const serviceDirectories = yield _this17._getLanguageServicesForFiles(directories);
+      const eligibilities = yield Promise.all(serviceDirectories.map(function ([service, dirs]) {
+        return service.supportsSymbolSearch(dirs);
+      }));
+      return eligibilities.some(function (e) {
+        return e;
+      });
+    })();
+  }
+
+  symbolSearch(query, directories) {
+    var _this18 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      if (query.length === 0) {
+        return [];
+      }
+      const serviceDirectories = yield _this18._getLanguageServicesForFiles(directories);
+      const results = yield Promise.all(serviceDirectories.map(function ([service, dirs]) {
+        return service.symbolSearch(query, dirs);
+      }));
+      return (0, (_collection || _load_collection()).arrayFlatten)((0, (_collection || _load_collection()).arrayCompact)(results));
     })();
   }
 
   getProjectRoot(filePath) {
-    var _this16 = this;
+    var _this19 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this16._getLanguageServiceForFile(filePath)).getProjectRoot(filePath);
+      return (yield _this19._getLanguageServiceForFile(filePath)).getProjectRoot(filePath);
     })();
   }
 
   isFileInProject(filePath) {
-    var _this17 = this;
+    var _this20 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      return (yield _this17._getLanguageServiceForFile(filePath)).isFileInProject(filePath);
+      return (yield _this20._getLanguageServiceForFile(filePath)).isFileInProject(filePath);
     })();
   }
 
@@ -292,5 +334,14 @@ class MultiProjectLanguageService {
 }
 
 exports.MultiProjectLanguageService = MultiProjectLanguageService; // Enforces that an instance of MultiProjectLanguageService satisfies the LanguageService type
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 null;

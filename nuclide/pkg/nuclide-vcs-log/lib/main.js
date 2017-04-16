@@ -36,10 +36,10 @@ function _load_string() {
 
 var _querystring = _interopRequireDefault(require('querystring'));
 
-var _vcs;
+var _nuclideVcsBase;
 
-function _load_vcs() {
-  return _vcs = require('../../commons-atom/vcs');
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../../nuclide-vcs-base');
 }
 
 var _util;
@@ -172,7 +172,7 @@ function getRepositoryWithLogMethodForPath(path) {
     return null;
   }
 
-  const repository = (0, (_vcs || _load_vcs()).repositoryForPath)(path);
+  const repository = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(path);
   // For now, we only expect HgRepository to work. We should also find a way to
   // make this work for Git.
   if (repository != null && repository.getType() === 'hg') {

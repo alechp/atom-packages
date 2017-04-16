@@ -18,6 +18,7 @@ REGISTERS = /// (
 #  [x] 9. The black hole register "_
 #  [ ] 10. Last search pattern register "/
 
+module.exports =
 class RegisterManager
   constructor: (@vimState) ->
     {@editor, @editorElement, @globalState} = @vimState
@@ -27,7 +28,7 @@ class RegisterManager
 
   reset: ->
     @name = null
-    @vimState.toggleClassList('with-register', @hasName())
+    @editorElement.classList.toggle('with-register', false)
 
   destroy: ->
     @subscriptionBySelection.forEach (disposable) ->
@@ -59,9 +60,19 @@ class RegisterManager
       atom.clipboard.write(text)
     @clipboardBySelection.set(selection, text) if selection?
 
+  getRegisterNameToUse: (name) ->
+    if name? and not @isValidName(name)
+      return null
+
+    name ?= @name ? '"'
+    if name is '"' and @vimState.getConfig('useClipboardAsDefaultRegister')
+      '*'
+    else
+      name
+
   get: (name, selection) ->
-    name ?= @getName()
-    name = @vimState.getConfig('defaultRegister') if name is '"'
+    name = @getRegisterNameToUse(name)
+    return unless name?
 
     switch name
       when '*', '+' then text = @readClipboard(selection)
@@ -80,72 +91,56 @@ class RegisterManager
   #  type: (optional) if ommited automatically set from text.
   #
   # Returns nothing.
-  set: (args...) ->
-    [name, value] = []
-    switch args.length
-      when 1 then [value] = args
-      when 2 then [name, value] = args
+  set: (name, value) ->
+    name = @getRegisterNameToUse(name)
+    return unless name?
 
-    name ?= @getName()
-    return unless @isValidName(name)
-    name = @vimState.getConfig('defaultRegister') if name is '"'
     value.type ?= @getCopyType(value.text)
 
     selection = value.selection
     delete value.selection
+
     switch name
       when '*', '+' then @writeClipboard(selection, value.text)
       when '_', '%' then null
       else
         if /^[A-Z]$/.test(name)
-          @append(name.toLowerCase(), value)
+          name = name.toLowerCase()
+          if @data[name]?
+            @append(name, value)
+          else
+            @data[name] = value
         else
           @data[name] = value
 
-  # Private: append a value into a given register
-  # like setRegister, but appends the value
   append: (name, value) ->
-    unless register = @data[name]
-      @data[name] = value
-      return
-
+    register = @data[name]
     if 'linewise' in [register.type, value.type]
       if register.type isnt 'linewise'
-        register.text += '\n'
         register.type = 'linewise'
+        register.text += '\n'
       if value.type isnt 'linewise'
         value.text += '\n'
     register.text += value.text
 
-  getName: ->
-    @name ? @vimState.getConfig('defaultRegister')
-
-  isDefaultName: ->
-    @getName() is @vimState.getConfig('defaultRegister')
-
-  hasName: ->
-    @name?
-
-  setName: (name=null) ->
+  setName: (name) ->
     if name?
-      @name = name if @isValidName(name)
+      @name = name
+      @editorElement.classList.toggle('with-register', true)
+      @vimState.hover.set('"' + @name)
     else
-      @vimState.hover.set('"')
-
       inputUI = new Input(@vimState)
-      inputUI.onDidConfirm (@name) =>
-        @vimState.toggleClassList('with-register', true)
-        @vimState.hover.set('"' + @name)
-      inputUI.onDidCancel =>
-        @vimState.hover.reset()
+      inputUI.onDidConfirm (name) =>
+        if @isValidName(name)
+          @setName(name)
+        else
+          @vimState.hover.reset()
+      inputUI.onDidCancel => @vimState.hover.reset()
+      @vimState.hover.set('"')
       inputUI.focus(1)
 
   getCopyType: (text) ->
-    if text.lastIndexOf("\n") is text.length - 1
-      'linewise'
-    else if text.lastIndexOf("\r") is text.length - 1
+    if text.endsWith("\n") or text.endsWith("\r")
       'linewise'
     else
       'characterwise'
-
-module.exports = RegisterManager

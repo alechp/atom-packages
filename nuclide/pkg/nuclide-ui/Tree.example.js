@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TreeExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -25,6 +25,8 @@ function _load_Tree() {
   return _Tree = require('./Tree');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -35,45 +37,45 @@ function _load_Tree() {
  * 
  */
 
-const BasicTreeExample = () => _reactForAtom.React.createElement(
+const BasicTreeExample = () => _react.default.createElement(
   'div',
   null,
   'Trees',
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Tree || _load_Tree()).TreeList,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).TreeItem,
         null,
         'TreeItem 1'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).TreeItem,
         null,
         'TreeItem 2'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).NestedTreeItem,
-        { title: _reactForAtom.React.createElement(
+        { title: _react.default.createElement(
             'span',
             null,
             'NestedTreeItem 1'
           ), selected: true },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Tree || _load_Tree()).TreeItem,
           null,
           'TreeItem 3'
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Tree || _load_Tree()).TreeItem,
           null,
           'TreeItem 4'
         )
       ),
-      _reactForAtom.React.createElement((_Tree || _load_Tree()).NestedTreeItem, { title: _reactForAtom.React.createElement(
+      _react.default.createElement((_Tree || _load_Tree()).NestedTreeItem, { title: _react.default.createElement(
           'span',
           null,
           'NestedTreeItem 2'
@@ -82,90 +84,90 @@ const BasicTreeExample = () => _reactForAtom.React.createElement(
   )
 );
 
-const AtomStyleguideTreeExample = () => _reactForAtom.React.createElement(
+const AtomStyleguideTreeExample = () => _react.default.createElement(
   (_Block || _load_Block()).Block,
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Tree || _load_Tree()).TreeList,
     { showArrows: true },
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Tree || _load_Tree()).NestedTreeItem,
       {
-        title: _reactForAtom.React.createElement(
+        title: _react.default.createElement(
           (_Icon || _load_Icon()).Icon,
           { icon: 'file-directory' },
           'A Directory'
         ) },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).NestedTreeItem,
         {
           collapsed: false,
-          title: _reactForAtom.React.createElement(
+          title: _react.default.createElement(
             (_Icon || _load_Icon()).Icon,
             { icon: 'file-directory' },
             'Nested Directory'
           ) },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Tree || _load_Tree()).TreeItem,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Icon || _load_Icon()).Icon,
             { icon: 'file-text' },
             'File one'
           )
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).NestedTreeItem,
         {
           collapsed: true,
-          title: _reactForAtom.React.createElement(
+          title: _react.default.createElement(
             (_Icon || _load_Icon()).Icon,
             { icon: 'file-directory' },
             'Collapsed Nested Directory'
           ) },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Tree || _load_Tree()).TreeItem,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Icon || _load_Icon()).Icon,
             { icon: 'file-text' },
             'File one'
           )
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).TreeItem,
         null,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Icon || _load_Icon()).Icon,
           { icon: 'file-text' },
           'File one'
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Tree || _load_Tree()).TreeItem,
         { selected: true },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Icon || _load_Icon()).Icon,
           { icon: 'file-text' },
           'File three .selected!'
         )
       )
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Tree || _load_Tree()).TreeItem,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Icon || _load_Icon()).Icon,
         { icon: 'file-text' },
         '.icon-file-text'
       )
     ),
-    _reactForAtom.React.createElement(
+    _react.default.createElement(
       (_Tree || _load_Tree()).TreeItem,
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Icon || _load_Icon()).Icon,
         { icon: 'file-symlink-file' },
         '.icon-file-symlink-file'

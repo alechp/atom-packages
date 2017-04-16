@@ -28,6 +28,12 @@ function _load_nuclideRemoteConnection() {
   return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
 }
 
+var _nuclideRpc;
+
+function _load_nuclideRpc() {
+  return _nuclideRpc = require('../../nuclide-rpc');
+}
+
 var _nuclideLogging;
 
 function _load_nuclideLogging() {
@@ -48,19 +54,16 @@ function _load_utils() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
 // eslint-disable-next-line nuclide-internal/no-cross-atom-imports
-
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
+                                                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                                                              * All rights reserved.
+                                                                              *
+                                                                              * This source code is licensed under the license found in the LICENSE file in
+                                                                              * the root directory of this source tree.
+                                                                              *
+                                                                              * 
+                                                                              */
 
 class Activation {
 
@@ -84,8 +87,13 @@ class Activation {
         // Wait a bit before starting the initial search, since it's a heavy op.
         (0, (_scheduleIdleCallback || _load_scheduleIdleCallback()).default)(() => {
           this._initialSearch(projectPath).catch(err => {
-            logger.error(`Error starting fuzzy filename search for ${projectPath}: ${err}`);
-            this._disposeSearch(projectPath);
+            // RPC timeout errors can often happen here, but don't dispose the search.
+            if (err instanceof (_nuclideRpc || _load_nuclideRpc()).RpcTimeoutError) {
+              logger.warn(`Warmup fuzzy filename search for ${projectPath} hit the RPC timeout.`);
+            } else {
+              logger.error(`Error starting fuzzy filename search for ${projectPath}: ${err}`);
+              this._disposeSearch(projectPath);
+            }
           });
         }, { timeout: 5000 }));
         this._subscriptionsByRoot.set(projectPath, disposables);

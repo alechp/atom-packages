@@ -8,21 +8,27 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 let readFileContents = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (uri) {
-    const localPath = (_nuclideUri || _load_nuclideUri()).default.getPath(uri);
-    let contents;
     try {
-      contents = (yield (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getFileSystemServiceByNuclideUri)(uri).readFile(localPath)).toString('utf8');
+      const file = (0, (_projects || _load_projects()).getFileForPath)(uri);
+      if (file != null) {
+        return yield file.read();
+      }
     } catch (e) {
       (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`find-references: could not load file ${uri}`, e);
-      return null;
     }
-    return contents;
+    return null;
   });
 
   return function readFileContents(_x) {
     return _ref.apply(this, arguments);
   };
 })();
+
+var _projects;
+
+function _load_projects() {
+  return _projects = require('../../commons-atom/projects');
+}
 
 var _collection;
 
@@ -36,32 +42,22 @@ function _load_nuclideLogging() {
   return _nuclideLogging = require('../../nuclide-logging');
 }
 
-var _nuclideRemoteConnection;
-
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
-}
-
-var _nuclideUri;
-
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 const FRAGMENT_GRAMMARS = {
   'text.html.hack': 'source.hackfragment',
   'text.html.php': 'source.hackfragment'
-}; /**
-    * Copyright (c) 2015-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the license found in the LICENSE file in
-    * the root directory of this source tree.
-    *
-    * 
-    */
+};
 
 function compareReference(x, y) {
   return x.range.compare(y.range);

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProgressIndicatorExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -25,6 +25,8 @@ function _load_LoadingSpinner() {
   return _LoadingSpinner = require('./LoadingSpinner');
 }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -35,53 +37,53 @@ function _load_LoadingSpinner() {
  * 
  */
 
-const ProgressBarExample = () => _reactForAtom.React.createElement(
+const ProgressBarExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, null)
+    _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, null)
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 0 })
+    _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 0 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 50 })
+    _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 50 })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 100 })
+    _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { max: 100, value: 100 })
   )
 );
 
-const LoadingSpinnerExample = () => _reactForAtom.React.createElement(
+const LoadingSpinnerExample = () => _react.default.createElement(
   'div',
   null,
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'EXTRA_SMALL' })
+    _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'EXTRA_SMALL' })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'SMALL' })
+    _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'SMALL' })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'MEDIUM' })
+    _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'MEDIUM' })
   ),
-  _reactForAtom.React.createElement(
+  _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'LARGE' })
+    _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'LARGE' })
   )
 );
 

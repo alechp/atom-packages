@@ -13,13 +13,17 @@ toc = require('./toc')
 {scopeForLanguageName} = require './extension-helper'
 customSubjects = require './custom-comment'
 fileImport = require('./file-import.coffee')
-
+{protocolsWhiteListRegExp} = require('./protocols-whitelist')
+{pandocRender} = require('./pandoc-convert')
 
 mathRenderingOption = atom.config.get('markdown-preview-enhanced.mathRenderingOption')
 mathRenderingIndicator = inline: [['$', '$']], block: [['$$', '$$']]
 enableWikiLinkSyntax = atom.config.get('markdown-preview-enhanced.enableWikiLinkSyntax')
+wikiLinkFileExtension = atom.config.get('markdown-preview-enhanced.wikiLinkFileExtension')
 frontMatterRenderingOption = atom.config.get('markdown-preview-enhanced.frontMatterRenderingOption')
 globalMathTypesettingData = {}
+useStandardCodeFencingForGraphs = atom.config.get('markdown-preview-enhanced.useStandardCodeFencingForGraphs')
+usePandocParser = atom.config.get('markdown-preview-enhanced.usePandocParser')
 
 TAGS_TO_REPLACE = {
     '&': '&amp;',
@@ -30,9 +34,24 @@ TAGS_TO_REPLACE = {
     '\/', '&#x2F;',
     '\\', '&#x5C;',
 }
+
+TAGS_TO_REPLACE_REVERSE = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&apos;': '\'',
+    '&#x27;': '\'',
+    '&#x2F;': '\/',
+    '&#x5C;': '\\',
+}
+
 highlighter = null
 String.prototype.escape = ()->
-  this.replace /[&<>"'\/\\]/g, (tag)-> TAGS_TO_REPLACE[tag] || tag
+  this.replace /[&<>"'\/\\]/g, (tag)-> TAGS_TO_REPLACE[tag] or tag
+
+String.prototype.unescape = ()->
+  this.replace /\&(amp|lt|gt|quot|apos|\#x27|\#x2F|\#x5C)\;/g, (whole)-> TAGS_TO_REPLACE_REVERSE[whole] or whole
 
 ####################################################
 ## Mermaid
@@ -96,9 +115,18 @@ atom.config.observe 'markdown-preview-enhanced.enableWikiLinkSyntax',
   (flag)->
     enableWikiLinkSyntax = flag
 
+atom.config.observe 'markdown-preview-enhanced.wikiLinkFileExtension', (extension)->
+  wikiLinkFileExtension = extension
+
 atom.config.observe 'markdown-preview-enhanced.frontMatterRenderingOption',
   (flag)->
     frontMatterRenderingOption = flag
+
+atom.config.observe 'markdown-preview-enhanced.useStandardCodeFencingForGraphs', (flag)->
+  useStandardCodeFencingForGraphs = flag
+
+atom.config.observe 'markdown-preview-enhanced.usePandocParser', (flag)->
+  usePandocParser = flag
 
 #################################################
 ## Remarkable
@@ -207,11 +235,8 @@ md.inline.ruler.before 'escape', 'math',
     else
       return false
 
-md.renderer.rules.math = (tokens, idx)->
-  {content, openTag, closeTag, displayMode} = tokens[idx]
-  if !content
-    return
-
+parseMath = ({content, openTag, closeTag, displayMode})->
+  return if !content
   if mathRenderingOption == 'KaTeX'
     if globalMathTypesettingData.isForPreview
       displayModeAttr = if displayMode then 'display-mode' else ''
@@ -251,6 +276,9 @@ md.renderer.rules.math = (tokens, idx)->
       # element = globalMathTypesettingData.mathjax_s.splice(0, 1)[0]
       # return "<div class=\"mathjax-exps\"> #{element.innerHTML} </div>"
       return text.escape()
+
+md.renderer.rules.math = (tokens, idx)->
+  return parseMath(tokens[idx] or {})
 
 # inline [[]] rule
 # [[...]]
@@ -292,7 +320,7 @@ md.renderer.rules.wikilink = (tokens, idx)->
 
   splits = content.split('|')
   linkText = splits[0].trim()
-  wikiLink = if splits.length == 2 then "#{splits[1].trim()}.md" else "#{linkText}.md" # only support .md file extension
+  wikiLink = if splits.length == 2 then "#{splits[1].trim()}#{wikiLinkFileExtension}" else "#{linkText.replace(/\s/g, '')}#{wikiLinkFileExtension}"
 
   return "<a href=\"#{wikiLink}\">#{linkText}</a>"
 
@@ -301,12 +329,14 @@ md.block.ruler.before 'code', 'custom-comment',
   (state, start, end, silent)->
     pos = state.bMarks[start] + state.tShift[start]
     max = state.eMarks[start]
+    src = state.src
+
     if pos >= max
        return false
-    if state.src.startsWith('<!--', pos)
-      end = state.src.indexOf('-->', pos + 4)
+    if src.startsWith('<!--', pos)
+      end = src.indexOf('-->', pos + 4)
       if (end >= 0)
-        content = state.src.slice(pos + 4, end).trim()
+        content = src.slice(pos + 4, end).trim()
 
         match = content.match(/(\s|\n)/) # find ' ' or '\n'
         if !match
@@ -318,7 +348,7 @@ md.block.ruler.before 'code', 'custom-comment',
 
         if !customSubjects[subject] # check if it is a valid subject
           # it's not a valid subject, therefore escape it
-          state.line = start + 1 + (state.src.slice(pos + 4, end).match(/\n/g)||[]).length
+          state.line = start + 1 + (src.slice(pos + 4, end).match(/\n/g)||[]).length
           return true
 
         rest = content.slice(firstIndexOfSpace+1).trim()
@@ -345,10 +375,20 @@ md.block.ruler.before 'code', 'custom-comment',
           line: getRealDataLine(state.line)
           option: option
 
-        state.line = start + 1 + (state.src.slice(pos + 4, end).match(/\n/g)||[]).length
+        state.line = start + 1 + (src.slice(pos + 4, end).match(/\n/g)||[]).length
         return true
       else
         return false
+    else if src[pos] == '[' and src.slice(pos, max).match(/^\[toc\]\s*$/i) # [TOC]
+      state.tokens.push
+        type: 'custom'
+        subject: 'toc-bracket'
+        line: getRealDataLine(state.line)
+        option: {}
+      state.line = start + 1
+      return true
+    else
+      return false
 
 #
 # Inject line numbers for sync scroll. Notes:
@@ -393,11 +433,11 @@ md.renderer.rules.fence = (tokens, idx, options, env, instance)->
   token = tokens[idx]
   langClass = ''
   langPrefix = options.langPrefix
-  langName = ''
   lineStr = ''
+  langName = token.params.escape()
 
   if token.params
-    langClass = ' class="' + langPrefix + token.params.escape() + '" ';
+    langClass = ' class="' + langPrefix + langName + '" ';
 
   if token.lines
     lineStr = " data-line=\"#{getRealDataLine(token.lines[0])}\" "
@@ -409,6 +449,12 @@ md.renderer.rules.fence = (tokens, idx, options, env, instance)->
   break_ = '\n'
   if idx < tokens.length && tokens[idx].type == 'list_item_close'
     break_ = ''
+
+  if langName == 'math'
+    openTag = mathRenderingIndicator.block[0][0] or '$$'
+    closeTag = mathRenderingIndicator.block[0][1] or '$$'
+    mathHtml = parseMath({openTag, closeTag, content, displayMode: true})
+    return "<p #{lineStr}>#{mathHtml}</p>"
 
   return '<pre><code' + langClass + lineStr + '>' + content + '</code></pre>' + break_
 
@@ -519,9 +565,9 @@ checkGraph = (graphType, graphArray=[], preElement, text, option, $, offset=-1)-
 # resolve image path and pre code block...
 # check parseMD function, 'option' is the same as the option in paseMD.
 resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={})->
-  {rootDirectoryPath, projectDirectoryPath} = option
+  {fileDirectoryPath, projectDirectoryPath} = option
 
-  if !rootDirectoryPath
+  if !fileDirectoryPath
     return
 
   $ = cheerio.load(html)
@@ -537,16 +583,16 @@ resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={
     src = img.attr(srcTag)
 
     if src and
-      (!(src.match(/^(http|https|atom|file)\:\/\//) or
+      (!(src.match(protocolsWhiteListRegExp) or
         src.startsWith('data:image/') or
         src[0] == '#' or
         src[0] == '/'))
       if !option.useRelativeImagePath
-        img.attr(srcTag, 'file:///'+path.resolve(rootDirectoryPath,  src))
+        img.attr(srcTag, 'file:///'+path.resolve(fileDirectoryPath,  src))
 
     else if (src and src[0] == '/')  # absolute path
       if option.useRelativeImagePath
-        img.attr(srcTag, path.relative(rootDirectoryPath, path.resolve(projectDirectoryPath, '.' + src)))
+        img.attr(srcTag, path.relative(fileDirectoryPath, path.resolve(projectDirectoryPath, '.' + src)))
       else
         img.attr(srcTag, 'file:///'+path.resolve(projectDirectoryPath, '.' + src))
 
@@ -592,15 +638,10 @@ resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={
 
       buttonGroup = '<div class="btn-group"><div class="run-btn btn"><span>▶︎</span></div><div class=\"run-all-btn btn\">all</div></div>'
 
-    outputDiv = ''
-    idMatch = parameters.match(/\s*id\s*:\s*\"([^\"]*)\"/)
-    if idMatch and idMatch[1] and codeChunksData[idMatch[1]]
-      outputDiv = '<div class="output-div">' + (codeChunksData[idMatch[1]].outputDiv?.innerHTML or '') + '</div>'
-
     statusDiv = '<div class="status">running...</div>'
 
-    $el = $("<div class=\"code-chunk\">" + highlightedBlock + buttonGroup + statusDiv + outputDiv + '</div>')
-    $el.attr 'data-lang': lang, 'data-args': parameters, 'data-line': lineNo, 'data-code': text
+    $el = $("<div class=\"code-chunk\">" + highlightedBlock + buttonGroup + statusDiv + '</div>')
+    $el.attr 'data-lang': lang, 'data-args': parameters, 'data-line': lineNo, 'data-code': text, 'data-root-directory-path': fileDirectoryPath
 
     $(preElement).replaceWith $el
 
@@ -610,7 +651,7 @@ resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={
       codeBlock = $(preElement).children().first()
       lang = 'text'
       if codeBlock.attr('class')
-        lang = codeBlock.attr('class').replace(/^language-/, '') or 'text'
+        lang = codeBlock.attr('class').replace(/^language-/, '').toLowerCase() or 'text'
       text = codeBlock.text()
 
       lineNo = codeBlock.attr('data-line')
@@ -621,7 +662,19 @@ resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={
       else
         text = ''
 
-    if lang.match(/^\@mermaid/)
+    if useStandardCodeFencingForGraphs
+      mermaidRegExp = /^\@?mermaid/
+      plantumlRegExp = /^\@?(plantuml|puml)/
+      wavedromRegExp = /^\@?wavedrom/
+      vizRegExp = /^\@?(viz|dot)/
+    else # only works with @ appended at front
+      mermaidRegExp = /^\@mermaid/
+      plantumlRegExp = /^\@(plantuml|puml)/
+      wavedromRegExp = /^\@wavedrom/
+      vizRegExp = /^\@(viz|dot)/
+
+
+    if lang.match mermaidRegExp
       mermaid.parseError = (err, hash)->
         renderCodeBlock(preElement, err, 'text')
 
@@ -632,13 +685,13 @@ resolveImagePathAndCodeBlock = (html, graphData={}, codeChunksData={},  option={
 
         mermaidOffset += 1
 
-    else if lang.match(/^\@(plantuml|puml)/)
+    else if lang.match plantumlRegExp
       checkGraph 'plantuml', graphData.plantuml_s, preElement, text, option, $
 
-    else if lang.match(/^\@wavedrom/)
+    else if lang.match wavedromRegExp
       checkGraph 'wavedrom', graphData.wavedrom_s, preElement, text, option, $, wavedromOffset
       wavedromOffset += 1
-    else if lang.match(/^\@(viz|dot)/)
+    else if lang.match vizRegExp
       checkGraph 'viz', graphData.viz_s, preElement, text, option, $
     else if lang[0] == '{' && lang[lang.length-1] == '}'
       renderCodeChunk(preElement, text, lang, lineNo, codeChunksData)
@@ -689,16 +742,15 @@ processFrontMatter = (inputString, hideFrontMatter=false)->
   match = r.exec(inputString)
 
   if match
-    if hideFrontMatter or frontMatterRenderingOption[0] == 'n' # hide
-      yamlStr = match[0]
-      data = matter(yamlStr).data
+    yamlStr = match[0]
+    data = matter(yamlStr).data
 
+    if usePandocParser # use pandoc parser, so don't change inputString
+      return {content: inputString, table: '', data}
+    else if hideFrontMatter or frontMatterRenderingOption[0] == 'n' # hide
       content = '\n'.repeat(yamlStr.match(/\n/g)?.length or 0) + inputString.slice(yamlStr.length)
       return {content, table: '', data}
     else if frontMatterRenderingOption[0] == 't' # table
-      yamlStr = match[0]
-      data = matter(yamlStr).data
-
       content = '\n'.repeat(yamlStr.match(/\n/g)?.length or 0) + inputString.slice(yamlStr.length)
 
       # to table
@@ -709,9 +761,6 @@ processFrontMatter = (inputString, hideFrontMatter=false)->
 
       return {content, table, data}
     else # if frontMatterRenderingOption[0] == 'c' # code block
-      yamlStr = match[0]
-      data = matter(yamlStr).data
-
       content = '```yaml\n' + match[1] + '\n```\n' + inputString.slice(yamlStr.length)
 
       return {content, table: '', data}
@@ -788,6 +837,115 @@ updateTOC = (markdownPreview, tocConfigs)->
   markdownPreview.tocConfigs = tocConfigs
   return tocNeedUpdate
 
+# Insert anchors for scroll sync.
+# this function should only be called when usePandocParser.
+insertAnchors = (text)->
+  # anchor looks like this <p data-line="23" class="sync-line" style="margin:0;"></p>
+  createAnchor = (lineNo)->
+    "<p data-line=\"#{lineNo}\" class=\"sync-line\" style=\"margin:0;\"></p>\n"
+
+  outputString = ""
+  lines = text.split('\n')
+  i = 0
+  while i < lines.length
+    line = lines[i]
+
+    ###
+    add anchors when it is
+    1. heading
+    2. image
+    3. code block | chunk
+    4. @import
+    5. comment
+    ###
+    if line.match /^(\#|\!\[|```(\w|{)|@import|\<!--)/
+      outputString += createAnchor(i)
+
+    if line.match /^```(\w|{)/ # begin of code block
+      outputString += line + '\n'
+      i += 1
+      while i < lines.length
+        line = lines[i]
+        if line.match /^```\s*/ # end of code block
+          break
+        else
+          outputString += line + '\n'
+          i += 1
+
+    outputString += line + '\n'
+    i += 1
+
+  outputString
+
+###
+[TOC] for pandoc parser
+###
+createTOC = ($, tab)->
+  $ = cheerio.load($) if (typeof($) == 'string')
+  tocHTML = null
+
+  getTOCHtml = ()->
+    headings = $('h1, h2, h3, h4, h5, h6')
+    tokens = []
+    headings.each (i, elem)->
+      $heading = $(this)
+      if $heading.attr('id')
+        tokens.push({content: $heading.html(), id: $heading.attr('id'), level: parseInt($heading[0].name.slice(1))})
+    tocObject = toc(tokens, {ordered: false, depthFrom: 1, depthTo: 6, tab: tab or '\t'})
+    return md.render(tocObject.content)
+
+  $('p').each (i, elem)->
+    $p = $(this)
+    if $p.text() == '[MPETOC]'
+      tocHTML ?= getTOCHtml()
+      $p.replaceWith(tocHTML)
+
+  return $
+
+###
+analyze slideConfigs for pandoc
+###
+analyzeSlideConfigs = (text)->
+  slideConfigs = []
+  outputString = text.replace /(^|\n)\<\!\-\-\s+slide\s+([\w\W]*?)\-\-\>/g, (whole, prefix, args, offset)->
+    match = args.match(/(?:[^\s\n:"']+|"[^"]*"|'[^']*')+/g) # split by space and \newline and : (not in single and double quotezz)
+
+    # skip <!-- slide --> within code block
+    # eg:
+    # ```html
+    # <!-- slide -->
+    # ```
+    str = text.slice(0, offset)
+    n = str.match(/^\`\`\`/gm)?.length or 0
+    return whole if n % 2 != 0
+
+    if match and match.length % 2 == 0
+      option = {}
+      i = 0
+      while i < match.length
+        key = match[i]
+        value = match[i+1]
+        try
+          option[key] = JSON.parse(value)
+        catch e
+          null # do nothing
+        i += 2
+    else
+      option = {}
+
+    if prefix == '\n'
+      line = str.match(/^/gm).length
+    else
+      line = 0
+
+    option.line = getRealDataLine(line)
+    slideConfigs.push option
+    return '<span class="new-slide"></span>  \n'
+
+  return {slideConfigs, outputString}
+
+
+
 ###
 # parse markdown content to html
 
@@ -799,13 +957,13 @@ option = {
   hideFrontMatter:      bool, optional
   markdownPreview:      MarkdownPreviewEnhancedView, optional
 
-  rootDirectoryPath:    string, required
+  fileDirectoryPath:    string, required
                         the directory path of the markdown file.
   projectDirectoryPath: string, required
 }
-
+callback(data)
 ###
-parseMD = (inputString, option={})->
+parseMD = (inputString, option={}, callback)->
   {markdownPreview} = option
 
   DISABLE_SYNC_LINE = !(option.isForPreview) # set global variable
@@ -814,6 +972,7 @@ parseMD = (inputString, option={})->
   # toc
   tocTable = {} # eliminate repeated slug
   tocEnabled = false
+  tocBracketEnabled = false
   tocConfigs = {
     headings: [],
     tocStartLine_s: [],
@@ -851,9 +1010,18 @@ parseMD = (inputString, option={})->
 
   # check front-matter
   {table:frontMatterTable, content:inputString, data:yamlConfig} = processFrontMatter(inputString, option.hideFrontMatter)
+  yamlConfig = yamlConfig or {}
+
+  # insert anchors
+  if usePandocParser and option.isForPreview and !inputString.match(/^<!--\s+slide/gm)
+    inputString = insertAnchors(inputString)
 
   # check document imports
-  {outputString:inputString, heightsDelta: HEIGHTS_DELTA} = fileImport(inputString, {filesCache: markdownPreview?.filesCache, rootDirectoryPath: option.rootDirectoryPath, projectDirectoryPath: option.projectDirectoryPath, editor: markdownPreview?.editor})
+  {outputString:inputString, heightsDelta: HEIGHTS_DELTA} = fileImport(inputString, {filesCache: markdownPreview?.filesCache, fileDirectoryPath: option.fileDirectoryPath, projectDirectoryPath: option.projectDirectoryPath, editor: markdownPreview?.editor})
+
+  # check slideConfigs
+  if usePandocParser
+    {slideConfigs, outputString:inputString} = analyzeSlideConfigs(inputString)
 
   # overwrite remark heading parse function
   md.renderer.rules.heading_open = (tokens, idx)=>
@@ -900,21 +1068,71 @@ parseMD = (inputString, option={})->
 
     else if (subject == 'tocstop')
       tocConfigs.tocEndLine_s.push tokens[idx].line
+
+    else if (subject == 'toc-bracket') # [toc]
+      tocBracketEnabled = true
+      return '\n[MPETOC]\n'
+
     else if subject == 'slide'
       opt = tokens[idx].option
       opt.line = tokens[idx].line
       slideConfigs.push(opt)
-      return '<div class="new-slide"></div>'
+      return '<span class="new-slide"></span>'
     return ''
 
-  # parse markdown
-  html = md.render(inputString)
+  finalize = (html)->
+    if markdownPreview and tocEnabled and updateTOC(markdownPreview, tocConfigs)
+      return parseMD(markdownPreview.editor.getText(), option, callback)
 
-  if markdownPreview and tocEnabled and updateTOC(markdownPreview, tocConfigs)
-    return parseMD(markdownPreview.editor.getText(), option)
+    if tocBracketEnabled # [TOC]
+      tocObject = toc(tocConfigs.headings, {ordered: false, depthFrom: 1, depthTo: 6, tab: markdownPreview?.editor?.getTabText() or '\t'})
+      DISABLE_SYNC_LINE = true # otherwise tocHtml will break scroll sync.
+      tocHtml = md.render(tocObject.content)
+      html = html.replace /^\s*\[MPETOC\]\s*/gm, tocHtml
 
-  html = resolveImagePathAndCodeBlock(html, graphData, codeChunksData, option)
-  return {html: frontMatterTable+html, slideConfigs, yamlConfig}
+
+    html = resolveImagePathAndCodeBlock(html, graphData, codeChunksData, option)
+    return callback({html: frontMatterTable+html, slideConfigs, yamlConfig})
+
+  if usePandocParser # pandoc parser
+    args = yamlConfig.pandoc_args or []
+    args = [] if not (args instanceof Array)
+    if yamlConfig.bibliography or yamlConfig.references
+      args.push('--filter', 'pandoc-citeproc')
+
+    args = atom.config.get('markdown-preview-enhanced.pandocArguments').split(',').map((x)-> x.trim()).concat(args)
+
+    return pandocRender inputString, {args, projectDirectoryPath: option.projectDirectoryPath, fileDirectoryPath: option.fileDirectoryPath}, (error, html)->
+      html = "<pre>#{error}</pre>" if error
+      # console.log(html)
+      # format blocks
+      $ = cheerio.load(html)
+      $('pre').each (i, preElement)->
+        # code block
+        if preElement.children[0]?.name == 'code'
+          $preElement = $(preElement)
+          codeBlock = $(preElement).children().first()
+          classes = (codeBlock.attr('class')?.split(' ') or []).filter (x)-> x != 'sourceCode'
+          lang = classes[0]
+
+          # graphs
+          if $preElement.attr('class')?.match(/(mermaid|viz|dot|puml|plantuml|wavedrom)/)
+            lang = $preElement.attr('class')
+          codeBlock.attr('class', 'language-' + lang)
+
+          # check code chunk
+          dataCodeChunk = $preElement.parent()?.attr('data-code-chunk')
+          if dataCodeChunk
+            codeBlock.attr('class', 'language-' + dataCodeChunk.unescape())
+
+      $ = createTOC($, markdownPreview?.editor?.getTabText())
+
+      return finalize($.html())
+  else # remarkable parser
+    # parse markdown
+    html = md.render(inputString)
+    # console.log(html)
+    return finalize(html)
 
 module.exports = {
   parseMD,

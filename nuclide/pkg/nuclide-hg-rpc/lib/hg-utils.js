@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getEditMergeConfigs = exports.createCommmitMessageTempFile = exports.hgAsyncExecute = undefined;
+exports.getInteractiveCommitEditorConfig = exports.createCommmitMessageTempFile = exports.hgAsyncExecute = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
@@ -37,9 +37,22 @@ let hgAsyncExecute = exports.hgAsyncExecute = (() => {
 let getHgExecParams = (() => {
   var _ref2 = (0, _asyncToGenerator.default)(function* (args_, options_) {
     let args = args_;
-    // Disabling ssh keyboard input so all commands that prompt for interaction
-    // fail instantly rather than just wait for an input that will never arrive
-    args.push('--config', 'ui.ssh=ssh -oBatchMode=yes -oControlMaster=no');
+    let sshCommand;
+    // expandHomeDir is not supported on windows
+    if (process.platform !== 'win32') {
+      const pathToSSHConfig = (_nuclideUri || _load_nuclideUri()).default.expandHomeDir('~/.atom/scm_ssh.sh');
+      const doesSSHConfigExist = yield (_fsPromise || _load_fsPromise()).default.exists(pathToSSHConfig);
+      if (doesSSHConfigExist) {
+        sshCommand = pathToSSHConfig;
+      }
+    }
+
+    if (sshCommand == null) {
+      // Disabling ssh keyboard input so all commands that prompt for interaction
+      // fail instantly rather than just wait for an input that will never arrive
+      sshCommand = 'ssh -oBatchMode=yes -oControlMaster=no';
+    }
+    args.push('--config', `ui.ssh=${sshCommand}`);
     const options = Object.assign({}, options_, {
       env: Object.assign({}, (yield (0, (_process || _load_process()).getOriginalEnvironment)()), {
         ATOM_BACKUP_EDITOR: 'false'
@@ -81,31 +94,29 @@ let createCommmitMessageTempFile = exports.createCommmitMessageTempFile = (() =>
   };
 })();
 
-let getEditMergeConfigs = exports.getEditMergeConfigs = (() => {
+let getInteractiveCommitEditorConfig = exports.getInteractiveCommitEditorConfig = (() => {
   var _ref4 = (0, _asyncToGenerator.default)(function* () {
     const connectionDetails = yield (0, (_nuclideRemoteAtomRpc || _load_nuclideRemoteAtomRpc()).getConnectionDetails)();
     if (connectionDetails == null) {
       (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error('CommandServer not initialized!');
-      return {
-        args: [],
-        hgEditor: ''
-      };
+      return null;
     }
     // Atom RPC needs to agree with the Atom process / nuclide server on the address and port.
     const hgEditor = getAtomRpcScriptPath() + ` -f ${connectionDetails.family} -p ${connectionDetails.port} --wait`;
     return {
-      args: ['--config', 'merge-tools.editmerge.check=conflicts', '--config', 'ui.merge=editmerge', '--config', 'ui.interactive=no', '--config', 'ui.interface.chunkselector=editor'],
+      args: ['--config', 'ui.interactive=no', '--config', 'ui.interface.chunkselector=editor', '--config', 'extensions.edrecord='],
       hgEditor
     };
   });
 
-  return function getEditMergeConfigs() {
+  return function getInteractiveCommitEditorConfig() {
     return _ref4.apply(this, arguments);
   };
 })();
 
 exports.hgObserveExecution = hgObserveExecution;
 exports.hgRunCommand = hgRunCommand;
+exports.processExitCodeAndThrow = processExitCodeAndThrow;
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -133,6 +144,12 @@ function _load_nuclideRemoteAtomRpc() {
   return _nuclideRemoteAtomRpc = require('../../nuclide-remote-atom-rpc');
 }
 
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Mercurial (as of v3.7.2) [strips lines][1] matching the following prefix when a commit message is
@@ -142,18 +159,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Note: `(?m)` converts to `/m` in JavaScript-flavored RegExp to mean 'multiline'.
 //
 // [1] https://selenic.com/hg/file/3.7.2/mercurial/cmdutil.py#l2734
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const COMMIT_MESSAGE_STRIP_LINE = /^HG:.*(\n|$)/gm; /**
+                                                     * Copyright (c) 2015-present, Facebook, Inc.
+                                                     * All rights reserved.
+                                                     *
+                                                     * This source code is licensed under the license found in the LICENSE file in
+                                                     * the root directory of this source tree.
+                                                     *
+                                                     * 
+                                                     */
 
-const COMMIT_MESSAGE_STRIP_LINE = /^HG:.*(\n|$)/gm;function hgObserveExecution(args_, options_) {
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(getHgExecParams(args_, options_)).switchMap(({ command, args, options }) => (0, (_process || _load_process()).observeProcess)(() => (0, (_process || _load_process()).scriptSafeSpawn)(command, args, options), true));
+function hgObserveExecution(args_, options_) {
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getHgExecParams(args_, options_)).switchMap(({ command, args, options }) => {
+    return (0, (_process || _load_process()).observeProcess)('script', (0, (_process || _load_process()).createArgsForScriptCommand)(command, args), Object.assign({}, options, { killTreeOnComplete: true }));
+  });
 }
 
 /**
@@ -161,7 +180,7 @@ const COMMIT_MESSAGE_STRIP_LINE = /^HG:.*(\n|$)/gm;function hgObserveExecution(a
  * Resolves to stdout.
  */
 function hgRunCommand(args_, options_) {
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(getHgExecParams(args_, options_)).switchMap(({ command, args, options }) => (0, (_process || _load_process()).runCommand)(command, args, options, true /* kill process tree on complete */));
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(getHgExecParams(args_, options_)).switchMap(({ command, args, options }) => (0, (_process || _load_process()).runCommand)(command, args, Object.assign({}, options, { killTreeOnComplete: true })));
 }
 
 function logAndThrowHgError(args, options, stdout, stderr) {
@@ -185,4 +204,11 @@ function getAtomRpcScriptPath() {
     }
   }
   return atomRpcEditorPath;
+}
+
+function processExitCodeAndThrow(processMessage) {
+  if (processMessage.kind === 'exit' && processMessage.exitCode !== 0) {
+    return _rxjsBundlesRxMinJs.Observable.throw(new Error(`HG failed with exit code: ${String(processMessage.exitCode)}`));
+  }
+  return _rxjsBundlesRxMinJs.Observable.of(processMessage);
 }

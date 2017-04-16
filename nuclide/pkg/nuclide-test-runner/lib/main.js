@@ -1,17 +1,12 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.activate = activate;
-exports.deactivate = deactivate;
-exports.consumeTestRunner = consumeTestRunner;
-exports.addItemsToFileTreeContextMenu = addItemsToFileTreeContextMenu;
-exports.consumeToolBar = consumeToolBar;
-exports.deserializeTestRunnerPanelState = deserializeTestRunnerPanelState;
-exports.consumeWorkspaceViewsService = consumeWorkspaceViewsService;
-
 var _atom = require('atom');
+
+var _createPackage;
+
+function _load_createPackage() {
+  return _createPackage = _interopRequireDefault(require('../../commons-atom/createPackage'));
+}
 
 var _TestRunnerController;
 
@@ -25,17 +20,17 @@ function _load_nuclideLogging() {
   return _nuclideLogging = require('../../nuclide-logging');
 }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
+                                                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                                                              * All rights reserved.
+                                                                              *
+                                                                              * This source code is licensed under the license found in the LICENSE file in
+                                                                              * the root directory of this source tree.
+                                                                              *
+                                                                              * 
+                                                                              */
 
 const FILE_TREE_CONTEXT_MENU_PRIORITY = 200;
 
@@ -56,12 +51,6 @@ class Activation {
   constructor() {
     this._testRunners = new Set();
     this._disposables = new _atom.CompositeDisposable();
-    this._disposables.add(atom.commands.add('atom-workspace', 'nuclide-test-runner:toggle-panel', () => {
-      this.getController().togglePanel();
-    }));
-    this._disposables.add(atom.commands.add('atom-workspace', 'nuclide-test-runner:run-tests', () => {
-      this.getController().runTests();
-    }));
     // Listen for run events on files in the file tree
     this._disposables.add(atom.commands.add('.tree-view .entry.file.list-item', 'nuclide-test-runner:run-tests', event => {
       const target = event.currentTarget.querySelector('.name');
@@ -120,7 +109,7 @@ class Activation {
     return new _atom.Disposable(() => this._disposables.remove(menuItemSubscriptions));
   }
 
-  addTestRunner(testRunner) {
+  consumeTestRunner(testRunner) {
     if (this._testRunners.has(testRunner)) {
       logger.info(`Attempted to add test runner "${testRunner.label}" that was already added`);
       return;
@@ -146,7 +135,7 @@ class Activation {
     });
   }
 
-  addToolBar(getToolBar) {
+  consumeToolBar(getToolBar) {
     const toolBar = getToolBar('nuclide-test-runner');
     toolBar.addButton({
       icon: 'checklist',
@@ -244,60 +233,10 @@ class Activation {
       api.toggle((_TestRunnerController || _load_TestRunnerController()).WORKSPACE_VIEW_URI, event.detail);
     }));
   }
-}
 
-let activation;
-
-function activate() {
-  if (!activation) {
-    activation = new Activation();
+  deserializeTestRunnerPanelState() {
+    return this.getController();
   }
 }
 
-function deactivate() {
-  if (activation) {
-    activation.dispose();
-    activation = null;
-  }
-}
-
-function consumeTestRunner(testRunner) {
-  if (activation) {
-    return activation.addTestRunner(testRunner);
-  }
-}
-
-function addItemsToFileTreeContextMenu(contextMenu) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.addItemsToFileTreeContextMenu(contextMenu);
-}
-
-function consumeToolBar(getToolBar) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.addToolBar(getToolBar);
-}
-
-function deserializeTestRunnerPanelState() {
-  // Workaround until the bug where deserialize is ran before activation
-  activate();
-
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.getController();
-}
-
-function consumeWorkspaceViewsService(api) {
-  if (!activation) {
-    throw new Error('Invariant violation: "activation"');
-  }
-
-  return activation.consumeWorkspaceViewsService(api);
-}
+(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

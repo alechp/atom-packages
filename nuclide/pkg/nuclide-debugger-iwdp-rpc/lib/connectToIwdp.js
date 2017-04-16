@@ -57,14 +57,12 @@ const CONNECTED_TO_DEVICE_REGEX = /Connected :([0-9]+) to/;
 const POLLING_INTERVAL = 2000;
 
 function connectToIwdp() {
-  return (0, (_process || _load_process()).observeProcess)(() => {
-    // Question: why are we running the debug proxy under `script`?
-    // Answer: The iwdp binary will aggressively buffer stdout, unless it thinks it is running
-    // under a terminal environment.  `script` runs the binary in a terminal-like environment,
-    // and gives us less-aggressive buffering behavior, i.e. newlines cause stdout to be flushed.
-    const newArgs = (0, (_process || _load_process()).createArgsForScriptCommand)('ios_webkit_debug_proxy', ['--no-frontend']);
-    return (0, (_process || _load_process()).safeSpawn)('script', newArgs);
-  }).mergeMap(message => {
+  return (0, (_process || _load_process()).observeProcess)(
+  // Question: why are we running the debug proxy under `script`?
+  // Answer: The iwdp binary will aggressively buffer stdout, unless it thinks it is running
+  // under a terminal environment.  `script` runs the binary in a terminal-like environment,
+  // and gives us less-aggressive buffering behavior, i.e. newlines cause stdout to be flushed.
+  'script', (0, (_process || _load_process()).createArgsForScriptCommand)('ios_webkit_debug_proxy', ['--no-frontend'])).mergeMap(message => {
     if (message.kind === 'stdout') {
       const { data } = message;
       const matches = CONNECTED_TO_DEVICE_REGEX.exec(data);

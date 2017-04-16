@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _BreakpointStore;
 
@@ -36,25 +36,29 @@ function _load_Button() {
   return _Button = require('../../nuclide-ui/Button');
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _LoadingSpinner;
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+function _load_LoadingSpinner() {
+  return _LoadingSpinner = require('../../nuclide-ui/LoadingSpinner');
+}
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getStateFromStore(store) {
   return {
     processSocket: store.getProcessSocket()
   };
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   */
 
-class DebuggerControllerView extends _reactForAtom.React.Component {
+class DebuggerControllerView extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -91,28 +95,31 @@ class DebuggerControllerView extends _reactForAtom.React.Component {
 
   render() {
     if (this.state.processSocket) {
-      return _reactForAtom.React.createElement((_DebuggerInspector || _load_DebuggerInspector()).default, {
+      return _react.default.createElement((_DebuggerInspector || _load_DebuggerInspector()).default, {
         breakpointStore: this.props.breakpointStore,
         openDevTools: this.props.openDevTools,
         stopDebugging: this.props.stopDebugging
       });
     }
     if (this.props.store.getDebuggerMode() === 'starting') {
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'div',
-        { className: 'padded' },
-        _reactForAtom.React.createElement((_Button || _load_Button()).Button, {
-          title: 'Close',
-          icon: 'x',
-          className: 'nuclide-debugger-root-close-button',
-          onClick: this._handleClickClose
-        }),
-        _reactForAtom.React.createElement(
-          'p',
+        { className: 'nuclide-debugger-starting-message' },
+        _react.default.createElement(
+          'div',
           null,
-          'Starting Debugger'
+          _react.default.createElement(
+            'span',
+            { className: 'inline-block' },
+            'Starting Debugger...'
+          ),
+          _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { className: 'inline-block', size: 'EXTRA_SMALL' })
         ),
-        _reactForAtom.React.createElement('progress', { className: 'starting' })
+        _react.default.createElement((_Button || _load_Button()).Button, {
+          icon: 'x',
+          onClick: this._handleClickClose,
+          title: 'Close'
+        })
       );
     }
     return null;

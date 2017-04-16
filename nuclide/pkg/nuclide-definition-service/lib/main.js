@@ -65,9 +65,9 @@ class Service {
 exports.Service = Service;
 let activation = null;
 
-function activate(state) {
+function activate() {
   if (activation == null) {
-    activation = new Service(state);
+    activation = new Service();
   }
 }
 

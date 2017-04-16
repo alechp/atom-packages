@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StatusBarTile = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
@@ -14,6 +14,8 @@ var _StatusBarTileComponent;
 function _load_StatusBarTileComponent() {
   return _StatusBarTileComponent = require('./StatusBarTileComponent');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -25,7 +27,7 @@ function _load_StatusBarTileComponent() {
  * 
  */
 
-class StatusBarTile extends _reactForAtom.React.Component {
+class StatusBarTile extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -88,7 +90,7 @@ class StatusBarTile extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement((_StatusBarTileComponent || _load_StatusBarTileComponent()).StatusBarTileComponent, Object.assign({}, this.state, { onClick: this.props.onClick }));
+    return _react.default.createElement((_StatusBarTileComponent || _load_StatusBarTileComponent()).StatusBarTileComponent, Object.assign({}, this.state, { onClick: this.props.onClick }));
   }
 }
 exports.StatusBarTile = StatusBarTile;

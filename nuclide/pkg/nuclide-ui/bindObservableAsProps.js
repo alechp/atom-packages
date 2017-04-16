@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.bindObservableAsProps = bindObservableAsProps;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Injects any key/value pairs from the given Observable value into the component as named props.
@@ -28,7 +30,7 @@ var _reactForAtom = require('react-for-atom');
 
 function bindObservableAsProps(stream, ComposedComponent) {
   // $FlowIssue The return type is guaranteed to be the same as the type of ComposedComponent.
-  return class extends _reactForAtom.React.Component {
+  return class extends _react.default.Component {
 
     constructor(props) {
       super(props);
@@ -55,7 +57,7 @@ function bindObservableAsProps(stream, ComposedComponent) {
         return null;
       }
       const props = Object.assign({}, this.props, this.state);
-      return _reactForAtom.React.createElement(ComposedComponent, props);
+      return _react.default.createElement(ComposedComponent, props);
     }
   };
 }

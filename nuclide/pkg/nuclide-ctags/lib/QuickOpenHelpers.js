@@ -22,7 +22,7 @@ let getCtagsService = (() => {
   };
 })();
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _featureConfig;
 
@@ -95,19 +95,19 @@ class QuickOpenHelpers {
       icon = (_utils || _load_utils()).CTAGS_KIND_ICONS[item.kind];
     }
     icon = icon || DEFAULT_ICON;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { title: kind },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: `file icon ${icon}` },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'code',
           null,
           item.name
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'span',
         { className: 'omnisearch-symbol-result-filename' },
         path

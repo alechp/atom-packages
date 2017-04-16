@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TableExamples = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Block;
 
@@ -19,7 +19,9 @@ function _load_Table() {
   return _Table = require('./Table');
 }
 
-const Highlight42Component = props => _reactForAtom.React.createElement(
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const Highlight42Component = props => _react.default.createElement(
   'div',
   { style: props.data === 42 ? { fontWeight: 'bold' } : {} },
   props.data
@@ -77,10 +79,10 @@ const TableExample = () => {
       fifth: 123
     }
   }];
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Table || _load_Table()).Table, {
+    _react.default.createElement((_Table || _load_Table()).Table, {
       columns: columns,
       rows: rows,
       selectable: true
@@ -88,7 +90,7 @@ const TableExample = () => {
   );
 };
 
-class SortableTableExample extends _reactForAtom.React.Component {
+class SortableTableExample extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -143,11 +145,11 @@ class SortableTableExample extends _reactForAtom.React.Component {
       title: 'third',
       key: 'third'
     }];
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       (_Block || _load_Block()).Block,
       null,
-      _reactForAtom.React.createElement((_Table || _load_Table()).Table, {
-        emptyComponent: () => _reactForAtom.React.createElement(
+      _react.default.createElement((_Table || _load_Table()).Table, {
+        emptyComponent: () => _react.default.createElement(
           'div',
           null,
           'An optional, custom "empty message" component.'
@@ -175,10 +177,10 @@ const EmptyTableExample = () => {
     key: 'third'
   }];
   const rows = [];
-  return _reactForAtom.React.createElement(
+  return _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _reactForAtom.React.createElement((_Table || _load_Table()).Table, {
+    _react.default.createElement((_Table || _load_Table()).Table, {
       columns: columns,
       rows: rows
     })

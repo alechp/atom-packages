@@ -40,7 +40,7 @@ function _load_notification() {
   return _notification = require('./notification');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _electron = _interopRequireDefault(require('electron'));
 
@@ -89,7 +89,7 @@ const WAITING_FOR_AUTHENTICATION = 4;
 /**
  * Component that manages the state transitions as the user connects to a server.
  */
-class ConnectionDialog extends _reactForAtom.React.Component {
+class ConnectionDialog extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -219,7 +219,7 @@ class ConnectionDialog extends _reactForAtom.React.Component {
     let okButtonText;
 
     if (mode === REQUEST_CONNECTION_DETAILS) {
-      content = _reactForAtom.React.createElement((_ConnectionDetailsPrompt || _load_ConnectionDetailsPrompt()).default, {
+      content = _react.default.createElement((_ConnectionDetailsPrompt || _load_ConnectionDetailsPrompt()).default, {
         connectionProfiles: this.props.connectionProfiles,
         indexOfSelectedConnectionProfile: this.state.indexOfSelectedConnectionProfile,
         onAddProfileClicked: this.props.onAddProfileClicked,
@@ -233,11 +233,11 @@ class ConnectionDialog extends _reactForAtom.React.Component {
       isOkDisabled = false;
       okButtonText = 'Connect';
     } else if (mode === WAITING_FOR_CONNECTION || mode === WAITING_FOR_AUTHENTICATION) {
-      content = _reactForAtom.React.createElement((_IndeterminateProgressBar || _load_IndeterminateProgressBar()).default, null);
+      content = _react.default.createElement((_IndeterminateProgressBar || _load_IndeterminateProgressBar()).default, null);
       isOkDisabled = true;
       okButtonText = 'Connect';
     } else {
-      content = _reactForAtom.React.createElement((_AuthenticationPrompt || _load_AuthenticationPrompt()).default, {
+      content = _react.default.createElement((_AuthenticationPrompt || _load_AuthenticationPrompt()).default, {
         instructions: this.state.instructions,
         onCancel: this.cancel,
         onConfirm: this.ok,
@@ -253,10 +253,10 @@ class ConnectionDialog extends _reactForAtom.React.Component {
       selectedProfile = this.props.connectionProfiles[this.state.indexOfSelectedConnectionProfile];
     }
     if (this.state.isDirty && selectedProfile != null && selectedProfile.saveable) {
-      saveButtonGroup = _reactForAtom.React.createElement(
+      saveButtonGroup = _react.default.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
         { className: 'inline-block' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Button || _load_Button()).Button,
           { onClick: this._handleClickSave },
           'Save'
@@ -264,27 +264,27 @@ class ConnectionDialog extends _reactForAtom.React.Component {
       );
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       null,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'block' },
         content
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { style: { display: 'flex', justifyContent: 'flex-end' } },
         saveButtonGroup,
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
           null,
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             { onClick: this.cancel, ref: 'cancelButton' },
             'Cancel'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             (_Button || _load_Button()).Button,
             {
               buttonType: (_Button || _load_Button()).ButtonTypes.PRIMARY,

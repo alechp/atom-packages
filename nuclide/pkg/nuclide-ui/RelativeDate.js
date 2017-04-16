@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _string;
 
@@ -38,7 +38,7 @@ const DEFAULT_RERENDER_DELAY = 10000; // ms
  *
  * Does not respond to changes to the initial `delay` for simplicity's sake.
  */
-class RelativeDate extends _reactForAtom.React.Component {
+class RelativeDate extends _react.default.Component {
 
   componentDidMount() {
     const { delay } = this.props;
@@ -61,7 +61,7 @@ class RelativeDate extends _reactForAtom.React.Component {
       withToolip
     } = _props,
           remainingProps = _objectWithoutProperties(_props, ['date', 'delay', 'shorten', 'withToolip']);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       Object.assign({}, remainingProps, {
         ref: withToolip ? (0, (_addTooltip || _load_addTooltip()).default)({

@@ -234,6 +234,30 @@ class HgService {
     }).publish();
   }
 
+  /**
+   * Like fetchStatuses, but first calculates the root of the current
+   * stack and fetches changes since that revision.
+   */
+  fetchStackStatuses() {
+    // Note: an alternative which doesn't depend upon reading .arcconfig in getForkBaseName is:
+    //   return this.fetchStatuses('ancestor(ancestor((not public()) and (:: .))^ or .)')
+    // Both the code below and the alternative above have identical performance.
+
+    return _rxjsBundlesRxMinJs.Observable.fromPromise(getForkBaseName(this._workingDirectory)) // e.g. "master"
+    .switchMap(forkBaseName => {
+      const root = (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForCommonAncestor)(forkBaseName); // e.g. "ancestor(master, .)"
+      return this.fetchStatuses(root).refCount();
+    }).publish();
+  }
+
+  /**
+   * Like fetchStatuses, but first checks whether the head is public. If so, returns
+   * changes *since* the head. If not, returns changes *including* the head.
+   */
+  fetchHeadStatuses() {
+    return this.fetchStatuses('ancestor(. or (. and (not public()))^)');
+  }
+
   _subscribeToWatchman() {
     var _this2 = this;
 
@@ -246,7 +270,6 @@ class HgService {
       let primarySubscriptionExpression = ['allof', ['not', ['dirname', '.hg']],
       // Hg appears to modify temporary files that begin with these
       // prefixes, every time a file is saved.
-      // TODO (t7832809) Remove this when it is unnecessary.
       ['not', ['match', 'hg-checkexec-*', 'wholename']], ['not', ['match', 'hg-checklink-*', 'wholename']],
       // This watchman subscription is used to determine when and which
       // files to fetch new statuses for. There is no reason to include
@@ -686,15 +709,13 @@ class HgService {
   }
 
   _commitCode(message, args, isInteractive) {
-    if (isInteractive) {
-      args.push('--interactive');
-    }
-
-    let tempFile = null;
     let editMergeConfigs;
-
+    let tempFile = null;
     return _rxjsBundlesRxMinJs.Observable.fromPromise((0, _asyncToGenerator.default)(function* () {
-      editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getEditMergeConfigs)();
+      if (isInteractive) {
+        args.push('--interactive');
+        editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getInteractiveCommitEditorConfig)();
+      }
       if (message == null) {
         return args;
       } else {
@@ -702,15 +723,15 @@ class HgService {
         return [...args, '-l', tempFile];
       }
     })()).switchMap(argumentsWithCommitFile => {
-      if (!(editMergeConfigs != null)) {
-        throw new Error('editMergeConfigs cannot be null');
-      }
-
+      const execArgs = argumentsWithCommitFile;
       const execOptions = {
-        cwd: this._workingDirectory,
-        HGEDITOR: editMergeConfigs.hgEditor
+        cwd: this._workingDirectory
       };
-      return this._hgObserveExecution([...editMergeConfigs.args, ...argumentsWithCommitFile], execOptions);
+      if (editMergeConfigs != null) {
+        execArgs.push(...editMergeConfigs.args);
+        execOptions.HGEDITOR = editMergeConfigs.hgEditor;
+      }
+      return this._hgObserveExecution(execArgs, execOptions);
     }).finally(() => {
       if (tempFile != null) {
         (_fsPromise || _load_fsPromise()).default.unlink(tempFile);
@@ -754,7 +775,7 @@ class HgService {
   splitRevision() {
     let editMergeConfigs;
     return _rxjsBundlesRxMinJs.Observable.fromPromise((0, _asyncToGenerator.default)(function* () {
-      editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getEditMergeConfigs)();
+      editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getInteractiveCommitEditorConfig)();
     })()).switchMap(() => {
       if (!(editMergeConfigs != null)) {
         throw new Error('editMergeConfigs cannot be null');
@@ -800,11 +821,14 @@ class HgService {
    * @param options.
    */
   checkout(revision, create, options) {
-    const args = [revision];
+    const args = ['checkout', revision];
     if (options && options.clean) {
       args.push('--clean');
     }
-    return this._runSimpleInWorkingDirectory('checkout', args);
+    const executionOptions = {
+      cwd: this._workingDirectory
+    };
+    return (0, (_hgUtils || _load_hgUtils()).hgObserveExecution)(args, executionOptions).timeout(300000).switchMap((_hgUtils || _load_hgUtils()).processExitCodeAndThrow).publish();
   }
 
   show(revision) {
@@ -929,8 +953,7 @@ class HgService {
     var _this17 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      // Once TODO(t14843143) is done the extension would be enabled by default
-      const args = ['--config', 'extensions.debugcommitmessage= ', 'debugcommitmessage'];
+      const args = ['debugcommitmessage'];
       const execOptions = {
         cwd: _this17._workingDirectory
       };
@@ -986,7 +1009,11 @@ class HgService {
     })();
   }
 
-  fetchMergeConflicts() {
+  /*
+   * Setting fetchResolved will return all resolved and unresolved conflicts,
+   * the default would only fetch the current unresolved conflicts.
+   */
+  fetchMergeConflicts(fetchResolved) {
     var _this20 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
@@ -994,8 +1021,16 @@ class HgService {
         cwd: _this20._workingDirectory
       });
       const fileListStatuses = JSON.parse(stdout);
+      const resolvedFiles = fetchResolved ? fileListStatuses.filter(function (fileStatus) {
+        return fileStatus.status === (_hgConstants || _load_hgConstants()).MergeConflictFileStatus.RESOLVED;
+      }).map(function (fileStatus) {
+        return {
+          path: fileStatus.path,
+          message: (_hgConstants || _load_hgConstants()).MergeConflictStatus.RESOLVED
+        };
+      }) : [];
       const conflictedFiles = fileListStatuses.filter(function (fileStatus) {
-        return fileStatus.status === (_hgConstants || _load_hgConstants()).StatusCodeId.UNRESOLVED;
+        return fileStatus.status === (_hgConstants || _load_hgConstants()).MergeConflictFileStatus.UNRESOLVED;
       });
       const origBackupPath = yield _this20._getOrigBackupPath();
       const conflicts = yield Promise.all(conflictedFiles.map((() => {
@@ -1017,7 +1052,7 @@ class HgService {
           return _ref4.apply(this, arguments);
         };
       })()));
-      return conflicts;
+      return [...conflicts, ...resolvedFiles];
     })();
   }
 
@@ -1048,11 +1083,19 @@ class HgService {
   }
 
   resolveConflictedFile(filePath) {
-    return this._runSimpleInWorkingDirectory('resolve', ['-m', filePath]);
+    const args = ['resolve', '-m', filePath];
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
+    return this._hgObserveExecution(args, execOptions).switchMap((_hgUtils || _load_hgUtils()).processExitCodeAndThrow).publish();
   }
 
   continueRebase() {
-    return this._runSimpleInWorkingDirectory('rebase', ['--continue']);
+    const args = ['rebase', '--continue', '--noninteractive'];
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
+    return this._hgObserveExecution(args, execOptions).switchMap((_hgUtils || _load_hgUtils()).processExitCodeAndThrow).publish();
   }
 
   abortRebase() {
@@ -1060,18 +1103,15 @@ class HgService {
   }
 
   rebase(destination, source) {
-    return _rxjsBundlesRxMinJs.Observable.fromPromise((0, (_hgUtils || _load_hgUtils()).getEditMergeConfigs)()).switchMap(editMergeConfigs => {
-      const args = [...editMergeConfigs.args, 'rebase', '-d', destination];
-      if (source != null) {
-        args.push('-s', source);
-      }
-      const execOptions = {
-        cwd: this._workingDirectory,
-        HGEDITOR: editMergeConfigs.hgEditor
-      };
-
-      return this._hgObserveExecution(args, execOptions);
-    }).publish();
+    const args = ['rebase', '-d', destination];
+    if (source != null) {
+      args.push('-s', source);
+    }
+    args.push('--noninteractive');
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
+    return this._hgObserveExecution(args, execOptions).publish();
   }
 
   pull(options) {

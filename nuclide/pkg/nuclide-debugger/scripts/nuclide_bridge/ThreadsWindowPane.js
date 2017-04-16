@@ -10,17 +10,9 @@ function _load_NuclideBridge() {
   return _NuclideBridge = _interopRequireDefault(require('./NuclideBridge'));
 }
 
-var _react;
+var _react = _interopRequireDefault(require('react'));
 
-function _load_react() {
-  return _react = _interopRequireDefault(require('react'));
-}
-
-var _reactDom;
-
-function _load_reactDom() {
-  return _reactDom = _interopRequireDefault(require('react-dom'));
-}
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _WebInspector;
 
@@ -30,7 +22,7 @@ function _load_WebInspector() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class ThreadsWindowComponent extends (_react || _load_react()).default.Component {
+class ThreadsWindowComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -118,55 +110,55 @@ class ThreadsWindowComponent extends (_react || _load_react()).default.Component
           rowStyle.backgroundColor = '#cfcfcf';
         }
         if (indicator === '>') {
-          children.push((_react || _load_react()).default.createElement(
+          children.push(_react.default.createElement(
             'tr',
             {
               onDoubleClick: this._handleDoubleClick.bind(this, thread),
               style: rowStyle,
               ref: ref => this._setStoppedThread(ref) },
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               indicator
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.id
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.address
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.stopReason
             )
           ));
         } else {
-          children.push((_react || _load_react()).default.createElement(
+          children.push(_react.default.createElement(
             'tr',
             {
               onDoubleClick: this._handleDoubleClick.bind(this, thread),
               style: rowStyle },
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               indicator
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.id
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.address
             ),
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'td',
               null,
               thread.stopReason
@@ -182,37 +174,37 @@ class ThreadsWindowComponent extends (_react || _load_react()).default.Component
     };
 
     if (children.length > 0) {
-      return (_react || _load_react()).default.createElement(
+      return _react.default.createElement(
         'div',
         { style: containerStyle, className: 'nuclide-chrome-debugger-data-grid' },
-        (_react || _load_react()).default.createElement(
+        _react.default.createElement(
           'table',
           { width: '100%' },
-          (_react || _load_react()).default.createElement(
+          _react.default.createElement(
             'thead',
             null,
-            (_react || _load_react()).default.createElement(
+            _react.default.createElement(
               'tr',
               { key: 0 },
-              (_react || _load_react()).default.createElement('td', null),
-              (_react || _load_react()).default.createElement(
+              _react.default.createElement('td', null),
+              _react.default.createElement(
                 'td',
                 null,
                 'ID'
               ),
-              (_react || _load_react()).default.createElement(
+              _react.default.createElement(
                 'td',
                 null,
                 'Address'
               ),
-              (_react || _load_react()).default.createElement(
+              _react.default.createElement(
                 'td',
                 null,
                 'Stop Reason'
               )
             )
           ),
-          (_react || _load_react()).default.createElement(
+          _react.default.createElement(
             'tbody',
             null,
             children
@@ -220,7 +212,7 @@ class ThreadsWindowComponent extends (_react || _load_react()).default.Component
         )
       );
     } else {
-      return (_react || _load_react()).default.createElement(
+      return _react.default.createElement(
         'div',
         { className: 'info' },
         'No Threads'
@@ -247,7 +239,7 @@ class ThreadsWindowPane extends (_WebInspector || _load_WebInspector()).default.
     // TODO: change.
     this.registerRequiredCSS('components/breakpointsList.css');
 
-    (_reactDom || _load_reactDom()).default.render((_react || _load_react()).default.createElement(ThreadsWindowComponent, null), this.bodyElement);
+    _reactDom.default.render(_react.default.createElement(ThreadsWindowComponent, null), this.bodyElement);
 
     this.expand();
   }

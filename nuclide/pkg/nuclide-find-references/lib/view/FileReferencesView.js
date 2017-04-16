@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -32,7 +32,7 @@ function _load_CodeSnippet() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class FileReferencesView extends _reactForAtom.React.Component {
+class FileReferencesView extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -67,11 +67,11 @@ class FileReferencesView extends _reactForAtom.React.Component {
 
       let caller;
       if (firstRef.name && firstRef.name === lastRef.name) {
-        caller = _reactForAtom.React.createElement(
+        caller = _react.default.createElement(
           'span',
           null,
           ' in ',
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'code',
             null,
             firstRef.name
@@ -80,10 +80,10 @@ class FileReferencesView extends _reactForAtom.React.Component {
       }
       const startRange = firstRef.range.start;
       const endRange = lastRef.range.end;
-      return _reactForAtom.React.createElement(
+      return _react.default.createElement(
         'li',
         { key: group.startLine, className: 'nuclide-find-references-ref' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           {
             className: 'nuclide-find-references-ref-name',
@@ -98,7 +98,7 @@ class FileReferencesView extends _reactForAtom.React.Component {
           endRange.column + 1,
           caller
         ),
-        _reactForAtom.React.createElement((_CodeSnippet || _load_CodeSnippet()).CodeSnippet, {
+        _react.default.createElement((_CodeSnippet || _load_CodeSnippet()).CodeSnippet, {
           grammar: this.props.grammar,
           text: this.props.previewText[i],
           highlights: group.references.map(ref => ref.range),
@@ -115,27 +115,27 @@ class FileReferencesView extends _reactForAtom.React.Component {
       selected: this.props.isSelected
     });
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'li',
       { className: `${outerClassName}` },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         {
           className: 'nuclide-find-references-filename list-item',
           onClick: this._onFileClick },
-        _reactForAtom.React.createElement('span', { className: 'icon-file-text icon' }),
-        _reactForAtom.React.createElement(
+        _react.default.createElement('span', { className: 'icon-file-text icon' }),
+        _react.default.createElement(
           'a',
           { onClick: this._onFileNameClick },
           (_nuclideUri || _load_nuclideUri()).default.relative(this.props.basePath, this.props.uri)
         ),
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           { className: 'nuclide-find-references-ref-count badge badge-small' },
           groups.length
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'ul',
         { className: 'nuclide-find-references-refs list-tree' },
         groups

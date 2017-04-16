@@ -183,12 +183,15 @@ class SshHandshake {
         return;
       }
 
-      let address;
+      let lookup;
       try {
-        address = yield (0, (_lookupPreferIpV || _load_lookupPreferIpV()).default)(config.host);
+        lookup = yield (0, (_lookupPreferIpV || _load_lookupPreferIpV()).default)(config.host);
       } catch (e) {
         return _this._error('Failed to resolve DNS.', SshHandshake.ErrorType.HOST_NOT_FOUND, e);
       }
+
+      const { address, family } = lookup;
+      _this._config.family = family;
 
       const connection = (yield (_RemoteConnection || _load_RemoteConnection()).RemoteConnection.createConnectionBySavedConfig(_this._config.host, _this._config.cwd, _this._config.displayTitle)) || (
       // We save connections by their IP address as well, in case a different hostname
@@ -458,6 +461,7 @@ class SshHandshake {
         connect({
           host: _this3._remoteHost,
           port: _this3._remotePort,
+          family: _this3._config.family,
           cwd: _this3._config.cwd,
           certificateAuthorityCertificate: _this3._certificateAuthorityCertificate,
           clientCertificate: _this3._clientCertificate,
@@ -478,6 +482,7 @@ class SshHandshake {
           connect({
             host: 'localhost',
             port: localPort,
+            family: _this3._config.family,
             cwd: _this3._config.cwd,
             displayTitle: _this3._config.displayTitle
           });

@@ -11,7 +11,7 @@ function _load_WatchExpressionStore() {
   return _WatchExpressionStore = require('./WatchExpressionStore');
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _classnames;
 
@@ -55,7 +55,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class WatchExpressionComponent extends _reactForAtom.React.Component {
+class WatchExpressionComponent extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -139,7 +139,7 @@ class WatchExpressionComponent extends _reactForAtom.React.Component {
       value
     } = watchExpression;
     if (index === this.state.rowBeingEdited) {
-      return _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+      return _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         className: 'nuclide-debugger-watch-expression-input',
         key: index,
         onConfirm: this._onConfirmExpressionEdit.bind(this, index),
@@ -151,24 +151,24 @@ class WatchExpressionComponent extends _reactForAtom.React.Component {
       });
     }
     const ValueComponent = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(value.map(v => ({ evaluationResult: v })), (_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent);
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       {
         className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-expression-value-row', 'nuclide-debugger-watch-expression-row'),
         key: index },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         {
           className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-expression-value-content', 'nuclide-debugger-watch-expression-value-content'),
           onDoubleClick: this._setRowBeingEdited.bind(this, index) },
-        _reactForAtom.React.createElement(ValueComponent, {
+        _react.default.createElement(ValueComponent, {
           expression: expression,
           fetchChildren: fetchChildren,
           simpleValueComponent: (_SimpleValueComponent || _load_SimpleValueComponent()).default,
           expansionStateId: this._getExpansionStateIdForExpression(expression)
         })
       ),
-      _reactForAtom.React.createElement('i', {
+      _react.default.createElement('i', {
         className: 'icon icon-x nuclide-debugger-watch-expression-xout',
         onClick: this.removeExpression.bind(this, index)
       })
@@ -182,14 +182,14 @@ class WatchExpressionComponent extends _reactForAtom.React.Component {
     } = this.props;
     const fetchChildren = watchExpressionStore.getProperties.bind(watchExpressionStore);
     const expressions = watchExpressions.map(this._renderExpression.bind(this, fetchChildren));
-    const addNewExpressionInput = _reactForAtom.React.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+    const addNewExpressionInput = _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
       className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-watch-expression-input', 'nuclide-debugger-watch-expression-add-new-input'),
       onConfirm: this._onConfirmNewExpression,
       ref: 'newExpressionEditor',
       size: 'sm',
       placeholderText: 'add new watch expression'
     });
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-expression-value-list' },
       expressions,

@@ -23,27 +23,27 @@ function _load_createPaneContainer() {
   return _createPaneContainer = _interopRequireDefault(require('../commons-atom/create-pane-container'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
 
 const FlexDirections = exports.FlexDirections = Object.freeze({
   HORIZONTAL: 'HORIZONTAL',
   VERTICAL: 'VERTICAL'
-});
+}); /**
+     * Copyright (c) 2015-present, Facebook, Inc.
+     * All rights reserved.
+     *
+     * This source code is licensed under the license found in the LICENSE file in
+     * the root directory of this source tree.
+     *
+     * 
+     */
 
 function getChildrenFlexScales(children) {
-  return (0, (_collection || _load_collection()).arrayCompact)(_reactForAtom.React.Children.map(children, child => {
+  return (0, (_collection || _load_collection()).arrayCompact)(_react.default.Children.map(children, child => {
     if (child == null) {
       return null;
     } else if (!(child.type === ResizableFlexItem)) {
@@ -54,7 +54,7 @@ function getChildrenFlexScales(children) {
   }) || []);
 }
 
-class ResizableFlexContainer extends _reactForAtom.React.Component {
+class ResizableFlexContainer extends _react.default.Component {
 
   componentDidMount() {
     this._setupPanes(this.props);
@@ -76,7 +76,7 @@ class ResizableFlexContainer extends _reactForAtom.React.Component {
     const flexScales = getChildrenFlexScales(props.children);
     const { direction } = props;
     this._paneContainer = (0, (_createPaneContainer || _load_createPaneContainer()).default)();
-    const containerNode = _reactForAtom.ReactDOM.findDOMNode(this.refs.flexContainer);
+    const containerNode = _reactDom.default.findDOMNode(this.refs.flexContainer);
     // $FlowFixMe
     containerNode.innerHTML = '';
     // $FlowFixMe
@@ -99,11 +99,11 @@ class ResizableFlexContainer extends _reactForAtom.React.Component {
   _renderPanes() {
     const { children } = this.props;
     let i = 0;
-    _reactForAtom.React.Children.forEach(children, child => {
+    _react.default.Children.forEach(children, child => {
       if (child == null) {
         return;
       }
-      _reactForAtom.ReactDOM.render(child, this._getPaneElement(this._panes[i++]));
+      _reactDom.default.render(child, this._getPaneElement(this._panes[i++]));
     });
   }
 
@@ -113,7 +113,7 @@ class ResizableFlexContainer extends _reactForAtom.React.Component {
 
   _destroyPanes() {
     this._panes.forEach(pane => {
-      _reactForAtom.ReactDOM.unmountComponentAtNode(_reactForAtom.ReactDOM.findDOMNode(this._getPaneElement(pane)));
+      _reactDom.default.unmountComponentAtNode(_reactDom.default.findDOMNode(this._getPaneElement(pane)));
       pane.destroy();
     });
     this._panes = [];
@@ -127,15 +127,15 @@ class ResizableFlexContainer extends _reactForAtom.React.Component {
   render() {
     const { className } = this.props;
     const containerClassName = (0, (_classnames || _load_classnames()).default)('nuclide-ui-resizable-flex-container', className);
-    return _reactForAtom.React.createElement('div', { className: containerClassName, ref: 'flexContainer' });
+    return _react.default.createElement('div', { className: containerClassName, ref: 'flexContainer' });
   }
 }
 
 exports.ResizableFlexContainer = ResizableFlexContainer;
-class ResizableFlexItem extends _reactForAtom.React.Component {
+class ResizableFlexItem extends _react.default.Component {
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-ui-resizable-flex-item' },
       this.props.children

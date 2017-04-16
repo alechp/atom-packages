@@ -11,7 +11,9 @@ function _load_FileTreeActions() {
   return _FileTreeActions = _interopRequireDefault(require('../lib/FileTreeActions'));
 }
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _classnames;
 
@@ -79,23 +81,24 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance(); /**
-                                                                                      * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                      * All rights reserved.
-                                                                                      *
-                                                                                      * This source code is licensed under the license found in the LICENSE file in
-                                                                                      * the root directory of this source tree.
-                                                                                      *
-                                                                                      * 
-                                                                                      */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
+const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
 const getActions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance;
 
 const SUBSEQUENT_FETCH_SPINNER_DELAY = 500;
 const INITIAL_FETCH_SPINNER_DELAY = 25;
 const INDENT_LEVEL = 17;
 
-class FileTreeEntryComponent extends _reactForAtom.React.Component {
+class FileTreeEntryComponent extends _react.default.Component {
   // Keep track of the # of dragenter/dragleave events in order to properly decide
   // when an entry is truly hovered/unhovered, since these fire many times over
   // the duration of one user interaction.
@@ -114,6 +117,7 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
 
     this._checkboxOnChange = this._checkboxOnChange.bind(this);
     this._checkboxOnClick = this._checkboxOnClick.bind(this);
+    this._checkboxOnMouseDown = this._checkboxOnMouseDown.bind(this);
 
     this.state = {
       isLoading: false
@@ -149,7 +153,7 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
   }
 
   componentDidMount() {
-    const el = _reactForAtom.ReactDOM.findDOMNode(this);
+    const el = _reactDom.default.findDOMNode(this);
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(
     // Because this element can be inside of an Atom panel (which adds its own drag and drop
     // handlers) we need to sidestep React's event delegation.
@@ -224,7 +228,7 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
       iconName = (0, (_fileTypeClass || _load_fileTypeClass()).default)(node.name);
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'li',
       {
         className: `${outerClassName} ${statusClass}`,
@@ -233,15 +237,15 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
         onMouseDown: this._onMouseDown,
         onClick: this._onClick,
         onDoubleClick: this._onDoubleClick },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         {
           className: listItemClassName,
           ref: 'arrowContainer' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'span',
           {
-            className: `icon name ${iconName}`,
+            className: `nuclide-file-tree-path icon name ${iconName}`,
             ref: elem => {
               this._pathContainer = elem;
               tooltip && tooltip(elem);
@@ -249,9 +253,10 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
             'data-name': node.name,
             'data-path': node.uri },
           this._renderCheckbox(),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             {
+              className: 'nuclide-file-tree-path',
               'data-name': node.name,
               'data-path': node.uri },
             (0, (_FileTreeFilterHelper || _load_FileTreeFilterHelper()).filterName)(node.name, node.highlightedText, node.isSelected)
@@ -267,11 +272,12 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
       return;
     }
 
-    return _reactForAtom.React.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
+    return _react.default.createElement((_Checkbox || _load_Checkbox()).Checkbox, {
       checked: this.props.node.checkedStatus === 'checked',
       indeterminate: this.props.node.checkedStatus === 'partial',
       onChange: this._checkboxOnChange,
-      onClick: this._checkboxOnClick
+      onClick: this._checkboxOnClick,
+      onMouseDown: this._checkboxOnMouseDown
     });
   }
 
@@ -284,7 +290,7 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
       return null;
     }
 
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'span',
       { className: 'nuclide-file-tree-connection-title highlight' },
       title
@@ -299,9 +305,9 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
     const node = this.props.node;
     return node.isContainer
     // $FlowFixMe
-    && _reactForAtom.ReactDOM.findDOMNode(this.refs.arrowContainer).contains(event.target)
+    && _reactDom.default.findDOMNode(this.refs.arrowContainer).contains(event.target)
     // $FlowFixMe
-    && event.clientX < _reactForAtom.ReactDOM.findDOMNode(this._pathContainer).getBoundingClientRect().left;
+    && event.clientX < _reactDom.default.findDOMNode(this._pathContainer).getBoundingClientRect().left;
   }
 
   _onMouseDown(event) {
@@ -478,6 +484,12 @@ class FileTreeEntryComponent extends _reactForAtom.React.Component {
 
   _checkboxOnClick(event) {
     event.stopPropagation();
+  }
+
+  _checkboxOnMouseDown(event) {
+    // Chrome messes with scrolling if a focused input is being scrolled out of view
+    // so we'll just prevent the checkbox from receiving the focus
+    event.preventDefault();
   }
 }
 

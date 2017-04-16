@@ -5,13 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WORKSPACE_VIEW_URI = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Webview;
 
 function _load_Webview() {
   return _Webview = require('../../../nuclide-ui/Webview');
 }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -25,9 +27,10 @@ function _load_Webview() {
 
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/react-inspector';
 
-class Inspector extends _reactForAtom.React.Component {
-  constructor() {
-    super();
+class Inspector extends _react.default.Component {
+
+  constructor(props) {
+    super(props);
     this._handleDidFinishLoad = this._handleDidFinishLoad.bind(this);
   }
 
@@ -36,7 +39,7 @@ class Inspector extends _reactForAtom.React.Component {
   }
 
   getDefaultLocation() {
-    return 'pane';
+    return 'center';
   }
 
   getURI() {
@@ -44,7 +47,7 @@ class Inspector extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement((_Webview || _load_Webview()).Webview, {
+    return _react.default.createElement((_Webview || _load_Webview()).Webview, {
       style: { width: '100%', height: '100%' },
       nodeintegration: true,
       className: 'native-key-bindings',

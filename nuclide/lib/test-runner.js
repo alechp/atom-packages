@@ -72,6 +72,11 @@ exports.default = (() => {
       buildAtomEnvironment(buildEnvParams) {
         const atomGlobal = params.buildAtomEnvironment(buildEnvParams);
 
+        if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
+          // circumvent React Dev Tools console warning
+          window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {};
+        }
+
         if (isIntegrationTest) {
           jasmine.getEnv().beforeEach(() => {
             // If we're running integration tests in parallel, double the timeout.

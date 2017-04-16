@@ -11,24 +11,31 @@ function _load_HackHelpers() {
   return _HackHelpers = require('./HackHelpers');
 }
 
-var _simpleTextBuffer;
-
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
-}
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 function convertDefinitions(hackDefinitions, filePath, projectRoot) {
   function convertDefinition(definition) {
-    if (!(definition.definition_pos != null)) {
-      throw new Error('Invariant violation: "definition.definition_pos != null"');
+    const { definition_pos, definition_span, name } = definition;
+
+    if (!(definition_pos != null)) {
+      throw new Error('Invariant violation: "definition_pos != null"');
     }
 
     return {
-      path: definition.definition_pos.filename || filePath,
-      position: new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(definition.definition_pos.line - 1, definition.definition_pos.char_start - 1),
-      // TODO: range, definition_id
-      id: definition.name,
-      name: definition.name,
+      path: definition_pos.filename || filePath,
+      position: (0, (_HackHelpers || _load_HackHelpers()).atomPointOfHackRangeStart)(definition_pos),
+      range: definition_span == null ? undefined : (0, (_HackHelpers || _load_HackHelpers()).hackSpanToAtomRange)(definition_span),
+      // TODO: definition_id
+      id: name,
+      name,
       language: 'php',
       projectRoot
     };
@@ -45,12 +52,4 @@ function convertDefinitions(hackDefinitions, filePath, projectRoot) {
     queryRange: [(0, (_HackHelpers || _load_HackHelpers()).hackRangeToAtomRange)(filteredDefinitions[0].pos)],
     definitions
   };
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}

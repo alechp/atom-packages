@@ -13,7 +13,7 @@ function _load_classnames() {
 
 var _atom = require('atom');
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Section;
 
@@ -93,7 +93,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class NewDebuggerView extends _reactForAtom.React.PureComponent {
+class NewDebuggerView extends _react.default.PureComponent {
 
   constructor(props) {
     super(props);
@@ -141,17 +141,17 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
 
     let threadsSection = null;
     if (this.state.showThreadsWindow) {
-      threadsSection = _reactForAtom.React.createElement(
+      threadsSection = _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Section || _load_Section()).Section,
           { headline: threadsComponentTitle,
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'nuclide-debugger-section-content' },
-            _reactForAtom.React.createElement((_DebuggerThreadsComponent || _load_DebuggerThreadsComponent()).DebuggerThreadsComponent, {
+            _react.default.createElement((_DebuggerThreadsComponent || _load_DebuggerThreadsComponent()).DebuggerThreadsComponent, {
               bridge: this.props.model.getBridge(),
               threadStore: model.getThreadStore(),
               customThreadColumns: customThreadColumns,
@@ -162,18 +162,18 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
       );
     }
 
-    const breakpointItem = _reactForAtom.React.createElement(
+    const breakpointItem = _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
       { initialFlexScale: 1 },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Section || _load_Section()).Section,
         { headline: 'Breakpoints',
           key: 'breakpoints',
           className: 'nuclide-debugger-section-header' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'nuclide-debugger-section-content' },
-          _reactForAtom.React.createElement((_BreakpointListComponent || _load_BreakpointListComponent()).BreakpointListComponent, {
+          _react.default.createElement((_BreakpointListComponent || _load_BreakpointListComponent()).BreakpointListComponent, {
             actions: actions,
             breakpointStore: model.getBreakpointStore()
           })
@@ -181,24 +181,24 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
       )
     );
 
-    const debuggerStoppedNotice = mode !== (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.STOPPED ? null : _reactForAtom.React.createElement(
+    const debuggerStoppedNotice = mode !== (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.STOPPED ? null : _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexContainer,
       { direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.VERTICAL },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'nuclide-debugger-state-notice' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'span',
             null,
             'The debugger is not attached.'
           ),
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'nuclide-debugger-state-notice' },
-            _reactForAtom.React.createElement(
+            _react.default.createElement(
               (_Button || _load_Button()).Button,
               {
                 onClick: () => atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-debugger:toggle') },
@@ -210,28 +210,28 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
       breakpointItem
     );
 
-    const debugeeRunningNotice = mode !== (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.RUNNING ? null : _reactForAtom.React.createElement(
+    const debugeeRunningNotice = mode !== (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.RUNNING ? null : _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-state-notice' },
-      'The debugee is currently running.'
+      'The debug target is currently running.'
     );
 
-    const debugFlexContainer = _reactForAtom.React.createElement(
+    const debugFlexContainer = _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexContainer,
       { direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.VERTICAL },
       threadsSection,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Section || _load_Section()).Section,
           { headline: 'Call Stack',
             key: 'callStack',
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'nuclide-debugger-section-content' },
-            _reactForAtom.React.createElement((_DebuggerCallstackComponent || _load_DebuggerCallstackComponent()).DebuggerCallstackComponent, {
+            _react.default.createElement((_DebuggerCallstackComponent || _load_DebuggerCallstackComponent()).DebuggerCallstackComponent, {
               actions: actions,
               bridge: model.getBridge(),
               callstackStore: model.getCallstackStore()
@@ -240,35 +240,35 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
         )
       ),
       breakpointItem,
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Section || _load_Section()).Section,
           { headline: 'Scopes',
             key: 'scopes',
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'nuclide-debugger-section-content' },
-            _reactForAtom.React.createElement(ScopesComponentWrapped, {
+            _react.default.createElement(ScopesComponentWrapped, {
               watchExpressionStore: model.getWatchExpressionStore()
             })
           )
         )
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           (_Section || _load_Section()).Section,
           { headline: 'Watch Expressions',
             key: 'watchExpressions',
             className: 'nuclide-debugger-section-header' },
-          _reactForAtom.React.createElement(
+          _react.default.createElement(
             'div',
             { className: 'nuclide-debugger-section-content' },
-            _reactForAtom.React.createElement(WatchExpressionComponentWrapped, {
+            _react.default.createElement(WatchExpressionComponentWrapped, {
               onAddWatchExpression: actions.addWatchExpression.bind(model),
               onRemoveWatchExpression: actions.removeWatchExpression.bind(model),
               onUpdateWatchExpression: actions.updateWatchExpression.bind(model),
@@ -280,16 +280,16 @@ class NewDebuggerView extends _reactForAtom.React.PureComponent {
     );
 
     const debuggerContents = debuggerStoppedNotice || debugFlexContainer;
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'nuclide-debugger-container-new' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         'div',
         { className: 'nuclide-debugger-section-header nuclide-debugger-controls-section' },
-        _reactForAtom.React.createElement(
+        _react.default.createElement(
           'div',
           { className: 'nuclide-debugger-section-content' },
-          _reactForAtom.React.createElement((_DebuggerSteppingComponent || _load_DebuggerSteppingComponent()).DebuggerSteppingComponent, {
+          _react.default.createElement((_DebuggerSteppingComponent || _load_DebuggerSteppingComponent()).DebuggerSteppingComponent, {
             actions: actions,
             debuggerStore: model.getStore()
           })

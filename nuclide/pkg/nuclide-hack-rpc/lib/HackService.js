@@ -3,20 +3,46 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initialize = undefined;
+exports.initialize = exports.initializeLsp = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
+
+let initializeLsp = exports.initializeLsp = (() => {
+  var _ref = (0, _asyncToGenerator.default)(function* (command, args, projectFileName, fileExtensions, logLevel, fileNotifier) {
+    if (!(fileNotifier instanceof (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileCache)) {
+      throw new Error('Invariant violation: "fileNotifier instanceof FileCache"');
+    }
+
+    (_hackConfig || _load_hackConfig()).logger.setLogLevel(logLevel);
+    const cmd = command === '' ? yield (0, (_hackConfig || _load_hackConfig()).getHackCommand)() : command;
+    return new (_nuclideVscodeLanguageService || _load_nuclideVscodeLanguageService()).PerConnectionLanguageService((_hackConfig || _load_hackConfig()).logger, fileNotifier, cmd, args, projectFileName, fileExtensions);
+  });
+
+  return function initializeLsp(_x, _x2, _x3, _x4, _x5, _x6) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
 let initialize = exports.initialize = (() => {
-  var _ref = (0, _asyncToGenerator.default)(function* (hackCommand, useIdeConnection, logLevel, fileNotifier) {
+  var _ref2 = (0, _asyncToGenerator.default)(function* (hackCommand, logLevel, fileNotifier) {
     (0, (_hackConfig || _load_hackConfig()).setHackCommand)(hackCommand);
     (_hackConfig || _load_hackConfig()).logger.setLogLevel(logLevel);
     yield (0, (_hackConfig || _load_hackConfig()).getHackCommand)();
-    return new HackLanguageServiceImpl(useIdeConnection, fileNotifier);
+    return new HackLanguageServiceImpl(fileNotifier);
   });
 
-  return function initialize(_x, _x2, _x3, _x4) {
-    return _ref.apply(this, arguments);
+  return function initialize(_x7, _x8, _x9) {
+    return _ref2.apply(this, arguments);
   };
 })();
 
@@ -28,10 +54,16 @@ function _load_range() {
   return _range = require('../../commons-node/range');
 }
 
-var _promise;
+var _collection;
 
-function _load_promise() {
-  return _promise = require('../../commons-node/promise');
+function _load_collection() {
+  return _collection = require('../../commons-node/collection');
+}
+
+var _nuclideVscodeLanguageService;
+
+function _load_nuclideVscodeLanguageService() {
+  return _nuclideVscodeLanguageService = require('../../nuclide-vscode-language-service');
 }
 
 var _HackHelpers;
@@ -76,12 +108,6 @@ function _load_FindReferences() {
   return _FindReferences = require('./FindReferences');
 }
 
-var _Completions;
-
-function _load_Completions() {
-  return _Completions = require('./Completions');
-}
-
 var _Diagnostics;
 
 function _load_Diagnostics() {
@@ -98,12 +124,6 @@ var _nuclideOpenFilesRpc;
 
 function _load_nuclideOpenFilesRpc() {
   return _nuclideOpenFilesRpc = require('../../nuclide-open-files-rpc');
-}
-
-var _EvaluationExpression;
-
-function _load_EvaluationExpression() {
-  return _EvaluationExpression = require('./EvaluationExpression');
 }
 
 var _nuclideLanguageServiceRpc;
@@ -124,71 +144,63 @@ function _load_nuclideHackCommon() {
   return _nuclideHackCommon = require('../../nuclide-hack-common');
 }
 
-var _autocomplete;
-
-function _load_autocomplete() {
-  return _autocomplete = require('../../nuclide-hack-common/lib/autocomplete');
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const HH_DIAGNOSTICS_DELAY_MS = 600; /**
-                                      * Copyright (c) 2015-present, Facebook, Inc.
-                                      * All rights reserved.
-                                      *
-                                      * This source code is licensed under the license found in the LICENSE file in
-                                      * the root directory of this source tree.
-                                      *
-                                      * 
-                                      */
-
-const HH_CLIENT_MAX_TRIES = 10;
 
 class HackLanguageServiceImpl extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ServerLanguageService {
 
-  constructor(useIdeConnection, fileNotifier) {
-    super(fileNotifier, new HackSingleFileLanguageService(useIdeConnection, fileNotifier));
-    this._useIdeConnection = useIdeConnection;
-    this._resources = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    if (useIdeConnection) {
-      if (!(fileNotifier instanceof (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileCache)) {
-        throw new Error('Invariant violation: "fileNotifier instanceof FileCache"');
-      }
-
-      const configObserver = new (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).ConfigObserver(fileNotifier, (_hackConfig || _load_hackConfig()).HACK_FILE_EXTENSIONS, (_hackConfig || _load_hackConfig()).findHackConfigDir);
-      this._resources.add(configObserver, configObserver.observeConfigs().subscribe(configs => {
-        (0, (_HackProcess || _load_HackProcess()).ensureProcesses)(fileNotifier, configs);
-      }));
-      this._resources.add(() => {
-        (0, (_HackProcess || _load_HackProcess()).closeProcesses)(fileNotifier);
-      });
+  constructor(fileNotifier) {
+    if (!(fileNotifier instanceof (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileCache)) {
+      throw new Error('Invariant violation: "fileNotifier instanceof FileCache"');
     }
+
+    super(fileNotifier, new HackSingleFileLanguageService(fileNotifier));
+    this._resources = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    const configObserver = new (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).ConfigObserver(fileNotifier, (_hackConfig || _load_hackConfig()).HACK_FILE_EXTENSIONS, (_hackConfig || _load_hackConfig()).findHackConfigDir);
+    this._resources.add(configObserver, configObserver.observeConfigs().subscribe(configs => {
+      (0, (_HackProcess || _load_HackProcess()).ensureProcesses)(fileNotifier, configs);
+    }));
+    this._resources.add(() => {
+      (0, (_HackProcess || _load_HackProcess()).closeProcesses)(fileNotifier);
+    });
   }
 
   getAutocompleteSuggestions(fileVersion, position, activatedManually, prefix) {
     var _this = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      if (_this._useIdeConnection) {
-        try {
-          const process = yield (0, (_HackProcess || _load_HackProcess()).getHackProcess)(_this._fileCache, fileVersion.filePath);
-          return process.getAutocompleteSuggestions(fileVersion, position, activatedManually);
-        } catch (e) {
-          return null;
-        }
-      } else {
-        // Babel workaround: w/o the es2015-classes transform, async functions can't call `super`.
-        // https://github.com/babel/babel/issues/3930
-        return (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ServerLanguageService.prototype.getAutocompleteSuggestions.call(_this, fileVersion, position, activatedManually, prefix);
+      try {
+        const process = yield (0, (_HackProcess || _load_HackProcess()).getHackProcess)(_this._fileCache, fileVersion.filePath);
+        return process.getAutocompleteSuggestions(fileVersion, position, activatedManually);
+      } catch (e) {
+        return null;
       }
     })();
   }
 
   /**
-   * Performs a Hack symbol search in the specified directory.
+   * Does this service want the symbol-search tab to appear in quick-open?
    */
-  executeQuery(rootDirectory, queryString) {
-    return (0, (_SymbolSearch || _load_SymbolSearch()).executeQuery)(rootDirectory, queryString);
+  supportsSymbolSearch(directories) {
+    return (0, _asyncToGenerator.default)(function* () {
+      const promises = directories.map(function (directory) {
+        return (0, (_hackConfig || _load_hackConfig()).findHackConfigDir)(directory);
+      });
+      const hackRoots = yield Promise.all(promises);
+      return (0, (_collection || _load_collection()).arrayCompact)(hackRoots).length > 0;
+    })();
+  }
+
+  /**
+   * Performs a Hack symbol search over all hack projects we manage
+   */
+  symbolSearch(queryString, directories) {
+    return (0, _asyncToGenerator.default)(function* () {
+      const promises = directories.map(function (directory) {
+        return (0, (_SymbolSearch || _load_SymbolSearch()).executeQuery)(directory, queryString);
+      });
+      const results = yield Promise.all(promises);
+      return (0, (_collection || _load_collection()).arrayFlatten)(results);
+    })();
   }
 
   dispose() {
@@ -201,9 +213,7 @@ class HackLanguageServiceImpl extends (_nuclideLanguageServiceRpc || _load_nucli
 
 class HackSingleFileLanguageService {
 
-  constructor(useIdeConnection, fileNotifier) {
-    this._useIdeConnection = useIdeConnection;
-
+  constructor(fileNotifier) {
     if (!(fileNotifier instanceof (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileCache)) {
       throw new Error('Invariant violation: "fileNotifier instanceof FileCache"');
     }
@@ -213,30 +223,12 @@ class HackSingleFileLanguageService {
 
   getDiagnostics(filePath, buffer) {
     return (0, _asyncToGenerator.default)(function* () {
-      const hhResult = yield (0, (_promise || _load_promise()).retryLimit)(function () {
-        return (0, (_HackHelpers || _load_HackHelpers()).callHHClient)(
-        /* args */[],
-        /* errorStream */true,
-        /* processInput */null,
-        /* file */filePath);
-      }, function (result) {
-        return result != null;
-      }, HH_CLIENT_MAX_TRIES, HH_DIAGNOSTICS_DELAY_MS);
-      if (!hhResult) {
-        return null;
-      }
-
-      return (0, (_Diagnostics || _load_Diagnostics()).convertDiagnostics)(hhResult);
+      throw new Error('replaced by observeDiagnstics');
     })();
   }
 
   observeDiagnostics() {
     (_hackConfig || _load_hackConfig()).logger.log('observeDiagnostics');
-
-    if (!this._useIdeConnection) {
-      throw new Error('Invariant violation: "this._useIdeConnection"');
-    }
-
     return (0, (_HackProcess || _load_HackProcess()).observeConnections)(this._fileCache).mergeMap(connection => {
       (_hackConfig || _load_hackConfig()).logger.log('notifyDiagnostics');
       return (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ensureInvalidations)((_hackConfig || _load_hackConfig()).logger, connection.notifyDiagnostics().refCount().catch(error => {
@@ -263,21 +255,7 @@ class HackSingleFileLanguageService {
 
   getAutocompleteSuggestions(filePath, buffer, position, activatedManually) {
     return (0, _asyncToGenerator.default)(function* () {
-      const contents = buffer.getText();
-      const offset = buffer.characterIndexForPosition(position);
-
-      const replacementPrefix = (0, (_autocomplete || _load_autocomplete()).findHackPrefix)(buffer, position);
-      if (replacementPrefix === '' && !(0, (_Completions || _load_Completions()).hasPrefix)(buffer, position)) {
-        return [];
-      }
-
-      const markedContents = markFileForCompletion(contents, offset);
-      const result = yield (0, (_HackHelpers || _load_HackHelpers()).callHHClient)(
-      /* args */['--auto-complete'],
-      /* errorStream */false,
-      /* processInput */markedContents,
-      /* file */filePath);
-      return (0, (_Completions || _load_Completions()).convertCompletions)(contents, offset, replacementPrefix, result);
+      throw new Error('replaced by persistent connection');
     })();
   }
 
@@ -444,7 +422,10 @@ class HackSingleFileLanguageService {
       } else if (response.error_message !== '') {
         throw new Error(`Error formatting hack source: ${response.error_message}`);
       }
-      return response.result;
+      return [{
+        oldRange: range,
+        newText: response.result
+      }];
     })();
   }
 
@@ -454,7 +435,7 @@ class HackSingleFileLanguageService {
 
   getEvaluationExpression(filePath, buffer, position) {
     return (0, _asyncToGenerator.default)(function* () {
-      return (0, (_EvaluationExpression || _load_EvaluationExpression()).getEvaluationExpression)(filePath, buffer, position);
+      throw new Error('Not implemented');
     })();
   }
 
@@ -482,12 +463,6 @@ function formatAtomLineColumn(position) {
 
 function formatLineColumn(line, column) {
   return `${line}:${column}`;
-}
-
-// Calculate the offset of the cursor from the beginning of the file.
-// Then insert AUTO332 in at this offset. (Hack uses this as a marker.)
-function markFileForCompletion(contents, offset) {
-  return contents.substring(0, offset) + 'AUTO332' + contents.substring(offset, contents.length);
 }
 
 function getIdentifierAndRange(buffer, position) {

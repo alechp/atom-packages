@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProjectSelection = undefined;
 
-var _reactForAtom = require('react-for-atom');
+var _react = _interopRequireDefault(require('react'));
 
 var _Button;
 
@@ -37,7 +37,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-class ProjectSelection extends _reactForAtom.React.Component {
+class ProjectSelection extends _react.default.Component {
 
   constructor(props) {
     super(props);
@@ -73,10 +73,10 @@ class ProjectSelection extends _reactForAtom.React.Component {
   }
 
   render() {
-    return _reactForAtom.React.createElement(
+    return _react.default.createElement(
       'div',
       { className: 'padded' },
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         {
           onClick: () => this.runCommand('application:add-project-folder'),
@@ -84,7 +84,7 @@ class ProjectSelection extends _reactForAtom.React.Component {
           className: 'btn-block' },
         'Add Project Folder'
       ),
-      _reactForAtom.React.createElement(
+      _react.default.createElement(
         (_Button || _load_Button()).Button,
         {
           onClick: () => this.runCommand('nuclide-remote-projects:connect'),
