@@ -12,7 +12,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 34
+            line: 35
           },
           kind: "named",
           name: "NuclideUri"
@@ -27,7 +27,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 31
+            line: 32
           },
           name: "CtagsService"
         }).then(id => {
@@ -38,7 +38,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 38
+            line: 39
           },
           kind: "named",
           name: "NuclideUri"
@@ -53,7 +53,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 43
+            line: 44
           },
           kind: "string"
         }
@@ -63,28 +63,28 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 44
+            line: 45
           },
           kind: "nullable",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 44
+              line: 45
             },
             kind: "object",
             fields: [{
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 44
+                line: 46
               },
               name: "caseInsensitive",
               type: {
                 location: {
                   type: "source",
                   fileName: "CtagsService.js",
-                  line: 44
+                  line: 46
                 },
                 kind: "boolean"
               },
@@ -93,14 +93,14 @@ module.exports = _client => {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 44
+                line: 47
               },
               name: "partialMatch",
               type: {
                 location: {
                   type: "source",
                   fileName: "CtagsService.js",
-                  line: 44
+                  line: 47
                 },
                 kind: "boolean"
               },
@@ -109,14 +109,14 @@ module.exports = _client => {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 44
+                line: 48
               },
               name: "limit",
               type: {
                 location: {
                   type: "source",
                   fileName: "CtagsService.js",
-                  line: 44
+                  line: 48
                 },
                 kind: "number"
               },
@@ -130,7 +130,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 31
+            line: 32
           },
           name: "CtagsService"
         }).then(id => {
@@ -141,14 +141,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 45
+            line: 50
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 45
+              line: 50
             },
             kind: "named",
             name: "CtagsResult"
@@ -170,7 +170,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "CtagsService.js",
-          line: 87
+          line: 99
         },
         kind: "named",
         name: "NuclideUri"
@@ -182,14 +182,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "CtagsService.js",
-          line: 87
+          line: 99
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 87
+            line: 99
           },
           kind: "named",
           name: "CtagsService"
@@ -269,28 +269,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "CtagsService.js",
-        line: 20
+        line: 21
       },
       name: "CtagsResult",
       definition: {
         location: {
           type: "source",
           fileName: "CtagsService.js",
-          line: 20
+          line: 21
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 21
+            line: 22
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 21
+              line: 22
             },
             kind: "string"
           },
@@ -299,14 +299,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 22
+            line: 23
           },
           name: "file",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 22
+              line: 23
             },
             kind: "named",
             name: "NuclideUri"
@@ -316,14 +316,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 24
+            line: 25
           },
           name: "lineNumber",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 24
+              line: 25
             },
             kind: "number"
           },
@@ -332,25 +332,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 26
-          },
-          name: "kind",
-          type: {
-            location: {
-              type: "source",
-              fileName: "CtagsService.js",
-              line: 26
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "CtagsService.js",
             line: 27
           },
-          name: "pattern",
+          name: "kind",
           type: {
             location: {
               type: "source",
@@ -359,26 +343,42 @@ Object.defineProperty(module.exports, "defs", {
             },
             kind: "string"
           },
-          optional: true
+          optional: false
         }, {
           location: {
             type: "source",
             fileName: "CtagsService.js",
             line: 28
           },
-          name: "fields",
+          name: "pattern",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
               line: 28
             },
+            kind: "string"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "CtagsService.js",
+            line: 29
+          },
+          name: "fields",
+          type: {
+            location: {
+              type: "source",
+              fileName: "CtagsService.js",
+              line: 29
+            },
             kind: "map",
             keyType: {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 28
+                line: 29
               },
               kind: "string"
             },
@@ -386,7 +386,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 28
+                line: 29
               },
               kind: "string"
             }
@@ -401,7 +401,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "CtagsService.js",
-        line: 31
+        line: 32
       },
       constructorArgs: [{
         name: "tagsPath",
@@ -409,7 +409,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 34
+            line: 35
           },
           kind: "named",
           name: "NuclideUri"
@@ -421,7 +421,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 38
+            line: 39
           },
           kind: "function",
           argumentTypes: [],
@@ -429,14 +429,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 38
+              line: 39
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 38
+                line: 39
               },
               kind: "named",
               name: "NuclideUri"
@@ -447,7 +447,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 42
+            line: 43
           },
           kind: "function",
           argumentTypes: [{
@@ -456,7 +456,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 43
+                line: 44
               },
               kind: "string"
             }
@@ -466,28 +466,28 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 44
+                line: 45
               },
               kind: "nullable",
               type: {
                 location: {
                   type: "source",
                   fileName: "CtagsService.js",
-                  line: 44
+                  line: 45
                 },
                 kind: "object",
                 fields: [{
                   location: {
                     type: "source",
                     fileName: "CtagsService.js",
-                    line: 44
+                    line: 46
                   },
                   name: "caseInsensitive",
                   type: {
                     location: {
                       type: "source",
                       fileName: "CtagsService.js",
-                      line: 44
+                      line: 46
                     },
                     kind: "boolean"
                   },
@@ -496,14 +496,14 @@ Object.defineProperty(module.exports, "defs", {
                   location: {
                     type: "source",
                     fileName: "CtagsService.js",
-                    line: 44
+                    line: 47
                   },
                   name: "partialMatch",
                   type: {
                     location: {
                       type: "source",
                       fileName: "CtagsService.js",
-                      line: 44
+                      line: 47
                     },
                     kind: "boolean"
                   },
@@ -512,14 +512,14 @@ Object.defineProperty(module.exports, "defs", {
                   location: {
                     type: "source",
                     fileName: "CtagsService.js",
-                    line: 44
+                    line: 48
                   },
                   name: "limit",
                   type: {
                     location: {
                       type: "source",
                       fileName: "CtagsService.js",
-                      line: 44
+                      line: 48
                     },
                     kind: "number"
                   },
@@ -532,21 +532,21 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 45
+              line: 50
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 45
+                line: 50
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "CtagsService.js",
-                  line: 45
+                  line: 50
                 },
                 kind: "named",
                 name: "CtagsResult"
@@ -558,7 +558,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 82
+            line: 94
           },
           kind: "function",
           argumentTypes: [],
@@ -566,7 +566,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 82
+              line: 94
             },
             kind: "void"
           }
@@ -579,13 +579,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "CtagsService.js",
-        line: 87
+        line: 99
       },
       type: {
         location: {
           type: "source",
           fileName: "CtagsService.js",
-          line: 87
+          line: 99
         },
         kind: "function",
         argumentTypes: [{
@@ -594,7 +594,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 87
+              line: 99
             },
             kind: "named",
             name: "NuclideUri"
@@ -604,21 +604,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "CtagsService.js",
-            line: 87
+            line: 99
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "CtagsService.js",
-              line: 87
+              line: 99
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "CtagsService.js",
-                line: 87
+                line: 99
               },
               kind: "named",
               name: "CtagsService"

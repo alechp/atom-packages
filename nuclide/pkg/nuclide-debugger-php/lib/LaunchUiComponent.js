@@ -65,6 +65,7 @@ const MAX_RECENTLY_LAUNCHED = 5; /**
                                   * the root directory of this source tree.
                                   *
                                   * 
+                                  * @format
                                   */
 
 /* global localStorage */

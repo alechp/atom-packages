@@ -23,6 +23,12 @@ function _load_goToLocation() {
   return _goToLocation = require('../../commons-atom/go-to-location');
 }
 
+var _range;
+
+function _load_range() {
+  return _range = require('../../commons-atom/range');
+}
+
 var _nuclideAnalytics;
 
 function _load_nuclideAnalytics() {
@@ -37,6 +43,9 @@ function _load_DiagnosticsPopup() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const GUTTER_ID = 'nuclide-diagnostics-gutter';
+
+// Needs to be the same as glyph-height in gutter.atom-text-editor.less.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -45,11 +54,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
-const GUTTER_ID = 'nuclide-diagnostics-gutter';
-
-// Needs to be the same as glyph-height in gutter.atom-text-editor.less.
 const GLYPH_HEIGHT = 15; // px
 
 const POPUP_DISPOSE_TIMEOUT = 100;
@@ -118,7 +125,8 @@ function applyUpdateToEditor(editor, update, fixer) {
   }
 
   for (const message of update.messages) {
-    const range = message.range;
+    const wordRange = message.range != null && message.range.isEmpty() ? (0, (_range || _load_range()).wordAtPosition)(editor, message.range.start) : null;
+    const range = wordRange != null ? wordRange.range : message.range;
 
     const highlightCssClass = (0, (_classnames || _load_classnames()).default)(HIGHLIGHT_CSS, message.type === 'Error' ? ERROR_HIGHLIGHT_CSS : WARNING_HIGHLIGHT_CSS);
 
@@ -285,7 +293,10 @@ function showPopupFor(messages, item, goToLocation, fixer) {
   }
 
   const editorElement = atom.views.getView(editor);
-  const { top: editorTop, height: editorHeight } = editorElement.getBoundingClientRect();
+  const {
+    top: editorTop,
+    height: editorHeight
+  } = editorElement.getBoundingClientRect();
   const { top: itemTop, height: itemHeight } = item.getBoundingClientRect();
   const popupElement = hostElement.firstElementChild;
 

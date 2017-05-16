@@ -19,6 +19,7 @@ function _load_textEditor() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getElementFilePath(element, fallbackToActiveTextEditor = false) {

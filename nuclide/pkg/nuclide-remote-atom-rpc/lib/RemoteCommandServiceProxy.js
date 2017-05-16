@@ -12,7 +12,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "RemoteCommandService.js",
-            line: 43
+            line: 46
           },
           kind: "named",
           name: "FileNotifier"
@@ -23,7 +23,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "RemoteCommandService.js",
-            line: 44
+            line: 47
           },
           kind: "named",
           name: "AtomCommands"
@@ -35,7 +35,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "RemoteCommandService.js",
-            line: 45
+            line: 48
           },
           kind: "named",
           name: "RemoteCommandService"
@@ -60,7 +60,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 17
+            line: 18
           },
           kind: "named",
           name: "NuclideUri"
@@ -71,7 +71,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 18
+            line: 19
           },
           kind: "number"
         }
@@ -81,7 +81,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 19
+            line: 20
           },
           kind: "number"
         }
@@ -91,7 +91,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 20
+            line: 21
           },
           kind: "boolean"
         }
@@ -101,7 +101,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 15
+            line: 16
           },
           name: "AtomCommands"
         }).then(id => {
@@ -112,7 +112,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 21
+            line: 22
           },
           kind: "named",
           name: "AtomFileEvent"
@@ -127,7 +127,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 23
+            line: 24
           },
           kind: "string"
         }
@@ -137,7 +137,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 24
+            line: 25
           },
           kind: "number"
         }
@@ -147,7 +147,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 25
+            line: 26
           },
           kind: "number"
         }
@@ -157,7 +157,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 26
+            line: 27
           },
           kind: "boolean"
         }
@@ -167,7 +167,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 15
+            line: 16
           },
           name: "AtomCommands"
         }).then(id => {
@@ -178,7 +178,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 27
+            line: 28
           },
           kind: "named",
           name: "AtomFileEvent"
@@ -193,7 +193,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 28
+            line: 29
           },
           kind: "named",
           name: "NuclideUri"
@@ -204,7 +204,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 15
+            line: 16
           },
           name: "AtomCommands"
         }).then(id => {
@@ -215,7 +215,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 28
+            line: 29
           },
           kind: "void"
         });
@@ -235,7 +235,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 47
+            line: 51
           },
           kind: "named",
           name: "FileEvent"
@@ -246,7 +246,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 46
+            line: 50
           },
           name: "FileNotifier"
         }).then(id => {
@@ -257,7 +257,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 47
+            line: 51
           },
           kind: "void"
         });
@@ -271,14 +271,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 48
+            line: 52
           },
           kind: "set",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 48
+              line: 52
             },
             kind: "named",
             name: "NuclideUri"
@@ -290,7 +290,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 46
+            line: 50
           },
           name: "FileNotifier"
         }).then(id => {
@@ -301,7 +301,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 48
+            line: 52
           },
           kind: "void"
         });
@@ -385,7 +385,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "RemoteCommandService.js",
-        line: 21
+        line: 22
       },
       constructorArgs: [],
       staticMethods: {
@@ -393,7 +393,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "RemoteCommandService.js",
-            line: 42
+            line: 45
           },
           kind: "function",
           argumentTypes: [{
@@ -402,7 +402,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "RemoteCommandService.js",
-                line: 43
+                line: 46
               },
               kind: "named",
               name: "FileNotifier"
@@ -413,7 +413,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "RemoteCommandService.js",
-                line: 44
+                line: 47
               },
               kind: "named",
               name: "AtomCommands"
@@ -423,14 +423,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "RemoteCommandService.js",
-              line: 45
+              line: 48
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "RemoteCommandService.js",
-                line: 45
+                line: 48
               },
               kind: "named",
               name: "RemoteCommandService"
@@ -443,7 +443,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "RemoteCommandService.js",
-            line: 37
+            line: 40
           },
           kind: "function",
           argumentTypes: [],
@@ -451,7 +451,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "RemoteCommandService.js",
-              line: 37
+              line: 40
             },
             kind: "void"
           }
@@ -463,21 +463,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 14
+        line: 15
       },
       name: "AtomFileEvent",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 14
+          line: 15
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 14
+            line: 15
           },
           kind: "string-literal",
           value: "open"
@@ -485,7 +485,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 14
+            line: 15
           },
           kind: "string-literal",
           value: "close"
@@ -498,7 +498,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 15
+        line: 16
       },
       constructorArgs: null,
       staticMethods: {},
@@ -507,7 +507,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 16
+            line: 17
           },
           kind: "function",
           argumentTypes: [{
@@ -516,7 +516,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 17
+                line: 18
               },
               kind: "named",
               name: "NuclideUri"
@@ -527,7 +527,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 18
+                line: 19
               },
               kind: "number"
             }
@@ -537,7 +537,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 19
+                line: 20
               },
               kind: "number"
             }
@@ -547,7 +547,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 20
+                line: 21
               },
               kind: "boolean"
             }
@@ -556,14 +556,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 21
+              line: 22
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 21
+                line: 22
               },
               kind: "named",
               name: "AtomFileEvent"
@@ -574,7 +574,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 22
+            line: 23
           },
           kind: "function",
           argumentTypes: [{
@@ -583,7 +583,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 23
+                line: 24
               },
               kind: "string"
             }
@@ -593,7 +593,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 24
+                line: 25
               },
               kind: "number"
             }
@@ -603,7 +603,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 25
+                line: 26
               },
               kind: "number"
             }
@@ -613,7 +613,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 26
+                line: 27
               },
               kind: "boolean"
             }
@@ -622,14 +622,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 27
+              line: 28
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 27
+                line: 28
               },
               kind: "named",
               name: "AtomFileEvent"
@@ -640,7 +640,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 28
+            line: 29
           },
           kind: "function",
           argumentTypes: [{
@@ -649,7 +649,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 28
+                line: 29
               },
               kind: "named",
               name: "NuclideUri"
@@ -659,14 +659,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 28
+              line: 29
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 28
+                line: 29
               },
               kind: "void"
             }
@@ -676,7 +676,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 29
+            line: 30
           },
           kind: "function",
           argumentTypes: [],
@@ -684,7 +684,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 29
+              line: 30
             },
             kind: "void"
           }
@@ -696,28 +696,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 32
+        line: 33
       },
       name: "ConnectionDetails",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 32
+          line: 33
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 33
+            line: 34
           },
           name: "port",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 33
+              line: 34
             },
             kind: "number"
           },
@@ -726,14 +726,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 34
+            line: 35
           },
           name: "family",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 34
+              line: 35
             },
             kind: "string"
           },
@@ -1059,7 +1059,7 @@ Object.defineProperty(module.exports, "defs", {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 42
+          line: 43
         },
         kind: "union",
         types: [{
@@ -1337,14 +1337,14 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 44
+        line: 48
       },
       name: "LocalFileEvent",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 44
+          line: 48
         },
         kind: "union",
         types: [{
@@ -1565,7 +1565,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 46
+        line: 50
       },
       constructorArgs: null,
       staticMethods: {},
@@ -1574,7 +1574,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 47
+            line: 51
           },
           kind: "function",
           argumentTypes: [{
@@ -1583,7 +1583,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 47
+                line: 51
               },
               kind: "named",
               name: "FileEvent"
@@ -1593,14 +1593,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 47
+              line: 51
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 47
+                line: 51
               },
               kind: "void"
             }
@@ -1610,7 +1610,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 48
+            line: 52
           },
           kind: "function",
           argumentTypes: [{
@@ -1619,14 +1619,14 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 48
+                line: 52
               },
               kind: "set",
               type: {
                 location: {
                   type: "source",
                   fileName: "rpc-types.js",
-                  line: 48
+                  line: 52
                 },
                 kind: "named",
                 name: "NuclideUri"
@@ -1637,14 +1637,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 48
+              line: 52
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 48
+                line: 52
               },
               kind: "void"
             }
@@ -1654,7 +1654,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 49
+            line: 53
           },
           kind: "function",
           argumentTypes: [],
@@ -1662,7 +1662,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 49
+              line: 53
             },
             kind: "void"
           }
@@ -1674,28 +1674,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 52
+        line: 56
       },
       name: "FileVersion",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 52
+          line: 56
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 53
+            line: 57
           },
           name: "notifier",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 53
+              line: 57
             },
             kind: "named",
             name: "FileNotifier"
@@ -1705,14 +1705,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 54
+            line: 58
           },
           name: "filePath",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 54
+              line: 58
             },
             kind: "named",
             name: "NuclideUri"
@@ -1722,14 +1722,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 55
+            line: 59
           },
           name: "version",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 55
+              line: 59
             },
             kind: "number"
           },

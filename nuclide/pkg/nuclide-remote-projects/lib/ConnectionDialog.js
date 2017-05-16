@@ -72,6 +72,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
@@ -139,11 +140,11 @@ class ConnectionDialog extends _react.default.Component {
     let indexOfSelectedConnectionProfile = this.state.indexOfSelectedConnectionProfile;
     if (nextProps.connectionProfiles == null) {
       indexOfSelectedConnectionProfile = -1;
-    } else if (this.props.connectionProfiles == null
+    } else if (this.props.connectionProfiles == null ||
     // The current selection is outside the bounds of the next profiles list
-    || indexOfSelectedConnectionProfile > nextProps.connectionProfiles.length - 1
+    indexOfSelectedConnectionProfile > nextProps.connectionProfiles.length - 1 ||
     // The next profiles list is longer than before, a new one was added
-    || nextProps.connectionProfiles.length > this.props.connectionProfiles.length) {
+    nextProps.connectionProfiles.length > this.props.connectionProfiles.length) {
       // Select the final connection profile in the list because one of the above conditions means
       // the current selected index is outdated.
       indexOfSelectedConnectionProfile = nextProps.connectionProfiles.length - 1;
@@ -194,7 +195,7 @@ class ConnectionDialog extends _react.default.Component {
     }
 
     if (!(validationResult.validatedProfile != null && typeof validationResult.validatedProfile === 'object')) {
-      throw new Error('Invariant violation: "validationResult.validatedProfile != null &&\\n      typeof validationResult.validatedProfile === \'object\'"');
+      throw new Error('Invariant violation: "validationResult.validatedProfile != null &&\\n        typeof validationResult.validatedProfile === \'object\'"');
     }
     // Save the validated profile, and show any warning messages.
 

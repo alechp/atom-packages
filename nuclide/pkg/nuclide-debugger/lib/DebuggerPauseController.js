@@ -31,6 +31,7 @@ const { remote } = _electron.default; /**
                                        * the root directory of this source tree.
                                        *
                                        * 
+                                       * @format
                                        */
 
 if (!(remote != null)) {

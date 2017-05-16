@@ -46,6 +46,7 @@ const EXPANSION_BUFFER = 50;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ResizeSensor extends _react.default.Component {

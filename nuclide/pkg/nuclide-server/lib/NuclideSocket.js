@@ -73,6 +73,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();

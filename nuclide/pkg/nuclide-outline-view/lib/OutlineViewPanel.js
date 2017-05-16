@@ -7,6 +7,12 @@ exports.OutlineViewPanelState = exports.WORKSPACE_VIEW_URI = undefined;
 
 var _react = _interopRequireDefault(require('react'));
 
+var _observePaneItemVisibility;
+
+function _load_observePaneItemVisibility() {
+  return _observePaneItemVisibility = _interopRequireDefault(require('../../commons-atom/observePaneItemVisibility'));
+}
+
 var _renderReactRoot;
 
 function _load_renderReactRoot() {
@@ -23,21 +29,32 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/outline-view'; /**
-                                                                                        * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                        * All rights reserved.
-                                                                                        *
-                                                                                        * This source code is licensed under the license found in the LICENSE file in
-                                                                                        * the root directory of this source tree.
-                                                                                        *
-                                                                                        * 
-                                                                                        */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/outline-view';
 
 class OutlineViewPanelState {
 
   constructor(outlines) {
     this._outlines = outlines;
+    // TODO(T17495163)
     this._visibility = new _rxjsBundlesRxMinJs.BehaviorSubject(true);
+    this._visibilitySubscription = (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(this).subscribe(visible => {
+      this.didChangeVisibility(visible);
+    });
+  }
+
+  destroy() {
+    this._visibilitySubscription.unsubscribe();
   }
 
   getTitle() {

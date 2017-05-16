@@ -44,6 +44,7 @@ const { argv } = (_yargs || _load_yargs()).default.usage('Usage: $0 <command> <f
      * the root directory of this source tree.
      *
      * 
+     * @format
      */
 
 const command = argv._.pop();

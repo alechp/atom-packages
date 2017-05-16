@@ -29,6 +29,7 @@ let conflictDetector; /**
                        * the root directory of this source tree.
                        *
                        * 
+                       * @format
                        */
 
 function activate() {}

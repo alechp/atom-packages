@@ -49,6 +49,7 @@ const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/settings
                                                                                     * the root directory of this source tree.
                                                                                     *
                                                                                     * 
+                                                                                    * @format
                                                                                     */
 
 class NuclideSettingsPaneItem extends _react.default.Component {
@@ -198,9 +199,7 @@ class NuclideSettingsPaneItem extends _react.default.Component {
               { className: 'section' },
               _react.default.createElement(
                 (_Section || _load_Section()).Section,
-                {
-                  headline: 'Filter',
-                  collapsable: true },
+                { headline: 'Filter', collapsable: true },
                 _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
                   size: 'lg',
                   placeholderText: 'Filter by setting title or description',

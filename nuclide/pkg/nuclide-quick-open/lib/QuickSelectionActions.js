@@ -18,6 +18,7 @@ function _load_QuickSelectionDispatcher() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class QuickSelectionActions {

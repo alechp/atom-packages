@@ -50,6 +50,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const { log } = (_logger || _load_logger()).logger;
@@ -62,7 +63,10 @@ function connectToIwdp() {
   // Answer: The iwdp binary will aggressively buffer stdout, unless it thinks it is running
   // under a terminal environment.  `script` runs the binary in a terminal-like environment,
   // and gives us less-aggressive buffering behavior, i.e. newlines cause stdout to be flushed.
-  'script', (0, (_process || _load_process()).createArgsForScriptCommand)('ios_webkit_debug_proxy', ['--no-frontend'])).mergeMap(message => {
+  ...(0, (_process || _load_process()).scriptifyCommand)('ios_webkit_debug_proxy', ['--no-frontend'], {
+    /* TODO(T17353599) */isExitError: () => false
+  })).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+  .mergeMap(message => {
     if (message.kind === 'stdout') {
       const { data } = message;
       const matches = CONNECTED_TO_DEVICE_REGEX.exec(data);

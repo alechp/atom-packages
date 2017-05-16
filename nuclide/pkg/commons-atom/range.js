@@ -22,6 +22,7 @@ function _load_range() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function wordAtPosition(editor, position, wordRegex_) {

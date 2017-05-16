@@ -31,6 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DIAGNOSTIC_REGEX = /^([^\s:]+):([0-9]+):([0-9]+): (.*)$/gm;
@@ -79,7 +80,7 @@ function pushParsedDiagnostic(fileSystemService, promises, root, file, level, te
 
 function pushParsedTestDiagnostic(fileSystemService, promises, root, match) {
   const [, file, strLine, text] = match;
-  pushParsedDiagnostic(fileSystemService, promises, root, file, 'error', text, parseInt(strLine, 10), 0);
+  pushParsedDiagnostic(fileSystemService, promises, root, file, 'error', text, parseInt(strLine, 10), null);
 }
 
 function makeDiagnostic(result) {
@@ -89,12 +90,13 @@ function makeDiagnostic(result) {
     type: result.level === 'error' ? 'Error' : 'Warning',
     filePath: result.filePath,
     text: result.text,
-    range: new _atom.Range([result.line - 1, 0], [result.line - 1, INDEFINITE_END_COLUMN])
+    range: result.column == null ? new _atom.Range([result.line - 1, 0], [result.line - 1, INDEFINITE_END_COLUMN]) : // This gets expanded to the containing word at display time.
+    new _atom.Range([result.line - 1, result.column - 1], [result.line - 1, result.column - 1])
   };
 }
 
 function makeTrace(result) {
-  const point = new _atom.Point(result.line - 1, result.column - 1);
+  const point = new _atom.Point(result.line - 1, result.column == null ? 0 : result.column - 1);
   return {
     type: 'Trace',
     text: result.text,

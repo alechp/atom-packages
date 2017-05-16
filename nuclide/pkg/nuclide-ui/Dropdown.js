@@ -38,6 +38,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const { remote } = _electron.default;
@@ -199,10 +200,7 @@ function DropdownButton(props) {
       disabled: props.disabled === true,
       onClick: props.onExpand || noop },
     label,
-    _react.default.createElement((_Icon || _load_Icon()).Icon, {
-      icon: 'triangle-down',
-      className: 'nuclide-ui-dropdown-icon'
-    })
+    _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: 'triangle-down', className: 'nuclide-ui-dropdown-icon' })
   );
 }
 

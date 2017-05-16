@@ -26,6 +26,7 @@ function combineEpics(...epics) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 // Derived from <https://github.com/redux-observable/redux-observable/> because their version

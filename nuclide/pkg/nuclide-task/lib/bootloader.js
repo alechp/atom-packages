@@ -24,6 +24,7 @@ const BOOTSTRAP_PATH = require.resolve('./bootstrap'); /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 const TRANSPILER_PATH = require.resolve('../../nuclide-node-transpiler');
@@ -47,8 +48,8 @@ class Task {
     }
 
     const child = this._child = this._fork();
-    // eslint-disable-next-line no-console
     const log = buffer => {
+      // eslint-disable-next-line no-console
       console.log(`TASK(${child.pid}): ${buffer}`);
     };
     child.stdout.on('data', log);

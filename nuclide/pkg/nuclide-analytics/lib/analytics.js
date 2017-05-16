@@ -12,6 +12,7 @@ exports.track = track;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // This is a stubbed implementation that other packages use to record analytics data & performance.

@@ -29,6 +29,7 @@ function getAutocompleteArguments() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getIncludeOptionalArguments() {

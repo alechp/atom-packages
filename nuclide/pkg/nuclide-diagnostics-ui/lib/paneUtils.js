@@ -13,6 +13,7 @@ exports.compareMessagesByFile = compareMessagesByFile;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function fileOfDiagnosticMessage(diagnostic) {
@@ -59,7 +60,8 @@ function compareMessagesByFile(a, b) {
 
 const messageLevelRank = {
   Error: 0,
-  Warning: 1
+  Warning: 1,
+  Info: 2
 };
 
 function compareMessagesByLevel(a, b) {

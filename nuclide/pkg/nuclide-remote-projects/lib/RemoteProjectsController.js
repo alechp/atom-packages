@@ -100,7 +100,9 @@ class RemoteProjectsController {
     this._statusBarDiv = document.createElement('div');
     this._statusBarDiv.className = 'nuclide-remote-projects inline-block';
 
-    const tooltip = atom.tooltips.add(this._statusBarDiv, { title: 'Click to show details of connection.' });
+    const tooltip = atom.tooltips.add(this._statusBarDiv, {
+      title: 'Click to show details of connection.'
+    });
 
     if (!this._statusBarDiv) {
       throw new Error('Invariant violation: "this._statusBarDiv"');
@@ -137,10 +139,7 @@ class RemoteProjectsController {
       return;
     }
 
-    const component = _reactDom.default.render(_react.default.createElement((_StatusBarTile || _load_StatusBarTile()).default, {
-      connectionState: connectionState,
-      fileUri: fileUri
-    }), this._statusBarDiv);
+    const component = _reactDom.default.render(_react.default.createElement((_StatusBarTile || _load_StatusBarTile()).default, { connectionState: connectionState, fileUri: fileUri }), this._statusBarDiv);
 
     if (!(component instanceof (_StatusBarTile || _load_StatusBarTile()).default)) {
       throw new Error('Invariant violation: "component instanceof StatusBarTile"');
@@ -161,4 +160,5 @@ exports.default = RemoteProjectsController; /**
                                              * the root directory of this source tree.
                                              *
                                              * 
+                                             * @format
                                              */

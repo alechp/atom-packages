@@ -13,6 +13,7 @@ exports.matchRegexEndingAt = matchRegexEndingAt;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function wordAtPositionFromBuffer(buffer, position, wordRegex) {

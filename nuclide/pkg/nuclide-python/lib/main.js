@@ -82,6 +82,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const PYTHON_SERVICE_NAME = 'PythonService';
@@ -140,7 +141,6 @@ function provideLint() {
     scope: 'file',
     lintOnFly: (0, (_config || _load_config()).getLintOnFly)(),
     name: 'nuclide-python',
-    invalidateOnClose: true,
     lint(editor) {
       if (!busySignalProvider) {
         throw new Error('Invariant violation: "busySignalProvider"');

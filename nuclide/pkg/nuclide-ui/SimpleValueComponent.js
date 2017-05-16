@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // TODO @jxg export debugger typedefs from main module. (t11406963)
@@ -41,10 +42,7 @@ function renderNullish(evaluationResult) {
 }
 
 function renderString(evaluationResult) {
-  const {
-    type,
-    value
-  } = evaluationResult;
+  const { type, value } = evaluationResult;
   return type === 'string' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.string },
@@ -63,10 +61,7 @@ function renderString(evaluationResult) {
 }
 
 function renderNumber(evaluationResult) {
-  const {
-    type,
-    value
-  } = evaluationResult;
+  const { type, value } = evaluationResult;
   return type === 'number' ? _react.default.createElement(
     'span',
     { className: (_ValueComponentClassNames || _load_ValueComponentClassNames()).ValueComponentClassNames.number },
@@ -92,10 +87,7 @@ const valueRenderers = [(_TextRenderer || _load_TextRenderer()).TextRenderer, re
 class SimpleValueComponent extends _react.default.Component {
 
   render() {
-    const {
-      expression,
-      evaluationResult
-    } = this.props;
+    const { expression, evaluationResult } = this.props;
     let displayValue;
     for (const renderer of valueRenderers) {
       displayValue = renderer(evaluationResult);

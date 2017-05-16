@@ -26,6 +26,7 @@ const ServerStatus = exports.ServerStatus = Object.freeze({
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 ServerStatus;

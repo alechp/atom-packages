@@ -29,11 +29,7 @@ let parseTarget = exports.parseTarget = (() => {
       // Strip off the leading slashes from the fully-qualified build target.
       const basePath = fullTarget.substring('//'.length);
 
-      let buildFileName = yield getBuildFileName(buckRoot);
-      if (buildFileName == null) {
-        buildFileName = 'BUCK';
-      }
-
+      const buildFileName = yield (0, (_buildFiles || _load_buildFiles()).getBuildFileName)(buckRoot);
       path = (_nuclideUri || _load_nuclideUri()).default.join(buckRoot, basePath, buildFileName);
     } else {
       // filePath is already an absolute path.
@@ -58,7 +54,16 @@ let parseTarget = exports.parseTarget = (() => {
  * position property of the target location will be set to null.
  * If `target.path` file cannot be found or read, Promise resolves to null.
  */
-
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
 let findTargetLocation = exports.findTargetLocation = (() => {
   var _ref2 = (0, _asyncToGenerator.default)(function* (target) {
@@ -214,6 +219,12 @@ function _load_nuclideBuckBase() {
   return _nuclideBuckBase = require('../../nuclide-buck-base');
 }
 
+var _buildFiles;
+
+function _load_buildFiles() {
+  return _buildFiles = require('./buildFiles');
+}
+
 var _range;
 
 function _load_range() {
@@ -245,28 +256,6 @@ function _load_escapeStringRegexp() {
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const buildFileNameCache = new Map();
-function getBuildFileName(buckRoot) {
-  let buildFileName = buildFileNameCache.get(buckRoot);
-  if (buildFileName != null) {
-    return buildFileName;
-  }
-  const buckService = (0, (_nuclideBuckBase || _load_nuclideBuckBase()).getBuckService)(buckRoot);
-  buildFileName = buckService == null ? Promise.resolve(null) : buckService.getBuckConfig(buckRoot, 'buildfile', 'name').catch(() => null);
-  buildFileNameCache.set(buckRoot, buildFileName);
-  return buildFileName;
-}
 
 const VALID_BUILD_FILE_NAMES = new Set(['BUCK', 'BUCK.autodeps', 'TARGETS']);
 

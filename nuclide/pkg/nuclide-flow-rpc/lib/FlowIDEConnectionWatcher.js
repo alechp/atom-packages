@@ -25,13 +25,10 @@ function _load_nuclideLogging() {
   return _nuclideLogging = require('../../nuclide-logging');
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const defaultIDEConnectionFactory = proc => new (_FlowIDEConnection || _load_FlowIDEConnection()).FlowIDEConnection(proc);
-
-// ESLint thinks the comment at the end is whitespace and warns. Worse, the autofix removes the
-// entire comment as well as the whitespace.
-// eslint-disable-next-line semi-spacing
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -40,8 +37,14 @@ const defaultIDEConnectionFactory = proc => new (_FlowIDEConnection || _load_Flo
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
+const defaultIDEConnectionFactory = proc => new (_FlowIDEConnection || _load_FlowIDEConnection()).FlowIDEConnection(proc);
+
+// ESLint thinks the comment at the end is whitespace and warns. Worse, the autofix removes the
+// entire comment as well as the whitespace.
+// eslint-disable-next-line semi-spacing
 const IDE_CONNECTION_MAX_WAIT_MS = 20 /* min */ * 60 /* s/min */ * 1000 /* ms/s */;
 
 const IDE_CONNECTION_MIN_INTERVAL_MS = 1000;
@@ -86,12 +89,21 @@ class FlowIDEConnectionWatcher {
     var _this = this;
 
     return (0, _asyncToGenerator.default)(function* () {
+      (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().info('Attempting to start IDE connection...');
       let proc = null;
       const endTimeMS = _this._getTimeMS() + IDE_CONNECTION_MAX_WAIT_MS;
       while (true) {
         const attemptStartTime = _this._getTimeMS();
+
+        // Start the process. Eventually we should cancel by unsubscribing, but for now we'll just
+        // convert to an uncancelable promise. We need to use `connect()` because otherwise, `take(1)`
+        // would complete the stream and kill the process as soon as we got it.
+        const processStream = _this._processFactory.publish();
+        const processPromise = processStream.take(1).toPromise();
+        processStream.connect();
+
         // eslint-disable-next-line no-await-in-loop
-        proc = yield _this._processFactory();
+        proc = yield processPromise;
         // dispose() could have been called while we were waiting for the above promise to resolve.
         if (_this._isDisposed) {
           if (proc != null) {

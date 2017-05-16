@@ -29,6 +29,7 @@ function activate() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function deactivate() {

@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ReasonService.js",
-          line: 16
+          line: 19
         },
         kind: "string"
       }
@@ -22,14 +22,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ReasonService.js",
-          line: 16
+          line: 20
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "ReasonService.js",
-            line: 16
+            line: 20
           },
           kind: "string"
         }
@@ -41,7 +41,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ReasonService.js",
-          line: 16
+          line: 21
         },
         kind: "named",
         name: "refmtResult"
@@ -120,35 +120,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ReasonService.js",
-        line: 13
+        line: 14
       },
       name: "refmtResult",
       definition: {
         location: {
           type: "source",
           fileName: "ReasonService.js",
-          line: 14
+          line: 15
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "ReasonService.js",
-            line: 14
+            line: 15
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 14
+              line: 15
             },
             name: "type",
             type: {
               location: {
                 type: "source",
                 fileName: "ReasonService.js",
-                line: 14
+                line: 15
               },
               kind: "string-literal",
               value: "result"
@@ -158,14 +158,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 14
+              line: 15
             },
             name: "formattedResult",
             type: {
               location: {
                 type: "source",
                 fileName: "ReasonService.js",
-                line: 14
+                line: 15
               },
               kind: "string"
             },
@@ -175,21 +175,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ReasonService.js",
-            line: 14
+            line: 16
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 14
+              line: 16
             },
             name: "type",
             type: {
               location: {
                 type: "source",
                 fileName: "ReasonService.js",
-                line: 14
+                line: 16
               },
               kind: "string-literal",
               value: "error"
@@ -199,14 +199,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 14
+              line: 16
             },
             name: "error",
             type: {
               location: {
                 type: "source",
                 fileName: "ReasonService.js",
-                line: 14
+                line: 16
               },
               kind: "string"
             },
@@ -222,13 +222,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ReasonService.js",
-        line: 16
+        line: 18
       },
       type: {
         location: {
           type: "source",
           fileName: "ReasonService.js",
-          line: 16
+          line: 18
         },
         kind: "function",
         argumentTypes: [{
@@ -237,7 +237,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 16
+              line: 19
             },
             kind: "string"
           }
@@ -247,14 +247,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 16
+              line: 20
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "ReasonService.js",
-                line: 16
+                line: 20
               },
               kind: "string"
             }
@@ -264,14 +264,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ReasonService.js",
-            line: 16
+            line: 21
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ReasonService.js",
-              line: 16
+              line: 21
             },
             kind: "named",
             name: "refmtResult"

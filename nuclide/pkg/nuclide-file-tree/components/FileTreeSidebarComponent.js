@@ -8,6 +8,12 @@ var _react = _interopRequireDefault(require('react'));
 
 var _reactDom = _interopRequireDefault(require('react-dom'));
 
+var _observePaneItemVisibility;
+
+function _load_observePaneItemVisibility() {
+  return _observePaneItemVisibility = _interopRequireDefault(require('../../commons-atom/observePaneItemVisibility'));
+}
+
 var _addTooltip;
 
 function _load_addTooltip() {
@@ -138,6 +144,12 @@ function _load_nuclideAnalytics() {
 
 var _electron = require('electron');
 
+var _contextMenu;
+
+function _load_contextMenu() {
+  return _contextMenu = require('../../commons-atom/context-menu');
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -148,6 +160,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FileTreeSidebarComponent extends _react.default.Component {
@@ -197,7 +210,6 @@ class FileTreeSidebarComponent extends _react.default.Component {
     this._disposables.add(this._store.subscribe(this._processExternalUpdate), atom.project.onDidChangePaths(this._processExternalUpdate), (0, (_observable || _load_observable()).toggle)(observeAllModifiedStatusChanges(), this._showOpenConfigValues).subscribe(() => this._setModifiedUris()), this._monitorActiveUri(), _rxjsBundlesRxMinJs.Observable.fromPromise((_FileTreeHelpers || _load_FileTreeHelpers()).default.areStackChangesEnabled()).subscribe(areStackChangesEnabled => this.setState({ areStackChangesEnabled })), this._showOpenConfigValues.subscribe(showOpenFiles => this.setState({ showOpenFiles })), this._showUncommittedConfigValue.subscribe(showUncommittedChanges => this.setState({ showUncommittedChanges })), this._showUncommittedKindConfigValue.subscribe(showUncommittedChangesKind => this.setState({ showUncommittedChangesKind })), (0, (_observable || _load_observable()).compact)((0, (_observable || _load_observable()).throttle)(remeasureEvents, () => (_observable || _load_observable()).nextAnimationFrame).map(() => this._getScrollerHeight())).distinctUntilChanged().subscribe(scrollerHeight => {
       this.setState({ scrollerHeight });
     }),
-
     // Customize the context menu to remove items that match the 'atom-pane' selector.
     _rxjsBundlesRxMinJs.Observable.fromEvent(_reactDom.default.findDOMNode(this), 'contextmenu').switchMap(event => {
       if (event.button !== 2) {
@@ -220,8 +232,10 @@ class FileTreeSidebarComponent extends _react.default.Component {
       });
       // Wrap the disposable in an observable. This way we don't have to manually track these
       // disposables, they'll be managed for us.
-      return _rxjsBundlesRxMinJs.Observable.create(() => showMenuForEvent(event, menuTemplate));
-    }).subscribe());
+      return _rxjsBundlesRxMinJs.Observable.create(() => (0, (_contextMenu || _load_contextMenu()).showMenuForEvent)(event, menuTemplate));
+    }).subscribe(), (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(this).subscribe(visible => {
+      this.didChangeVisibility(visible);
+    }));
   }
 
   componentWillUnmount() {
@@ -234,7 +248,7 @@ class FileTreeSidebarComponent extends _react.default.Component {
         // If "Reveal File on Switch" is enabled, ensure the scroll position is synced to where the
         // user expects when the side bar shows the file tree.
         if ((_featureConfig || _load_featureConfig()).default.get((_Constants || _load_Constants()).REVEAL_FILE_ON_SWITCH_SETTING)) {
-          atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-file-tree:reveal-in-file-tree');
+          atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-file-tree:reveal-active-file');
         }
         this._actions.clearFilter();
         const scrollerHeight = this._getScrollerHeight();
@@ -280,8 +294,10 @@ class FileTreeSidebarComponent extends _react.default.Component {
         'div',
         { className: 'nuclide-file-tree-sidebar-uncommitted-changes' },
         _react.default.createElement((_MultiRootChangedFilesView || _load_MultiRootChangedFilesView()).MultiRootChangedFilesView, {
+          analyticsSurface: 'file-tree-uncommitted-changes',
           commandPrefix: 'file-tree-sidebar',
-          fileChanges: (0, (_nuclideVcsBase || _load_nuclideVcsBase()).filterMultiRootFileChanges)(this.state.uncommittedFileChanges),
+          enableInlineActions: true,
+          fileStatuses: (0, (_nuclideVcsBase || _load_nuclideVcsBase()).filterMultiRootFileChanges)(this.state.uncommittedFileChanges),
           selectedFile: this.state.activeUri,
           hideEmptyFolders: true,
           onFileChosen: this._onFileChosen,
@@ -318,8 +334,7 @@ All the changes across your entire stacked diff.
 
         const calculatingChangesSpinner = !this.state.isCalculatingChanges ? null : _react.default.createElement(
           'span',
-          {
-            className: 'nuclide-file-tree-spinner' },
+          { className: 'nuclide-file-tree-spinner' },
           '\xA0',
           _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, {
             className: 'inline-block',
@@ -329,12 +344,10 @@ All the changes across your entire stacked diff.
 
         uncommittedChangesHeadline = _react.default.createElement(
           'span',
-          {
-            ref: (0, (_addTooltip || _load_addTooltip()).default)({ title: dropdownTooltip }) },
+          { ref: (0, (_addTooltip || _load_addTooltip()).default)({ title: dropdownTooltip }) },
           _react.default.createElement(
             'span',
-            {
-              className: 'nuclide-dropdown-label-text-wrapper' },
+            { className: 'nuclide-dropdown-label-text-wrapper' },
             this.state.showUncommittedChangesKind.toUpperCase()
           ),
           dropdownIcon,
@@ -380,7 +393,11 @@ All the changes across your entire stacked diff.
 
     let foldersCaption;
     if (uncommittedChangesSection != null || openFilesSection != null) {
-      foldersCaption = _react.default.createElement((_Section || _load_Section()).Section, { className: 'nuclide-file-tree-section-caption', headline: 'FOLDERS', size: 'small' });
+      foldersCaption = _react.default.createElement((_Section || _load_Section()).Section, {
+        className: 'nuclide-file-tree-section-caption',
+        headline: 'FOLDERS',
+        size: 'small'
+      });
     }
 
     // Include `tabIndex` so this component can be focused by calling its native `focus` method.
@@ -396,9 +413,7 @@ All the changes across your entire stacked diff.
       toolbar,
       _react.default.createElement(
         (_PanelComponentScroller || _load_PanelComponentScroller()).PanelComponentScroller,
-        {
-          ref: 'scroller',
-          onScroll: this._handleScroll },
+        { ref: 'scroller', onScroll: this._handleScroll },
         _react.default.createElement((_FileTree || _load_FileTree()).FileTree, {
           ref: 'fileTree',
           containerHeight: this.state.scrollerHeight,
@@ -428,7 +443,11 @@ All the changes across your entire stacked diff.
 
     const isCalculatingChanges = this._store.getIsCalculatingChanges();
 
-    this.setState({ uncommittedFileChanges, hasUncommittedChanges, isCalculatingChanges });
+    this.setState({
+      uncommittedFileChanges,
+      hasUncommittedChanges,
+      isCalculatingChanges
+    });
   }
 
   _onFileChosen(filePath) {
@@ -504,7 +523,7 @@ All the changes across your entire stacked diff.
 
   _getScrollerHeight() {
     const component = this.refs.scroller;
-    if (component != null) {
+    if (component == null) {
       return null;
     }
     const el = _reactDom.default.findDOMNode(component);
@@ -625,33 +644,4 @@ function getCurrentBuffers() {
   });
 
   return buffers;
-}
-
-/**
- * Shows the provided menu template. This will result in [an extra call to `templateForEvent()`][1],
- * but it means that we still go through `showMenuForEvent()`, maintaining its behavior wrt
- * (a)synchronousness. See atom/atom#13398.
- *
- * [1]: https://github.com/atom/atom/blob/v1.13.0/src/context-menu-manager.coffee#L200
- */
-function showMenuForEvent(event, menuTemplate) {
-  if (!(_electron.remote != null)) {
-    throw new Error('Invariant violation: "remote != null"');
-  }
-
-  const win = _electron.remote.getCurrentWindow();
-  const originalEmit = win.emit;
-  const restore = () => {
-    win.emit = originalEmit;
-  };
-  win.emit = (eventType, ...args) => {
-    if (eventType !== 'context-menu') {
-      return originalEmit(eventType, ...args);
-    }
-    const result = originalEmit('context-menu', menuTemplate);
-    restore();
-    return result;
-  };
-  atom.contextMenu.showForEvent(event);
-  return new (_UniversalDisposable || _load_UniversalDisposable()).default(restore);
 }

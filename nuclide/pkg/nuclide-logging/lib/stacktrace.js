@@ -22,6 +22,7 @@ const PREPARE_STACK_TRACE_HOOKED_KEY = '_nuclide_error_stack_trace_hooked'; /**
                                                                              * the root directory of this source tree.
                                                                              *
                                                                              * 
+                                                                             * @format
                                                                              */
 
 let hookedPrepareStackTrace;
@@ -62,8 +63,8 @@ function addPrepareStackTraceHook() {
     // doesn't work well with our customization of stacktrace. So here we temporarily
     // walk around this by following hack, until https://github.com/atom/atom/issues/9641
     // get addressed.
-    /* $FlowFixMe */ // eslint-disable-next-line no-extend-native
-    Error.prototype.getRawStack = null;
+    // $FlowFixMe
+    Error.prototype.getRawStack = null; // eslint-disable-line no-extend-native
     return true;
   });
 }

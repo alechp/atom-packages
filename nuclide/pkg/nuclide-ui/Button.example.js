@@ -59,6 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global alert */
@@ -338,10 +339,7 @@ const DropdownExample = (() => {
   return () => _react.default.createElement(
     'div',
     null,
-    _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
-      options: options,
-      value: 2
-    })
+    _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, { options: options, value: 2 })
   );
 })();
 
@@ -353,8 +351,7 @@ const SplitButtonDropdownExample = (() => {
     _react.default.createElement((_SplitButtonDropdown || _load_SplitButtonDropdown()).SplitButtonDropdown, {
       options: options,
       value: 2,
-      onConfirm:
-      // eslint-disable-next-line no-alert
+      onConfirm: // eslint-disable-next-line no-alert
       x => alert(`You selected ${x}!`)
     })
   );

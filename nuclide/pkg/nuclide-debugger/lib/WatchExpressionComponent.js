@@ -53,6 +53,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class WatchExpressionComponent extends _react.default.Component {
@@ -134,10 +135,7 @@ class WatchExpressionComponent extends _react.default.Component {
   }
 
   _renderExpression(fetchChildren, watchExpression, index) {
-    const {
-      expression,
-      value
-    } = watchExpression;
+    const { expression, value } = watchExpression;
     if (index === this.state.rowBeingEdited) {
       return _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
         className: 'nuclide-debugger-watch-expression-input',
@@ -176,10 +174,7 @@ class WatchExpressionComponent extends _react.default.Component {
   }
 
   render() {
-    const {
-      watchExpressions,
-      watchExpressionStore
-    } = this.props;
+    const { watchExpressions, watchExpressionStore } = this.props;
     const fetchChildren = watchExpressionStore.getProperties.bind(watchExpressionStore);
     const expressions = watchExpressions.map(this._renderExpression.bind(this, fetchChildren));
     const addNewExpressionInput = _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {

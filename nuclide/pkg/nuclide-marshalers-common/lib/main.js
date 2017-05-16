@@ -34,6 +34,7 @@ function getRemoteNuclideUriMarshalers(hostname) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 const localNuclideUriMarshalers = exports.localNuclideUriMarshalers = {

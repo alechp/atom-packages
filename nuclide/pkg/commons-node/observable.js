@@ -54,9 +54,11 @@ function splitStream(input) {
       current = lines.pop();
       lines.forEach(line => observer.next(line + '\n'));
     }, error => {
-      onEnd();observer.error(error);
+      onEnd();
+      observer.error(error);
     }, () => {
-      onEnd();observer.complete();
+      onEnd();
+      observer.complete();
     });
   });
 }
@@ -78,6 +80,7 @@ function splitStream(input) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global requestAnimationFrame, cancelAnimationFrame */

@@ -1,3 +1,100 @@
+# 0.92.0:
+- Fix: blockwise-selection was not cleared correctly in some situation(but I noticed via code review)
+- Fix: #780 No longer throw exception when close editor in the middle of smooth scrolling.
+- New: #770, #774 Add fold manipulation commands based on PR by @weihanglo.
+  - Commands: Put non-NEW commands here for thoroughness.
+    - `z a`: `toggle-fold`, toggle( fold or unfold ) cursor's fold.( NEW )
+    - `z r`: `unfold-next-indent-level`, unfold deepest folded fold. support count.( NEW )
+    - `z m`: `fold-next-indent-level`, fold deepest unfolded fold. support count.( NEW )
+    - `z M`: `fold-all`, unfold all fold.( not NEW )
+    - `z R`: `unfold-all`, fold all fold.( not NEW )
+  - Setting: `maxFoldableIndentLevel`( default `20` )
+    - Folds which startRow exceeds this level are not folded on `zm` and `zM`
+    - e.g.
+      - If you have 3 folds in editor, each fold starts following indentLevel.
+        - `fold-a: 0`
+        - `fold-b: 1`
+        - `fold-c: 2`
+      - `maxFoldableIndentLevel = 20`:
+        - `z M` fold all
+        - `z m` fold `fold-c`, `fold-b`, `fold-a` on each time.
+      - `maxFoldableIndentLevel = 1`:
+        - `z M` fold `fold-a`
+        - `z m` fold `fold-b`, `fold-a` on each time.
+      - `maxFoldableIndentLevel = 0`:
+        - `z M` fold `fold-a` only.
+        - `z m` fold `fold-a`.
+  - Implementation is NOT exactly same as pure-Vim.
+    - Pure-vim: explicitly manage `foldlevel` value and `zm`, `zr` is done based on `foldlevel` kept.
+    - vmp: Does not manage `foldlevel` explicitly, instead it detect fold state from editor.
+      - This approach gives better compatibility for Atom's native fold commands like `cmd-k cmd-1`
+- Improve: Don't auto-load `vimState.highlightSearch` when nothing to highlight.
+- Internal: #768 Support upcoming new decoration `type: 'cursor'` for cursor visibility in visual-mode.
+- Internal: #763 add spec for ensure minimum required file on vmp startup.
+
+# 0.91.0:
+- Improve, Performance: Reduce amount of IO( number of files to read ) on startup further. #760
+  - Avoid require on initial package activation. Especially following widely-used libs is not longer `require`d on startup.
+    - `lib/selection-wrapper.coffee`
+    - `lib/utils.coffee`
+    - `underscore-plus`
+  - Now `swrap` and `utils` are accessible via lazy-prop( `vimState.utils` and `vimState.swrap` ).
+- Developer: When `debug` setting was set to `true`, log lazy-require info when atom `inDevMode`.
+
+# 0.90.2:
+- Fix: For `search` on initial active-editor after startup, `highlightSearch` did not happened.
+  - This is regression introduced as part of lazy instantiation of `HighlightSearchManager`.
+
+# 0.90.1:
+- Fix: Sorry, removed leftover `console.log` in atom running in dev mode.
+
+# 0.90.0:
+- Improve: Reduce activation time of vim-mode-plus to reduce your frustration on Atom startup. #758
+  - About 2x faster activation time( Full detail is on #758 ).
+  - With Two technique
+    - Define all vmp-command from pre-populated command-table and lazy-require necessary command file on execution.
+    - Defer instantiation of xxxManager referred by `vimState`.
+      - E.g. `vimState.highlightSearch` is instance of `HighlightSearchManager` and it's now set on-demand.
+  - [For vmp developer only] If command signature was changed, need update command-table.
+    - Command signature it's name and scope(e.g. `vim-mode-plus:move-down` and `atom-text-editor` )
+    - [Caution] `write-command-table-on-disk` command is available only when atom running in dev-mode.
+    - [Caution] Directly update `lib/command-table.coffee` if populated-table was changed from loaded one.
+- New, Breaking: Default keymap update #753
+  - macOS user only
+    - `ctrl-s` mapped to `transform-string-by-select-list` in `normal-mode` and `visual-mode`
+  - All user
+    - `z` in `operator-pending` is short hand of `a z`(`a-fold`).
+      - You can do `y z` instead of `y a z`. E.g. When you yank foldable whole `if` block.
+      - You can do `c z` instead of `c a z`. E.g. When you change foldable whole `if` block.
+    - `g r` mapped to `reverse`
+    - `g s` mapped to `sort`
+    - `g c` mapped to `select-latest-change` which correspond to `g v` ( `select-previous-selection` )
+    - `g C` mapped to `camel-case`
+  - What was broken?
+    Before: `g c` was for `camel-case`, `g C` was for `pascal-case`.
+    Now: `g c` is for `select-latest-change`, `g C` is for `camel-case`. No default `pascal-case`.
+- New: Target alias for surround #751, #755
+  - Now `b`, `B`, `r`, `a` char is aliased to corresponding target.
+    - `b` is alias for `(` or `)`
+    - `B` is alias for `{` or `}`
+    - `r` is alias for `[` or `]`
+    - `a` is alias for `<` or `>`( I don't like this, just followed how `surround.vim` is doing ).
+  - These alias can be used in `surround`, `delete-surround`, `change-surround`.
+    - When have these keymap: `surround`( `y s` ), `delete-surround`( `d s` ), `change-surround`(`c s`)
+      - `y s i w b` is equals to `y s i w (`.
+      - `y s i w B` is equals to `y s i w {`
+      - `y s i w r` is equals to `y s i w [`
+      - `y s i w a` is equals to `y s i w <`
+- New: InnerPair pre-targeted `rotate` command
+  - Commands:
+    - `rotate-arguments-of-inner-pair`
+    - `rotate-arguments-backwards-of-inner-pair`
+  - No keymap by default.
+  - E.g.
+    - When you map `g >` to `rotate-arguments-of-inner-pair` and `g <` to `backwards`
+    - You can rotate arg of parenthesis by `g >` and `.` if necessary, `g <` for backwards.
+- Internal: Cleanup `developer.coffee` and remove unused dev commands.
+
 # 0.89.0:
 - New: Text-object for arguments
   - Keymap:

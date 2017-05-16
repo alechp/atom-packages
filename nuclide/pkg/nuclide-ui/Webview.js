@@ -30,9 +30,9 @@ class Webview extends _react.default.Component {
     // it at this time.
     // $FlowFixMe
     element.addEventListener('did-finish-load', this._handleDidFinishLoad);
-    this._disposables.add(new _atom.Disposable(
+    this._disposables.add(new _atom.Disposable(() =>
     // $FlowFixMe
-    () => element.removeEventListener('did-finish-load', this._handleDidFinishLoad)));
+    element.removeEventListener('did-finish-load', this._handleDidFinishLoad)));
 
     this.updateAttributes({});
   }
@@ -84,4 +84,5 @@ exports.Webview = Webview; /**
                             * the root directory of this source tree.
                             *
                             * 
+                            * @format
                             */

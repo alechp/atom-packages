@@ -11,6 +11,12 @@ function _load_featureConfig() {
   return _featureConfig = _interopRequireDefault(require('../../commons-atom/featureConfig'));
 }
 
+var _observePaneItemVisibility;
+
+function _load_observePaneItemVisibility() {
+  return _observePaneItemVisibility = _interopRequireDefault(require('../../commons-atom/observePaneItemVisibility'));
+}
+
 var _collection;
 
 function _load_collection() {
@@ -67,16 +73,18 @@ function _load_NoProvidersView() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const EDITOR_DEBOUNCE_INTERVAL = 500; /**
-                                       * Copyright (c) 2015-present, Facebook, Inc.
-                                       * All rights reserved.
-                                       *
-                                       * This source code is licensed under the license found in the LICENSE file in
-                                       * the root directory of this source tree.
-                                       *
-                                       * 
-                                       */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
+const EDITOR_DEBOUNCE_INTERVAL = 500;
 const POSITION_DEBOUNCE_INTERVAL = 500;
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/context-view';
 
@@ -88,9 +96,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  * service.
  */
 class ContextViewManager {
-  // Subscriptions to all changes in registered context providers' `priority` setting.
-  //    Key: ID of the context provider
-  //    Value: Disposable for the change event subscription on its priority setting
+  // Whether Context View should keep displaying the current content even after the cursor moves
   constructor() {
     this._contextProviders = [];
     this._defServiceSubscription = null;
@@ -106,9 +112,15 @@ class ContextViewManager {
     this._panelDOMElement = document.createElement('div');
     this._panelDOMElement.style.display = 'flex';
 
+    this._visibilitySubscription = (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(this).subscribe(visible => {
+      this.didChangeVisibility(visible);
+    });
+
     this._render();
   }
-  // Whether Context View should keep displaying the current content even after the cursor moves
+  // Subscriptions to all changes in registered context providers' `priority` setting.
+  //    Key: ID of the context provider
+  //    Value: Disposable for the change event subscription on its priority setting
 
 
   dispose() {
@@ -116,6 +128,7 @@ class ContextViewManager {
     this._settingDisposables.forEach(disposable => {
       disposable.dispose();
     });
+    this._visibilitySubscription.unsubscribe();
   }
 
   hide() {

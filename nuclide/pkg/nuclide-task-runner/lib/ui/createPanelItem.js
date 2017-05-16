@@ -99,6 +99,7 @@ function createPanelItem(store) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const extraUiComponentCache = new WeakMap();

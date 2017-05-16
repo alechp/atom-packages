@@ -66,17 +66,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-const MAX_SERIALIZED_RECORDS = 1000;
+const MAXIMUM_SERIALIZED_MESSAGES_CONFIG = 'nuclide-console.maximumSerializedMessages'; /**
+                                                                                         * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                         * All rights reserved.
+                                                                                         *
+                                                                                         * This source code is licensed under the license found in the LICENSE file in
+                                                                                         * the root directory of this source tree.
+                                                                                         *
+                                                                                         * 
+                                                                                         * @format
+                                                                                         */
 
 class Activation {
 
@@ -125,10 +124,17 @@ class Activation {
     });
   }
 
+  consumePasteProvider(provider) {
+    this._createPasteFunction = provider.createPaste;
+  }
+
   consumeWorkspaceViewsService(api) {
     this._disposables.add(api.addOpener(uri => {
       if (uri === (_ConsoleContainer || _load_ConsoleContainer()).WORKSPACE_VIEW_URI) {
-        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
+        return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, {
+          store: this._getStore(),
+          createPasteFunction: this._createPasteFunction
+        }));
       }
     }), () => api.destroyWhere(item => item instanceof (_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer), atom.commands.add('atom-workspace', 'nuclide-console:toggle', event => {
       api.toggle((_ConsoleContainer || _load_ConsoleContainer()).WORKSPACE_VIEW_URI, event.detail);
@@ -136,7 +142,10 @@ class Activation {
   }
 
   deserializeConsoleContainer() {
-    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, { store: this._getStore() }));
+    return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement((_ConsoleContainer || _load_ConsoleContainer()).ConsoleContainer, {
+      store: this._getStore(),
+      createPasteFunction: this._createPasteFunction
+    }));
   }
 
   provideOutputService() {
@@ -189,8 +198,9 @@ class Activation {
     if (this._store == null) {
       return {};
     }
+    const maximumSerializedMessages = (_featureConfig || _load_featureConfig()).default.get(MAXIMUM_SERIALIZED_MESSAGES_CONFIG);
     return {
-      records: this._store.getState().records.slice(-MAX_SERIALIZED_RECORDS)
+      records: this._store.getState().records.slice(-maximumSerializedMessages)
     };
   }
 }

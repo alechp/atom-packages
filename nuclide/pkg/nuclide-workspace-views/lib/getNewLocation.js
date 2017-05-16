@@ -12,12 +12,13 @@ exports.default = getNewLocation;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /**
- * When we upstreamed this functionality into Atom, we picked better location names. This
- * translates from our old ones to the new ones.
- */
+  * When we upstreamed this functionality into Atom, we picked better location names. This
+  * translates from our old ones to the new ones.
+  */
 function getNewLocation(location) {
   switch (location) {
     case 'left-panel':

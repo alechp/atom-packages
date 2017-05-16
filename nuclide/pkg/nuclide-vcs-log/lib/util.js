@@ -12,6 +12,7 @@ exports.shortNameForAuthor = shortNameForAuthor;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // Mercurial history emails can be invalid.

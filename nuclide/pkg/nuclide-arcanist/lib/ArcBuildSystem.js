@@ -105,6 +105,7 @@ exports.default = ArcBuildSystem; /**
                                    * the root directory of this source tree.
                                    *
                                    * 
+                                   * @format
                                    */
 
 function getTaskRunFunction(model, taskType) {

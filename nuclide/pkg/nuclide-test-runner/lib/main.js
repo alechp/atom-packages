@@ -75,6 +75,12 @@ class Activation {
       // Ensure ancestors of this element don't attempt to run tests as well.
       event.stopPropagation();
     }));
+    // Listen for untargeted run-tests events
+    this._disposables.add(atom.commands.add('atom-workspace', 'nuclide-test-runner:run-tests', event => {
+      this.getController().runTests();
+      // Ensure ancestors of this element don't attempt to run tests as well.
+      event.stopPropagation();
+    }));
   }
 
   addItemsToFileTreeContextMenu(contextMenu) {

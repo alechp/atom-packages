@@ -34,12 +34,12 @@ let readAllGraphQLFiles = (() => {
       const promises = chunk.map(function (fileInfo) {
         return promiseToReadGraphQLFile(fileInfo.filePath).catch(function (error) {
           /**
-           * fs emits `EMFILE | ENFILE` error when there are too many open files -
-           * this can cause some fragment files not to be processed.
-           * Solve this case by implementing a queue to save files failed to be
-           * processed because of `EMFILE` error, and await on Promises created
-           * with the next batch from the queue.
-           */
+          * fs emits `EMFILE | ENFILE` error when there are too many open files -
+          * this can cause some fragment files not to be processed.
+          * Solve this case by implementing a queue to save files failed to be
+          * processed because of `EMFILE` error, and await on Promises created
+          * with the next batch from the queue.
+          */
           if (error.code === 'EMFILE' || error.code === 'ENFILE') {
             queue.push(fileInfo);
           }
@@ -114,6 +114,7 @@ const MAX_READS = 200; /**
                         * the root directory of this source tree.
                         *
                         * 
+                        * @format
                         */
 
 class GraphQLCache {
@@ -212,7 +213,9 @@ class GraphQLCache {
 
       const inputDirs = graphQLConfig.getInputDirs();
       const excludeDirs = graphQLConfig.getExcludeDirs();
-      const filesFromInputDirs = yield _this2._watchmanClient.listFiles(rootDir, { path: inputDirs });
+      const filesFromInputDirs = yield _this2._watchmanClient.listFiles(rootDir, {
+        path: inputDirs
+      });
 
       const list = filesFromInputDirs.map(function (fileInfo) {
         return {
@@ -403,7 +406,11 @@ function processGraphQLFiles(responses) {
     if (ast) {
       ast.definitions.forEach(definition => {
         if (definition.kind === (_kinds || _load_kinds()).FRAGMENT_DEFINITION) {
-          fragmentDefinitions.set(definition.name.value, { filePath, content, definition });
+          fragmentDefinitions.set(definition.name.value, {
+            filePath,
+            content,
+            definition
+          });
         }
       });
     }

@@ -30,4 +30,5 @@ function bufferPositionForMouseEvent(event, editor = null) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

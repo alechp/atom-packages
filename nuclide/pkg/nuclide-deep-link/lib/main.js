@@ -39,6 +39,7 @@ class Activation {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

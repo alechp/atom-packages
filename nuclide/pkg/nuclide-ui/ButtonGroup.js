@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ButtonGroupSizes = exports.ButtonGroupSizes = Object.freeze({
@@ -41,11 +42,7 @@ const ButtonGroupSizeClassnames = Object.freeze({
  * Visually groups Buttons passed in as children.
  */
 const ButtonGroup = exports.ButtonGroup = props => {
-  const {
-    size,
-    children,
-    className
-  } = props;
+  const { size, children, className } = props;
   const sizeClassName = size == null ? '' : ButtonGroupSizeClassnames[size] || '';
   const newClassName = (0, (_classnames || _load_classnames()).default)(className, 'btn-group', 'nuclide-btn-group', {
     [sizeClassName]: size != null

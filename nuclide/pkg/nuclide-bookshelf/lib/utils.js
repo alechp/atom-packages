@@ -58,6 +58,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getEmptBookShelfState() {
@@ -121,7 +122,7 @@ function shortHeadChangedNotification(repository, newShortHead, restorePaneItemS
     const newShortHeadDisplayText = newShortHead.length > 0 ? `to \`${newShortHead}\`` : '';
 
     const shortHeadChangeNotification = atom.notifications.addInfo(`\`${workingDirectoryName}\`'s active bookmark has changed ${newShortHeadDisplayText}`, {
-      detail: 'Would you like to open the files you had active then?\n \n' + 'ProTip: Change the default behavior from \'Nuclide Settings>IDE Settings>Book Shelf\'',
+      detail: 'Would you like to open the files you had active then?\n \n' + "ProTip: Change the default behavior from 'Nuclide Settings>IDE Settings>Book Shelf'",
       dismissable: true,
       buttons: [{
         onDidClick: () => {
@@ -152,7 +153,9 @@ function shortHeadChangedNotification(repository, newShortHead, restorePaneItemS
 
 function getShortHeadChangesFromStateStream(states) {
   return states.pairwise().flatMap(([oldBookShelfState, newBookShelfState]) => {
-    const { repositoryPathToState: oldRepositoryPathToState } = oldBookShelfState;
+    const {
+      repositoryPathToState: oldRepositoryPathToState
+    } = oldBookShelfState;
 
     return _rxjsBundlesRxMinJs.Observable.from(Array.from(newBookShelfState.repositoryPathToState.entries()).filter(([repositoryPath, newRepositoryState]) => {
       const oldRepositoryState = oldRepositoryPathToState.get(repositoryPath);

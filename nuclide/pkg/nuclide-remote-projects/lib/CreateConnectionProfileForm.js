@@ -50,6 +50,7 @@ const PROFILE_NAME_LABEL = 'Profile Name'; /**
                                             * the root directory of this source tree.
                                             *
                                             * 
+                                            * @format
                                             */
 
 const DEFAULT_SERVER_COMMAND_PLACEHOLDER = '(DEFAULT)';
@@ -104,11 +105,7 @@ class CreateConnectionProfileForm extends _react.default.Component {
           PROFILE_NAME_LABEL,
           ':'
         ),
-        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
-          initialValue: '',
-          ref: 'profile-name',
-          unstyled: true
-        })
+        _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, { initialValue: '', ref: 'profile-name', unstyled: true })
       ),
       _react.default.createElement((_ConnectionDetailsForm || _load_ConnectionDetailsForm()).default, {
         initialUsername: initialFields.username,
@@ -162,7 +159,7 @@ class CreateConnectionProfileForm extends _react.default.Component {
     }
 
     if (!(validationResult.validatedProfile != null && typeof validationResult.validatedProfile === 'object')) {
-      throw new Error('Invariant violation: "validationResult.validatedProfile != null &&\\n      typeof validationResult.validatedProfile === \'object\'"');
+      throw new Error('Invariant violation: "validationResult.validatedProfile != null &&\\n        typeof validationResult.validatedProfile === \'object\'"');
     }
 
     const newProfile = validationResult.validatedProfile;

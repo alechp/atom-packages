@@ -30,6 +30,7 @@ function getFieldReference(typeInfo) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getDirectiveReference(typeInfo) {

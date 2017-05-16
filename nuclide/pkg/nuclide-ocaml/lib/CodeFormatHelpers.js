@@ -86,6 +86,7 @@ function isInterfaceF(filePath) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getRefmtFlags() {

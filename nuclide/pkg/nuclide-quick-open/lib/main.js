@@ -91,6 +91,7 @@ const MAX_SELECTION_LENGTH = 1000; /**
                                     * the root directory of this source tree.
                                     *
                                     * 
+                                    * @format
                                     */
 
 const ANALYTICS_CHANGE_SELECTION_DEBOUCE = 100;
@@ -170,7 +171,12 @@ class Activation {
       'quickopen-session': this._analyticsSessionId
     });
     if (this._searchPanel != null && this._searchPanel.isVisible() && this._searchResultManager.getActiveProviderName() === newProviderName) {
-      this._closeSearchPanel();
+      // Search panel is already open. Just focus on the query textbox.
+      if (!(this._searchComponent != null)) {
+        throw new Error('Invariant violation: "this._searchComponent != null"');
+      }
+
+      this._searchComponent.selectAllText();
     } else {
       this._searchResultManager.setActiveProvider(newProviderName);
       this._showSearchPanel();

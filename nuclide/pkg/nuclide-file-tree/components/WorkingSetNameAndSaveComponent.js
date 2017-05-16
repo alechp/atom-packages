@@ -80,7 +80,9 @@ class WorkingSetNameAndSaveComponent extends _react.default.Component {
 
   _saveWorkingSet() {
     if (this.state.name === '') {
-      atom.notifications.addWarning('Name is missing', { detail: 'Please provide a name for the Working Set' });
+      atom.notifications.addWarning('Name is missing', {
+        detail: 'Please provide a name for the Working Set'
+      });
       return;
     }
 
@@ -99,4 +101,5 @@ exports.WorkingSetNameAndSaveComponent = WorkingSetNameAndSaveComponent; /**
                                                                           * the root directory of this source tree.
                                                                           *
                                                                           * 
+                                                                          * @format
                                                                           */

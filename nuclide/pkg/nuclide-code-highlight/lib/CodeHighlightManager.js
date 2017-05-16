@@ -30,6 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const HIGHLIGHT_DELAY_MS = 250;
@@ -85,7 +86,10 @@ class CodeHighlightManager {
         return editor.markBufferRange(range, {});
       });
       _this._markers.forEach(function (marker) {
-        editor.decorateMarker(marker, { type: 'highlight', class: 'nuclide-code-highlight-marker' });
+        editor.decorateMarker(marker, {
+          type: 'highlight',
+          class: 'nuclide-code-highlight-marker'
+        });
       });
     })();
   }

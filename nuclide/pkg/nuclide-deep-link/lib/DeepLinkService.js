@@ -30,6 +30,7 @@ const { ipcRenderer } = _electron.default; /**
                                             * the root directory of this source tree.
                                             *
                                             * 
+                                            * @format
                                             */
 
 if (!(ipcRenderer != null)) {

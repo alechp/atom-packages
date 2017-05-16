@@ -113,6 +113,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 const DEFAULT_ARC_PROJECT_FORK_BASE = 'remote/master';
@@ -125,6 +126,7 @@ const WATCHMAN_HG_DIR_STATE = 'hg-repository-watchman-subscription-dirstate';
 const WATCHMAN_SUBSCRIPTION_NAME_CONFLICTS = 'hg-repository-watchman-subscription-conflicts';
 
 const CHECK_CONFLICT_DELAY_MS = 2000;
+const COMMIT_CHANGE_DEBOUNCE_MS = 1000;
 
 // If Watchman reports that many files have changed, it's not really useful to report this.
 // This is typically caused by a large rebase or a Watchman re-crawl.
@@ -150,6 +152,12 @@ const IGNORABLE_ERROR_SUFFIXES = ['abort: no files to copy', 'No such file or di
  * The numbers themselves should not matter; they are meant to be passed
  * to ::isStatusNew/::isStatusModified to be interpreted.
  */
+
+
+// Information about file for local, base and other commit that caused the conflict
+
+
+// Information about the output file
 function getPrimaryWatchmanSubscriptionRefinements() {
   let refinements = [];
   try {
@@ -205,7 +213,12 @@ class HgService {
   }
 
   _hgObserveExecution(args, options) {
+    // TODO(T17463635)
     return (0, (_hgUtils || _load_hgUtils()).hgObserveExecution)(args, options);
+  }
+
+  _hgRunCommand(args, options) {
+    return (0, (_hgUtils || _load_hgUtils()).hgRunCommand)(args, options);
   }
 
   /**
@@ -213,8 +226,8 @@ class HgService {
    */
 
   /**
-   * Shells out of the `hg status` to get the statuses of the paths.
-   */
+    * Shells out of the `hg status` to get the statuses of the paths.
+    */
   fetchStatuses(toRevision) {
     const execOptions = {
       cwd: this._workingDirectory
@@ -283,7 +296,8 @@ class HgService {
       const primarySubscribtion = yield watchmanClient.watchDirectoryRecursive(workingDirectory, WATCHMAN_SUBSCRIPTION_NAME_PRIMARY, {
         fields: ['name', 'exists', 'new'],
         expression: primarySubscriptionExpression,
-        defer: ['hg.update']
+        defer: ['hg.update'],
+        empty_on_fresh_instance: true
       });
       logger.debug(`Watchman subscription ${WATCHMAN_SUBSCRIPTION_NAME_PRIMARY} established.`);
 
@@ -291,7 +305,8 @@ class HgService {
       const conflictStateSubscribtion = yield watchmanClient.watchDirectoryRecursive(workingDirectory, WATCHMAN_SUBSCRIPTION_NAME_CONFLICTS, {
         fields: ['name', 'exists', 'new'],
         expression: ['name', '.hg/merge', 'wholename'],
-        defer: ['hg.update']
+        defer: ['hg.update'],
+        empty_on_fresh_instance: true
       });
       logger.debug(`Watchman subscription ${WATCHMAN_SUBSCRIPTION_NAME_CONFLICTS} established.`);
 
@@ -299,7 +314,8 @@ class HgService {
       const hgActiveBookmarkSubscription = yield watchmanClient.watchDirectoryRecursive(workingDirectory, WATCHMAN_SUBSCRIPTION_NAME_HGBOOKMARK, {
         fields: ['name', 'exists'],
         expression: ['name', '.hg/bookmarks.current', 'wholename'],
-        defer: ['hg.update']
+        defer: ['hg.update'],
+        empty_on_fresh_instance: true
       });
       logger.debug(`Watchman subscription ${WATCHMAN_SUBSCRIPTION_NAME_HGBOOKMARK} established.`);
 
@@ -307,14 +323,16 @@ class HgService {
       const hgBookmarksSubscription = yield watchmanClient.watchDirectoryRecursive(workingDirectory, WATCHMAN_SUBSCRIPTION_NAME_HGBOOKMARKS, {
         fields: ['name', 'exists'],
         expression: ['name', '.hg/bookmarks', 'wholename'],
-        defer: ['hg.update']
+        defer: ['hg.update'],
+        empty_on_fresh_instance: true
       });
       logger.debug(`Watchman subscription ${WATCHMAN_SUBSCRIPTION_NAME_HGBOOKMARKS} established.`);
 
       const dirStateSubscribtion = yield watchmanClient.watchDirectoryRecursive(workingDirectory, WATCHMAN_HG_DIR_STATE, {
         fields: ['name'],
         expression: ['name', '.hg/dirstate', 'wholename'],
-        defer: ['hg.update']
+        defer: ['hg.update'],
+        empty_on_fresh_instance: true
       });
       logger.debug(`Watchman subscription ${WATCHMAN_HG_DIR_STATE} established.`);
 
@@ -423,7 +441,10 @@ class HgService {
    * (e.g. commit, amend, histedit, strip, rebase) that would require refetching from the service.
    */
   observeHgCommitsDidChange() {
-    return this._hgRepoCommitsDidChangeObserver.publish();
+    return this._hgRepoCommitsDidChangeObserver
+    // Upon rebase, this can fire once per added commit!
+    // Apply a generous debounce to avoid overloading the RPC connection.
+    .debounceTime(COMMIT_CHANGE_DEBOUNCE_MS).publish();
   }
 
   /**
@@ -511,24 +532,12 @@ class HgService {
    * @return An Array of bookmarks for this repository.
    */
   fetchBookmarks() {
-    var _this6 = this;
+    const args = ['bookmarks', '-Tjson'];
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
 
-    return (0, _asyncToGenerator.default)(function* () {
-      const args = ['bookmarks', '-Tjson'];
-      const execOptions = {
-        cwd: _this6._workingDirectory
-      };
-
-      let output;
-      try {
-        output = yield _this6._hgAsyncExecute(args, execOptions);
-      } catch (e) {
-        (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`LocalHgServiceBase failed to fetch bookmarks. Error: ${e.stderr}`);
-        throw e;
-      }
-
-      return JSON.parse(output.stdout);
-    })();
+    return this._hgRunCommand(args, execOptions).map(stdout => JSON.parse(stdout)).publish();
   }
 
   /**
@@ -569,11 +578,11 @@ class HgService {
    * or `null` if no common ancestor was found.
    */
   fetchRevisionInfoBetweenHeadAndBase() {
-    var _this7 = this;
+    var _this6 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const forkBaseName = yield getForkBaseName(_this7._workingDirectory);
-      const revisionsInfo = yield (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionInfoBetweenRevisions)((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForCommonAncestor)(forkBaseName), (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForRevisionsBeforeHead)(0), _this7._workingDirectory);
+      const forkBaseName = yield getForkBaseName(_this6._workingDirectory);
+      const revisionsInfo = yield (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionInfoBetweenRevisions)((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForCommonAncestor)(forkBaseName), (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForRevisionsBeforeHead)(0), _this6._workingDirectory);
       return revisionsInfo;
     })();
   }
@@ -586,11 +595,11 @@ class HgService {
    * Resolve the revision details of the base branch
    */
   getBaseRevision() {
-    var _this8 = this;
+    var _this7 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const forkBaseName = yield getForkBaseName(_this8._workingDirectory);
-      return (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionInfo)((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForCommonAncestor)(forkBaseName), _this8._workingDirectory);
+      const forkBaseName = yield getForkBaseName(_this7._workingDirectory);
+      return (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionInfo)((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForCommonAncestor)(forkBaseName), _this7._workingDirectory);
     })();
   }
 
@@ -601,15 +610,15 @@ class HgService {
    * @return An Array that maps a line number (0-indexed) to the revision info.
    */
   getBlameAtHead(filePath) {
-    var _this9 = this;
+    var _this8 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       let revisionsByLine;
       try {
-        revisionsByLine = (yield _this9._hgAsyncExecute(['blame', '-c', // Query the hash
+        revisionsByLine = (yield _this8._hgAsyncExecute(['blame', '-c', // Query the hash
         '-T', '{node|short}\n', // Just display the hash per line
         '-r', 'wdir()', // Blank out uncommitted changes
-        filePath], { cwd: _this9._workingDirectory })).stdout.split('\n');
+        filePath], { cwd: _this8._workingDirectory })).stdout.split('\n');
       } catch (e) {
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`LocalHgServiceBase failed to fetch blame for file: ${filePath}. Error: ${e.stderr}`);
         throw e;
@@ -621,7 +630,7 @@ class HgService {
 
       let revisionsArray;
       try {
-        revisionsArray = yield (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionsInfo)(uniqueRevisions.join('+'), _this9._workingDirectory, { hidden: true, shouldLimit: false }).toPromise();
+        revisionsArray = yield (0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).fetchRevisionsInfo)(uniqueRevisions.join('+'), _this8._workingDirectory, { hidden: true, shouldLimit: false }).toPromise();
       } catch (e) {
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`LocalHgServiceBase failed to fetch blame for file: ${filePath}. Error: ${e.stderr}`);
         throw e;
@@ -643,15 +652,15 @@ class HgService {
    * @param key Name of config item
    */
   getConfigValueAsync(key) {
-    var _this10 = this;
+    var _this9 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const args = ['config', key];
       const execOptions = {
-        cwd: _this10._workingDirectory
+        cwd: _this9._workingDirectory
       };
       try {
-        return (yield _this10._hgAsyncExecute(args, execOptions)).stdout.trim();
+        return (yield _this9._hgAsyncExecute(args, execOptions)).stdout.trim();
       } catch (e) {
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`Failed to fetch Hg config for key ${key}.  Error: ${e.toString()}`);
         return null;
@@ -666,15 +675,15 @@ class HgService {
    * https://bitbucket.org/facebook/hg-experimental/src/fbf23b3f96bade5986121a7c57d7400585d75f54/phabdiff.py.
    */
   getDifferentialRevisionForChangeSetId(changeSetId) {
-    var _this11 = this;
+    var _this10 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const args = ['log', '-T', '{phabdiff}\n', '--limit', '1', '--rev', changeSetId];
       const execOptions = {
-        cwd: _this11._workingDirectory
+        cwd: _this10._workingDirectory
       };
       try {
-        const output = yield _this11._hgAsyncExecute(args, execOptions);
+        const output = yield _this10._hgAsyncExecute(args, execOptions);
         const stdout = output.stdout.trim();
         return stdout ? stdout : null;
       } catch (e) {
@@ -693,34 +702,32 @@ class HgService {
    * @return The output from running the command.
    */
   getSmartlog(ttyOutput, concise) {
-    var _this12 = this;
+    var _this11 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       // disable the pager extension so that 'hg ssl' terminates. We can't just use
       // HGPLAIN because we have not found a way to get colored output when we do.
       const args = ['--config', 'extensions.pager=!', concise ? 'ssl' : 'smartlog'];
       const execOptions = {
-        cwd: _this12._workingDirectory,
+        cwd: _this11._workingDirectory,
         NO_HGPLAIN: concise, // `hg ssl` is likely user-defined.
         TTY_OUTPUT: ttyOutput
       };
-      return _this12._hgAsyncExecute(args, execOptions);
+      return _this11._hgAsyncExecute(args, execOptions);
     })();
   }
 
-  _commitCode(message, args, isInteractive) {
+  _commitCode(message, args) {
+    // TODO(T17463635)
     let editMergeConfigs;
-    let tempFile = null;
     return _rxjsBundlesRxMinJs.Observable.fromPromise((0, _asyncToGenerator.default)(function* () {
-      if (isInteractive) {
-        args.push('--interactive');
-        editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getInteractiveCommitEditorConfig)();
-      }
+      // prevent user-specified merge tools from attempting to
+      // open interactive editors
+      args.push('--config', 'ui.merge=:merge');
       if (message == null) {
         return args;
       } else {
-        tempFile = yield (0, (_hgUtils || _load_hgUtils()).createCommmitMessageTempFile)(message);
-        return [...args, '-l', tempFile];
+        return [...args, '-m', (0, (_hgUtils || _load_hgUtils()).formatCommitMessage)(message)];
       }
     })()).switchMap(argumentsWithCommitFile => {
       const execArgs = argumentsWithCommitFile;
@@ -732,10 +739,6 @@ class HgService {
         execOptions.HGEDITOR = editMergeConfigs.hgEditor;
       }
       return this._hgObserveExecution(execArgs, execOptions);
-    }).finally(() => {
-      if (tempFile != null) {
-        (_fsPromise || _load_fsPromise()).default.unlink(tempFile);
-      }
     });
   }
 
@@ -743,8 +746,9 @@ class HgService {
    * Commit code to version control.
    * @param message Commit message.
    */
-  commit(message, isInteractive = false) {
-    return this._commitCode(message, ['commit'], isInteractive).publish();
+  commit(message) {
+    // TODO(T17463635)
+    return this._commitCode(message, ['commit']).publish();
   }
 
   /**
@@ -755,7 +759,8 @@ class HgService {
    *  Rebase to amend and rebase the stacked diffs.
    *  Fixup to fix the stacked commits, rebasing them on top of this commit.
    */
-  amend(message, amendMode, isInteractive = false) {
+  amend(message, amendMode) {
+    // TODO(T17463635)
     const args = ['amend'];
     switch (amendMode) {
       case (_hgConstants || _load_hgConstants()).AmendMode.CLEAN:
@@ -769,10 +774,11 @@ class HgService {
       default:
         throw new Error('Unexpected AmendMode');
     }
-    return this._commitCode(message, args, isInteractive).publish();
+    return this._commitCode(message, args).publish();
   }
 
   splitRevision() {
+    // TODO(T17463635)
     let editMergeConfigs;
     return _rxjsBundlesRxMinJs.Observable.fromPromise((0, _asyncToGenerator.default)(function* () {
       editMergeConfigs = yield (0, (_hgUtils || _load_hgUtils()).getInteractiveCommitEditorConfig)();
@@ -798,15 +804,15 @@ class HgService {
   }
 
   _runSimpleInWorkingDirectory(action, args) {
-    var _this13 = this;
+    var _this12 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const options = {
-        cwd: _this13._workingDirectory
+        cwd: _this12._workingDirectory
       };
       const cmd = [action].concat(args);
       try {
-        yield _this13._hgAsyncExecute(cmd, options);
+        yield _this12._hgAsyncExecute(cmd, options);
       } catch (e) {
         const errorString = e.stderr || e.message || e.toString();
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error('hg %s failed with [%s] arguments: %s', action, args.toString(), errorString);
@@ -821,6 +827,7 @@ class HgService {
    * @param options.
    */
   checkout(revision, create, options) {
+    // TODO(T17463635)
     const args = ['checkout', revision];
     if (options && options.clean) {
       args.push('--clean');
@@ -867,11 +874,11 @@ class HgService {
    * @param create Currently, this parameter is ignored.
    */
   checkoutForkBase() {
-    var _this14 = this;
+    var _this13 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const forkBaseName = yield getForkBaseName(_this14._workingDirectory);
-      yield _this14._runSimpleInWorkingDirectory('checkout', [forkBaseName]);
+      const forkBaseName = yield getForkBaseName(_this13._workingDirectory);
+      yield _this13._runSimpleInWorkingDirectory('checkout', [forkBaseName]);
     })();
   }
 
@@ -892,7 +899,7 @@ class HgService {
    * @param destPath What should the file be renamed/moved to.
    */
   rename(filePaths, destPath, after) {
-    var _this15 = this;
+    var _this14 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const args = [...filePaths.map(function (p) {
@@ -903,10 +910,10 @@ class HgService {
         args.unshift('--after');
       }
       try {
-        yield _this15._runSimpleInWorkingDirectory('rename', args);
+        yield _this14._runSimpleInWorkingDirectory('rename', args);
       } catch (e) {
         if (after) {
-          _this15._rethrowErrorIfHelpful(e);
+          _this14._rethrowErrorIfHelpful(e);
         } else {
           throw e;
         }
@@ -919,7 +926,7 @@ class HgService {
    * @param filePath Which file should be removed.
    */
   remove(filePaths, after) {
-    var _this16 = this;
+    var _this15 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const args = ['-f', ...filePaths.map(function (p) {
@@ -930,13 +937,33 @@ class HgService {
       }
 
       try {
-        yield _this16._runSimpleInWorkingDirectory('remove', args);
+        yield _this15._runSimpleInWorkingDirectory('remove', args);
       } catch (e) {
         if (after) {
-          _this16._rethrowErrorIfHelpful(e);
+          _this15._rethrowErrorIfHelpful(e);
         } else {
           throw e;
         }
+      }
+    })();
+  }
+
+  /**
+   * Mark the specified files so they will no longer be tracked by hg after the next commit.
+   * The file will remain in the working directory.
+   * @param filePath Which file(s) should be forgotten.
+   */
+  forget(filePaths) {
+    var _this16 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const args = [...filePaths.map(function (p) {
+        return (_nuclideUri || _load_nuclideUri()).default.getPath(p);
+      })];
+      try {
+        yield _this16._runSimpleInWorkingDirectory('forget', args);
+      } catch (e) {
+        throw e;
       }
     })();
   }
@@ -1009,6 +1036,39 @@ class HgService {
     })();
   }
 
+  fetchMergeConflictsWithDetails() {
+    const args = ['resolve', '--tool=internal:dumpjson', '--all'];
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
+    return (0, (_hgUtils || _load_hgUtils()).hgRunCommand)(args, execOptions).map(data => {
+      const parsedData = JSON.parse(data)[0];
+      if (parsedData.command == null) {
+        return null;
+      }
+      const conflicts = parsedData.conflicts.map(conflict => {
+        const { local, other } = conflict;
+        let status;
+        if (local.exists && other.exists) {
+          status = (_hgConstants || _load_hgConstants()).MergeConflictStatus.BOTH_CHANGED;
+        } else if (local.exists) {
+          status = (_hgConstants || _load_hgConstants()).MergeConflictStatus.DELETED_IN_THEIRS;
+        } else {
+          status = (_hgConstants || _load_hgConstants()).MergeConflictStatus.DELETED_IN_OURS;
+        }
+
+        return Object.assign({}, conflict, {
+          status
+        });
+      });
+      return Object.assign({}, parsedData, {
+        conflicts
+      });
+    })
+    // `resolve --all` returns a non-zero exit code when there's no conflicts.
+    .catch(() => _rxjsBundlesRxMinJs.Observable.of(null)).publish();
+  }
+
   /*
    * Setting fetchResolved will return all resolved and unresolved conflicts,
    * the default would only fetch the current unresolved conflicts.
@@ -1026,7 +1086,7 @@ class HgService {
       }).map(function (fileStatus) {
         return {
           path: fileStatus.path,
-          message: (_hgConstants || _load_hgConstants()).MergeConflictStatus.RESOLVED
+          status: (_hgConstants || _load_hgConstants()).MergeConflictStatus.RESOLVED
         };
       }) : [];
       const conflictedFiles = fileListStatuses.filter(function (fileStatus) {
@@ -1035,16 +1095,16 @@ class HgService {
       const origBackupPath = yield _this20._getOrigBackupPath();
       const conflicts = yield Promise.all(conflictedFiles.map((() => {
         var _ref4 = (0, _asyncToGenerator.default)(function* (conflictedFile) {
-          let message;
+          let status;
           // Heuristic: If the `.orig` file doesn't exist, then it's deleted by the rebasing commit.
           if (yield _this20._checkOrigFile(origBackupPath, conflictedFile.path)) {
-            message = (_hgConstants || _load_hgConstants()).MergeConflictStatus.BOTH_CHANGED;
+            status = (_hgConstants || _load_hgConstants()).MergeConflictStatus.BOTH_CHANGED;
           } else {
-            message = (_hgConstants || _load_hgConstants()).MergeConflictStatus.DELETED_IN_THEIRS;
+            status = (_hgConstants || _load_hgConstants()).MergeConflictStatus.DELETED_IN_THEIRS;
           }
           return {
             path: conflictedFile.path,
-            message
+            status
           };
         });
 
@@ -1082,32 +1142,46 @@ class HgService {
     })();
   }
 
-  resolveConflictedFile(filePath) {
-    const args = ['resolve', '-m', filePath];
+  markConflictedFile(filePath, resolved) {
+    // TODO(T17463635)
+    // -m marks file as resolved, -u marks file as unresolved
+    const fileStatus = resolved ? '-m' : '-u';
+    const args = ['resolve', fileStatus, filePath];
     const execOptions = {
       cwd: this._workingDirectory
     };
     return this._hgObserveExecution(args, execOptions).switchMap((_hgUtils || _load_hgUtils()).processExitCodeAndThrow).publish();
   }
 
-  continueRebase() {
-    const args = ['rebase', '--continue', '--noninteractive'];
+  continueOperation(command) {
+    // TODO(T17463635)
+
+    // prevent user-specified merge tools from attempting to
+    // open interactive editors
+    const args = [command, '--continue', '--config', 'ui.merge=:merge'];
     const execOptions = {
       cwd: this._workingDirectory
     };
     return this._hgObserveExecution(args, execOptions).switchMap((_hgUtils || _load_hgUtils()).processExitCodeAndThrow).publish();
   }
 
-  abortRebase() {
-    return this._runSimpleInWorkingDirectory('rebase', ['--abort']);
+  abortOperation(command) {
+    const args = [command, '--abort'];
+    const execOptions = {
+      cwd: this._workingDirectory
+    };
+    return (0, (_hgUtils || _load_hgUtils()).hgRunCommand)(args, execOptions).publish();
   }
 
   rebase(destination, source) {
-    const args = ['rebase', '-d', destination];
+    // TODO(T17463635)
+
+    // prevent user-specified merge tools from attempting to
+    // open interactive editors
+    const args = ['rebase', '-d', destination, '--config', 'ui.merge=:merge'];
     if (source != null) {
       args.push('-s', source);
     }
-    args.push('--noninteractive');
     const execOptions = {
       cwd: this._workingDirectory
     };
@@ -1115,6 +1189,7 @@ class HgService {
   }
 
   pull(options) {
+    // TODO(T17463635)
     const args = ['pull', ...options];
     const execOptions = {
       cwd: this._workingDirectory

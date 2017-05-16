@@ -58,8 +58,9 @@ let moveNodes = (() => {
     isMoving = true;
 
     // Reset isMoving to false whenever move operation completes, errors, or times out.
-    yield (0, (_promise || _load_promise()).triggerAfterWait)(_moveNodesUnprotected(nodes, destPath), MOVE_TIMEOUT, resetIsMoving, /* timeoutFn */
-    resetIsMoving);
+    yield (0, (_promise || _load_promise()).triggerAfterWait)(_moveNodesUnprotected(nodes, destPath), MOVE_TIMEOUT, resetIsMoving /* timeoutFn */
+    , resetIsMoving /* cleanupFn */
+    );
   });
 
   return function moveNodes(_x3, _x4) {
@@ -231,6 +232,7 @@ const MOVE_TIMEOUT = 10000; /**
                              * the root directory of this source tree.
                              *
                              * 
+                             * @format
                              */
 
 function getHgRepositoryForNode(node) {

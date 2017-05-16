@@ -55,6 +55,18 @@ function _load_ConnectionMultiplexer() {
   return _ConnectionMultiplexer = require('./ConnectionMultiplexer.js');
 }
 
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
+var _promise;
+
+function _load_promise() {
+  return _promise = require('../../commons-node/promise');
+}
+
 var _FileCache;
 
 function _load_FileCache() {
@@ -71,19 +83,20 @@ function _load_eventKit() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const SESSION_END_EVENT = 'session-end-event';
+const SESSION_END_EVENT = 'session-end-event'; /**
+                                                * Copyright (c) 2015-present, Facebook, Inc.
+                                                * All rights reserved.
+                                                *
+                                                * This source code is licensed under the license found in the LICENSE file in
+                                                * the root directory of this source tree.
+                                                *
+                                                * 
+                                                * @format
+                                                */
+
+const RESOLVE_BREAKPOINT_DELAY_MS = 500;
 
 // Handles all 'Debug.*' Chrome dev tools messages
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class DebuggerHandler extends (_Handler || _load_Handler()).default {
 
   constructor(clientCallback, connectionMultiplexer) {
@@ -143,11 +156,17 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
         case 'getScriptSource':
           // TODO: Handle file read errors.
           // TODO: Handle non-file scriptIds
-          _this.replyToCommand(id, { scriptSource: yield _this._files.getFileSource(params.scriptId) });
+          _this.replyToCommand(id, {
+            scriptSource: yield _this._files.getFileSource(params.scriptId)
+          });
           break;
 
         case 'setBreakpointByUrl':
           _this._setBreakpointByUrl(id, params);
+          break;
+
+        case 'continueToLocation':
+          _this._continueToLocation(id, params);
           break;
 
         case 'removeBreakpoint':
@@ -168,6 +187,11 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
           (0, (_settings || _load_settings()).updateSettings)(params);
           break;
 
+        case 'getThreadStack':
+          const threadStackObject = yield _this._getThreadStack();
+          _this.replyToCommand(id, threadStackObject);
+          break;
+
         default:
           _this.unknownMethod(id, method, params);
           break;
@@ -175,39 +199,50 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
     })();
   }
 
-  _selectThread(params) {
+  _getThreadStack() {
     var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
+      const enabledConnection = _this2._connectionMultiplexer.getEnabledConnectionId();
+      return {
+        callFrames: enabledConnection == null ? [] : yield _this2._getStackFrames(enabledConnection)
+      };
+    })();
+  }
+
+  _selectThread(params) {
+    var _this3 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
       const { threadId } = params;
-      yield _this2._connectionMultiplexer.selectThread(threadId);
-      _this2._sendPausedMessage();
+      yield _this3._connectionMultiplexer.selectThread(threadId);
+      _this3._sendPausedMessage();
     })();
   }
 
   _setPauseOnExceptions(id, params) {
-    var _this3 = this;
+    var _this4 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const { state } = params;
-      yield _this3._connectionMultiplexer.getBreakpointStore().setPauseOnExceptions(String(id), state);
-      _this3.replyToCommand(id, {});
+      yield _this4._connectionMultiplexer.getBreakpointStore().setPauseOnExceptions(String(id), state);
+      _this4.replyToCommand(id, {});
     })();
   }
 
   _setBreakpointByUrl(id, params) {
-    var _this4 = this;
+    var _this5 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const { lineNumber, url, columnNumber, condition } = params;
       if (!url || columnNumber !== 0) {
-        _this4.replyWithError(id, 'Invalid arguments to Debugger.setBreakpointByUrl: ' + JSON.stringify(params));
+        _this5.replyWithError(id, 'Invalid arguments to Debugger.setBreakpointByUrl: ' + JSON.stringify(params));
         return;
       }
-      _this4._files.registerFile(url);
+      _this5._files.registerFile(url);
 
       const path = (0, (_helpers || _load_helpers()).uriToPath)(url);
-      const breakpointStore = _this4._connectionMultiplexer.getBreakpointStore();
+      const breakpointStore = _this5._connectionMultiplexer.getBreakpointStore();
       // Chrome lineNumber is 0-based while xdebug lineno is 1-based.
       const breakpointId = yield breakpointStore.setFileLineBreakpoint(String(id), path, lineNumber + 1, condition);
       const breakpoint = yield breakpointStore.getBreakpoint(breakpointId);
@@ -216,7 +251,7 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
         throw new Error('Invariant violation: "breakpoint != null"');
       }
 
-      _this4.replyToCommand(id, {
+      _this5.replyToCommand(id, {
         breakpointId,
         resolved: breakpoint.resolved,
         locations: [(0, (_helpers || _load_helpers()).getBreakpointLocation)(breakpoint)]
@@ -224,13 +259,61 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
     })();
   }
 
+  _continueToLocation(id, params) {
+    var _this6 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const enabledConnection = _this6._connectionMultiplexer.getEnabledConnection();
+      const { location: { columnNumber, lineNumber, scriptId } } = params;
+      if (enabledConnection == null) {
+        _this6.replyWithError(id, 'No active connection to continue running!');
+        return;
+      }
+
+      const breakpointStore = _this6._connectionMultiplexer.getBreakpointStore();
+
+      if (_this6._temporaryBreakpointpointId != null) {
+        yield breakpointStore.removeBreakpoint(_this6._temporaryBreakpointpointId);
+        _this6._temporaryBreakpointpointId = null;
+      }
+
+      if (!scriptId || columnNumber !== 0) {
+        _this6.replyWithError(id, 'Invalid arguments to Debugger.continueToLocation: ' + JSON.stringify(params));
+        return;
+      }
+
+      const filePath = (_nuclideUri || _load_nuclideUri()).default.getPath(scriptId);
+      const url = (0, (_helpers || _load_helpers()).pathToUri)(filePath);
+      _this6._files.registerFile(url);
+
+      // Chrome lineNumber is 0-based while xdebug lineno is 1-based.
+      _this6._temporaryBreakpointpointId = yield breakpointStore.setFileLineBreakpointForConnection(enabledConnection, String(id), filePath, lineNumber + 1,
+      /* condition */'');
+
+      const breakpoint = breakpointStore.getBreakpoint(_this6._temporaryBreakpointpointId);
+
+      if (!(breakpoint != null)) {
+        throw new Error('Invariant violation: "breakpoint != null"');
+      }
+
+      if (!(breakpoint.connectionId === enabledConnection.getId())) {
+        throw new Error('Invariant violation: "breakpoint.connectionId === enabledConnection.getId()"');
+      }
+
+      _this6.replyToCommand(id, {});
+      // TODO change to resume on resolve notification when it's received after setting a breakpoint.
+      yield (0, (_promise || _load_promise()).sleep)(RESOLVE_BREAKPOINT_DELAY_MS);
+      _this6._resume();
+    })();
+  }
+
   _removeBreakpoint(id, params) {
-    var _this5 = this;
+    var _this7 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const { breakpointId } = params;
-      yield _this5._connectionMultiplexer.removeBreakpoint(breakpointId);
-      _this5.replyToCommand(id, { id: breakpointId });
+      yield _this7._connectionMultiplexer.removeBreakpoint(breakpointId);
+      _this7.replyToCommand(id, { id: breakpointId });
     })();
   }
 
@@ -239,35 +322,40 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
     this._sendFakeLoaderBreakpoint();
   }
 
-  _getStackFrames() {
-    var _this6 = this;
+  _getStackFrames(id) {
+    var _this8 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const frames = yield _this6._connectionMultiplexer.getStackFrames();
-      return Promise.all(frames.stack.map(function (frame, frameIndex) {
-        return _this6._convertFrame(frame, frameIndex);
-      }));
+      const frames = yield _this8._connectionMultiplexer.getConnectionStackFrames(id);
+
+      if (frames != null && frames.stack != null || frames.stack.length === 0) {
+        return Promise.all(frames.stack.map(function (frame, frameIndex) {
+          return _this8._convertFrame(frame, frameIndex);
+        }));
+      }
+
+      return Promise.resolve([]);
     })();
   }
 
   _getTopFrameForConnection(id) {
-    var _this7 = this;
+    var _this9 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const frames = yield _this7._connectionMultiplexer.getConnectionStackFrames(id);
+      const frames = yield _this9._connectionMultiplexer.getConnectionStackFrames(id);
       if (frames == null || frames.stack == null || frames.stack.length === 0) {
         return null;
       }
-      return _this7._convertFrame(frames.stack[0], 0);
+      return _this9._convertFrame(frames.stack[0], 0);
     })();
   }
 
   _convertFrame(frame, frameIndex) {
-    var _this8 = this;
+    var _this10 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       (_utils2 || _load_utils2()).default.log('Converting frame: ' + JSON.stringify(frame));
-      const file = _this8._files.registerFile((0, (_frame || _load_frame()).fileUrlOfFrame)(frame));
+      const file = _this10._files.registerFile((0, (_frame || _load_frame()).fileUrlOfFrame)(frame));
       const location = (0, (_frame || _load_frame()).locationOfFrame)(frame);
       const hasSource = yield file.hasSource();
       if (!hasSource) {
@@ -276,7 +364,7 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
 
       let scopeChain = null;
       try {
-        scopeChain = yield _this8._connectionMultiplexer.getScopesForFrame(frameIndex);
+        scopeChain = yield _this10._connectionMultiplexer.getScopesForFrame(frameIndex);
       } catch (e) {
         // Couldn't get scopes.
       }
@@ -310,20 +398,21 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
   }
 
   _onStatusChanged(status, params) {
-    var _this9 = this;
+    var _this11 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       (_utils2 || _load_utils2()).default.log('Sending status: ' + status);
       switch (status) {
         case (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexerStatus.AllConnectionsPaused:
         case (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexerStatus.SingleConnectionPaused:
-          yield _this9._sendPausedMessage();
+          yield _this11._sendPausedMessage();
+          yield _this11._clearIfTemporaryBreakpoint();
           break;
         case (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexerStatus.Running:
-          _this9.sendMethod('Debugger.resumed');
+          _this11.sendMethod('Debugger.resumed');
           break;
         case (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexerStatus.End:
-          _this9._endSession();
+          _this11._endSession();
           break;
         default:
           (_utils2 || _load_utils2()).default.logErrorAndThrow('Unexpected status: ' + status);
@@ -331,8 +420,31 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
     })();
   }
 
+  _clearIfTemporaryBreakpoint() {
+    var _this12 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const temporaryBreakpointId = _this12._temporaryBreakpointpointId;
+      if (temporaryBreakpointId == null) {
+        return;
+      }
+      const breakpointStore = _this12._connectionMultiplexer.getBreakpointStore();
+      const breakpoint = breakpointStore.getBreakpoint(temporaryBreakpointId);
+      const enabledConnection = _this12._connectionMultiplexer.getEnabledConnection();
+      if (enabledConnection == null || breakpoint == null || enabledConnection.getId() !== breakpoint.connectionId) {
+        return;
+      }
+      const { breakpointInfo } = breakpoint;
+      const stopLocation = enabledConnection.getStopBreakpointLocation();
+      if (stopLocation != null && stopLocation.filename === breakpointInfo.filename && stopLocation.lineNumber === breakpointInfo.lineNumber) {
+        yield breakpointStore.removeBreakpoint(temporaryBreakpointId);
+        _this12._temporaryBreakpointpointId = null;
+      }
+    })();
+  }
+
   _onNotification(notifyName, params) {
-    var _this10 = this;
+    var _this13 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       switch (notifyName) {
@@ -342,7 +454,7 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
           }
 
           const breakpoint = params;
-          _this10.sendMethod('Debugger.breakpointResolved', {
+          _this13.sendMethod('Debugger.breakpointResolved', {
             breakpointId: breakpoint.chromeId,
             location: (0, (_helpers || _load_helpers()).getBreakpointLocation)(breakpoint)
           });
@@ -352,8 +464,8 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
             throw new Error('Invariant violation: "params"');
           }
 
-          const frame = params.status === (_DbgpSocket || _load_DbgpSocket()).ConnectionStatus.Break ? yield _this10._getTopFrameForConnection(params.id) : null;
-          _this10.sendMethod('Debugger.threadUpdated', {
+          const frame = params.status === (_DbgpSocket || _load_DbgpSocket()).ConnectionStatus.Break ? yield _this13._getTopFrameForConnection(params.id) : null;
+          _this13.sendMethod('Debugger.threadUpdated', {
             thread: {
               id: String(params.id),
               name: String(params.id),
@@ -373,20 +485,20 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
 
   // May only call when in paused state.
   _sendPausedMessage() {
-    var _this11 = this;
+    var _this14 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const requestSwitchMessage = _this11._connectionMultiplexer.getRequestSwitchMessage();
-      _this11._connectionMultiplexer.resetRequestSwitchMessage();
+      const requestSwitchMessage = _this14._connectionMultiplexer.getRequestSwitchMessage();
+      _this14._connectionMultiplexer.resetRequestSwitchMessage();
       if (requestSwitchMessage != null) {
-        _this11.sendUserMessage('outputWindow', {
+        _this14.sendUserMessage('outputWindow', {
           level: 'info',
           text: requestSwitchMessage
         });
       }
-      const enabledConnectionId = _this11._connectionMultiplexer.getEnabledConnectionId();
-      _this11.sendMethod('Debugger.paused', {
-        callFrames: yield _this11._getStackFrames(),
+      const enabledConnectionId = _this14._connectionMultiplexer.getEnabledConnectionId();
+      _this14.sendMethod('Debugger.paused', {
+        callFrames: enabledConnectionId != null ? yield _this14._getStackFrames(enabledConnectionId) : [],
         reason: 'breakpoint', // TODO: better reason?
         threadSwitchMessage: requestSwitchMessage,
         data: {},
@@ -396,15 +508,15 @@ class DebuggerHandler extends (_Handler || _load_Handler()).default {
       // Send an update for the enabled thread to cause the request window in the
       // front-end to update.
       if (enabledConnectionId != null) {
-        const frame = yield _this11._getTopFrameForConnection(enabledConnectionId);
-        _this11.sendMethod('Debugger.threadUpdated', {
+        const frame = yield _this14._getTopFrameForConnection(enabledConnectionId);
+        _this14.sendMethod('Debugger.threadUpdated', {
           thread: {
             id: String(enabledConnectionId),
             name: String(enabledConnectionId),
             address: frame != null ? frame.functionName : 'N/A',
             location: frame != null ? frame.location : null,
             hasSource: true,
-            stopReason: _this11._connectionMultiplexer.getConnectionStopReason(enabledConnectionId),
+            stopReason: _this14._connectionMultiplexer.getConnectionStopReason(enabledConnectionId),
             description: 'N/A'
           }
         });

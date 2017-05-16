@@ -94,6 +94,7 @@ const entityWatches = new (_SharedObservableCache || _load_SharedObservableCache
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const entityObserver = new Map();

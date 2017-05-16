@@ -91,6 +91,7 @@ const GRAPHQL_FILE_EXTENTIONS = ['.graphql'];
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let serviceRegistry = null;
@@ -126,8 +127,6 @@ class GraphQLProcess {
     }).subscribe(fileEvent => {
       this._fileVersionNotifier.onEvent(fileEvent);
     });
-
-    this._process.observeExitCode().subscribe(() => this.dispose());
   }
 
   getService() {
@@ -135,6 +134,10 @@ class GraphQLProcess {
       throw new Error('GraphQLServerService disposed already');
     }
     return this._process.getService('GraphQLServerService');
+  }
+
+  observeExitMessage() {
+    return this._process.observeExitMessage();
   }
 
   getDiagnostics(query, filePath) {
@@ -173,25 +176,28 @@ class GraphQLProcess {
     })();
   }
 
-  dispose() {
-    (_config || _load_config()).logger.logTrace('Cleaning up GraphQL artifacts');
-    this._process.getService('GraphQLServerService').then(service => {
-      // Atempt to send disconnect message before shutting down connection
+  _disconnect() {
+    var _this5 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      // Attempt to send disconnect message before shutting down connection
       try {
         (_config || _load_config()).logger.logTrace('Attempting to disconnect cleanly from GraphQLProcess');
-        service.disconnect();
+        (yield _this5.getService()).disconnect();
       } catch (e) {
         // Failing to send the shutdown is not fatal...
         // ... continue with shutdown.
         (_config || _load_config()).logger.logError('GraphQL Process died before disconnect() could be sent.');
       }
-    });
+    })();
+  }
+
+  dispose() {
+    (_config || _load_config()).logger.logTrace('Cleaning up GraphQL artifacts');
+    this._disconnect();
     this._process.dispose();
     this._fileVersionNotifier.dispose();
     this._fileSubscription.unsubscribe();
-    if (processes.has(this._fileCache)) {
-      processes.get(this._fileCache).delete(this._configDir);
-    }
   }
 }
 
@@ -200,7 +206,16 @@ const processes = new (_cache || _load_cache()).Cache(fileCache => new (_cache |
 }), (_cache || _load_cache()).DISPOSE_VALUE);
 
 function createGraphQLProcess(fileCache, configDir) {
-  const processStream = (0, (_process || _load_process()).forkProcessStream)(require.resolve('../../nuclide-graphql-language-service/bin/graphql.js'), ['server', `-c ${configDir}`], { silent: true });
+  const processStream = (0, (_process || _load_process()).fork)(require.resolve('../../nuclide-graphql-language-service/bin/graphql.js'), ['server', `-c ${configDir}`], { silent: true });
 
-  return new GraphQLProcess(fileCache, `GraphQLProcess-${configDir}`, configDir, processStream);
+  const graphQLProcess = new GraphQLProcess(fileCache, `GraphQLProcess-${configDir}`, configDir, processStream);
+
+  graphQLProcess.observeExitMessage().subscribe(() => {
+    // Dispose the process by removing it from the cache.
+    if (processes.has(fileCache)) {
+      processes.get(fileCache).delete(configDir);
+    }
+  });
+
+  return graphQLProcess;
 }

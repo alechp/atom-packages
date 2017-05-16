@@ -59,6 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/home';
@@ -85,7 +86,8 @@ const DEFAULT_WELCOME = _react.default.createElement(
         { href: NUCLIDE_DOCS_URL },
         'Get Started!'
       ),
-      ' In-depth docs on our features.'
+      ' ',
+      'In-depth docs on our features.'
     ),
     _react.default.createElement(
       'li',
@@ -95,7 +97,8 @@ const DEFAULT_WELCOME = _react.default.createElement(
         { href: 'https://github.com/facebook/nuclide' },
         'GitHub'
       ),
-      ' Pull requests, issues, and feedback.'
+      ' ',
+      'Pull requests, issues, and feedback.'
     )
   ),
   _react.default.createElement(

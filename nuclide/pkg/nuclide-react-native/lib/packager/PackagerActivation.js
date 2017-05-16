@@ -141,6 +141,7 @@ exports.PackagerActivation = PackagerActivation; /**
                                                   * the root directory of this source tree.
                                                   *
                                                   * 
+                                                  * @format
                                                   */
 
 class NoReactNativeProjectError extends Error {
@@ -180,8 +181,9 @@ function getPackagerObservable(projectRootPath) {
     return (0, (_process || _load_process()).observeProcess)(command, args, {
       cwd,
       env: Object.assign({}, process.env, { REACT_EDITOR: (0, (_shellQuote || _load_shellQuote()).quote)(editor) }),
-      killTreeOnComplete: true
-    });
+      killTreeWhenDone: true,
+      /* TODO(T17353599) */isExitError: () => false
+    }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })); // TODO(T17463635)
   })
   // Accumulate the stderr so that we can show it to the user if something goes wrong.
   .scan((acc, event) => {

@@ -56,6 +56,7 @@ const EVAL_IDENTIFIER = '$__unique_xdebug_variable_name__';
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class DataCache {

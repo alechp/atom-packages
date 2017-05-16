@@ -122,6 +122,10 @@ Use flexbox cross-axis stretch to fill the vertical space.
 
 .nuclide-debugger-breakpoint {
   padding-left: 0.25em;
+
+  span {
+    -webkit-user-select: none;
+  }
 }
 
 .nuclide-debugger-breakpoint-unresolved {
@@ -152,7 +156,8 @@ Use flexbox cross-axis stretch to fill the vertical space.
 }
 
 .nuclide-debugger-watch-expression-value-content {
-  overflow-x: auto;
+  width: 100%;
+  overflow: visible;
 }
 
 .nuclide-debugger-watch-expression-xout {
@@ -253,6 +258,11 @@ Use flexbox cross-axis stretch to fill the vertical space.
   cursor: pointer;
   margin-right: 0.5em;
   margin-top: 4px;
+}
+
+.nuclide-debugger-set-source-path-button {
+  position: relative;
+  left: 10px;
 }
 
 .nuclide-debugger-exception-fragment {

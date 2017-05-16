@@ -19,6 +19,7 @@ const SEMVERISH_RE = /^(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?$/; /**
                                                                   * the root directory of this source tree.
                                                                   *
                                                                   * 
+                                                                  * @format
                                                                   */
 
 let version;

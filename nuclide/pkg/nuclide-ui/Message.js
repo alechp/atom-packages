@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const MessageTypes = exports.MessageTypes = Object.freeze({
@@ -42,11 +43,7 @@ const MessageTypeClassNames = Object.freeze({
 });
 
 const Message = exports.Message = props => {
-  const {
-    className,
-    children,
-    type
-  } = props;
+  const { className, children, type } = props;
   const resolvedType = type == null ? MessageTypes.default : type;
   const newClassName = (0, (_classnames || _load_classnames()).default)(className, 'nuclide-ui-message', MessageTypeClassNames[resolvedType]);
   return _react.default.createElement(

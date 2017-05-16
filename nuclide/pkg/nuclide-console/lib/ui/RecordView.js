@@ -64,6 +64,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const URL_REGEX = /(https?:\/\/[\S]+)/i;
@@ -143,12 +144,7 @@ class RecordView extends _react.default.Component {
   render() {
     const { displayableRecord } = this.props;
     const { record } = displayableRecord;
-    const {
-      level,
-      kind,
-      timestamp,
-      sourceId
-    } = record;
+    const { level, kind, timestamp, sourceId } = record;
 
     const classNames = (0, (_classnames || _load_classnames()).default)('nuclide-console-record', `level-${level || 'log'}`, {
       request: kind === 'request',
@@ -174,12 +170,11 @@ class RecordView extends _react.default.Component {
     }
     return _react.default.createElement(
       (_MeasuredComponent || _load_MeasuredComponent()).MeasuredComponent,
-      { onMeasurementsChanged: this._debouncedMeasureAndNotifyHeight },
+      {
+        onMeasurementsChanged: this._debouncedMeasureAndNotifyHeight },
       _react.default.createElement(
         'div',
-        {
-          ref: this._handleRecordWrapper,
-          className: classNames },
+        { ref: this._handleRecordWrapper, className: classNames },
         icon,
         _react.default.createElement(
           'div',

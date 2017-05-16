@@ -36,6 +36,7 @@ const DEPENDENCY_PROPERTIES = new Set(['dependencies', 'devDependencies', 'optio
                                                                                                      * the root directory of this source tree.
                                                                                                      *
                                                                                                      * 
+                                                                                                     * @format
                                                                                                      */
 
 function getNPMHyperclickProvider() {

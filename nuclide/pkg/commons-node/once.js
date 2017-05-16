@@ -12,6 +12,7 @@ exports.default = once;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function once(fn) {

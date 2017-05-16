@@ -206,7 +206,10 @@ class TestRunnerPanel extends _react.default.Component {
       dropdown = _react.default.createElement((_Dropdown || _load_Dropdown()).Dropdown, {
         className: 'inline-block nuclide-test-runner__runner-dropdown',
         disabled: this.props.executionState === TestRunnerPanel.ExecutionState.RUNNING,
-        options: this.props.testRunners.map((testRunner, index) => ({ label: testRunner.label, value: index })),
+        options: this.props.testRunners.map((testRunner, index) => ({
+          label: testRunner.label,
+          value: index
+        })),
         onChange: this.setSelectedTestRunnerIndex,
         ref: 'dropdown',
         value: this.state.selectedTestRunnerIndex,
@@ -307,6 +310,7 @@ exports.default = TestRunnerPanel; /**
                                     * the root directory of this source tree.
                                     *
                                     * 
+                                    * @format
                                     */
 
 TestRunnerPanel.ExecutionState = Object.freeze({

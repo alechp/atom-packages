@@ -72,6 +72,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const LINTER_PACKAGE = 'linter';
@@ -98,13 +99,17 @@ class Activation {
 
     // Currently, the DiagnosticsPanel is designed to work with only one DiagnosticUpdater.
     if (this._diagnosticUpdaters.getValue() != null) {
-      return;
+      return new (_UniversalDisposable || _load_UniversalDisposable()).default();
     }
     this._diagnosticUpdaters.next(diagnosticUpdater);
-    this._subscriptions.add(addAtomCommands(diagnosticUpdater), () => {
-      if (this._diagnosticUpdaters.getValue() === diagnosticUpdater) {
-        this._diagnosticUpdaters.next(null);
+    const atomCommandsDisposable = addAtomCommands(diagnosticUpdater);
+    this._subscriptions.add(atomCommandsDisposable);
+    return new (_UniversalDisposable || _load_UniversalDisposable()).default(atomCommandsDisposable, () => {
+      if (!(this._diagnosticUpdaters.getValue() === diagnosticUpdater)) {
+        throw new Error('Invariant violation: "this._diagnosticUpdaters.getValue() === diagnosticUpdater"');
       }
+
+      this._diagnosticUpdaters.next(null);
     });
   }
 

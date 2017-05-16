@@ -35,7 +35,7 @@ Object.defineProperty(exports, 'saveBuffer', {
     return (_remoteTextBuffer || _load_remoteTextBuffer()).saveBuffer;
   }
 });
-exports.getDebugBridgeServiceByNuclideUri = getDebugBridgeServiceByNuclideUri;
+exports.getAdbServiceByNuclideUri = getAdbServiceByNuclideUri;
 exports.getArcanistServiceByNuclideUri = getArcanistServiceByNuclideUri;
 exports.getBuckServiceByNuclideUri = getBuckServiceByNuclideUri;
 exports.getClangServiceByNuclideUri = getClangServiceByNuclideUri;
@@ -57,6 +57,7 @@ exports.getPhpDebuggerServiceByNuclideUri = getPhpDebuggerServiceByNuclideUri;
 exports.getPythonServiceByNuclideUri = getPythonServiceByNuclideUri;
 exports.getReasonServiceByNuclideUri = getReasonServiceByNuclideUri;
 exports.getRemoteCommandServiceByNuclideUri = getRemoteCommandServiceByNuclideUri;
+exports.getSdbServiceByNuclideUri = getSdbServiceByNuclideUri;
 exports.getSourceControlServiceByNuclideUri = getSourceControlServiceByNuclideUri;
 
 var _nullthrows;
@@ -134,10 +135,11 @@ exports.getlocalService = (_serviceManager || _load_serviceManager()).getlocalSe
                                                                                         * the root directory of this source tree.
                                                                                         *
                                                                                         * 
+                                                                                        * @format
                                                                                         */
 
-function getDebugBridgeServiceByNuclideUri(uri) {
-  return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('DebugBridgeService', uri));
+function getAdbServiceByNuclideUri(uri) {
+  return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('AdbService', uri));
 }
 
 function getArcanistServiceByNuclideUri(uri) {
@@ -222,6 +224,10 @@ function getReasonServiceByNuclideUri(uri) {
 
 function getRemoteCommandServiceByNuclideUri(uri) {
   return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('RemoteCommandService', uri));
+}
+
+function getSdbServiceByNuclideUri(uri) {
+  return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('SdbService', uri));
 }
 
 function getSourceControlServiceByNuclideUri(uri) {

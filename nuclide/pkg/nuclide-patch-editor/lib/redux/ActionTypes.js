@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DEREGISTER_PATCH_EDITOR = exports.DEREGISTER_PATCH_EDITOR = 'DEREGISTER_PATCH_EDITOR';

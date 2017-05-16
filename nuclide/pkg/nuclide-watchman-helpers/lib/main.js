@@ -27,6 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 exports.WatchmanClient = (_WatchmanClient || _load_WatchmanClient()).default;

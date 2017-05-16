@@ -67,6 +67,7 @@ const PORT = 38913;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ReactNativeDebuggerInstance extends (_nuclideDebuggerBase || _load_nuclideDebuggerBase()).DebuggerInstanceBase {
@@ -94,7 +95,6 @@ class ReactNativeDebuggerInstance extends (_nuclideDebuggerBase || _load_nuclide
     }), pid$.first().subscribe(() => {
       didConnect();
     }),
-
     // Explicitly manage connection.
     uiConnection$.connect(), session$.connect(), pid$.connect());
   }

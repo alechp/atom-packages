@@ -76,9 +76,11 @@ const ToolbarExampleLeft = () => _react.default.createElement(
     _react.default.createElement(
       'div',
       null,
-      'Be sure to use ',
+      'Be sure to use',
+      ' ',
       '<ToolbarLeft/>, <ToolbarLeft/>, and <ToolbarLeft/>',
-      ' as children.'
+      ' ',
+      'as children.'
     )
   )
 ); /**
@@ -89,6 +91,7 @@ const ToolbarExampleLeft = () => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const ToolbarExampleCenter = () => _react.default.createElement(

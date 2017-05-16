@@ -43,6 +43,7 @@ let disposables = null; /**
                          * the root directory of this source tree.
                          *
                          * 
+                         * @format
                          */
 
 function activate() {

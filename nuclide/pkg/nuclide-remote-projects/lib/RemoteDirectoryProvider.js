@@ -23,6 +23,7 @@ const REMOTE_PATH_URI_PREFIX = 'nuclide://'; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 class RemoteDirectoryProvider {

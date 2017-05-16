@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ConnectionStatus = exports.ConnectionStatus = {
@@ -323,7 +324,8 @@ class DbgpSocket {
 
     return (0, _asyncToGenerator.default)(function* () {
       // Pass zero as contextId to search all contexts.
-      return _this4.getPropertiesByFullname(frameIndex, /* contextId */'0', fullname, page);
+      return _this4.getPropertiesByFullname(frameIndex,
+      /* contextId */'0', fullname, page);
     })();
   }
 

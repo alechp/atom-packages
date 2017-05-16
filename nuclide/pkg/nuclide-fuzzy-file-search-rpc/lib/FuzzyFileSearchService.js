@@ -10,26 +10,36 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 /**
  * Performs a fuzzy file search in the specified directory.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 let queryFuzzyFile = exports.queryFuzzyFile = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (rootDirectory, queryString, ignoredNames) {
-    const search = yield (0, (_FileSearchProcess || _load_FileSearchProcess()).fileSearchForDirectory)(rootDirectory, ignoredNames);
-    return search.query(queryString);
+    // Note that Eden makes a "magical" .eden directory entry stat'able but not readdir'able in every
+    // directory under EdenFS to make it cheap to check whether a directory is in EdenFS.
+    const pathToDotEden = (_nuclideUri || _load_nuclideUri()).default.join(rootDirectory, '.eden');
+    const isEden = yield (_fsPromise || _load_fsPromise()).default.isNonNfsDirectory(pathToDotEden);
+    if (!isEden) {
+      const search = yield (0, (_FileSearchProcess || _load_FileSearchProcess()).fileSearchForDirectory)(rootDirectory, ignoredNames);
+      return search.query(queryString);
+    } else {
+      const edenFsRoot = yield (_fsPromise || _load_fsPromise()).default.readlink((_nuclideUri || _load_nuclideUri()).default.join(pathToDotEden, 'root'));
+      // $FlowFB
+      const { doSearch } = require('./fb-EdenFileSearch');
+      return doSearch(queryString, edenFsRoot, rootDirectory);
+    }
   });
 
   return function queryFuzzyFile(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-})();
+})(); /**
+       * Copyright (c) 2015-present, Facebook, Inc.
+       * All rights reserved.
+       *
+       * This source code is licensed under the license found in the LICENSE file in
+       * the root directory of this source tree.
+       *
+       * 
+       * @format
+       */
 
 let queryAllExistingFuzzyFile = exports.queryAllExistingFuzzyFile = (() => {
   var _ref2 = (0, _asyncToGenerator.default)(function* (queryString, ignoredNames) {
@@ -71,6 +81,12 @@ var _fsPromise;
 
 function _load_fsPromise() {
   return _fsPromise = _interopRequireDefault(require('../../commons-node/fsPromise'));
+}
+
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

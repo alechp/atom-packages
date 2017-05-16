@@ -118,6 +118,7 @@ const ERROR_RESPONSE_MESSAGE = 'error-response'; /**
                                                   * the root directory of this source tree.
                                                   *
                                                   * 
+                                                  * @format
                                                   */
 
 // eslint-disable-next-line nuclide-internal/prefer-nuclide-uri

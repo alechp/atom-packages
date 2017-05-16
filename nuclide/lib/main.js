@@ -26,6 +26,12 @@ function _load_serviceManager() {
   return _serviceManager = require('../pkg/nuclide-remote-connection/lib/service-manager');
 }
 
+var _installErrorReporter;
+
+function _load_installErrorReporter() {
+  return _installErrorReporter = _interopRequireDefault(require('./installErrorReporter'));
+}
+
 var _electron = _interopRequireDefault(require('electron'));
 
 var _atom = require('atom');
@@ -44,16 +50,16 @@ function _load_package() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
-const { remote } = _electron.default; /**
-                                       * Copyright (c) 2015-present, Facebook, Inc.
-                                       * All rights reserved.
-                                       *
-                                       * This source code is licensed under the license found in the LICENSE file in
-                                       * the root directory of this source tree.
-                                       *
-                                       * 
-                                       */
+// Install the error reporting even before Nuclide is activated.
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 /**
  *                  _  _ _  _ ____ _    _ ___  ____
@@ -66,6 +72,12 @@ const { remote } = _electron.default; /**
  */
 
 /* global localStorage */
+
+let errorReporterDisposable = (0, (_installErrorReporter || _load_installErrorReporter()).default)();
+// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
+
+
+const { remote } = _electron.default;
 
 if (!(remote != null)) {
   throw new Error('Invariant violation: "remote != null"');
@@ -240,6 +252,10 @@ let initialLoadDisposable = atom.packages.onDidLoadPackage(pack => {
 });
 
 function activate() {
+  if (errorReporterDisposable == null) {
+    errorReporterDisposable = (0, (_installErrorReporter || _load_installErrorReporter()).default)();
+  }
+
   const nuclidePack = atom.packages.getLoadedPackage('nuclide');
 
   if (!(nuclidePack != null)) {
@@ -333,6 +349,13 @@ function deactivate() {
 
   disposables.dispose();
   disposables = null;
+
+  if (!(errorReporterDisposable != null)) {
+    throw new Error('Invariant violation: "errorReporterDisposable != null"');
+  }
+
+  errorReporterDisposable.dispose();
+  errorReporterDisposable = null;
 }
 
 function serialize() {

@@ -3,8 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = typeof requestIdleCallback !== 'undefined' ?
-// Using Browser API
+exports.default = typeof requestIdleCallback !== 'undefined' ? // Using Browser API
 // Is guaranteed to resolve after `timeout` milliseconds.
 function scheduleIdleCallback(callback_, options = {}) {
   const afterRemainingTime = options.afterRemainingTime || 49;
@@ -35,9 +34,7 @@ function scheduleIdleCallback(callback_, options = {}) {
       }
     }
   };
-} :
-
-// Using Node API
+} : // Using Node API
 function scheduleIdleCallback(callback, options) {
   const id = setImmediate(callback);
   return {
@@ -53,6 +50,7 @@ function scheduleIdleCallback(callback, options) {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 /* global requestIdleCallback, cancelIdleCallback */

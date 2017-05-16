@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _nuclideVcsBase;
+
+function _load_nuclideVcsBase() {
+  return _nuclideVcsBase = require('../nuclide-vcs-base');
+}
+
 var _addTooltip;
 
 function _load_addTooltip() {
@@ -16,12 +22,6 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _nuclideVcsBase;
-
-function _load_nuclideVcsBase() {
-  return _nuclideVcsBase = require('../nuclide-vcs-base');
-}
-
 var _nuclideUri;
 
 function _load_nuclideUri() {
@@ -30,10 +30,10 @@ function _load_nuclideUri() {
 
 var _react = _interopRequireDefault(require('react'));
 
-var _Icon;
+var _ChangedFile;
 
-function _load_Icon() {
-  return _Icon = require('./Icon');
+function _load_ChangedFile() {
+  return _ChangedFile = _interopRequireDefault(require('./ChangedFile'));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -48,6 +48,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
+function isHgPath(path) {
+  const repo = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(path);
+  return repo != null && repo.getType() === 'hg';
+}
+
 const FILE_CHANGES_INITIAL_PAGE_SIZE = 100;
 
 class ChangedFilesList extends _react.default.Component {
@@ -60,40 +65,44 @@ class ChangedFilesList extends _react.default.Component {
     };
   }
 
-  _getFileClassname(file, fileChangeValue) {
-    const { commandPrefix, rootPath, selectedFile } = this.props;
-    const repository = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(rootPath);
-    return (0, (_classnames || _load_classnames()).default)('nuclide-file-changes-list-item', 'list-item', {
-      selected: file === selectedFile,
-      [`${commandPrefix}-file-entry`]: repository != null && repository.getType() === 'hg'
-    }, (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatusToTextColor[fileChangeValue]);
-  }
-
   render() {
-    const { fileChanges } = this.props;
-    if (fileChanges.size === 0 && this.props.hideEmptyFolders) {
+    const {
+      commandPrefix,
+      enableFileExpansion,
+      enableInlineActions,
+      fileChanges,
+      fileStatuses,
+      onAddFile,
+      onDeleteFile,
+      onFileChosen,
+      onForgetFile,
+      onOpenFileInDiffView,
+      onRevertFile,
+      rootPath,
+      selectedFile
+    } = this.props;
+    if (fileStatuses.size === 0 && this.props.hideEmptyFolders) {
       return null;
     }
 
     const filesToShow = FILE_CHANGES_INITIAL_PAGE_SIZE * this.state.visiblePagesCount;
-    const sizeLimitedFileChanges = Array.from(fileChanges.entries()).slice(0, filesToShow);
+    const sizeLimitedFileChanges = Array.from(fileStatuses.entries()).slice(0, filesToShow);
 
     const rootClassName = (0, (_classnames || _load_classnames()).default)('list-nested-item', {
       collapsed: this.state.isCollapsed
     });
 
-    const fileClassName = (0, (_classnames || _load_classnames()).default)('icon', 'icon-file-text', 'nuclide-file-changes-file-entry');
-
-    const showMoreFilesElement = fileChanges.size > filesToShow ? _react.default.createElement('div', {
+    const showMoreFilesElement = fileStatuses.size > filesToShow ? _react.default.createElement('div', {
       className: 'icon icon-ellipsis',
       ref: (0, (_addTooltip || _load_addTooltip()).default)({
         title: 'Show more files with uncommitted changes',
-        delay: 100,
+        delay: 300,
         placement: 'bottom'
       }),
       onClick: () => this.setState({ visiblePagesCount: this.state.visiblePagesCount + 1 })
     }) : null;
 
+    const isHgRoot = isHgPath(rootPath);
     return _react.default.createElement(
       'ul',
       { className: 'list-tree has-collapsable-children' },
@@ -117,28 +126,24 @@ class ChangedFilesList extends _react.default.Component {
         _react.default.createElement(
           'ul',
           { className: 'list-tree has-flat-children' },
-          sizeLimitedFileChanges.map(([filePath, fileChangeValue]) => {
-            const baseName = (_nuclideUri || _load_nuclideUri()).default.basename(filePath);
-            return _react.default.createElement(
-              'li',
-              {
-                'data-name': baseName,
-                'data-path': filePath,
-                'data-root': this.props.rootPath,
-                className: this._getFileClassname(filePath, fileChangeValue),
-                key: filePath,
-                onClick: () => this.props.onFileChosen(filePath) },
-              _react.default.createElement((_Icon || _load_Icon()).Icon, {
-                className: 'nuclide-file-changes-file-entry-icon',
-                icon: (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatusToIcon[fileChangeValue]
-              }),
-              _react.default.createElement(
-                'span',
-                { className: fileClassName },
-                baseName
-              )
-            );
-          }),
+          sizeLimitedFileChanges.map(([filePath, fileStatus]) => _react.default.createElement((_ChangedFile || _load_ChangedFile()).default, {
+            commandPrefix: commandPrefix,
+            enableFileExpansion: enableFileExpansion,
+            enableInlineActions: enableInlineActions,
+            fileChanges: fileChanges == null ? null : fileChanges.get(filePath),
+            filePath: filePath,
+            fileStatus: fileStatus,
+            isHgPath: isHgRoot,
+            isSelected: selectedFile === filePath,
+            key: filePath,
+            onAddFile: onAddFile,
+            onDeleteFile: onDeleteFile,
+            onFileChosen: onFileChosen,
+            onForgetFile: onForgetFile,
+            onOpenFileInDiffView: onOpenFileInDiffView,
+            onRevertFile: onRevertFile,
+            rootPath: rootPath
+          })),
           _react.default.createElement(
             'li',
             null,

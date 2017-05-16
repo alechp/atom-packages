@@ -12,6 +12,7 @@ exports.default = prettyPrintTypes;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /**
@@ -85,7 +86,7 @@ function parseGroups(str) {
     currentGroup.end = i + 1;
     const parentGroup = currentGroup.parentGroup;
     if (!parentGroup) {
-      throw new Error('parentGroup shouldn\'t be null');
+      throw new Error("parentGroup shouldn't be null");
     }
     currentGroup = parentGroup;
   }

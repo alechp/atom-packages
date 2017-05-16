@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
@@ -233,7 +234,9 @@ class RemoteConnection {
           warningMessageToUser += '<b><a href="https://facebook.github.io/watchman/">Watchman</a> Error:</b>' + loggedErrorMessage;
         }
         // Add a persistent warning message to make sure the user sees it before dismissing.
-        atom.notifications.addWarning(warningMessageToUser, { dismissable: true });
+        atom.notifications.addWarning(warningMessageToUser, {
+          dismissable: true
+        });
       });
 
       return function (_x) {
@@ -281,7 +284,10 @@ class RemoteConnection {
   }
 
   getConfig() {
-    return Object.assign({}, this._connection.getConfig(), { cwd: this._cwd, displayTitle: this._displayTitle });
+    return Object.assign({}, this._connection.getConfig(), {
+      cwd: this._cwd,
+      displayTitle: this._displayTitle
+    });
   }
 
   static onDidAddRemoteConnection(handler) {

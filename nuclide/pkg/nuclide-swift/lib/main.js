@@ -26,6 +26,7 @@ let _disposables = null; /**
                           * the root directory of this source tree.
                           *
                           * 
+                          * @format
                           */
 
 let _taskRunner = null;

@@ -26,6 +26,7 @@ function _load_nuclideLogging() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const FETCH_REVISIONS_DEBOUNCE_MS = 100;

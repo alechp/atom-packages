@@ -33,6 +33,7 @@ function _load_nuclideAnalytics() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class MercurialConflictDetector {
@@ -89,7 +90,7 @@ class MercurialConflictDetector {
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-conflict-detctor.detected-conflicts');
       this._mercurialConflictContext.setConflictingRepository(repository);
       conflictsApi.showForContext(this._mercurialConflictContext);
-      atom.notifications.addWarning('Nuclide detected merge conflicts in your active project\'s repository', {
+      atom.notifications.addWarning("Nuclide detected merge conflicts in your active project's repository", {
         detail: 'Use the conflicts resolver UI below to help resolve them',
         nativeFriendly: true
       });

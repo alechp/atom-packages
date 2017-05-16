@@ -262,16 +262,16 @@ class MarkdownPreviewEnhancedView extends ScrollView
 
     @disposables.add @editor.onDidStopChanging ()=>
       # @textChanged = true # this line has problem.
-      if @liveUpdate and !@usePandocParser
+      if @liveUpdate
         @updateMarkdown()
 
     @disposables.add @editor.onDidSave ()=>
-      if not @liveUpdate or @usePandocParser
+      if not @liveUpdate
         @textChanged = true
         @updateMarkdown()
 
     @disposables.add @editor.onDidChangeModified ()=>
-      if not @liveUpdate or @usePandocParser
+      if not @liveUpdate
         @textChanged = true
 
     @disposables.add editorElement.onDidChangeScrollTop ()=>
@@ -556,6 +556,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
       @setInitialScrollPos()
       @addBackToTopButton()
       @addRefreshButton()
+      @processYAMLConfig(yamlConfig)
 
       @textChanged = false
 
@@ -601,6 +602,15 @@ class MarkdownPreviewEnhancedView extends ScrollView
       # render again
       @renderMarkdown()
 
+  processYAMLConfig: (yamlConfig={})->
+    if yamlConfig.id
+      @element.id = yamlConfig.id
+    if yamlConfig.class
+      cls = yamlConfig.class
+      cls = [cls] if typeof(cls) == 'string'
+      cls = cls.join(' ') or ''
+      @element.setAttribute 'class', "markdown-preview-enhanced native-key-bindings #{cls}"
+
   bindEvents: ->
     @bindTagAClickEvent()
     @setupCodeChunks()
@@ -644,6 +654,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
             # if href.startsWith 'file:///'
             openFilePath = href.slice(8) # remove protocal
             openFilePath = openFilePath.replace(/\.md(\s*)\#(.+)$/, '.md') # remove #anchor
+            openFilePath = decodeURI(openFilePath)
             atom.workspace.open openFilePath,
               split: 'left',
               searchAllPanes: true
@@ -1027,24 +1038,6 @@ class MarkdownPreviewEnhancedView extends ScrollView
     if typeof(MathJax) == 'undefined'
       return loadMathJax document, ()=> @renderMathJax()
 
-    # fix pandoc math issue
-    if @usePandocParser and typeof(MathJax) != 'undefined'
-      # @element.getElementsByClassName 'math' doesn't work properly
-      mathElements = @element.querySelectorAll('.math.inline, .math.display')
-      for mathElement in mathElements
-        displayMode = mathElement.classList.contains('display')
-        tagStart = null
-        tagEnd = null
-        if displayMode
-          tagStart = @mathBlockDelimiters[0][0]
-          tagEnd = @mathBlockDelimiters[0][1]
-        else
-          tagStart = @mathInlineDelimiters[0][0]
-          tagEnd = @mathInlineDelimiters[0][1]
-        mathElement.innerHTML = tagStart + mathElement.innerText.trim().replace(/^\$\$/, '').replace(/\$\$$/, '') + tagEnd
-        if displayMode and mathElement.nextElementSibling?.tagName == 'BR'
-          mathElement.nextElementSibling.remove()
-
     if @mathJaxProcessEnvironments or @usePandocParser
       return MathJax.Hub.Queue ['Typeset', MathJax.Hub, @element], ()=> @scrollMap = null
 
@@ -1216,25 +1209,6 @@ class MarkdownPreviewEnhancedView extends ScrollView
     html += "<script data-js-code>#{jsCode}</script>" if jsCode
     return html
 
-  fixPandocMathExpression: (htmlContent)->
-    return htmlContent if !@usePandocParser
-    $ = cheerio.load htmlContent
-    $('.math.inline, .math.display').each (index, elem)=>
-      $math = $(elem)
-      displayMode = $math.hasClass('display')
-      if displayMode
-        tagStart = @mathBlockDelimiters[0][0]
-        tagEnd = @mathBlockDelimiters[0][1]
-      else
-        tagStart = @mathInlineDelimiters[0][0]
-        tagEnd = @mathInlineDelimiters[0][1]
-      $math.html(tagStart + $math.text().trim().replace(/^\$\$/, '').replace(/\$\$$/, '') + tagEnd)
-
-      if displayMode and $math.next()?[0]?.name == 'br'
-        $math.next().remove()
-
-    return $.html()
-
   ##
   # {Function} callback (htmlContent)
   getHTMLContent: ({isForPrint, offline, useRelativeImagePath, phantomjsType, isForPrince, embedLocalImages}, callback)->
@@ -1252,10 +1226,14 @@ class MarkdownPreviewEnhancedView extends ScrollView
       htmlContent = @formatStringAfterParsing(html)
       yamlConfig = yamlConfig or {}
 
+      elementId = yamlConfig.id or ''
+      elementClass = yamlConfig.class or []
+      elementClass = [elementClass] if typeof(elementClass) == 'string'
+      elementClass = elementClass.join(' ')
+
 
       # replace code chunks inside htmlContent
       htmlContent = @insertCodeChunksResult htmlContent
-      htmlContent = @fixPandocMathExpression htmlContent
 
       if mathRenderingOption == 'MathJax' or @usePandocParser
         inline = atom.config.get('markdown-preview-enhanced.indicatorForMathRenderingInline')
@@ -1265,14 +1243,20 @@ class MarkdownPreviewEnhancedView extends ScrollView
           mathStyle = "
           <script type=\"text/x-mathjax-config\">
             MathJax.Hub.Config({
+              extensions: ['tex2jax.js'],
+              jax: ['input/TeX','output/HTML-CSS'],
               messageStyle: 'none',
               tex2jax: {inlineMath: #{inline},
                         displayMath: #{block},
                         processEnvironments: #{mathJaxProcessEnvironments},
-                        processEscapes: true}
+                        processEscapes: true},
+              TeX: {
+                extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js', 'noUndefined.js', \"file://#{path.resolve(__dirname, '../dependencies/mathjax/extensions/TeX/xypic.js')}\"]
+              },
+              'HTML-CSS': { availableFonts: ['TeX'] }
             });
           </script>
-          <script type=\"text/javascript\" async src=\"file://#{path.resolve(__dirname, '../dependencies/mathjax/MathJax.js?config=TeX-AMS_CHTML')}\"></script>
+          <script type=\"text/javascript\" async src=\"file://#{path.resolve(__dirname, '../dependencies/mathjax/MathJax.js')}\"></script>
           "
         else
           # inlineMath: [ ['$','$'], ["\\(","\\)"] ],
@@ -1280,14 +1264,20 @@ class MarkdownPreviewEnhancedView extends ScrollView
           mathStyle = "
           <script type=\"text/x-mathjax-config\">
             MathJax.Hub.Config({
+              extensions: ['tex2jax.js'],
+              jax: ['input/TeX','output/HTML-CSS'],
               messageStyle: 'none',
               tex2jax: {inlineMath: #{inline},
                         displayMath: #{block},
                         processEnvironments: #{mathJaxProcessEnvironments},
-                        processEscapes: true}
+                        processEscapes: true},
+              TeX: {
+                extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js', 'noUndefined.js', 'http://sonoisa.github.io/xyjax_ext/xypic.js']
+              },
+              'HTML-CSS': { availableFonts: ['TeX'] }
             });
           </script>
-          <script type=\"text/javascript\" async src=\"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML\"></script>
+          <script type=\"text/javascript\" async src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js\"></script>
           "
       else if mathRenderingOption == 'KaTeX'
         if offline
@@ -1389,7 +1379,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
 
         #{presentationScript}
       </head>
-      <body class=\"markdown-preview-enhanced #{phantomjsClass} #{princeClass}\" #{if @presentationMode then 'data-presentation-mode' else ''}>
+      <body class=\"markdown-preview-enhanced #{phantomjsClass} #{princeClass} #{elementClass}\" #{if @presentationMode then 'data-presentation-mode' else ''} #{if elementId then "id=\"#{elementId}\"" else ''}>
 
       #{htmlContent}
 
@@ -1459,7 +1449,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
               # open pdf
               if atom.config.get('markdown-preview-enhanced.pdfOpenAutomatically')
                 @openFile dest
-      , 500)
+      , 2000)
 
   saveAsPDF: (dest)->
     return if not @editor
@@ -1527,6 +1517,8 @@ class MarkdownPreviewEnhancedView extends ScrollView
       styleString = ''
       videoString = ''
       iframeString = ''
+      classString = slideConfig.class or ''
+      idString = if slideConfig.id then "id=\"#{slideConfig.id}\"" else ''
       if slideConfig['data-background-image']
         styleString += "background-image: url('#{@resolveFilePath(slideConfig['data-background-image'])}');"
 
@@ -1568,7 +1560,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
         """
 
       output += """
-        <div class='slide' data-offset='#{offset}' style="width: #{width}px; height: #{height}px; zoom: #{zoom}; #{styleString}">
+        <div class='slide #{classString}' #{idString} data-offset='#{offset}' style="width: #{width}px; height: #{height}px; zoom: #{zoom}; #{styleString}">
           #{videoString}
           #{iframeString}
           <section>#{slide}</section>
@@ -1592,6 +1584,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
 
     parseAttrString = (slideConfig)=>
       attrString = ''
+
       if slideConfig['data-background-image']
         attrString += " data-background-image='#{@resolveFilePath(slideConfig['data-background-image'], useRelativeImagePath)}'"
 
@@ -1631,6 +1624,8 @@ class MarkdownPreviewEnhancedView extends ScrollView
       slide = slides[i]
       slideConfig = slideConfigs[i]
       attrString = parseAttrString(slideConfig)
+      classString = slideConfig.class or ''
+      idString = if slideConfig.id then "id=\"#{slideConfig.id}\"" else ''
 
       if !slideConfig['vertical']
         if i > 0 and slideConfigs[i-1]['vertical'] # end of vertical slides
@@ -1638,7 +1633,7 @@ class MarkdownPreviewEnhancedView extends ScrollView
         if i < slides.length - 1 and slideConfigs[i+1]['vertical'] # start of vertical slides
           output += "<section>"
 
-      output += "<section #{attrString}>#{slide}</section>"
+      output += "<section #{attrString} #{idString} class=\"#{classString}\">#{slide}</section>"
       i += 1
 
     if i > 0 and slideConfigs[i-1]['vertical'] # end of vertical slides

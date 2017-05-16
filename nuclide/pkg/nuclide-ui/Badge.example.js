@@ -41,6 +41,7 @@ const BadgeBasicExample = () => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const BadgeColorExample = () => _react.default.createElement(

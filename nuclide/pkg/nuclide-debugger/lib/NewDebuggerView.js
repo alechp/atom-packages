@@ -91,6 +91,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class NewDebuggerView extends _react.default.PureComponent {
@@ -126,15 +127,9 @@ class NewDebuggerView extends _react.default.PureComponent {
   }
 
   render() {
-    const {
-      model
-    } = this.props;
+    const { model } = this.props;
     const actions = model.getActions();
-    const {
-      mode,
-      threadsComponentTitle,
-      customThreadColumns
-    } = this.state;
+    const { mode, threadsComponentTitle, customThreadColumns } = this.state;
     const WatchExpressionComponentWrapped = this._watchExpressionComponentWrapped;
     const ScopesComponentWrapped = this._scopesComponentWrapped;
     const disabledClass = mode !== (_DebuggerStore || _load_DebuggerStore()).DebuggerMode.RUNNING ? '' : ' nuclide-debugger-container-new-disabled';
@@ -146,7 +141,8 @@ class NewDebuggerView extends _react.default.PureComponent {
         { initialFlexScale: 1 },
         _react.default.createElement(
           (_Section || _load_Section()).Section,
-          { headline: threadsComponentTitle,
+          {
+            headline: threadsComponentTitle,
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
           _react.default.createElement(
             'div',
@@ -167,7 +163,8 @@ class NewDebuggerView extends _react.default.PureComponent {
       { initialFlexScale: 1 },
       _react.default.createElement(
         (_Section || _load_Section()).Section,
-        { headline: 'Breakpoints',
+        {
+          headline: 'Breakpoints',
           key: 'breakpoints',
           className: 'nuclide-debugger-section-header' },
         _react.default.createElement(
@@ -225,7 +222,8 @@ class NewDebuggerView extends _react.default.PureComponent {
         { initialFlexScale: 1 },
         _react.default.createElement(
           (_Section || _load_Section()).Section,
-          { headline: 'Call Stack',
+          {
+            headline: 'Call Stack',
             key: 'callStack',
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
           _react.default.createElement(
@@ -245,7 +243,8 @@ class NewDebuggerView extends _react.default.PureComponent {
         { initialFlexScale: 1 },
         _react.default.createElement(
           (_Section || _load_Section()).Section,
-          { headline: 'Scopes',
+          {
+            headline: 'Scopes',
             key: 'scopes',
             className: (0, (_classnames || _load_classnames()).default)('nuclide-debugger-section-header', disabledClass) },
           _react.default.createElement(
@@ -262,7 +261,8 @@ class NewDebuggerView extends _react.default.PureComponent {
         { initialFlexScale: 1 },
         _react.default.createElement(
           (_Section || _load_Section()).Section,
-          { headline: 'Watch Expressions',
+          {
+            headline: 'Watch Expressions',
             key: 'watchExpressions',
             className: 'nuclide-debugger-section-header' },
           _react.default.createElement(

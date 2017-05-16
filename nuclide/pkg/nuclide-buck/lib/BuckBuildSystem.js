@@ -147,6 +147,7 @@ const SOCKET_TIMEOUT = 30000; /**
                                * the root directory of this source tree.
                                *
                                * 
+                               * @format
                                */
 
 function shouldEnableTask(taskType, ruleType) {
@@ -529,6 +530,7 @@ const TASKS = [{
 }];
 
 function runBuckCommand(buckService, buckRoot, buildTarget, subcommand, args, debug, simulator) {
+  // TODO(T17463635)
   if (debug) {
     // Stop any existing debugging sessions, as install hangs if an existing
     // app that's being overwritten is being debugged.

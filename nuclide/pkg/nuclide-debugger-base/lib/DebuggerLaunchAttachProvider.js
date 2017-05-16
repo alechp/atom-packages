@@ -18,6 +18,7 @@ let uniqueKeySeed = 0;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DebuggerLaunchAttachEventTypes = exports.DebuggerLaunchAttachEventTypes = Object.freeze({

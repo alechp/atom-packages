@@ -33,6 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ShowMoreComponent extends _react.default.Component {
@@ -83,8 +84,13 @@ class ShowMoreComponent extends _react.default.Component {
       null,
       _react.default.createElement(
         'div',
-        { className: 'nuclide-ui-show-more-component', style: conditionalStyle },
-        _react.default.createElement('div', { className: 'nuclide-ui-show-more-gradient', style: displayNoneIfBelowMaxHeight }),
+        {
+          className: 'nuclide-ui-show-more-component',
+          style: conditionalStyle },
+        _react.default.createElement('div', {
+          className: 'nuclide-ui-show-more-gradient',
+          style: displayNoneIfBelowMaxHeight
+        }),
         _react.default.createElement(
           (_MeasuredComponent || _load_MeasuredComponent()).MeasuredComponent,
           { onMeasurementsChanged: this._updateMeasurements },

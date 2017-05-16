@@ -62,6 +62,7 @@ const CONTEXT_MENU_CLASS = 'enable-nuclide-refactorizer'; /**
                                                            * the root directory of this source tree.
                                                            *
                                                            * 
+                                                           * @format
                                                            */
 
 /*

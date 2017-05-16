@@ -40,6 +40,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ArcToolbarSection extends _react.default.Component {
@@ -86,7 +87,11 @@ class ArcToolbarSection extends _react.default.Component {
       icon: 'sync',
       size: (_Button || _load_Button()).ButtonSizes.SMALL,
       onClick: this._reloadBuildTargets,
-      tooltip: { title: 'Reload build steps', delay: { show: 500, hide: 0 }, placement: 'bottom' }
+      tooltip: {
+        title: 'Reload build steps',
+        delay: { show: 500, hide: 0 },
+        placement: 'bottom'
+      }
     });
   }
 

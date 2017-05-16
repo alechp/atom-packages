@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // Use this module to import the global `WebInspector` with types.

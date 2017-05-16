@@ -25,6 +25,7 @@ const TASKS = exports.TASKS = [];
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ArcToolbarModel {

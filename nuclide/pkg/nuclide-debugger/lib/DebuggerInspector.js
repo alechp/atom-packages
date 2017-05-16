@@ -39,12 +39,6 @@ class DebuggerInspector extends _react.default.PureComponent {
         'div',
         { className: 'control-bar' },
         _react.default.createElement((_Button || _load_Button()).Button, {
-          title: 'Detach from the current process.',
-          icon: 'x',
-          buttonType: (_Button || _load_Button()).ButtonTypes.ERROR,
-          onClick: this._handleClickClose
-        }),
-        _react.default.createElement((_Button || _load_Button()).Button, {
           title: '(Debug) Open Web Inspector for the debugger frame.',
           icon: 'gear',
           onClick: this._handleClickDevTools
@@ -71,6 +65,7 @@ exports.default = DebuggerInspector; /**
                                       * the root directory of this source tree.
                                       *
                                       * 
+                                      * @format
                                       */
 
 function hideDebuggerPane() {

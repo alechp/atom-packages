@@ -44,6 +44,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const PROGRESS_OUTPUT_INTERVAL = 5 * 1000;
@@ -169,7 +170,7 @@ function combineEventStreams(subcommand, socketEvents, processEvents) {
   // Error/info logs from the process represent exit/error conditions, so always take them.
   // We ensure that error/info logs will not duplicate messages from the websocket.
   processEvents.skipWhile(isRegularLogMessage));
-  if (subcommand === 'test') {
+  if (subcommand === 'test' || subcommand === 'run') {
     // The websocket does not reliably provide test output.
     // After the build finishes, fall back to the Buck output stream.
     mergedEvents = _rxjsBundlesRxMinJs.Observable.concat(mergedEvents.takeUntil(finiteSocketEvents.filter(isBuildFinishEvent)),

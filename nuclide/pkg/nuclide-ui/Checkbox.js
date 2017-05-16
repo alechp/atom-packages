@@ -115,6 +115,7 @@ exports.Checkbox = Checkbox; /**
                               * the root directory of this source tree.
                               *
                               * 
+                              * @format
                               */
 
 Checkbox.defaultProps = {

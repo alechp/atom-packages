@@ -56,11 +56,21 @@ class Sdb extends (_DebugBridge || _load_DebugBridge()).DebugBridge {
   }
 
   installPackage(device, packagePath) {
+    // TODO(T17463635)
     if (!!(_nuclideUri || _load_nuclideUri()).default.isRemote(packagePath)) {
       throw new Error('Invariant violation: "!nuclideUri.isRemote(packagePath)"');
     }
 
     return this.runLongAdbCommand(device, ['install', packagePath]);
+  }
+
+  launchApp(device, identifier) {
+    return this.runShortAdbCommand(device, ['shell', 'launch_app', identifier]).toPromise();
+  }
+
+  uninstallPackage(device, packageName) {
+    // TODO(T17463635)
+    return this.runLongAdbCommand(device, ['uninstall', packageName]);
   }
 }
 exports.Sdb = Sdb; /**
@@ -71,4 +81,5 @@ exports.Sdb = Sdb; /**
                     * the root directory of this source tree.
                     *
                     * 
+                    * @format
                     */

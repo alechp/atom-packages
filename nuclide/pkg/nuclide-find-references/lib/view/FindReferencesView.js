@@ -39,6 +39,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const PAGE_SIZE = 10;
@@ -139,8 +140,11 @@ class FindReferencesView extends _react.default.Component {
       ),
       _react.default.createElement(
         'ul',
-        { className: 'nuclide-find-references-files list-tree has-collapsable-children',
-          onScroll: this._onScroll, ref: 'root', tabIndex: '0' },
+        {
+          className: 'nuclide-find-references-files list-tree has-collapsable-children',
+          onScroll: this._onScroll,
+          ref: 'root',
+          tabIndex: '0' },
         children
       )
     );

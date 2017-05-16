@@ -47,6 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getExtraData(props) {
@@ -116,7 +117,9 @@ class SelectHunkChanges extends _react.default.Component {
       _react.default.createElement(
         'div',
         { className: 'nuclide-patch-editor-hunk-changes' },
-        _react.default.createElement((_FileChanges || _load_FileChanges()).HunkDiff, Object.assign({}, this.props, { ref: hunk => hunk && this.setState({ editor: hunk.editor }) }))
+        _react.default.createElement((_FileChanges || _load_FileChanges()).HunkDiff, Object.assign({}, this.props, {
+          ref: hunk => hunk && this.setState({ editor: hunk.editor })
+        }))
       ),
       gutterCheckboxes
     );

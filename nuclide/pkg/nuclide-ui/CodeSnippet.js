@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class CodeSnippet extends _react.default.Component {
@@ -38,7 +39,10 @@ class CodeSnippet extends _react.default.Component {
     if (highlights != null) {
       highlights.forEach(range => {
         const marker = editor.markBufferRange([[range.start.row - startLine, range.start.column], [range.end.row - startLine, range.end.column]]);
-        editor.decorateMarker(marker, { type: 'highlight', class: 'code-snippet-highlight' });
+        editor.decorateMarker(marker, {
+          type: 'highlight',
+          class: 'code-snippet-highlight'
+        });
       });
 
       // Make sure at least one highlight is visible.

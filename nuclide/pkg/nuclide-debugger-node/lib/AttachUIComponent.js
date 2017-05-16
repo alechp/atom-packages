@@ -47,6 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getColumns() {
@@ -156,11 +157,7 @@ class AttachUIComponent extends _react.default.Component {
 
   render() {
     const filterRegex = new RegExp(this.state.filterText, 'i');
-    const {
-      attachTargetInfos,
-      sortedColumn,
-      sortDescending
-    } = this.state;
+    const { attachTargetInfos, sortedColumn, sortDescending } = this.state;
     const compareFn = getCompareFunction(sortedColumn, sortDescending);
     const { selectedAttachTarget } = this.state;
     let selectedIndex = null;

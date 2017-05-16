@@ -28,4 +28,5 @@ exports.default = IndeterminateProgressBar; /**
                                              * the root directory of this source tree.
                                              *
                                              * 
+                                             * @format
                                              */

@@ -55,6 +55,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const SESSION_END_EVENT = 'session-end-event';
@@ -190,7 +191,7 @@ class DebuggerInstance extends DebuggerInstanceBase {
       message = this._translateMessageIfNeeded(processedMessage);
       webSocket.send(message);
     } else {
-      this.getLogger().logError('Why isn\'t chrome websocket available?');
+      this.getLogger().logError("Why isn't chrome websocket available?");
     }
   }
 

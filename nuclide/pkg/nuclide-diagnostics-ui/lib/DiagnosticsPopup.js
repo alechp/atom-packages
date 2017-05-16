@@ -29,6 +29,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 function renderMessage(fixer, goToLocation, message, index) {
@@ -52,13 +53,7 @@ function renderMessage(fixer, goToLocation, message, index) {
 
 // TODO move LESS styles to nuclide-ui
 const DiagnosticsPopup = props => {
-  const {
-    fixer,
-    goToLocation,
-    left,
-    messages,
-    top
-  } = props,
+  const { fixer, goToLocation, left, messages, top } = props,
         rest = _objectWithoutProperties(props, ['fixer', 'goToLocation', 'left', 'messages', 'top']);
   return _react.default.createElement(
     'div',

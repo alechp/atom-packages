@@ -58,6 +58,7 @@ function dirPathToKey(path) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function isDirKey(key) {

@@ -39,6 +39,7 @@ const IconExample = () => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const IconWithTextExample = () => _react.default.createElement(

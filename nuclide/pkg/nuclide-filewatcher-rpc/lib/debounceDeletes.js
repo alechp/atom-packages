@@ -34,6 +34,7 @@ const DELETE_DELAY = 1000;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function debounceDeletes(resultStream) {

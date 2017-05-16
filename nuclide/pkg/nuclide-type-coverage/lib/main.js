@@ -74,6 +74,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const STATUS_BAR_PRIORITY = 1000;
@@ -85,7 +86,9 @@ class Activation {
     this._shouldRenderDiagnostics = this._toggleEvents.scan(prev => !prev, false);
 
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    this._activeEditorRegistry = new (_ActiveEditorRegistry || _load_ActiveEditorRegistry()).default(resultFunction, { updateOnEdit: false });
+    this._activeEditorRegistry = new (_ActiveEditorRegistry || _load_ActiveEditorRegistry()).default(resultFunction, {
+      updateOnEdit: false
+    });
 
     this._disposables.add(atom.commands.add('atom-workspace', 'nuclide-type-coverage:toggle-inline-display', () => this._toggleEvents.next()));
 

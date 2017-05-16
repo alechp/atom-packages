@@ -60,6 +60,7 @@ function existingEditorForUri(path) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function existingEditorForBuffer(buffer) {

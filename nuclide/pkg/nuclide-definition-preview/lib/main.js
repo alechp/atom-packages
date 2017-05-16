@@ -44,6 +44,7 @@ const PROVIDER_ID = 'nuclide-definition-preview'; /**
                                                    * the root directory of this source tree.
                                                    *
                                                    * 
+                                                   * @format
                                                    */
 
 const PROVIDER_TITLE = 'Definition Preview';

@@ -21,6 +21,7 @@ const CONFIG_KEY = 'nuclide-working-sets.workingSets'; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 class WorkingSetsConfig {

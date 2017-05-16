@@ -77,6 +77,7 @@ let copyFixture = exports.copyFixture = (() => {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let generateHgRepo1Fixture = exports.generateHgRepo1Fixture = (() => {
@@ -84,11 +85,15 @@ let generateHgRepo1Fixture = exports.generateHgRepo1Fixture = (() => {
     const testTxt = 'this is a test file\nline 2\n\n  indented line\n';
     const tempDir = yield generateFixture('hg_repo_1', new Map([['.watchmanconfig', '{}\n'], ['test.txt', testTxt]]));
     const repoPath = yield (_fsPromise || _load_fsPromise()).default.realpath(tempDir);
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['init'], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['init'], { cwd: repoPath }).toPromise();
     yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, '.hg', 'hgrc'), '[ui]\nusername = Test <test@mail.com>\n');
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['commit', '-A', '-m', 'first commit'], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['commit', '-A', '-m', 'first commit'], {
+      cwd: repoPath
+    }).toPromise();
     yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, 'test.txt'), testTxt + '\nthis line added on second commit\n');
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['commit', '-A', '-m', 'second commit'], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['commit', '-A', '-m', 'second commit'], {
+      cwd: repoPath
+    }).toPromise();
     return repoPath;
   });
 
@@ -117,14 +122,20 @@ let generateHgRepo2Fixture = exports.generateHgRepo2Fixture = (() => {
     const testTxt = 'this is a test file\nline 2\n\n  indented line\n';
     const tempDir = yield generateFixture('hg_repo_2', new Map([['.watchmanconfig', '{}\n'], ['test.txt', testTxt]]));
     const repoPath = yield (_fsPromise || _load_fsPromise()).default.realpath(tempDir);
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['init'], { cwd: repoPath });
-    yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, '.hg', 'hgrc'), '[paths]\ndefault = .\n' + '[ui]\nusername = Test <test@mail.com>\n');
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['commit', '-A', '-m', 'first commit'], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['init'], { cwd: repoPath }).toPromise();
+    yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, '.hg', 'hgrc'), '[paths]\ndefault = .\n[ui]\nusername = Test <test@mail.com>\n');
+    yield (0, (_process || _load_process()).runCommand)('hg', ['commit', '-A', '-m', 'first commit'], {
+      cwd: repoPath
+    }).toPromise();
     yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, 'test.txt'), testTxt + '\nthis line added on second commit\n');
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['commit', '-A', '-m', 'second commit'], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['commit', '-A', '-m', 'second commit'], {
+      cwd: repoPath
+    }).toPromise();
     yield (_fsPromise || _load_fsPromise()).default.writeFile((_nuclideUri || _load_nuclideUri()).default.join(repoPath, '.arcconfig'), '{\n  "arc.feature.start.default": "master"\n}\n');
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['commit', '-A', '-m', 'add .arcconfig to set base'], { cwd: repoPath });
-    yield (0, (_process || _load_process()).checkOutput)('hg', ['bookmark', '--rev', '.~2', 'master', '--config', 'remotenames.disallowedbookmarks='], { cwd: repoPath });
+    yield (0, (_process || _load_process()).runCommand)('hg', ['commit', '-A', '-m', 'add .arcconfig to set base'], {
+      cwd: repoPath
+    }).toPromise();
+    yield (0, (_process || _load_process()).runCommand)('hg', ['bookmark', '--rev', '.~2', 'master', '--config', 'remotenames.disallowedbookmarks='], { cwd: repoPath }).toPromise();
     return repoPath;
   });
 
@@ -172,7 +183,9 @@ let copyBuckVersion = (() => {
 
 let renameBuckFiles = (() => {
   var _ref6 = (0, _asyncToGenerator.default)(function* (projectDir) {
-    const renames = yield (_fsPromise || _load_fsPromise()).default.glob('**/{BUCK,TARGETS}-rename', { cwd: projectDir });
+    const renames = yield (_fsPromise || _load_fsPromise()).default.glob('**/{BUCK,TARGETS}-rename', {
+      cwd: projectDir
+    });
     yield Promise.all(renames.map(function (name) {
       const prevName = (_nuclideUri || _load_nuclideUri()).default.join(projectDir, name);
       const newName = prevName.replace(/-rename$/, '');

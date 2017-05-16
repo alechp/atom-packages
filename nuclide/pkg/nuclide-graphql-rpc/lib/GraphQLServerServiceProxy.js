@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 18
+          line: 19
         },
         kind: "string"
       }
@@ -22,7 +22,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 19
+          line: 20
         },
         kind: "named",
         name: "atom$Point"
@@ -33,7 +33,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 20
+          line: 21
         },
         kind: "named",
         name: "NuclideUri"
@@ -45,7 +45,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 21
+          line: 22
         },
         kind: "named",
         name: "DefinitionQueryResult"
@@ -60,7 +60,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 34
+          line: 35
         },
         kind: "string"
       }
@@ -70,7 +70,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 35
+          line: 36
         },
         kind: "named",
         name: "NuclideUri"
@@ -82,14 +82,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 36
+          line: 37
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 36
+            line: 37
           },
           kind: "named",
           name: "GraphQLDiagnosticMessage"
@@ -105,7 +105,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 40
+          line: 41
         },
         kind: "string"
       }
@@ -116,7 +116,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 40
+          line: 41
         },
         kind: "named",
         name: "Outline"
@@ -131,7 +131,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 51
+          line: 52
         },
         kind: "string"
       }
@@ -141,7 +141,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 52
+          line: 53
         },
         kind: "named",
         name: "atom$Point"
@@ -152,7 +152,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 53
+          line: 54
         },
         kind: "named",
         name: "NuclideUri"
@@ -164,14 +164,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 54
+          line: 55
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 54
+            line: 55
           },
           kind: "named",
           name: "GraphQLAutocompleteSuggestionType"
@@ -258,13 +258,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 17
+        line: 18
       },
       type: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 17
+          line: 18
         },
         kind: "function",
         argumentTypes: [{
@@ -273,7 +273,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 18
+              line: 19
             },
             kind: "string"
           }
@@ -283,7 +283,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 19
+              line: 20
             },
             kind: "named",
             name: "atom$Point"
@@ -294,7 +294,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 20
+              line: 21
             },
             kind: "named",
             name: "NuclideUri"
@@ -304,14 +304,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 21
+            line: 22
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 21
+              line: 22
             },
             kind: "named",
             name: "DefinitionQueryResult"
@@ -324,39 +324,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 25
+        line: 26
       },
       name: "GraphQLDiagnosticMessage",
       definition: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 25
+          line: 26
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 26
-          },
-          name: "name",
-          type: {
-            location: {
-              type: "source",
-              fileName: "GraphQLServerService.js",
-              line: 26
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "GraphQLServerService.js",
             line: 27
           },
-          name: "type",
+          name: "name",
           type: {
             location: {
               type: "source",
@@ -372,7 +356,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "GraphQLServerService.js",
             line: 28
           },
-          name: "text",
+          name: "type",
           type: {
             location: {
               type: "source",
@@ -388,12 +372,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "GraphQLServerService.js",
             line: 29
           },
-          name: "range",
+          name: "text",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
               line: 29
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "GraphQLServerService.js",
+            line: 30
+          },
+          name: "range",
+          type: {
+            location: {
+              type: "source",
+              fileName: "GraphQLServerService.js",
+              line: 30
             },
             kind: "named",
             name: "atom$Range"
@@ -403,14 +403,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 30
+            line: 31
           },
           name: "filePath",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 30
+              line: 31
             },
             kind: "string"
           },
@@ -424,13 +424,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 33
+        line: 34
       },
       type: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 33
+          line: 34
         },
         kind: "function",
         argumentTypes: [{
@@ -439,7 +439,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 34
+              line: 35
             },
             kind: "string"
           }
@@ -449,7 +449,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 35
+              line: 36
             },
             kind: "named",
             name: "NuclideUri"
@@ -459,21 +459,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 36
+            line: 37
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 36
+              line: 37
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GraphQLServerService.js",
-                line: 36
+                line: 37
               },
               kind: "named",
               name: "GraphQLDiagnosticMessage"
@@ -488,13 +488,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 40
+        line: 41
       },
       type: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 40
+          line: 41
         },
         kind: "function",
         argumentTypes: [{
@@ -503,7 +503,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 40
+              line: 41
             },
             kind: "string"
           }
@@ -512,14 +512,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 40
+            line: 41
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 40
+              line: 41
             },
             kind: "named",
             name: "Outline"
@@ -532,28 +532,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 44
+        line: 45
       },
       name: "GraphQLAutocompleteSuggestionType",
       definition: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 44
+          line: 45
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 45
+            line: 46
           },
           name: "text",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 45
+              line: 46
             },
             kind: "string"
           },
@@ -562,33 +562,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 46
-          },
-          name: "typeName",
-          type: {
-            location: {
-              type: "source",
-              fileName: "GraphQLServerService.js",
-              line: 46
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "GraphQLServerService.js",
-                line: 46
-              },
-              kind: "string"
-            }
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "GraphQLServerService.js",
             line: 47
           },
-          name: "description",
+          name: "typeName",
           type: {
             location: {
               type: "source",
@@ -606,6 +582,30 @@ Object.defineProperty(module.exports, "defs", {
             }
           },
           optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "GraphQLServerService.js",
+            line: 48
+          },
+          name: "description",
+          type: {
+            location: {
+              type: "source",
+              fileName: "GraphQLServerService.js",
+              line: 48
+            },
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "GraphQLServerService.js",
+                line: 48
+              },
+              kind: "string"
+            }
+          },
+          optional: false
         }]
       }
     },
@@ -615,13 +615,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 50
+        line: 51
       },
       type: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 50
+          line: 51
         },
         kind: "function",
         argumentTypes: [{
@@ -630,7 +630,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 51
+              line: 52
             },
             kind: "string"
           }
@@ -640,7 +640,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 52
+              line: 53
             },
             kind: "named",
             name: "atom$Point"
@@ -651,7 +651,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 53
+              line: 54
             },
             kind: "named",
             name: "NuclideUri"
@@ -661,21 +661,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 54
+            line: 55
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "GraphQLServerService.js",
-              line: 54
+              line: 55
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GraphQLServerService.js",
-                line: 54
+                line: 55
               },
               kind: "named",
               name: "GraphQLAutocompleteSuggestionType"
@@ -690,13 +690,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GraphQLServerService.js",
-        line: 59
+        line: 60
       },
       type: {
         location: {
           type: "source",
           fileName: "GraphQLServerService.js",
-          line: 59
+          line: 60
         },
         kind: "function",
         argumentTypes: [],
@@ -704,7 +704,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GraphQLServerService.js",
-            line: 59
+            line: 60
           },
           kind: "void"
         }
@@ -715,44 +715,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 13
+        line: 14
       },
       name: "OutlineTree",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 13
+          line: 14
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 14
+            line: 15
           },
           name: "icon",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 14
-            },
-            kind: "string"
-          },
-          optional: true
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
-            line: 17
-          },
-          name: "plainText",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 17
+              line: 15
             },
             kind: "string"
           },
@@ -763,12 +747,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 18
           },
-          name: "tokenizedText",
+          name: "plainText",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 18
+            },
+            kind: "string"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 19
+          },
+          name: "tokenizedText",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 19
             },
             kind: "named",
             name: "TokenizedText"
@@ -778,14 +778,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 19
+            line: 20
           },
           name: "representativeName",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 19
+              line: 20
             },
             kind: "string"
           },
@@ -794,26 +794,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 21
-          },
-          name: "startPosition",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 21
-            },
-            kind: "named",
-            name: "atom$Point"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 22
           },
-          name: "endPosition",
+          name: "startPosition",
           type: {
             location: {
               type: "source",
@@ -823,26 +806,43 @@ Object.defineProperty(module.exports, "defs", {
             kind: "named",
             name: "atom$Point"
           },
-          optional: true
+          optional: false
         }, {
           location: {
             type: "source",
             fileName: "rpc-types.js",
             line: 23
           },
-          name: "children",
+          name: "endPosition",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 23
             },
+            kind: "named",
+            name: "atom$Point"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 24
+          },
+          name: "children",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 24
+            },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 23
+                line: 24
               },
               kind: "named",
               name: "OutlineTree"
@@ -857,35 +857,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 26
+        line: 27
       },
       name: "Outline",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 26
+          line: 27
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 27
+            line: 28
           },
           name: "outlineTrees",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 27
+              line: 28
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 27
+                line: 28
               },
               kind: "named",
               name: "OutlineTree"
@@ -900,21 +900,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "tokenizedText-rpc-types.js",
-        line: 13
+        line: 14
       },
       name: "TokenKind",
       definition: {
         location: {
           type: "source",
           fileName: "tokenizedText-rpc-types.js",
-          line: 13
+          line: 15
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 13
+            line: 15
           },
           kind: "string-literal",
           value: "keyword"
@@ -922,7 +922,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 14
+            line: 16
           },
           kind: "string-literal",
           value: "class-name"
@@ -930,7 +930,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 15
+            line: 17
           },
           kind: "string-literal",
           value: "constructor"
@@ -938,7 +938,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 16
+            line: 18
           },
           kind: "string-literal",
           value: "method"
@@ -946,7 +946,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 17
+            line: 19
           },
           kind: "string-literal",
           value: "param"
@@ -954,7 +954,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 18
+            line: 20
           },
           kind: "string-literal",
           value: "string"
@@ -962,7 +962,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 19
+            line: 21
           },
           kind: "string-literal",
           value: "whitespace"
@@ -970,7 +970,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 20
+            line: 22
           },
           kind: "string-literal",
           value: "plain"
@@ -978,7 +978,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 21
+            line: 23
           },
           kind: "string-literal",
           value: "type"
@@ -990,28 +990,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "tokenizedText-rpc-types.js",
-        line: 24
+        line: 25
       },
       name: "TextToken",
       definition: {
         location: {
           type: "source",
           fileName: "tokenizedText-rpc-types.js",
-          line: 24
+          line: 25
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 25
+            line: 26
           },
           name: "kind",
           type: {
             location: {
               type: "source",
               fileName: "tokenizedText-rpc-types.js",
-              line: 25
+              line: 26
             },
             kind: "named",
             name: "TokenKind"
@@ -1021,14 +1021,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 26
+            line: 27
           },
           name: "value",
           type: {
             location: {
               type: "source",
               fileName: "tokenizedText-rpc-types.js",
-              line: 26
+              line: 27
             },
             kind: "string"
           },
@@ -1041,21 +1041,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "tokenizedText-rpc-types.js",
-        line: 29
+        line: 30
       },
       name: "TokenizedText",
       definition: {
         location: {
           type: "source",
           fileName: "tokenizedText-rpc-types.js",
-          line: 29
+          line: 30
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "tokenizedText-rpc-types.js",
-            line: 29
+            line: 30
           },
           kind: "named",
           name: "TextToken"
@@ -1067,28 +1067,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 23
+        line: 24
       },
       name: "Definition",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 23
+          line: 24
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 24
+            line: 25
           },
           name: "path",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 24
+              line: 25
             },
             kind: "named",
             name: "NuclideUri"
@@ -1098,14 +1098,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 25
+            line: 26
           },
           name: "position",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 25
+              line: 26
             },
             kind: "named",
             name: "atom$Point"
@@ -1115,14 +1115,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 26
+            line: 27
           },
           name: "range",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 26
+              line: 27
             },
             kind: "named",
             name: "atom$Range"
@@ -1132,25 +1132,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 27
-          },
-          name: "id",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 27
-            },
-            kind: "string"
-          },
-          optional: true
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 28
           },
-          name: "name",
+          name: "id",
           type: {
             location: {
               type: "source",
@@ -1166,7 +1150,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 29
           },
-          name: "language",
+          name: "name",
           type: {
             location: {
               type: "source",
@@ -1175,19 +1159,35 @@ Object.defineProperty(module.exports, "defs", {
             },
             kind: "string"
           },
-          optional: false
+          optional: true
         }, {
           location: {
             type: "source",
             fileName: "rpc-types.js",
             line: 30
           },
-          name: "projectRoot",
+          name: "language",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 30
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 31
+          },
+          name: "projectRoot",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 31
             },
             kind: "named",
             name: "NuclideUri"
@@ -1201,48 +1201,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 36
+        line: 37
       },
       name: "DefinitionQueryResult",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 36
+          line: 37
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 37
-          },
-          name: "queryRange",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 37
-            },
-            kind: "array",
-            type: {
-              location: {
-                type: "source",
-                fileName: "rpc-types.js",
-                line: 37
-              },
-              kind: "named",
-              name: "atom$Range"
-            }
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 38
           },
-          name: "definitions",
+          name: "queryRange",
           type: {
             location: {
               type: "source",
@@ -1255,6 +1230,31 @@ Object.defineProperty(module.exports, "defs", {
                 type: "source",
                 fileName: "rpc-types.js",
                 line: 38
+              },
+              kind: "named",
+              name: "atom$Range"
+            }
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 39
+          },
+          name: "definitions",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 39
+            },
+            kind: "array",
+            type: {
+              location: {
+                type: "source",
+                fileName: "rpc-types.js",
+                line: 39
               },
               kind: "named",
               name: "Definition"

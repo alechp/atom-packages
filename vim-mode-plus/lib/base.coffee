@@ -1,21 +1,30 @@
-_ = require 'underscore-plus'
+# To avoid loading underscore-plus and depending underscore on startup
+__plus = null
+_plus = ->
+  __plus ?= require 'underscore-plus'
+
 Delegato = require 'delegato'
-{CompositeDisposable} = require 'atom'
-{
-  getVimEofBufferPosition
-  getVimLastBufferRow
-  getVimLastScreenRow
-  getWordBufferRangeAndKindAtBufferPosition
-  getFirstCharacterPositionForBufferRow
-  getBufferRangeForRowRange
-  getIndentLevelForBufferRow
-  scanEditorInDirection
-} = require './utils'
-swrap = require './selection-wrapper'
-Input = require './input'
-selectList = null
-getEditorState = null # set by Base.init()
-{OperationAbortedError} = require './errors'
+settings = require './settings'
+
+[
+  CSON
+  path
+  Input
+  selectList
+  getEditorState  # set by Base.init()
+] = [] # set null
+
+VMP_LOADING_FILE = null
+VMP_LOADED_FILES = []
+
+loadVmpOperationFile = (filename) ->
+  VMP_LOADING_FILE = filename
+  loaded = require(filename)
+  VMP_LOADING_FILE = null
+  VMP_LOADED_FILES.push(filename)
+  loaded
+
+OperationAbortedError = null
 
 vimStateMethods = [
   "onDidChangeSearch"
@@ -23,21 +32,14 @@ vimStateMethods = [
   "onDidCancelSearch"
   "onDidCommandSearch"
 
-  # Life cycle
-  "onDidSetTarget"
-  "emitDidSetTarget"
-      "onWillSelectTarget"
-      "emitWillSelectTarget"
-      "onDidSelectTarget"
-      "emitDidSelectTarget"
+  # Life cycle of operationStack
+  "onDidSetTarget", "emitDidSetTarget"
+    "onWillSelectTarget", "emitWillSelectTarget"
+    "onDidSelectTarget", "emitDidSelectTarget"
+    "onDidFailSelectTarget", "emitDidFailSelectTarget"
 
-      "onDidFailSelectTarget"
-      "emitDidFailSelectTarget"
-
-    "onWillFinishMutation"
-    "emitWillFinishMutation"
-    "onDidFinishMutation"
-    "emitDidFinishMutation"
+    "onWillFinishMutation", "emitWillFinishMutation"
+    "onDidFinishMutation", "emitDidFinishMutation"
   "onDidFinishOperation"
   "onDidResetOperationStack"
 
@@ -61,12 +63,12 @@ vimStateMethods = [
 class Base
   Delegato.includeInto(this)
   @delegatesMethods(vimStateMethods..., toProperty: 'vimState')
-  @delegatesProperty('mode', 'submode', toProperty: 'vimState')
+  @delegatesProperty('mode', 'submode', 'swrap', 'utils', toProperty: 'vimState')
 
   constructor: (@vimState, properties=null) ->
-    {@editor, @editorElement, @globalState} = @vimState
+    {@editor, @editorElement, @globalState, @swrap} = @vimState
     @name = @constructor.name
-    _.extend(this, properties) if properties?
+    Object.assign(this, properties) if properties?
 
   # To override
   initialize: ->
@@ -94,6 +96,7 @@ class Base
     @operator? and not @operator.instanceof('Select')
 
   abort: ->
+    OperationAbortedError ?= require './errors'
     throw new OperationAbortedError('aborted')
 
   # Count
@@ -135,6 +138,7 @@ class Base
     new klass(@vimState, properties)
 
   newInputUI: ->
+    Input ?= require './input'
     new Input(@vimState)
 
   # FIXME: This is used to clone Motion::Search to support `n` and `N`
@@ -162,45 +166,45 @@ class Base
     selectList.show(@vimState, options)
 
   input: null
-  focusInput: (charsMax, hideCursor) ->
+  focusInput: (options) ->
     inputUI = @newInputUI()
     inputUI.onDidConfirm (input) =>
       @input = input
       @processOperation()
 
-    if charsMax > 1
+    if options?.charsMax > 1
       inputUI.onDidChange (input) =>
         @vimState.hover.set(input)
 
     inputUI.onDidCancel(@cancelOperation.bind(this))
-    inputUI.focus(charsMax, hideCursor)
+    inputUI.focus(options)
 
   getVimEofBufferPosition: ->
-    getVimEofBufferPosition(@editor)
+    @utils.getVimEofBufferPosition(@editor)
 
   getVimLastBufferRow: ->
-    getVimLastBufferRow(@editor)
+    @utils.getVimLastBufferRow(@editor)
 
   getVimLastScreenRow: ->
-    getVimLastScreenRow(@editor)
+    @utils.getVimLastScreenRow(@editor)
 
   getWordBufferRangeAndKindAtBufferPosition: (point, options) ->
-    getWordBufferRangeAndKindAtBufferPosition(@editor, point, options)
+    @utils.getWordBufferRangeAndKindAtBufferPosition(@editor, point, options)
 
   getFirstCharacterPositionForBufferRow: (row) ->
-    getFirstCharacterPositionForBufferRow(@editor, row)
+    @utils.getFirstCharacterPositionForBufferRow(@editor, row)
 
   getBufferRangeForRowRange: (rowRange) ->
-    getBufferRangeForRowRange(@editor, rowRange)
+    @utils.getBufferRangeForRowRange(@editor, rowRange)
 
   getIndentLevelForBufferRow: (row) ->
-    getIndentLevelForBufferRow(@editor, row)
+    @utils.getIndentLevelForBufferRow(@editor, row)
 
   scanForward: (args...) ->
-    scanEditorInDirection(@editor, 'forward', args...)
+    @utils.scanEditorInDirection(@editor, 'forward', args...)
 
   scanBackward: (args...) ->
-    scanEditorInDirection(@editor, 'backward', args...)
+    @utils.scanEditorInDirection(@editor, 'backward', args...)
 
   instanceof: (klassName) ->
     this instanceof Base.getClass(klassName)
@@ -209,13 +213,13 @@ class Base
     this.constructor is Base.getClass(klassName)
 
   isOperator: ->
-    @instanceof('Operator')
+    @constructor.operationKind is 'operator'
 
   isMotion: ->
-    @instanceof('Motion')
+    @constructor.operationKind is 'motion'
 
   isTextObject: ->
-    @instanceof('TextObject')
+    @constructor.operationKind is 'text-object'
 
   getCursorBufferPosition: ->
     if @mode is 'visual'
@@ -236,7 +240,7 @@ class Base
       cursor.getBufferPosition()
 
   getCursorPositionForSelection: (selection) ->
-    swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
+    @swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
 
   toString: ->
     str = @name
@@ -249,50 +253,89 @@ class Base
 
   # Class methods
   # -------------------------
-  @init: (service) ->
-    {getEditorState} = service
-    @subscriptions = new CompositeDisposable()
+  @writeCommandTableOnDisk: ->
+    commandTable = @generateCommandTableByEagerLoad()
+    _ = _plus()
+    if _.isEqual(@commandTable, commandTable)
+      atom.notifications.addInfo("No change commandTable", dismissable: true)
+      return
 
-    [
+    CSON ?= require 'season'
+    path ?= require('path')
+
+    loadableCSONText = "module.exports =\n" + CSON.stringify(commandTable) + "\n"
+    commandTablePath = path.join(__dirname, "command-table.coffee")
+    atom.workspace.open(commandTablePath, activateItem: false).then (editor) ->
+      editor.setText(loadableCSONText)
+      editor.save()
+      editor.destroy()
+      atom.notifications.addInfo("Updated commandTable", dismissable: true)
+
+  @generateCommandTableByEagerLoad: ->
+    # NOTE: changing order affects output of lib/command-table.coffee
+    filesToLoad = [
       './operator', './operator-insert', './operator-transform-string',
       './motion', './motion-search', './text-object', './misc-command'
-    ].forEach(require)
+    ]
+    filesToLoad.forEach(loadVmpOperationFile)
+    _ = _plus()
+    klasses = _.values(@getClassRegistry())
+    klassesGroupedByFile = _.groupBy(klasses, (klass) -> klass.VMP_LOADING_FILE)
 
-    for __, klass of @getRegistries() when klass.isCommand()
-      @subscriptions.add(klass.registerCommand())
-    @subscriptions
+    commandTable = {}
+    for file in filesToLoad
+      for klass in klassesGroupedByFile[file]
+        commandTable[klass.name] = klass.getSpec()
+    commandTable
 
-  # For development easiness without reloading vim-mode-plus
-  @reset: ->
-    @subscriptions.dispose()
-    @subscriptions = new CompositeDisposable()
-    for __, klass of @getRegistries() when klass.isCommand()
-      @subscriptions.add(klass.registerCommand())
+  @commandTable: null
+  @init: (_getEditorState) ->
+    getEditorState = _getEditorState
+    @commandTable = require('./command-table')
+    subscriptions = []
+    for name, spec of @commandTable when spec.commandName?
+      subscriptions.push(@registerCommandFromSpec(name, spec))
+    return subscriptions
 
-  registries = {Base}
+  classRegistry = {Base}
   @extend: (@command=true) ->
-    if (@name of registries) and (not @suppressWarning)
-      console.warn("Duplicate constructor #{@name}")
-    registries[@name] = this
+    @VMP_LOADING_FILE = VMP_LOADING_FILE
+    if @name of classRegistry
+      throw new Error("Duplicate constructor #{@name}")
+    classRegistry[@name] = this
+
+  @getSpec: ->
+    if @isCommand()
+      file: @VMP_LOADING_FILE
+      commandName: @getCommandName()
+      commandScope: @getCommandScope()
+    else
+      file: @VMP_LOADING_FILE
 
   @getClass: (name) ->
-    if (klass = registries[name])?
-      klass
-    else
-      throw new Error("class '#{name}' not found")
+    return klass if (klass = classRegistry[name])
 
-  @getRegistries: ->
-    registries
+    fileToLoad = @commandTable[name].file
+    if fileToLoad not in VMP_LOADED_FILES
+      if atom.inDevMode() and settings.get('debug')
+        console.log "lazy-require: #{fileToLoad} for #{name}"
+      loadVmpOperationFile(fileToLoad)
+      return klass if (klass = classRegistry[name])
+
+    throw new Error("class '#{name}' not found")
+
+  @getClassRegistry: ->
+    classRegistry
 
   @isCommand: ->
     @command
 
   @commandPrefix: 'vim-mode-plus'
   @getCommandName: ->
-    @commandPrefix + ':' + _.dasherize(@name)
+    @commandPrefix + ':' + _plus().dasherize(@name)
 
   @getCommandNameWithoutPrefix: ->
-    _.dasherize(@name)
+    _plus().dasherize(@name)
 
   @commandScope: 'atom-text-editor'
   @getCommandScope: ->
@@ -309,15 +352,28 @@ class Base
     atom.commands.add @getCommandScope(), @getCommandName(), (event) ->
       vimState = getEditorState(@getModel()) ? getEditorState(atom.workspace.getActiveTextEditor())
       if vimState? # Possibly undefined See #85
-        vimState._event = event
         vimState.operationStack.run(klass)
+      event.stopPropagation()
+
+  @registerCommandFromSpec: (name, spec) ->
+    {commandScope, commandPrefix, commandName, getClass} = spec
+    commandScope ?= 'atom-text-editor'
+    commandName ?= (commandPrefix ? 'vim-mode-plus') + ':' + _plus().dasherize(name)
+    atom.commands.add commandScope, commandName, (event) ->
+      vimState = getEditorState(@getModel()) ? getEditorState(atom.workspace.getActiveTextEditor())
+      if vimState? # Possibly undefined See #85
+        if getClass?
+          vimState.operationStack.run(getClass(name))
+        else
+          vimState.operationStack.run(name)
       event.stopPropagation()
 
   # For demo-mode pkg integration
   @operationKind: null
   @getKindForCommandName: (command) ->
+    _ = _plus()
     name = _.capitalize(_.camelize(command))
-    if name of registries
-      registries[name].operationKind
+    if name of classRegistry
+      classRegistry[name].operationKind
 
 module.exports = Base

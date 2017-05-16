@@ -15,8 +15,12 @@ function _load_process() {
   return _process = require('./process');
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const DEFAULT_JOIN_TIMEOUT = 5000;
+// $FlowFixMe: Add EmptyError to type defs
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -25,9 +29,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
-const DEFAULT_JOIN_TIMEOUT = 5000;
 let SCRIBE_CAT_COMMAND = 'scribe_cat';
 
 /**
@@ -39,9 +43,9 @@ let SCRIBE_CAT_COMMAND = 'scribe_cat';
 class ScribeProcess {
 
   constructor(scribeCategory) {
+    this._disposals = new _rxjsBundlesRxMinJs.Subject();
     this._scribeCategory = scribeCategory;
-    this._childProcessRunning = new WeakMap();
-    this._getOrCreateChildProcess();
+    this._getChildProcess();
   }
 
   /**
@@ -49,8 +53,12 @@ class ScribeProcess {
    */
   static isScribeCatOnPath() {
     return (0, _asyncToGenerator.default)(function* () {
-      const { exitCode } = yield (0, (_process || _load_process()).asyncExecute)('which', [SCRIBE_CAT_COMMAND]);
-      return exitCode === 0;
+      try {
+        yield (0, (_process || _load_process()).runCommand)('which', [SCRIBE_CAT_COMMAND]).toPromise();
+        return true;
+      } catch (err) {
+        return false;
+      }
     })();
   }
 
@@ -59,62 +67,89 @@ class ScribeProcess {
    * Ensure newlines are properly escaped.
    */
   write(message) {
-    const child = this._getOrCreateChildProcess();
-    return new Promise((resolve, reject) => {
-      child.stdin.write(`${message}${_os.default.EOL}`, resolve);
-    });
+    var _this = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const child = yield _this._getChildProcess();
+      yield new Promise(function (resolve) {
+        child.stdin.write(`${message}${_os.default.EOL}`, resolve);
+      });
+    })();
   }
 
   dispose() {
-    if (this._childProcess != null) {
-      const child = this._childProcess;
-      if (this._childProcessRunning.get(child)) {
-        child.kill();
+    var _this2 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      _this2._disposals.next();
+      if (_this2._subscription != null) {
+        _this2._childPromise = null;
+        _this2._subscription.unsubscribe();
+        _this2._subscription = null;
       }
-    }
-    return Promise.resolve();
+    })();
   }
 
+  /**
+   * Waits for the remaining messages to be written, then closes the write stream. Resolves once the
+   * process has exited. This method is called when the server shuts down in order to guarantee we
+   * capture logging during shutdown.
+   */
   join(timeout = DEFAULT_JOIN_TIMEOUT) {
-    if (this._childProcess != null) {
-      const { stdin } = this._childProcess;
+    var _this3 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      if (_this3._childPromise == null) {
+        return;
+      }
+
+      const { stdin } = yield _this3._childPromise;
       // Make sure stdin has drained before ending it.
       if (!stdin.write(_os.default.EOL)) {
-        stdin.once('drain', () => stdin.end());
+        stdin.once('drain', function () {
+          return stdin.end();
+        });
       } else {
         stdin.end();
       }
-      return new Promise(resolve => {
-        if (this._childProcess == null) {
+      if (_this3._childPromise == null) {
+        return;
+      }
+      const child = yield _this3._childPromise;
+      yield new Promise(function (resolve) {
+        child.on('exit', function () {
           resolve();
-        } else {
-          this._childProcess.on('exit', () => resolve());
-          setTimeout(resolve, timeout);
-        }
+        });
+        setTimeout(resolve, timeout);
       });
-    } else {
-      return Promise.resolve();
-    }
+    })();
   }
 
-  _getOrCreateChildProcess() {
-    if (this._childProcess) {
-      return this._childProcess;
+  _getChildProcess() {
+    if (this._childPromise) {
+      return this._childPromise;
     }
 
-    const child = this._childProcess = (0, (_process || _load_process()).safeSpawn)(SCRIBE_CAT_COMMAND, [this._scribeCategory]);
-    child.stdin.setDefaultEncoding('utf8');
-    this._childProcessRunning.set(child, true);
-    child.on('error', error => {
-      this._childProcess = null;
-      this._childProcessRunning.set(child, false);
-    });
-    child.on('exit', e => {
-      this._childProcess = null;
-      this._childProcessRunning.set(child, false);
-    });
+    // Kick off the process. Ideally we would store the subscription and unsubscribe when
+    // `dispose()` was called. Practically, it probably doesn't matter since there's very little
+    // chance we'd want to cancel before the process was ready.
+    const processStream = (0, (_process || _load_process()).spawn)(SCRIBE_CAT_COMMAND, [this._scribeCategory]).do(child => {
+      child.stdin.setDefaultEncoding('utf8');
+    }).finally(() => {
+      this._childPromise = null;
+      this._subscription = null;
+    }).publish();
 
-    return child;
+    const childPromise = this._childPromise = processStream.takeUntil(this._disposals).first().catch(err => {
+      if (err instanceof _rxjsBundlesRxMinJs.EmptyError) {
+        // Disposing before we have a process should send an error to anybody waiting on the
+        // process promise.
+        throw new Error('Disconnected before process was spawned');
+      }
+      throw err;
+    }).toPromise();
+    this._subscription = processStream.connect();
+    return childPromise;
   }
 }
 

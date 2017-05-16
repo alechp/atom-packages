@@ -18,4 +18,5 @@ const ProgressBar = exports.ProgressBar = props => _react.default.createElement(
                                                                                                                                                             * the root directory of this source tree.
                                                                                                                                                             *
                                                                                                                                                             * 
+                                                                                                                                                            * @format
                                                                                                                                                             */

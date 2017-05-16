@@ -22,6 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class HomeFeatureComponent extends _react.default.Component {
@@ -55,7 +56,8 @@ class HomeFeatureComponent extends _react.default.Component {
       { className: 'nuclide-home-card' },
       _react.default.createElement(
         'summary',
-        { className: `nuclide-home-summary icon icon-${this.props.icon}` },
+        {
+          className: `nuclide-home-summary icon icon-${this.props.icon}` },
         title,
         command ? _react.default.createElement(
           (_Button || _load_Button()).Button,

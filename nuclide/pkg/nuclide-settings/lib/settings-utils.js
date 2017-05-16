@@ -31,6 +31,7 @@ function getConfigValueString(keyPath) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function normalizeIdentifier(id) {

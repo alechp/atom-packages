@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/health';
@@ -68,7 +69,12 @@ class HealthPaneItem extends _react.default.Component {
   }
 
   render() {
-    const { toolbarJewel, updateToolbarJewel, childProcessesTree, stats } = this.state;
+    const {
+      toolbarJewel,
+      updateToolbarJewel,
+      childProcessesTree,
+      stats
+    } = this.state;
 
     if (stats == null) {
       return _react.default.createElement('div', null);

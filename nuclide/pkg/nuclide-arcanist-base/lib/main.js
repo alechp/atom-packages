@@ -29,12 +29,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global localStorage */
 
-const arcInfoCache = new (_lruCache || _load_lruCache()).default({ max: 200 });
-const arcInfoResultCache = new (_lruCache || _load_lruCache()).default({ max: 200 });
+const arcInfoCache = new (_lruCache || _load_lruCache()).default({
+  max: 200
+});
+const arcInfoResultCache = new (_lruCache || _load_lruCache()).default({
+  max: 200
+});
 const STORAGE_KEY = 'nuclide.last-arc-project-path';
 
 /**

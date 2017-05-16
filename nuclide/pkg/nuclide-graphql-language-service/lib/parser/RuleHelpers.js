@@ -24,6 +24,7 @@ function opt(ofRule) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // These functions help build matching rules for ParseRules.

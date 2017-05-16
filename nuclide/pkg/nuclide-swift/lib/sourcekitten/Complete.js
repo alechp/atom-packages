@@ -46,6 +46,7 @@ function sourceKittenCompletionToAtomSuggestion(completion) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /**

@@ -34,7 +34,10 @@ let getInstance = exports.getInstance = (() => {
     };
 
     logger.info('Spawning new ocamlmerlin process version ' + version);
-    const process = yield (0, (_process || _load_process()).safeSpawn)(merlinPath, flags, options);
+    const processStream = (0, (_process || _load_process()).spawn)(merlinPath, flags, options).publish();
+    const processPromise = processStream.take(1).toPromise();
+    processStream.connect();
+    const process = yield processPromise;
     // Turns 2.5.1 into 2.5
     const majorMinor = version.split('.').slice(0, 2).join('.');
     switch (majorMinor) {
@@ -73,19 +76,21 @@ let getInstance = exports.getInstance = (() => {
 let getMerlinVersion = (() => {
   var _ref5 = (0, _asyncToGenerator.default)(function* (merlinPath) {
     if (merlinVersionCache === undefined) {
-      const result = yield (0, (_process || _load_process()).asyncExecute)(merlinPath, ['-version'], {
-        env: yield (0, (_process || _load_process()).getOriginalEnvironment)()
-      });
-      if (result.exitCode === 0) {
-        const match = result.stdout.match(/^The Merlin toolkit version (\d+(?:\.\d)*),/);
-        if (match != null && match[1] != null) {
-          merlinVersionCache = match[1];
-        } else {
-          logger.info('unable to determine ocamlmerlin version');
-          merlinVersionCache = null;
-        }
-      } else {
+      let stdout;
+      try {
+        stdout = yield (0, (_process || _load_process()).runCommand)(merlinPath, ['-version'], {
+          env: yield (0, (_process || _load_process()).getOriginalEnvironment)()
+        }).toPromise();
+      } catch (err) {
         logger.info('ocamlmerlin not installed');
+        merlinVersionCache = null;
+        return merlinVersionCache;
+      }
+      const match = stdout.match(/^The Merlin toolkit version (\d+(?:\.\d)*),/);
+      if (match != null && match[1] != null) {
+        merlinVersionCache = match[1];
+      } else {
+        logger.info('unable to determine ocamlmerlin version');
         merlinVersionCache = null;
       }
     }
@@ -146,6 +151,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();

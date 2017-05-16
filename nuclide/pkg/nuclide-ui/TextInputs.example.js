@@ -103,6 +103,7 @@ const AtomInputExample = () => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const buffer1 = new _atom.TextBuffer({

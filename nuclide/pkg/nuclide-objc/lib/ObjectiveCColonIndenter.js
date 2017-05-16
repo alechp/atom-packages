@@ -32,6 +32,7 @@ const GRAMMARS = ['source.objc', 'source.objcpp'];
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const NUMBER_OF_PREVIOUS_LINES_TO_SEARCH_FOR_COLONS = 25;
@@ -49,10 +50,12 @@ class ObjectiveCColonIndenter {
     this._insertTextSubscriptionsMap = new Map();
 
     const subscriptions = this._subscriptions = new _atom.CompositeDisposable();
-    subscriptions.add({ dispose: () => {
+    subscriptions.add({
+      dispose: () => {
         this._insertTextSubscriptionsMap.forEach(subscription => subscription.dispose());
         this._insertTextSubscriptionsMap.clear();
-      } });
+      }
+    });
 
     subscriptions.add((0, (_observeLanguageTextEditors || _load_observeLanguageTextEditors()).default)(GRAMMARS, textEditor => this._enableInTextEditor(textEditor), textEditor => this._disableInTextEditor(textEditor)));
   }
@@ -96,7 +99,8 @@ class ObjectiveCColonIndenter {
         const unindentedCurrentColonColumn = currentColonPosition.column - numberOfIndentCharacters;
         const totalIndentAmount = unindentedCurrentColonColumn >= colonColumn ? 0 : colonColumn - unindentedCurrentColonColumn;
         // 3. Replace the current line with the properly-indented line.
-        textEditor.setTextInBufferRange(buffer.rangeForRow(currentColonPosition.row, /* includeNewline */false), ' '.repeat(totalIndentAmount) + unindentedLine);
+        textEditor.setTextInBufferRange(buffer.rangeForRow(currentColonPosition.row,
+        /* includeNewline */false), ' '.repeat(totalIndentAmount) + unindentedLine);
 
         // Move the cursor to right after the inserted colon.
         const newCursorPosition = [currentColonPosition.row, totalIndentAmount + unindentedCurrentColonColumn + 1];

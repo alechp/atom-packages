@@ -23,17 +23,14 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 /**
  * Renders an icon with optional text next to it.
  */
 const Icon = props => {
-  const {
-    icon,
-    children,
-    className
-  } = props,
+  const { icon, children, className } = props,
         remainingProps = _objectWithoutProperties(props, ['icon', 'children', 'className']);
   const newClassName = (0, (_classnames || _load_classnames()).default)(className, icon == null ? null : `icon icon-${icon}`);
   return _react.default.createElement(

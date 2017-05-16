@@ -127,7 +127,6 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default((0, (_observePanes || _load_observePanes()).observePanes)(paneContainer).subscribe(this._panes), (0, (_syncPaneItemVisibility || _load_syncPaneItemVisibility()).syncPaneItemVisibility)(this._panes,
     // $FlowFixMe: Teach Flow about Symbol.observable
     _rxjsBundlesRxMinJs.Observable.from(this).map(state => state.active).distinctUntilChanged()),
-
     // Add a tab bar to any panes created in the container.
     paneContainer.observePanes(pane => {
       const tabBarView = new (_tabBarView || _load_tabBarView()).default(pane);
@@ -135,7 +134,6 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
       paneElement.insertBefore(tabBarView.element, paneElement.firstChild);
       tabBarView.element.classList.add('nuclide-workspace-views-panel-location-tabs');
     }),
-
     // If you add an item to a panel (e.g. by drag & drop), make the panel active.
     paneItemChanges.startWith(null).map(() => this._paneContainer.getPaneItems().length).pairwise().subscribe(([prev, next]) => {
       // If the last item is removed, hide the panel.
@@ -146,7 +144,6 @@ class PanelLocation extends (_SimpleModel || _load_SimpleModel()).SimpleModel {
         this.setState({ active: true });
       }
     }),
-
     // Show the drop areas while dragging.
     _rxjsBundlesRxMinJs.Observable.fromEvent(document, 'dragstart').filter(event => isTab(event.target)).switchMap(() => _rxjsBundlesRxMinJs.Observable.concat(_rxjsBundlesRxMinJs.Observable.of(true), _rxjsBundlesRxMinJs.Observable.merge(
     // Use the capturing phase in case the event propagation is stopped.
@@ -310,6 +307,7 @@ exports.PanelLocation = PanelLocation; /**
                                         * the root directory of this source tree.
                                         *
                                         * 
+                                        * @format
                                         */
 
 function deserializePaneContainer(serialized) {

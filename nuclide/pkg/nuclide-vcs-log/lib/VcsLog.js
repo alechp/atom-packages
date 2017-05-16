@@ -30,6 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class VcsLog extends _react.default.Component {
@@ -88,7 +89,9 @@ class VcsLog extends _react.default.Component {
             { className: 'nuclide-vcs-log-differential-cell' },
             _react.default.createElement(
               'span',
-              { className: 'nuclide-vcs-log-differential-cell-text', onClick: onClick },
+              {
+                className: 'nuclide-vcs-log-differential-cell-text',
+                onClick: onClick },
               revision
             )
           );

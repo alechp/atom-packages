@@ -16,6 +16,7 @@ const METADATA_REGEX = /^\[ (\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})\s+(\d+):(?:(0
                                                                                                                                     * the root directory of this source tree.
                                                                                                                                     *
                                                                                                                                     * 
+                                                                                                                                    * @format
                                                                                                                                     */
 
 function parseLogcatMetadata(line) {

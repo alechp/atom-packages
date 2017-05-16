@@ -21,6 +21,7 @@ const PORT_LINE = /.*(?:Running.*|Listening )on port\s+(\d+)/; /**
                                                                 * the root directory of this source tree.
                                                                 *
                                                                 * 
+                                                                * @format
                                                                 */
 
 const SOURCE_LIST_START = /Looking for (?:JS|JavaScript) files in/;

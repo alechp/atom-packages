@@ -41,6 +41,7 @@ let loadBufferForUri = exports.loadBufferForUri = (() => {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /**

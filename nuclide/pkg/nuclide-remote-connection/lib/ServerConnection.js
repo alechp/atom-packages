@@ -7,11 +7,19 @@ exports.__test__ = exports.ServerConnection = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
+var _event;
+
+function _load_event() {
+  return _event = require('../../commons-node/event');
+}
+
 var _nuclideRpc;
 
 function _load_nuclideRpc() {
   return _nuclideRpc = require('../../nuclide-rpc');
 }
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 var _servicesConfig;
 
@@ -185,7 +193,9 @@ class ServerConnection {
   createDirectory(uri, hgRepositoryDescription, symlink = false) {
     let { path } = (_nuclideUri || _load_nuclideUri()).default.parse(uri);
     path = (_nuclideUri || _load_nuclideUri()).default.normalize(path);
-    return new (_RemoteDirectory || _load_RemoteDirectory()).RemoteDirectory(this, this.getUriOfRemotePath(path), symlink, { hgRepositoryDescription });
+    return new (_RemoteDirectory || _load_RemoteDirectory()).RemoteDirectory(this, this.getUriOfRemotePath(path), symlink, {
+      hgRepositoryDescription
+    });
   }
 
   createFile(uri, symlink = false) {
@@ -297,7 +307,9 @@ class ServerConnection {
     }
 
     const socket = new (_NuclideSocket || _load_NuclideSocket()).NuclideSocket(uri, options);
-    const client = (_nuclideRpc || _load_nuclideRpc()).RpcConnection.createRemote(socket, (0, (_nuclideMarshalersAtom || _load_nuclideMarshalersAtom()).getAtomSideMarshalers)(this.getRemoteHostname()), (_servicesConfig || _load_servicesConfig()).default);
+    const client = (_nuclideRpc || _load_nuclideRpc()).RpcConnection.createRemote(socket, (0, (_nuclideMarshalersAtom || _load_nuclideMarshalersAtom()).getAtomSideMarshalers)(this.getRemoteHostname()), (_servicesConfig || _load_servicesConfig()).default,
+    // Track calls with a sampling rate of 1/10.
+    { trackSampleRate: 10 });
 
     this._client = client;
   }
@@ -403,6 +415,11 @@ class ServerConnection {
       }
     })();
   }
+
+  static observeRemoteConnections() {
+    const emitter = ServerConnection._emitter;
+    return _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(cb => emitter.on('did-add', cb)), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => emitter.on('did-close', cb)), _rxjsBundlesRxMinJs.Observable.of(null)).map(() => Array.from(ServerConnection._connections.values()));
+  }
 }
 
 exports.ServerConnection = ServerConnection; /**
@@ -413,6 +430,7 @@ exports.ServerConnection = ServerConnection; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 ServerConnection._connections = new Map();

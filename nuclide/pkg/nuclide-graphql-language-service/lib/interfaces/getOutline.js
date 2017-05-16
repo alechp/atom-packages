@@ -31,6 +31,7 @@ function _load_Range() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const OUTLINEABLE_KINDS = {

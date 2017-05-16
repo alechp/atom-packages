@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let fbFindClangServerArgs;
@@ -46,15 +47,15 @@ exports.default = (() => {
 
     let libClangLibraryFile;
     if (process.platform === 'darwin') {
-      const result = yield (0, (_process || _load_process()).asyncExecute)('xcode-select', ['--print-path']);
-      if (result.exitCode === 0) {
-        libClangLibraryFile = result.stdout.trim();
+      try {
+        const stdout = yield (0, (_process || _load_process()).runCommand)('xcode-select', ['--print-path']).toPromise();
+        libClangLibraryFile = stdout.trim();
         // If the user only has Xcode Command Line Tools installed, the path is different.
         if ((_nuclideUri || _load_nuclideUri()).default.basename(libClangLibraryFile) !== 'CommandLineTools') {
           libClangLibraryFile += '/Toolchains/XcodeDefault.xctoolchain';
         }
         libClangLibraryFile += '/usr/lib/libclang.dylib';
-      }
+      } catch (err) {}
     }
 
     // TODO(asuarez): Fix this when we have server-side settings.

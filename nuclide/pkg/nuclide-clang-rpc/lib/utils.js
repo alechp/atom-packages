@@ -38,6 +38,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const HEADER_EXTENSIONS = new Set(['.h', '.hh', '.hpp', '.hxx', '.h++']);
@@ -103,7 +104,8 @@ function findIncludingSourceFile(headerFile, projectRoot) {
   // Relative includes may not always be correct, so we may have to go through all the results.
   return (0, (_process || _load_process()).observeProcess)('grep', ['-RE', // recursive, extended
   '--null', // separate file/match with \0
-  pattern, (_nuclideUri || _load_nuclideUri()).default.dirname(headerFile)]).flatMap(message => {
+  pattern, (_nuclideUri || _load_nuclideUri()).default.dirname(headerFile)], { /* TODO(T17353599) */isExitError: () => false }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+  .flatMap(message => {
     switch (message.kind) {
       case 'stdout':
         const file = processGrepResult(message.data, headerFile, regex);

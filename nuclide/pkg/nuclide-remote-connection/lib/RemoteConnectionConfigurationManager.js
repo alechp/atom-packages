@@ -55,6 +55,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global localStorage */
@@ -114,7 +115,11 @@ function encryptConfig(remoteProjectConfig) {
   sha1.update(`${remoteProjectConfig.host}:${remoteProjectConfig.port}`);
   const sha1sum = sha1.digest('hex');
 
-  const { certificateAuthorityCertificate, clientCertificate, clientKey } = remoteProjectConfig;
+  const {
+    certificateAuthorityCertificate,
+    clientCertificate,
+    clientKey
+  } = remoteProjectConfig;
 
   if (!clientKey) {
     throw new Error('Invariant violation: "clientKey"');
@@ -160,7 +165,11 @@ function decryptConfig(remoteProjectConfig) {
     throw new Error('Cannot find password for encrypted client key');
   }
 
-  const { certificateAuthorityCertificate, clientCertificate, clientKey } = remoteProjectConfig;
+  const {
+    certificateAuthorityCertificate,
+    clientCertificate,
+    clientKey
+  } = remoteProjectConfig;
 
   if (!clientKey) {
     throw new Error('Invariant violation: "clientKey"');
@@ -173,11 +182,11 @@ function decryptConfig(remoteProjectConfig) {
   }
 
   const restoredClientKey = decryptString(encryptedString, password, salt);
-  //  "nolint" is to suppress ArcanistPrivateKeyLinter errors
-  if (!restoredClientKey.startsWith('-----BEGIN RSA PRIVATE KEY-----')) {
-    /* nolint */
-    (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`decrypted client key did not start with expected header: ${restoredClientKey}`);
-  }
+  // "nolint" is to suppress ArcanistPrivateKeyLinter errors
+  if (!restoredClientKey.startsWith('-----BEGIN RSA PRIVATE KEY-----') // nolint
+  ) {
+      (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`decrypted client key did not start with expected header: ${restoredClientKey}`);
+    }
 
   if (!certificateAuthorityCertificate) {
     throw new Error('Invariant violation: "certificateAuthorityCertificate"');

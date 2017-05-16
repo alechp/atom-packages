@@ -28,6 +28,7 @@ exports.createErrorResponseMessage = createErrorResponseMessage;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // Encodes the structure of messages that can be sent from the client to the server.

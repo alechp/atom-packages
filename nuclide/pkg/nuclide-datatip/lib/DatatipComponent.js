@@ -29,6 +29,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 const DATATIP_ACTIONS = exports.DATATIP_ACTIONS = Object.freeze({
@@ -54,12 +55,7 @@ class DatatipComponent extends _react.default.Component {
 
   render() {
     const _props = this.props,
-          {
-      className,
-      action,
-      actionTitle,
-      datatip
-    } = _props,
+          { className, action, actionTitle, datatip } = _props,
           props = _objectWithoutProperties(_props, ['className', 'action', 'actionTitle', 'datatip']);
     delete props.onActionClick;
     let actionButton;

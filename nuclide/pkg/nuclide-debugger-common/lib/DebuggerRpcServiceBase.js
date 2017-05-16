@@ -83,6 +83,7 @@ exports.DebuggerRpcServiceBase = DebuggerRpcServiceBase; // TODO: make this tran
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class DebuggerRpcWebSocketService extends DebuggerRpcServiceBase {

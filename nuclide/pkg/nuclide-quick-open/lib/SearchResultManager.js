@@ -21,6 +21,8 @@ function _load_nuclideLogging() {
 
 var _react = _interopRequireDefault(require('react'));
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 var _atom = require('atom');
 
 var _UniversalDisposable;
@@ -61,25 +63,24 @@ function _load_collection() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
+const MAX_OMNI_RESULTS_PER_SERVICE = 5; /**
+                                         * Copyright (c) 2015-present, Facebook, Inc.
+                                         * All rights reserved.
+                                         *
+                                         * This source code is licensed under the license found in the LICENSE file in
+                                         * the root directory of this source tree.
+                                         *
+                                         * 
+                                         * @format
+                                         */
 
 /* global performance */
 
-const MAX_OMNI_RESULTS_PER_SERVICE = 5;
 const DEFAULT_QUERY_DEBOUNCE_DELAY = 200;
 const LOADING_EVENT_DELAY = 200;
 const OMNISEARCH_PROVIDER = {
   action: 'nuclide-quick-open:find-anything-via-omni-search',
   canOpenAll: false,
-  debounceDelay: DEFAULT_QUERY_DEBOUNCE_DELAY,
   name: 'OmniSearchResultProvider',
   prompt: 'Search for anything...',
   title: 'OmniSearch',
@@ -87,6 +88,10 @@ const OMNISEARCH_PROVIDER = {
 };
 const UPDATE_DIRECTORIES_DEBOUNCE_DELAY = 100;
 const GLOBAL_KEY = 'global';
+
+function getQueryDebounceDelay(provider) {
+  return provider.debounceDelay != null ? provider.debounceDelay : DEFAULT_QUERY_DEBOUNCE_DELAY;
+}
 
 /**
  * A singleton cache for search providers and results.
@@ -112,13 +117,16 @@ class SearchResultManager {
     /* immediate */false);
     this._emitter = new _atom.Emitter();
     this._subscriptions = new _atom.CompositeDisposable();
+    this._querySubscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this._quickOpenProviderRegistry = quickOpenProviderRegistry;
+    this._queryStream = new _rxjsBundlesRxMinJs.Subject();
     this._subscriptions.add(this._debouncedUpdateDirectories, atom.project.onDidChangePaths(this._debouncedUpdateDirectories), this._quickOpenProviderRegistry.observeProviders(this._registerProvider.bind(this)), this._quickOpenProviderRegistry.onDidRemoveProvider(this._deregisterProvider.bind(this)));
     this._debouncedUpdateDirectories();
   }
 
   executeQuery(query) {
-    this._executeQuery(query);
+    this._lastRawQuery = query;
+    this._queryStream.next(this._sanitizeQuery(query));
   }
 
   setActiveProvider(providerName) {
@@ -203,6 +211,23 @@ class SearchResultManager {
         _this._directoryEligibleProviders = directoryEligibleProviders;
         _this._globalEligibleProviders = globalEligibleProviders;
         _this._emitter.emit('providers-changed');
+
+        // Providers can have a very wide range of debounce delays.
+        // Debounce queries on a per-provider basis to ensure that the default Cmd-T is snappy.
+        _this._querySubscriptions.dispose();
+        _this._querySubscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+        for (const [directory, providers] of _this._directoryEligibleProviders) {
+          for (const provider of providers) {
+            _this._querySubscriptions.add(_this._queryStream.debounceTime(getQueryDebounceDelay(provider)).subscribe(function (query) {
+              return _this._executeDirectoryQuery(directory, provider, query);
+            }));
+          }
+        }
+        for (const provider of _this._globalEligibleProviders) {
+          _this._querySubscriptions.add(_this._queryStream.debounceTime(getQueryDebounceDelay(provider)).subscribe(function (query) {
+            return _this._executeGlobalQuery(provider, query);
+          }));
+        }
       }
     })();
   }
@@ -306,9 +331,7 @@ class SearchResultManager {
     return query.trim();
   }
 
-  _executeQuery(rawQuery) {
-    this._lastRawQuery = rawQuery;
-    const query = this._sanitizeQuery(rawQuery);
+  _executeGlobalQuery(provider, query) {
     for (const globalProvider of this._globalEligibleProviders) {
       const startTime = performance.now();
       const loadingFn = () => {
@@ -324,31 +347,22 @@ class SearchResultManager {
         this._processResult(query, result, GLOBAL_KEY, globalProvider);
       });
     }
-    if (this._directoryEligibleProviders.size === 0) {
-      return;
-    }
-    this._directories.forEach(directory => {
-      const path = directory.getPath();
-      const providers = this._directoryEligibleProviders.get(directory);
-      if (!providers) {
-        // Special directories like "atom://about"
-        return;
-      }
-      for (const directoryProvider of providers) {
-        const startTime = performance.now();
-        const loadingFn = () => {
-          this._setLoading(query, path, directoryProvider);
-          this._emitter.emit('results-changed');
-        };
-        (0, (_promise || _load_promise()).triggerAfterWait)(directoryProvider.executeQuery(query, directory), LOADING_EVENT_DELAY, loadingFn).then(result => {
-          (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('quickopen-query-source-provider', {
-            'quickopen-source-provider': directoryProvider.name,
-            'quickopen-query-duration': (performance.now() - startTime).toString(),
-            'quickopen-result-count': result.length.toString()
-          });
-          this._processResult(query, result, path, directoryProvider);
-        });
-      }
+  }
+
+  _executeDirectoryQuery(directory, provider, query) {
+    const path = directory.getPath();
+    const startTime = performance.now();
+    const loadingFn = () => {
+      this._setLoading(query, path, provider);
+      this._emitter.emit('results-changed');
+    };
+    (0, (_promise || _load_promise()).triggerAfterWait)(provider.executeQuery(query, directory), LOADING_EVENT_DELAY, loadingFn).then(result => {
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('quickopen-query-source-provider', {
+        'quickopen-source-provider': provider.name,
+        'quickopen-query-duration': (performance.now() - startTime).toString(),
+        'quickopen-result-count': result.length.toString()
+      });
+      this._processResult(query, result, path, provider);
     });
   }
 
@@ -383,6 +397,12 @@ class SearchResultManager {
           if (cachedQueries) {
             if (cachedQueries[query]) {
               cachedResult = cachedQueries[query];
+              // It's important to ensure that we update lastCachedQuery here.
+              // Consider the case where we enter "abc", then "abcd",
+              // then correct back to "abc" and finally enter "abce".
+              // We need to ensure that "abce" displays the results for "abc"
+              // while loading rather than the results for "abcd".
+              this._resultCache.setLastCachedQuery(providerName, query);
             } else if (lastCachedQuery != null && cachedQueries[lastCachedQuery]) {
               cachedResult = cachedQueries[lastCachedQuery];
             }
@@ -395,7 +415,9 @@ class SearchResultManager {
         };
         const resultList = cachedResult.results || defaultResult.results;
         results[path] = {
-          results: resultList.map(result => Object.assign({}, result, { sourceProvider: providerName })),
+          results: resultList.map(result => Object.assign({}, result, {
+            sourceProvider: providerName
+          })),
           loading: cachedResult.loading || defaultResult.loading,
           error: cachedResult.error || defaultResult.error
         };
@@ -441,7 +463,7 @@ class SearchResultManager {
     const { display } = provider;
     const providerSpec = {
       name: provider.name,
-      debounceDelay: provider.debounceDelay != null ? provider.debounceDelay : DEFAULT_QUERY_DEBOUNCE_DELAY,
+      debounceDelay: getQueryDebounceDelay(provider),
       title: display != null ? display.title : provider.name,
       prompt: display != null ? display.prompt : `Search ${provider.name}`,
       action: display != null && display.action != null ? display.action : '',

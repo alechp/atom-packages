@@ -57,6 +57,7 @@ function smartPromiseAll(arr) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function checkedSmartPromiseAll(arr) {
@@ -385,7 +386,7 @@ class TypeRegistry {
   _registerLiterals() {
     const literalTransformer = (arg, type) => {
       if (!(type.kind === 'string-literal' || type.kind === 'number-literal' || type.kind === 'boolean-literal')) {
-        throw new Error('Invariant violation: "type.kind === \'string-literal\' || type.kind === \'number-literal\' ||\\n          type.kind === \'boolean-literal\'"');
+        throw new Error('Invariant violation: "type.kind === \'string-literal\' ||\\n          type.kind === \'number-literal\' ||\\n          type.kind === \'boolean-literal\'"');
       }
 
       if (!(arg === type.value)) {
@@ -407,7 +408,7 @@ class TypeRegistry {
 
       const alternate = type.types.find(element => {
         if (!(element.kind === 'string-literal' || element.kind === 'number-literal' || element.kind === 'boolean-literal')) {
-          throw new Error('Invariant violation: "element.kind === \'string-literal\' || element.kind === \'number-literal\'\\n            || element.kind === \'boolean-literal\'"');
+          throw new Error('Invariant violation: "element.kind === \'string-literal\' ||\\n            element.kind === \'number-literal\' ||\\n            element.kind === \'boolean-literal\'"');
         }
 
         return arg === element.value;
@@ -769,7 +770,7 @@ function findAlternate(arg, type) {
     const alternateType = getObjectFieldByName(alternate, discriminantField).type;
 
     if (!(alternateType.kind === 'string-literal' || alternateType.kind === 'number-literal' || alternateType.kind === 'boolean-literal')) {
-      throw new Error('Invariant violation: "alternateType.kind === \'string-literal\' || alternateType.kind === \'number-literal\'\\n        || alternateType.kind === \'boolean-literal\'"');
+      throw new Error('Invariant violation: "alternateType.kind === \'string-literal\' ||\\n        alternateType.kind === \'number-literal\' ||\\n        alternateType.kind === \'boolean-literal\'"');
     }
 
     return alternateType.value === discriminant;

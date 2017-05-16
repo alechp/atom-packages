@@ -63,6 +63,7 @@ function toggleSetHas(set, value, forceHas) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 const FIRST_SELECTED_DESCENDANT_REF = 'firstSelectedDescendant';
@@ -392,7 +393,8 @@ class TreeRootComponent extends _react.default.Component {
 
     // We have to create the listener before setting the state so it can pick
     // up the changes from `setState`.
-    const promise = this._createDidUpdateListener( /* shouldResolve */() => {
+    const promise = this._createDidUpdateListener(
+    /* shouldResolve */() => {
       const rootsReady = this.state.roots === roots;
       const childrenReady = this.state.roots.every(root => root.isCacheValid());
       return rootsReady && childrenReady;
@@ -513,7 +515,8 @@ class TreeRootComponent extends _react.default.Component {
 
     // We have to create the listener before setting the state so it can pick
     // up the changes from `setState`.
-    const promise = this._createDidUpdateListener( /* shouldResolve */() => this.state.selectedKeys.has(nodeKey));
+    const promise = this._createDidUpdateListener(
+    /* shouldResolve */() => this.state.selectedKeys.has(nodeKey));
     this.setState({ selectedKeys: new Set([nodeKey]) });
     return promise;
   }
@@ -537,7 +540,8 @@ class TreeRootComponent extends _react.default.Component {
     const node = this.getNodeForKey(nodeKey);
 
     if (node && node.isContainer()) {
-      const promise = this._createDidUpdateListener( /* shouldResolve */() => {
+      const promise = this._createDidUpdateListener(
+      /* shouldResolve */() => {
         const isExpanded = this.state.expandedKeys.has(nodeKey);
         const nodeNow = this.getNodeForKey(nodeKey);
         const isDoneFetching = nodeNow && nodeNow.isContainer() && nodeNow.isCacheValid();

@@ -45,7 +45,7 @@ let _runBuckCommandFromProjectRoot = (() => {
     const newArgs = addClientId ? args.concat(CLIENT_ID_ARGS) : args;
     logger.debug('Buck command:', pathToBuck, newArgs, options);
     return getPool(rootPath, readOnly).submit(function () {
-      return (0, (_process || _load_process()).checkOutput)(pathToBuck, newArgs, options);
+      return (0, (_process || _load_process()).runCommand)(pathToBuck, newArgs, options).toPromise();
     });
   });
 
@@ -62,7 +62,10 @@ let _runBuckCommandFromProjectRoot = (() => {
 let _getBuckCommandAndOptions = (() => {
   var _ref3 = (0, _asyncToGenerator.default)(function* (rootPath, commandOptions = {}) {
     // $UPFixMe: This should use nuclide-features-config
-    const pathToBuck = global.atom && global.atom.config.get('nuclide.nuclide-buck.pathToBuck') || 'buck';
+    let pathToBuck = global.atom && global.atom.config.get('nuclide.nuclide-buck.pathToBuck') || 'buck';
+    if (pathToBuck === 'buck' && _os.platform() === 'win32') {
+      pathToBuck = 'buck.bat';
+    }
     const buckCommandOptions = Object.assign({
       cwd: rootPath,
       // Buck restarts itself if the environment changes, so try to preserve
@@ -219,7 +222,7 @@ let listAliases = exports.listAliases = (() => {
   var _ref8 = (0, _asyncToGenerator.default)(function* (rootPath) {
     const args = ['audit', 'alias', '--list'];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    const stdout = result.stdout.trim();
+    const stdout = result.trim();
     return stdout ? stdout.split('\n') : [];
   });
 
@@ -233,7 +236,7 @@ let listFlavors = exports.listFlavors = (() => {
     const args = ['audit', 'flavors', '--json'].concat(targets);
     try {
       const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-      return JSON.parse(result.stdout);
+      return JSON.parse(result);
     } catch (e) {
       return null;
     }
@@ -253,7 +256,7 @@ let resolveAlias = exports.resolveAlias = (() => {
   var _ref10 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget) {
     const args = ['query', aliasOrTarget];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    return result.stdout.trim();
+    return result.trim();
   });
 
   return function resolveAlias(_x20, _x21) {
@@ -274,7 +277,7 @@ let showOutput = exports.showOutput = (() => {
   var _ref11 = (0, _asyncToGenerator.default)(function* (rootPath, aliasOrTarget, extraArguments = []) {
     const args = ['targets', '--json', '--show-output', aliasOrTarget].concat(extraArguments);
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    return JSON.parse(result.stdout.trim());
+    return JSON.parse(result.trim());
   });
 
   return function showOutput(_x22, _x23) {
@@ -319,7 +322,7 @@ let _buildRuleTypeFor = exports._buildRuleTypeFor = (() => {
     const canonicalName = _normalizeNameForBuckQuery(aliasOrTarget);
     const args = ['query', canonicalName, '--json', '--output-attributes', 'buck.type'];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    const json = JSON.parse(result.stdout);
+    const json = JSON.parse(result);
     // If aliasOrTarget is an alias, targets[0] will be the fully qualified build target.
     const targets = Object.keys(json);
     if (targets.length === 0) {
@@ -375,7 +378,7 @@ let getHTTPServerPort = exports.getHTTPServerPort = (() => {
 
     const args = ['server', 'status', '--json', '--http-port'];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    const json = JSON.parse(result.stdout);
+    const json = JSON.parse(result);
     port = json['http.port'];
     _cachedPorts.set(rootPath, port);
     return port;
@@ -393,7 +396,7 @@ let query = exports.query = (() => {
   var _ref15 = (0, _asyncToGenerator.default)(function* (rootPath, queryString) {
     const args = ['query', '--json', queryString];
     const result = yield _runBuckCommandFromProjectRoot(rootPath, args);
-    const json = JSON.parse(result.stdout);
+    const json = JSON.parse(result);
     return json;
   });
 
@@ -417,7 +420,7 @@ let queryWithArgs = exports.queryWithArgs = (() => {
   var _ref16 = (0, _asyncToGenerator.default)(function* (rootPath, queryString, args) {
     const completeArgs = ['query', '--json', queryString].concat(args);
     const result = yield _runBuckCommandFromProjectRoot(rootPath, completeArgs);
-    const json = JSON.parse(result.stdout);
+    const json = JSON.parse(result);
 
     // `buck query` does not include entries in the JSON for params that did not match anything. We
     // massage the output to ensure that every argument has an entry in the output.
@@ -439,34 +442,36 @@ let queryWithArgs = exports.queryWithArgs = (() => {
 
 
 let getLastCommandInfo = exports.getLastCommandInfo = (() => {
-  var _ref17 = (0, _asyncToGenerator.default)(function* (rootPath) {
+  var _ref17 = (0, _asyncToGenerator.default)(function* (rootPath, maxArgs) {
     const logFile = (_nuclideUri || _load_nuclideUri()).default.join(rootPath, LOG_PATH);
     if (yield (_fsPromise || _load_fsPromise()).default.exists(logFile)) {
-      const result = yield (0, (_process || _load_process()).asyncExecute)('head', ['-n', '1', logFile]);
-      if (result.exitCode === 0) {
-        const line = result.stdout;
-        const matches = line.match(LOG_REGEX);
-        if (matches == null || matches.length < 2) {
-          return null;
-        }
-        // Log lines are of the form:
-        // [time][level][?][?][JavaClass] .... [args]
-        // Parse this to figure out what the last command was.
-        const timestamp = Number(new Date(stripBrackets(matches[0])));
-        if (isNaN(timestamp)) {
-          return null;
-        }
-        const args = stripBrackets(matches[matches.length - 1]).split(', ');
-        if (args.length <= 1) {
-          return null;
-        }
-        return { timestamp, command: args[0], args: args.slice(1) };
+      let line;
+      try {
+        line = yield (0, (_process || _load_process()).runCommand)('head', ['-n', '1', logFile]).toPromise();
+      } catch (err) {
+        return null;
       }
+      const matches = line.match(LOG_REGEX);
+      if (matches == null || matches.length < 2) {
+        return null;
+      }
+      // Log lines are of the form:
+      // [time][level][?][?][JavaClass] .... [args]
+      // Parse this to figure out what the last command was.
+      const timestamp = Number(new Date(stripBrackets(matches[0])));
+      if (isNaN(timestamp)) {
+        return null;
+      }
+      const args = stripBrackets(matches[matches.length - 1]).split(', ');
+      if (args.length <= 1 || maxArgs != null && args.length - 1 > maxArgs) {
+        return null;
+      }
+      return { timestamp, command: args[0], args: args.slice(1) };
     }
     return null;
   });
 
-  return function getLastCommandInfo(_x34) {
+  return function getLastCommandInfo(_x34, _x35) {
     return _ref17.apply(this, arguments);
   };
 })();
@@ -530,11 +535,12 @@ function _load_shellQuote() {
   return _shellQuote = require('shell-quote');
 }
 
+var _os = _interopRequireWildcard(require('os'));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
-
-// Tag these Buck calls as coming from Nuclide for analytics purposes.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -543,8 +549,12 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
+
+// Tag these Buck calls as coming from Nuclide for analytics purposes.
 const CLIENT_ID_ARGS = ['--config', 'client.id=nuclide'];
 
 const MULTIPLE_TARGET_RULE_TYPE = exports.MULTIPLE_TARGET_RULE_TYPE = 'multiple_targets';
@@ -599,6 +609,7 @@ function install(rootPath, buildTargets, simulator, run, debug) {
 }
 
 function buildWithOutput(rootPath, buildTargets, extraArguments) {
+  // TODO(T17463635)
   return _buildWithOutput(rootPath, buildTargets, { extraArguments }).publish();
 }
 
@@ -614,6 +625,7 @@ function buildWithOutput(rootPath, buildTargets, extraArguments) {
  *   onCompleted: Only called if the build completes successfully.
  */
 function testWithOutput(rootPath, buildTargets, extraArguments, debug) {
+  // TODO(T17463635)
   return _buildWithOutput(rootPath, buildTargets, {
     test: true,
     extraArguments,
@@ -633,6 +645,7 @@ function testWithOutput(rootPath, buildTargets, extraArguments, debug) {
  *   onCompleted: Only called if the install completes successfully.
  */
 function installWithOutput(rootPath, buildTargets, extraArguments, simulator, run, debug) {
+  // TODO(T17463635)
   return _buildWithOutput(rootPath, buildTargets, {
     install: true,
     simulator,
@@ -643,6 +656,7 @@ function installWithOutput(rootPath, buildTargets, extraArguments, simulator, ru
 }
 
 function runWithOutput(rootPath, buildTargets, extraArguments, simulator) {
+  // TODO(T17463635)
   return _buildWithOutput(rootPath, buildTargets, {
     run: true,
     simulator,
@@ -656,11 +670,15 @@ function runWithOutput(rootPath, buildTargets, extraArguments, simulator) {
  *   docblocks for `buildWithOutput` and `installWithOutput`.
  */
 function _buildWithOutput(rootPath, buildTargets, options) {
+  // TODO(T17463635)
   const args = _translateOptionsToBuckBuildArgs({
     baseOptions: Object.assign({}, options),
     buildTargets
   });
-  return _rxjsBundlesRxMinJs.Observable.fromPromise(_getBuckCommandAndOptions(rootPath)).switchMap(({ pathToBuck, buckCommandOptions }) => (0, (_process || _load_process()).observeProcess)(pathToBuck, args, Object.assign({}, buckCommandOptions)).startWith({
+  return _rxjsBundlesRxMinJs.Observable.fromPromise(_getBuckCommandAndOptions(rootPath)).switchMap(({ pathToBuck, buckCommandOptions }) => (0, (_process || _load_process()).observeProcess)(pathToBuck, args, Object.assign({}, buckCommandOptions, {
+    /* TODO(T17353599) */isExitError: () => false
+  })).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+  .startWith({
     kind: 'stdout',
     data: `Starting "${pathToBuck} ${_getArgsStringSkipClientId(args)}"`
   }));
@@ -677,11 +695,7 @@ function _getArgsStringSkipClientId(args) {
  *   process to run the `buck` command.
  */
 function _translateOptionsToBuckBuildArgs(options) {
-  const {
-    baseOptions,
-    pathToBuildReport,
-    buildTargets
-  } = options;
+  const { baseOptions, pathToBuildReport, buildTargets } = options;
   const {
     install: doInstall,
     run,

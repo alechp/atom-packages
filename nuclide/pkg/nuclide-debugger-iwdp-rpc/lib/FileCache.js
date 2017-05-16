@@ -7,26 +7,8 @@ exports.FileCache = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
-let getSourceMapFromDisk = (() => {
-  var _ref = (0, _asyncToGenerator.default)(function* (bundle) {
-    const matches = SOURCE_MAP_REGEX.exec(bundle);
-    if (matches == null) {
-      return undefined;
-    }
-    // Handle source maps for the bundle.
-    const sourceMapPath = matches[1];
-    const sourceMap = yield (_fsPromise || _load_fsPromise()).default.readFile(sourceMapPath);
-    const base64SourceMap = new Buffer(sourceMap).toString('base64');
-    return `${SOURCE_MAP_PREFIX}${base64SourceMap}`;
-  });
-
-  return function getSourceMapFromDisk(_x) {
-    return _ref.apply(this, arguments);
-  };
-})();
-
 let getSourceMapFromUrl = (() => {
-  var _ref2 = (0, _asyncToGenerator.default)(function* (url, bundle) {
+  var _ref = (0, _asyncToGenerator.default)(function* (url, bundle) {
     const matches = SOURCE_MAP_REGEX.exec(bundle);
     if (matches == null) {
       return undefined;
@@ -40,8 +22,8 @@ let getSourceMapFromUrl = (() => {
     return `${SOURCE_MAP_PREFIX}${base64SourceMap}`;
   });
 
-  return function getSourceMapFromUrl(_x2, _x3) {
-    return _ref2.apply(this, arguments);
+  return function getSourceMapFromUrl(_x, _x2) {
+    return _ref.apply(this, arguments);
   };
 })();
 
@@ -87,6 +69,7 @@ const { log } = (_logger || _load_logger()).logger;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const EMULATOR_LOCALHOST_ADDR = /10\.0\.2\.2|10\.0\.3\.2/;
@@ -96,8 +79,9 @@ const SOURCE_MAP_PREFIX = 'data:application/json;base64,';
 
 class FileCache {
 
-  constructor(getScriptSource) {
+  constructor(getScriptSource, sendAtomNotification) {
     this._getScriptSource = getScriptSource;
+    this._sendAtomNotification = sendAtomNotification;
     this._nuclidePathToFileData = new Map();
     this._targetPathToFileData = new Map();
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => this._nuclidePathToFileData.clear(), () => this._targetPathToFileData.clear());
@@ -140,7 +124,7 @@ class FileCache {
       const newFileData = {
         nuclidePath,
         targetPath: urlString,
-        sourceMapUrl: yield getSourceMapFromDisk(scriptSource)
+        sourceMapUrl: yield _this._getSourceMapFromDisk(scriptSource)
       };
       _this._targetPathToFileData.set(newFileData.targetPath, newFileData);
       _this._nuclidePathToFileData.set(newFileData.nuclidePath, newFileData);
@@ -183,6 +167,28 @@ class FileCache {
     })();
   }
 
+  _getSourceMapFromDisk(bundle) {
+    var _this3 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const matches = SOURCE_MAP_REGEX.exec(bundle);
+      if (matches == null) {
+        return undefined;
+      }
+      // Handle source maps for the bundle.
+      const sourceMapPath = matches[1];
+      try {
+        const sourceMap = yield (_fsPromise || _load_fsPromise()).default.readFile(sourceMapPath);
+        const base64SourceMap = new Buffer(sourceMap).toString('base64');
+        return `${SOURCE_MAP_PREFIX}${base64SourceMap}`;
+      } catch (e) {
+        log(`Mobile JS debugger could not find source map: ${JSON.stringify(e)}`);
+        _this3._sendAtomNotification('warning', `Could not find a source map at \`${sourceMapPath}\`!  Try rebuilding your app.`);
+        return;
+      }
+    })();
+  }
+
   getUrlFromFilePath(filePath) {
     const fileData = this._nuclidePathToFileData.get(filePath);
     if (fileData == null) {
@@ -192,10 +198,10 @@ class FileCache {
   }
 
   dispose() {
-    var _this3 = this;
+    var _this4 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      _this3._disposables.dispose();
+      _this4._disposables.dispose();
     })();
   }
 }

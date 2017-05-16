@@ -88,6 +88,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 /** Encapsulates all of the state information we need about a specific Flow root */
@@ -146,7 +147,7 @@ class FlowSingleProjectLanguageService {
       // the user's editor rather than what is saved on disk. It would be annoying
       // if the user had to save before using the jump-to-definition feature to
       // ensure he or she got accurate results.
-      options.stdin = buffer.getText();
+      options.input = buffer.getText();
 
       const args = ['get-def', '--json', '--path', filePath, line, column];
       try {
@@ -192,7 +193,7 @@ class FlowSingleProjectLanguageService {
         return null;
       }
 
-      const options = { stdin: buffer.getText() };
+      const options = { input: buffer.getText() };
       const args = ['find-refs', '--json', '--path', filePath, position.row + 1, position.column + 1];
       try {
         const result = yield _this2._process.execFlow(args, options);
@@ -233,7 +234,8 @@ class FlowSingleProjectLanguageService {
       try {
         // Don't log errors if the command returns a nonzero exit code, because status returns nonzero
         // if it is reporting any issues, even when it succeeds.
-        result = yield _this3._process.execFlow(args, options, /* waitForServer */true);
+        result = yield _this3._process.execFlow(args, options,
+        /* waitForServer */true);
         if (!result) {
           return null;
         }
@@ -349,7 +351,7 @@ class FlowSingleProjectLanguageService {
       // Note that Atom coordinates are 0-indexed whereas Flow's are 1-indexed, so we must add 1.
       const args = ['autocomplete', '--json', filePath, position.row + 1, position.column + 1];
 
-      options.stdin = buffer.getText();
+      options.input = buffer.getText();
       try {
         const result = yield _this4._process.execFlow(args, options);
         if (!result) {
@@ -360,7 +362,10 @@ class FlowSingleProjectLanguageService {
         const completions = resultsArray.map(function (item) {
           return processAutocompleteItem(replacementPrefix, item);
         });
-        return (0, (_nuclideFlowCommon || _load_nuclideFlowCommon()).filterResultsByPrefix)(prefix, { isIncomplete: false, items: completions });
+        return (0, (_nuclideFlowCommon || _load_nuclideFlowCommon()).filterResultsByPrefix)(prefix, {
+          isIncomplete: false,
+          items: completions
+        });
       } catch (e) {
         return { isIncomplete: false, items: [] };
       }
@@ -382,7 +387,7 @@ class FlowSingleProjectLanguageService {
 
       const options = {};
 
-      options.stdin = buffer.getText();
+      options.input = buffer.getText();
 
       const line = position.row + 1;
       const column = position.column + 1;
@@ -508,7 +513,7 @@ class FlowSingleProjectLanguageService {
   static flowGetAst(root, currentContents, execInfoContainer) {
     return (0, _asyncToGenerator.default)(function* () {
       const options = {
-        stdin: currentContents
+        input: currentContents
       };
 
       const flowRootPath = root == null ? null : root.getPathToRoot();

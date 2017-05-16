@@ -39,6 +39,7 @@ exports.default = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 /* eslint-disable no-console */

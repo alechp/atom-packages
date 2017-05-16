@@ -70,7 +70,9 @@ class HandlesTableComponent extends _react.default.Component {
             const previousHandle = this.previousHandleSummaries[key];
             return _react.default.createElement(
               "tr",
-              { key: key, className: previousHandle ? '' : 'nuclide-health-handle-new' },
+              {
+                key: key,
+                className: previousHandle ? '' : 'nuclide-health-handle-new' },
               _react.default.createElement(
                 "th",
                 null,
@@ -104,4 +106,5 @@ exports.default = HandlesTableComponent; /**
                                           * the root directory of this source tree.
                                           *
                                           * 
+                                          * @format
                                           */

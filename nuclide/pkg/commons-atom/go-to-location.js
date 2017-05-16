@@ -71,6 +71,7 @@ let goToLocation = exports.goToLocation = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 exports.goToLocationInEditor = goToLocationInEditor;

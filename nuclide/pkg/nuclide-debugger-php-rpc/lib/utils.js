@@ -19,6 +19,7 @@ const DEBUGGER_LOGGER_CATEGORY = 'nuclide-debugger-php'; /**
                                                           * the root directory of this source tree.
                                                           *
                                                           * 
+                                                          * @format
                                                           */
 
 exports.default = (0, (_nuclideLogging || _load_nuclideLogging()).getCategoryLogger)(DEBUGGER_LOGGER_CATEGORY);

@@ -19,6 +19,7 @@ const DEBUGGER_LOGGER_CATEGORY = 'nuclide-debugger-iwdp-rpc'; /**
                                                                * the root directory of this source tree.
                                                                *
                                                                * 
+                                                               * @format
                                                                */
 
 const logger = exports.logger = (0, (_nuclideLogging || _load_nuclideLogging()).getCategoryLogger)(DEBUGGER_LOGGER_CATEGORY);

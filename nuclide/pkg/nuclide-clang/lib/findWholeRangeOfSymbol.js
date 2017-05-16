@@ -35,6 +35,7 @@ const OBJC_SELECTOR_NAME_REGEX = /([^\s:]+:)+$/g;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function findWholeRangeOfSymbol(textEditor, text, textRange, spelling, extent) {

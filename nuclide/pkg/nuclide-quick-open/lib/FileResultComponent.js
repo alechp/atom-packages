@@ -6,16 +6,16 @@ Object.defineProperty(exports, "__esModule", {
 
 var _react = _interopRequireDefault(require('react'));
 
-var _fileTypeClass;
-
-function _load_fileTypeClass() {
-  return _fileTypeClass = _interopRequireDefault(require('../../commons-atom/file-type-class'));
-}
-
 var _nuclideUri;
 
 function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+}
+
+var _PathWithFileIcon;
+
+function _load_PathWithFileIcon() {
+  return _PathWithFileIcon = _interopRequireDefault(require('../../nuclide-ui/PathWithFileIcon'));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function renderSubsequence(seq, props) {
@@ -85,13 +86,9 @@ class FileResultComponent {
       }
     });
     pathComponents.push(renderUnmatchedSubsequence(filePath.slice(start, filePath.length), 'last'));
-
-    const filenameClasses = ['file', 'icon', (0, (_fileTypeClass || _load_fileTypeClass()).default)(filePath)].join(' ');
-    // `data-name` is support for the "file-icons" package.
-    // See: https://atom.io/packages/file-icons
     return _react.default.createElement(
-      'div',
-      { className: filenameClasses, 'data-name': (_nuclideUri || _load_nuclideUri()).default.basename(filePath) },
+      (_PathWithFileIcon || _load_PathWithFileIcon()).default,
+      { path: (_nuclideUri || _load_nuclideUri()).default.basename(filePath) },
       pathComponents
     );
   }

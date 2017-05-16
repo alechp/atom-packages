@@ -14,6 +14,7 @@ const NUCLIDE_CONFIG_SCOPE = 'nuclide.'; /**
                                           * the root directory of this source tree.
                                           *
                                           * 
+                                          * @format
                                           */
 
 function formatKeyPath(keyPath) {

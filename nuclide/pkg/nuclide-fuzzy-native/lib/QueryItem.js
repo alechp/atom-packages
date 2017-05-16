@@ -27,6 +27,7 @@ const NON_UPPERCASE_CHARS_REGEXP = /[^a-z0-9]/g;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function scoreCommonSubsequence(needle, haystack_) {

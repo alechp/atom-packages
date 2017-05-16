@@ -10,7 +10,6 @@ inferType = (value) ->
 class Settings
   deprecatedParams: [
     'showCursorInVisualMode'
-    'showCursorInVisualMode2'
   ]
   notifyDeprecatedParams: ->
     deprecatedParams = @deprecatedParams.filter((param) => @has(param))
@@ -244,6 +243,10 @@ module.exports = new Settings 'vim-mode-plus',
     description: 'Comma separated list of operator class name to disable flash e.g. "yank, auto-indent"'
   flashOnSearch: true
   flashScreenOnSearchHasNoMatch: true
+  maxFoldableIndentLevel:
+    default: 20
+    minimum: 0
+    description: 'Folds which startRow exceed this level are not folded on `zm` and `zM`'
   showHoverSearchCounter: false
   showHoverSearchCounterDuration:
     default: 700

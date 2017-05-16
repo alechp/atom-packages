@@ -103,6 +103,7 @@ exports.Cache = Cache; // Useful for optional second parameter to Cache construc
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DISPOSE_VALUE = exports.DISPOSE_VALUE = value => {

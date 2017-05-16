@@ -36,6 +36,7 @@ const dir = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../spec
                                                                                               * the root directory of this source tree.
                                                                                               *
                                                                                               * 
+                                                                                              * @format
                                                                                               */
 
 // Regenerates the .proxy baseline files in the spec/fixtures directory.

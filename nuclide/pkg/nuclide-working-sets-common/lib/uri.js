@@ -37,4 +37,5 @@ function dedupeUris(uris) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

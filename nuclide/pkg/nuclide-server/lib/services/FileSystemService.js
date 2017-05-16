@@ -3,9 +3,30 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.writeFile = exports.readFile = exports.rmdirAll = exports.copy = exports.move = exports.readdir = exports.newFile = undefined;
+exports.writeFile = exports.readFile = exports.rmdirAll = exports.copy = exports.move = exports.readdir = exports.newFile = exports.findNearestAncestorNamed = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
+/**
+ * Starting in the directory `pathToDirectory`, checks if it contains a file named `fileName`.
+ * If so, it returns the path to the file. If not, it successively looks for `fileName` in the
+ * parent directory. If it gets all the way to the root and still does not find the file, then it
+ * returns `null`.
+ */
+let findNearestAncestorNamed = exports.findNearestAncestorNamed = (() => {
+  var _ref = (0, _asyncToGenerator.default)(function* (fileName, pathToDirectory) {
+    const directory = yield (_fsPromise || _load_fsPromise()).default.findNearestFile(fileName, pathToDirectory);
+    if (directory != null) {
+      return (_nuclideUri || _load_nuclideUri()).default.join(directory, fileName);
+    } else {
+      return null;
+    }
+  });
+
+  return function findNearestAncestorNamed(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+})();
 
 /**
  * If no file (or directory) at the specified path exists, creates the parent
@@ -15,7 +36,7 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
  * @return A boolean indicating whether the file was created.
  */
 let newFile = exports.newFile = (() => {
-  var _ref = (0, _asyncToGenerator.default)(function* (filePath) {
+  var _ref2 = (0, _asyncToGenerator.default)(function* (filePath) {
     const isExistingFile = yield (_fsPromise || _load_fsPromise()).default.exists(filePath);
     if (isExistingFile) {
       return false;
@@ -25,27 +46,21 @@ let newFile = exports.newFile = (() => {
     return true;
   });
 
-  return function newFile(_x) {
-    return _ref.apply(this, arguments);
+  return function newFile(_x3) {
+    return _ref2.apply(this, arguments);
   };
 })();
 
 /**
- * The readdir endpoint accepts the following query parameters:
- *
- *   path: path to the folder to list entries inside.
- *
- * Body contains a JSON encoded array of objects with file: and stats: entries.
- * file: has the file or directory name, stats: has the stats of the file/dir,
- * isSymbolicLink: true if the entry is a symlink to another filesystem location.
+ * Lists all children of the given directory.
  */
 
 
 let readdir = exports.readdir = (() => {
-  var _ref2 = (0, _asyncToGenerator.default)(function* (path) {
+  var _ref3 = (0, _asyncToGenerator.default)(function* (path) {
     const files = yield (_fsPromise || _load_fsPromise()).default.readdir(path);
     const entries = yield Promise.all(files.map((() => {
-      var _ref3 = (0, _asyncToGenerator.default)(function* (file) {
+      var _ref4 = (0, _asyncToGenerator.default)(function* (file) {
         const fullpath = (_nuclideUri || _load_nuclideUri()).default.join(path, file);
         const lstats = yield (_fsPromise || _load_fsPromise()).default.lstat(fullpath);
         if (!lstats.isSymbolicLink()) {
@@ -60,18 +75,18 @@ let readdir = exports.readdir = (() => {
         }
       });
 
-      return function (_x3) {
-        return _ref3.apply(this, arguments);
+      return function (_x5) {
+        return _ref4.apply(this, arguments);
       };
     })()));
     // TODO: Return entries directly and change client to handle error.
     return (0, (_collection || _load_collection()).arrayCompact)(entries).map(function (entry) {
-      return { file: entry.file, stats: entry.stats, isSymbolicLink: entry.isSymbolicLink };
+      return [entry.file, entry.stats.isFile(), entry.isSymbolicLink];
     });
   });
 
-  return function readdir(_x2) {
-    return _ref2.apply(this, arguments);
+  return function readdir(_x4) {
+    return _ref3.apply(this, arguments);
   };
 })();
 
@@ -86,15 +101,15 @@ let readdir = exports.readdir = (() => {
  * Moves all sourcePaths into the specified destDir, assumed to be a directory name.
  */
 let move = exports.move = (() => {
-  var _ref4 = (0, _asyncToGenerator.default)(function* (sourcePaths, destDir) {
+  var _ref5 = (0, _asyncToGenerator.default)(function* (sourcePaths, destDir) {
     yield Promise.all(sourcePaths.map(function (path) {
       const destPath = (_nuclideUri || _load_nuclideUri()).default.join(destDir, (_nuclideUri || _load_nuclideUri()).default.basename(path));
       return (_fsPromise || _load_fsPromise()).default.move(path, destPath);
     }));
   });
 
-  return function move(_x4, _x5) {
-    return _ref4.apply(this, arguments);
+  return function move(_x6, _x7) {
+    return _ref5.apply(this, arguments);
   };
 })();
 
@@ -105,7 +120,7 @@ let move = exports.move = (() => {
 
 
 let copy = exports.copy = (() => {
-  var _ref5 = (0, _asyncToGenerator.default)(function* (sourcePath, destinationPath) {
+  var _ref6 = (0, _asyncToGenerator.default)(function* (sourcePath, destinationPath) {
     const isExistingFile = yield (_fsPromise || _load_fsPromise()).default.exists(destinationPath);
     if (isExistingFile) {
       return false;
@@ -115,8 +130,8 @@ let copy = exports.copy = (() => {
     return true;
   });
 
-  return function copy(_x6, _x7) {
-    return _ref5.apply(this, arguments);
+  return function copy(_x8, _x9) {
+    return _ref6.apply(this, arguments);
   };
 })();
 
@@ -126,14 +141,14 @@ let copy = exports.copy = (() => {
 
 
 let rmdirAll = exports.rmdirAll = (() => {
-  var _ref6 = (0, _asyncToGenerator.default)(function* (paths) {
+  var _ref7 = (0, _asyncToGenerator.default)(function* (paths) {
     yield Promise.all(paths.map(function (p) {
       return (_fsPromise || _load_fsPromise()).default.rmdir(p);
     }));
   });
 
-  return function rmdirAll(_x8) {
-    return _ref6.apply(this, arguments);
+  return function rmdirAll(_x10) {
+    return _ref7.apply(this, arguments);
   };
 })();
 
@@ -172,7 +187,7 @@ let rmdirAll = exports.rmdirAll = (() => {
  *   Callers who want a string should call buffer.toString('utf8').
  */
 let readFile = exports.readFile = (() => {
-  var _ref7 = (0, _asyncToGenerator.default)(function* (path, options) {
+  var _ref8 = (0, _asyncToGenerator.default)(function* (path, options) {
     const stats = yield (_fsPromise || _load_fsPromise()).default.stat(path);
     if (stats.size > READFILE_SIZE_LIMIT) {
       throw new Error(`File is too large (${stats.size} bytes)`);
@@ -180,13 +195,13 @@ let readFile = exports.readFile = (() => {
     return (_fsPromise || _load_fsPromise()).default.readFile(path, options);
   });
 
-  return function readFile(_x9, _x10) {
-    return _ref7.apply(this, arguments);
+  return function readFile(_x11, _x12) {
+    return _ref8.apply(this, arguments);
   };
 })();
 
 let copyFilePermissions = (() => {
-  var _ref8 = (0, _asyncToGenerator.default)(function* (sourcePath, destinationPath) {
+  var _ref9 = (0, _asyncToGenerator.default)(function* (sourcePath, destinationPath) {
     let permissions;
     try {
       permissions = (yield (_fsPromise || _load_fsPromise()).default.stat(sourcePath)).mode;
@@ -202,8 +217,8 @@ let copyFilePermissions = (() => {
     yield (_fsPromise || _load_fsPromise()).default.chmod(destinationPath, permissions);
   });
 
-  return function copyFilePermissions(_x11, _x12) {
-    return _ref8.apply(this, arguments);
+  return function copyFilePermissions(_x13, _x14) {
+    return _ref9.apply(this, arguments);
   };
 })();
 
@@ -219,7 +234,7 @@ let copyFilePermissions = (() => {
 
 
 let writeFile = exports.writeFile = (() => {
-  var _ref9 = (0, _asyncToGenerator.default)(function* (path, data, options) {
+  var _ref10 = (0, _asyncToGenerator.default)(function* (path, data, options) {
     let complete = false;
     const tempFilePath = yield (_fsPromise || _load_fsPromise()).default.tempfile('nuclide');
     try {
@@ -253,8 +268,8 @@ let writeFile = exports.writeFile = (() => {
     }
   });
 
-  return function writeFile(_x13, _x14, _x15) {
-    return _ref9.apply(this, arguments);
+  return function writeFile(_x15, _x16, _x17) {
+    return _ref10.apply(this, arguments);
   };
 })();
 
@@ -326,6 +341,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /**
@@ -347,11 +363,14 @@ function exists(path) {
   return (_fsPromise || _load_fsPromise()).default.exists(path);
 }
 
+/**
+ * @deprecated: Prefer findNearestAncestorNamed(). It has two major differences:
+ *     1. It operates on NuclideUri instead of string.
+ *     2. It returns the path to the file, not the directory (or null).
+ */
 function findNearestFile(fileName, pathToDirectory) {
   return (_fsPromise || _load_fsPromise()).default.findNearestFile(fileName, pathToDirectory);
-}
-
-function findFilesInDirectories(searchPaths, fileName) {
+}function findFilesInDirectories(searchPaths, fileName) {
   if (searchPaths.length === 0) {
     return _rxjsBundlesRxMinJs.Observable.throw(new Error('No directories to search in!')).publish();
   }

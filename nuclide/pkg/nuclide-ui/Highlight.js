@@ -23,6 +23,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 const HighlightColors = exports.HighlightColors = Object.freeze({
@@ -42,11 +43,7 @@ const HighlightColorClassNames = Object.freeze({
 });
 
 const Highlight = props => {
-  const {
-    className,
-    color,
-    children
-  } = props,
+  const { className, color, children } = props,
         remainingProps = _objectWithoutProperties(props, ['className', 'color', 'children']);
   const colorClassName = HighlightColorClassNames[color == null ? 'default' : color];
   const newClassName = (0, (_classnames || _load_classnames()).default)(colorClassName, className);

@@ -188,6 +188,7 @@ exports.default = ContextMenu; /** Comparator used to sort menu items by priorit
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function compareInternalItems(a, b) {

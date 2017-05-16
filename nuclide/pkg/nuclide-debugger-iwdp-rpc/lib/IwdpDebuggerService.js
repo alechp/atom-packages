@@ -53,6 +53,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const { log, logError } = (_logger || _load_logger()).logger;
@@ -66,7 +67,7 @@ class IwdpDebuggerService {
     }
     lastServiceObjectDispose = this.dispose.bind(this);
     this._clientCallback = new (_main || _load_main()).ClientCallback();
-    this._connectionMultiplexer = new (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexer(message => this._clientCallback.sendChromeMessage(JSON.stringify(message)));
+    this._connectionMultiplexer = new (_ConnectionMultiplexer || _load_ConnectionMultiplexer()).ConnectionMultiplexer(message => this._clientCallback.sendChromeMessage(JSON.stringify(message)), (level, message) => this._clientCallback.sendAtomNotification(level, message));
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(this._clientCallback, this._connectionMultiplexer);
   }
 
@@ -85,7 +86,7 @@ class IwdpDebuggerService {
       this._connectionMultiplexer.add(deviceInfo);
     }, err => {
       logError(`The debug proxy was killed!  Error: ${err}`);
-      this._clientCallback.sendAtomNotification('warning', 'The session has ended because the debug proxy was killed!');
+      this._clientCallback.sendAtomNotification('warning', err.type === undefined ? 'The session has ended because the debug proxy was not found!  ' + 'Try running `js1 run` in the repo root.' : err.type);
       // We need to wait for the event loop to run before disposing, otherwise our atom
       // notification never makes it through the service framework.
       process.nextTick(() => this.dispose());

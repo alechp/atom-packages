@@ -24,6 +24,7 @@ let initialize = exports.initialize = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 var _DiagnosticsHelper;

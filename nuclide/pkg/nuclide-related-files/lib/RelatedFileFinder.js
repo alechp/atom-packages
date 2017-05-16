@@ -36,6 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const relatedFilesProviders = new Set();
@@ -94,11 +95,11 @@ class RelatedFileFinder {
       // add the related files from external providers
       // get all the files that matches the whitelist -> wlFilelist;
       // check the wlFilelist: if empty, use filelist
-      const filelist = listing.filter(function (otherFilePath) {
-        // $FlowFixMe stats may be null
-        return otherFilePath.stats.isFile() && !otherFilePath.file.endsWith('~') && getPrefix(otherFilePath.file) === prefix;
-      }).map(function (fileObject) {
-        return (_nuclideUri || _load_nuclideUri()).default.join(dirName, fileObject.file);
+      const filelist = listing.filter(function (entry) {
+        const [name, isFile] = entry;
+        return isFile && !name.endsWith('~') && getPrefix(name) === prefix;
+      }).map(function (entry) {
+        return (_nuclideUri || _load_nuclideUri()).default.join(dirName, entry[0]);
       }).concat((yield RelatedFileFinder._findRelatedFilesFromProviders(filePath)));
 
       let wlFilelist = fileTypeWhitelist.size <= 0 ? filelist : filelist.filter(function (otherFilePath) {

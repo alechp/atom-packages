@@ -23,6 +23,7 @@ const ATTACH_TARGET_LIST_REFRESH_INTERVAL = 2000; /**
                                                    * the root directory of this source tree.
                                                    *
                                                    * 
+                                                   * @format
                                                    */
 
 class LaunchAttachActionsBase {
@@ -52,11 +53,10 @@ class LaunchAttachActionsBase {
   }
 
   _updateAutoRefresh() {
+    this._killAutoRefreshTimer();
     if (this._parentUIVisible && this._attachUIVisible) {
       this.updateAttachTargetList();
       this._refreshTimerId = setInterval(this.updateAttachTargetList, ATTACH_TARGET_LIST_REFRESH_INTERVAL);
-    } else {
-      this._killAutoRefreshTimer();
     }
   }
 

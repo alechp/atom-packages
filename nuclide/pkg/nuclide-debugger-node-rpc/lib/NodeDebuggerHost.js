@@ -46,6 +46,7 @@ const { log } = (_utils || _load_utils()).default;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class NodeDebuggerHost {

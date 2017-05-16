@@ -52,17 +52,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const FILE_TREE_CSS = '.nuclide-file-tree';
 
-const NEW_MENU_PRIORITY = 0;
-const ADD_PROJECT_MENU_PRIORITY = 1000;
-const SOURCE_CONTROL_MENU_PRIORITY = 2000;
-const MODIFY_FILE_MENU_PRIORITY = 3000;
-const SPLIT_MENU_PRIORITY = 4000;
-const TEST_SECTION_PRIORITY = 5000;
-const SHOW_IN_MENU_PRIORITY = 6000;
+const PRIORITY_GROUP_SIZE = 1000;
+const PRIORITY_GROUP_SEPARATOR_OFFSET = PRIORITY_GROUP_SIZE - 1;
+
+const WORKING_ROOT_PRIORITY = 0;
+const NEW_MENU_PRIORITY = 1000;
+const ADD_PROJECT_MENU_PRIORITY = 2000;
+const SOURCE_CONTROL_MENU_PRIORITY = 3000;
+const MODIFY_FILE_MENU_PRIORITY = 4000;
+const SPLIT_MENU_PRIORITY = 5000;
+const TEST_SECTION_PRIORITY = 6000;
+const SHOW_IN_MENU_PRIORITY = 7000;
 
 /**
  * This context menu wrapper exists to address some of the limitations in the ContextMenuManager:
@@ -146,6 +151,7 @@ class FileTreeContextMenu {
     });
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+    this._disposables.add(this._contextMenu);
 
     const shouldDisplaySetToCurrentWorkingRootOption = () => {
       const node = this._store.getSingleSelectedNode();
@@ -156,22 +162,21 @@ class FileTreeContextMenu {
       label: 'Set to Current Working Root',
       command: 'nuclide-file-tree:set-current-working-root',
       shouldDisplay: shouldDisplaySetToCurrentWorkingRootOption
-    }, {
-      type: 'separator',
-      shouldDisplay: shouldDisplaySetToCurrentWorkingRootOption
-    }, {
+    }], WORKING_ROOT_PRIORITY);
+
+    this._newMenu = new (_ContextMenu || _load_ContextMenu()).default({
+      type: 'submenu',
       label: 'New',
-      shouldDisplay: () => {
+      parent: this._contextMenu,
+      shouldDisplay: e => {
         return this._store.getSingleSelectedNode() != null;
-      },
-      submenu: [{
-        label: 'File',
-        command: 'nuclide-file-tree:add-file'
-      }, {
-        label: 'Folder',
-        command: 'nuclide-file-tree:add-folder'
-      }]
-    }], NEW_MENU_PRIORITY);
+      }
+    });
+    this._newMenu.addItem({ label: 'File', command: 'nuclide-file-tree:add-file' }, 0);
+    this._newMenu.addItem({ label: 'Folder', command: 'nuclide-file-tree:add-folder' }, 1);
+    this._contextMenu.addSubmenu(this._newMenu, NEW_MENU_PRIORITY);
+    this._contextMenu.addItem({ type: 'separator' }, NEW_MENU_PRIORITY + 1);
+    this._disposables.add(this._newMenu);
 
     this._addContextMenuItemGroup([{
       label: 'Add Project Folder',
@@ -201,6 +206,7 @@ class FileTreeContextMenu {
       type: 'separator',
       shouldDisplay: e => !this._sourceControlMenu.isEmpty()
     }, SOURCE_CONTROL_MENU_PRIORITY + 1);
+    this._disposables.add(this._sourceControlMenu);
 
     this._addContextMenuItemGroup([{
       label: 'Rename',
@@ -271,7 +277,7 @@ class FileTreeContextMenu {
         const nodes = this.getSelectedNodes();
         return nodes.size > 0 && nodes.every(node => node.isContainer);
       }
-    }, { type: 'separator' }];
+    }];
 
     this._disposables.add(atom.contextMenu.add({
       'atom-text-editor, [data-path]:not(.nuclide-file-tree-path)': showInXItems
@@ -283,7 +289,7 @@ class FileTreeContextMenu {
    * @param priority must be an integer in the range [0, 1000).
    */
   addItemToTestSection(originalItem, priority) {
-    if (priority < 0 || priority >= 1000) {
+    if (priority < 0 || priority >= PRIORITY_GROUP_SIZE) {
       throw Error(`Illegal priority value: ${priority}`);
     }
 
@@ -294,15 +300,30 @@ class FileTreeContextMenu {
    * @param priority must be an integer in the range [0, 1000).
    */
   addItemToProjectMenu(originalItem, priority) {
-    if (priority < 0 || priority >= 1000) {
+    if (priority < 0 || priority >= PRIORITY_GROUP_SIZE) {
       throw Error(`Illegal priority value: ${priority}`);
     }
 
     return this._addItemToMenu(originalItem, this._contextMenu, ADD_PROJECT_MENU_PRIORITY + priority);
   }
 
+  addItemToNewMenu(originalItem, priority) {
+    return this._addItemToMenu(originalItem, this._newMenu, priority);
+  }
+
   addItemToSourceControlMenu(originalItem, priority) {
     return this._addItemToMenu(originalItem, this._sourceControlMenu, priority);
+  }
+
+  /**
+   * @param priority must be an integer in the range [0, 1000).
+   */
+  addItemToShowInSection(originalItem, priority) {
+    if (priority < 0 || priority >= PRIORITY_GROUP_SIZE) {
+      throw Error(`Illegal priority value: ${priority}`);
+    }
+
+    return this._addItemToMenu(originalItem, this._contextMenu, SHOW_IN_MENU_PRIORITY + priority);
   }
 
   _addItemToMenu(originalItem, menu, priority) {
@@ -330,13 +351,13 @@ class FileTreeContextMenu {
 
   _addContextMenuItemGroup(menuItems, priority_) {
     let priority = priority_;
+
+    // $FlowFixMe: The conversion between MenuItemDefinition and atom$ContextMenuItem is a mess.
+    menuItems.forEach(item => this._contextMenu.addItem(item, ++priority));
+
     // Atom is smart about only displaying a separator when there are items to
     // separate, so there will never be a dangling separator at the end.
-    // $FlowFixMe: The conversion between MenuItemDefinition and atom$ContextMenuItem is a mess.
-    const allItems = menuItems.concat([{ type: 'separator' }]);
-    allItems.forEach(item => {
-      this._contextMenu.addItem(item, ++priority);
-    });
+    this._contextMenu.addItem({ type: 'separator' }, priority_ + PRIORITY_GROUP_SEPARATOR_OFFSET);
   }
 
   /**

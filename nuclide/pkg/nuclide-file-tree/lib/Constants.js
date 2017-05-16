@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const REVEAL_FILE_ON_SWITCH_SETTING = exports.REVEAL_FILE_ON_SWITCH_SETTING = 'nuclide-file-tree.revealFileOnSwitch';

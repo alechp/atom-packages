@@ -58,6 +58,7 @@ const buckProjectDirectoryByPath = new Map(); /**
                                                * the root directory of this source tree.
                                                *
                                                * 
+                                               * @format
                                                */
 
 function isBuckFile(filePath) {

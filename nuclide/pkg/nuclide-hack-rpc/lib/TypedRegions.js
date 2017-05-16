@@ -26,6 +26,7 @@ function _load_simpleTextBuffer() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const UNCHECKED_MESSAGE = 'Un-type checked code. Consider adding type annotations.';

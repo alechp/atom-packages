@@ -50,6 +50,7 @@ function getDefinitionState(tokenState) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getFieldDef(schema, type, fieldName) {

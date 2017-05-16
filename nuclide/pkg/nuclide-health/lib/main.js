@@ -76,6 +76,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Activation {
@@ -108,7 +109,6 @@ class Activation {
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default(
     // Keep the toolbar jewel up-to-date.
     packageStates.map(formatToolbarJewelLabel).subscribe(this._updateToolbarJewel),
-
     // Buffer the stats and send analytics periodically.
     statsStream.buffer(analyticsTimeouts.switchMap(_rxjsBundlesRxMinJs.Observable.interval)).subscribe(this._updateAnalytics));
   }

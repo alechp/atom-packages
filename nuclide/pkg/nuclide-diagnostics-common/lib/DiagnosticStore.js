@@ -384,6 +384,7 @@ exports.default = DiagnosticStore; /**
                                     * the root directory of this source tree.
                                     *
                                     * 
+                                    * @format
                                     */
 
 function notifyFixFailed() {

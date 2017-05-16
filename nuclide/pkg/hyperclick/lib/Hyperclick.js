@@ -9,16 +9,6 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 /**
  * Calls the given functions and returns the first non-null return value.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 let findTruthyReturnValue = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (fns) {
     for (const fn of fns) {
@@ -39,7 +29,15 @@ let findTruthyReturnValue = (() => {
  * Construct this object to enable Hyperclick in the Atom workspace.
  * Call `dispose` to disable the feature.
  */
-
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ */
 
 var _HyperclickForTextEditor;
 
@@ -63,12 +61,6 @@ var _textEditor;
 
 function _load_textEditor() {
   return _textEditor = require('../../commons-atom/text-editor');
-}
-
-var _nuclideAnalytics;
-
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -154,13 +146,13 @@ class Hyperclick {
     return findTruthyReturnValue(this._consumedProviders.map(provider => {
       if (provider.getSuggestion) {
         const getSuggestion = provider.getSuggestion.bind(provider);
-        return () => (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(getProviderName(provider) + '.getSuggestion', () => getSuggestion(textEditor, position));
+        return () => getSuggestion(textEditor, position);
       } else if (provider.getSuggestionForWord) {
         const getSuggestionForWord = provider.getSuggestionForWord.bind(provider);
         return () => {
           const wordRegExp = provider.wordRegExp || defaultWordRegExp;
           const { text, range } = (0, (_hyperclickUtils || _load_hyperclickUtils()).getWordTextAndRange)(textEditor, position, wordRegExp);
-          return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(getProviderName(provider) + '.getSuggestionForWord', () => getSuggestionForWord(textEditor, text, range));
+          return getSuggestionForWord(textEditor, text, range);
         };
       }
 
@@ -172,13 +164,4 @@ class Hyperclick {
     this._suggestionList.show(textEditor, suggestion);
   }
 }
-
-exports.default = Hyperclick; /** Returns the provider name or a default value */
-
-function getProviderName(provider) {
-  if (provider.providerName != null) {
-    return provider.providerName;
-  } else {
-    return 'unnamed-hyperclick-provider';
-  }
-}
+exports.default = Hyperclick;

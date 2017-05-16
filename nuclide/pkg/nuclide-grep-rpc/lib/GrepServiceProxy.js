@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 42
+          line: 45
         },
         kind: "named",
         name: "NuclideUri"
@@ -23,7 +23,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 43
+          line: 46
         },
         kind: "named",
         name: "RegExp"
@@ -34,14 +34,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 44
+          line: 47
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 44
+            line: 47
           },
           kind: "string"
         }
@@ -53,7 +53,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 45
+          line: 48
         },
         kind: "named",
         name: "search$FileResult"
@@ -68,14 +68,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 53
+          line: 61
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 53
+            line: 61
           },
           kind: "named",
           name: "NuclideUri"
@@ -87,7 +87,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 54
+          line: 62
         },
         kind: "named",
         name: "RegExp"
@@ -98,7 +98,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 55
+          line: 63
         },
         kind: "string"
       }
@@ -108,14 +108,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 56
+          line: 64
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 56
+            line: 64
           },
           kind: "number"
         }
@@ -127,7 +127,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 57
+          line: 65
         },
         kind: "named",
         name: "search$ReplaceResult"
@@ -206,46 +206,30 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GrepService.js",
-        line: 19
+        line: 20
       },
       name: "search$Match",
       definition: {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 19
+          line: 20
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 20
+            line: 21
           },
           name: "lineText",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 20
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "GrepService.js",
-            line: 21
-          },
-          name: "lineTextOffset",
-          type: {
-            location: {
-              type: "source",
-              fileName: "GrepService.js",
               line: 21
             },
-            kind: "number"
+            kind: "string"
           },
           optional: false
         }, {
@@ -254,14 +238,14 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "GrepService.js",
             line: 22
           },
-          name: "matchText",
+          name: "lineTextOffset",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
               line: 22
             },
-            kind: "string"
+            kind: "number"
           },
           optional: false
         }, {
@@ -270,26 +254,42 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "GrepService.js",
             line: 23
           },
-          name: "range",
+          name: "matchText",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
               line: 23
             },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "GrepService.js",
+            line: 24
+          },
+          name: "range",
+          type: {
+            location: {
+              type: "source",
+              fileName: "GrepService.js",
+              line: 24
+            },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 23
+                line: 24
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "GrepService.js",
-                  line: 23
+                  line: 24
                 },
                 kind: "number"
               }
@@ -304,28 +304,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GrepService.js",
-        line: 26
+        line: 27
       },
       name: "search$FileResult",
       definition: {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 26
+          line: 27
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 27
+            line: 28
           },
           name: "filePath",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 27
+              line: 28
             },
             kind: "named",
             name: "NuclideUri"
@@ -335,21 +335,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 28
+            line: 29
           },
           name: "matches",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 28
+              line: 29
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 28
+                line: 29
               },
               kind: "named",
               name: "search$Match"
@@ -364,35 +364,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GrepService.js",
-        line: 31
+        line: 32
       },
       name: "search$ReplaceResult",
       definition: {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 31
+          line: 33
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 31
+            line: 33
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 32
+              line: 34
             },
             name: "type",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 32
+                line: 34
               },
               kind: "string-literal",
               value: "success"
@@ -402,14 +402,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 33
+              line: 35
             },
             name: "filePath",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 33
+                line: 35
               },
               kind: "named",
               name: "NuclideUri"
@@ -419,14 +419,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 34
+              line: 36
             },
             name: "replacements",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 34
+                line: 36
               },
               kind: "number"
             },
@@ -436,21 +436,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 35
+            line: 38
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 36
+              line: 39
             },
             name: "type",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 36
+                line: 39
               },
               kind: "string-literal",
               value: "error"
@@ -460,14 +460,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 37
+              line: 40
             },
             name: "filePath",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 37
+                line: 40
               },
               kind: "named",
               name: "NuclideUri"
@@ -477,14 +477,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 38
+              line: 41
             },
             name: "message",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 38
+                line: 41
               },
               kind: "string"
             },
@@ -500,13 +500,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GrepService.js",
-        line: 41
+        line: 44
       },
       type: {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 41
+          line: 44
         },
         kind: "function",
         argumentTypes: [{
@@ -515,7 +515,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 42
+              line: 45
             },
             kind: "named",
             name: "NuclideUri"
@@ -526,7 +526,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 43
+              line: 46
             },
             kind: "named",
             name: "RegExp"
@@ -537,14 +537,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 44
+              line: 47
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 44
+                line: 47
               },
               kind: "string"
             }
@@ -554,14 +554,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 45
+            line: 48
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 45
+              line: 48
             },
             kind: "named",
             name: "search$FileResult"
@@ -575,13 +575,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "GrepService.js",
-        line: 52
+        line: 60
       },
       type: {
         location: {
           type: "source",
           fileName: "GrepService.js",
-          line: 52
+          line: 60
         },
         kind: "function",
         argumentTypes: [{
@@ -590,14 +590,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 53
+              line: 61
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 53
+                line: 61
               },
               kind: "named",
               name: "NuclideUri"
@@ -609,7 +609,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 54
+              line: 62
             },
             kind: "named",
             name: "RegExp"
@@ -620,7 +620,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 55
+              line: 63
             },
             kind: "string"
           }
@@ -630,14 +630,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 56
+              line: 64
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "GrepService.js",
-                line: 56
+                line: 64
               },
               kind: "number"
             }
@@ -647,14 +647,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "GrepService.js",
-            line: 57
+            line: 65
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "GrepService.js",
-              line: 57
+              line: 65
             },
             kind: "named",
             name: "search$ReplaceResult"

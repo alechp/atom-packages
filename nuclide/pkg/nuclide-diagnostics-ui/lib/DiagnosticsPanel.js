@@ -85,7 +85,8 @@ class DiagnosticsPanel extends _react.default.Component {
     diagnostics.forEach(diagnostic => {
       if (diagnostic.type === 'Error') {
         ++errorCount;
-      } else if (diagnostic.type === 'Warning') {
+      } else if (diagnostic.type === 'Warning' || diagnostic.type === 'Info') {
+        // TODO: should "Info" messages have their own category?
         ++warningCount;
       }
     });
@@ -124,7 +125,13 @@ class DiagnosticsPanel extends _react.default.Component {
 
     return _react.default.createElement(
       'div',
-      { style: { display: 'flex', flex: 1, flexDirection: 'column', width: '100%' } },
+      {
+        style: {
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'column',
+          width: '100%'
+        } },
       linterWarning,
       _react.default.createElement(
         (_Toolbar || _load_Toolbar()).Toolbar,
@@ -187,12 +194,16 @@ class DiagnosticsPanel extends _react.default.Component {
   }
 
   _onShowTracesChange(isChecked) {
-    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('diagnostics-panel-toggle-show-traces', { isChecked: isChecked.toString() });
+    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('diagnostics-panel-toggle-show-traces', {
+      isChecked: isChecked.toString()
+    });
     this.props.onShowTracesChange.call(null, isChecked);
   }
 
   _onFilterByActiveTextEditorChange(isChecked) {
-    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('diagnostics-panel-toggle-current-file', { isChecked: isChecked.toString() });
+    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('diagnostics-panel-toggle-current-file', {
+      isChecked: isChecked.toString()
+    });
     this.props.onFilterByActiveTextEditorChange.call(null, isChecked);
   }
 
@@ -208,4 +219,5 @@ exports.default = DiagnosticsPanel; /**
                                      * the root directory of this source tree.
                                      *
                                      * 
+                                     * @format
                                      */

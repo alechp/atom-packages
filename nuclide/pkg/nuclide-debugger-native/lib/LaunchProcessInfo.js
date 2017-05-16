@@ -44,6 +44,10 @@ class LaunchProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebuggerBa
     return true;
   }
 
+  supportContinueToLocation() {
+    return true;
+  }
+
   debug() {
     var _this = this;
 
@@ -107,4 +111,5 @@ exports.LaunchProcessInfo = LaunchProcessInfo; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */

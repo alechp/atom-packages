@@ -31,6 +31,7 @@ function _load_NuxView() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class NuxTour {

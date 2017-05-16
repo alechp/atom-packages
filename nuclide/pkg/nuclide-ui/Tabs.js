@@ -88,6 +88,7 @@ exports.default = Tabs; /**
                          * the root directory of this source tree.
                          *
                          * 
+                         * @format
                          */
 
 Tabs.defaultProps = {

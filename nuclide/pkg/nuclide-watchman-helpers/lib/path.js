@@ -44,4 +44,5 @@ const WATCHMAN_DEFAULT_PATH = '/usr/local/bin/watchman'; /**
                                                           * the root directory of this source tree.
                                                           *
                                                           * 
+                                                          * @format
                                                           */

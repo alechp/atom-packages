@@ -26,13 +26,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ButtonToolbar = exports.ButtonToolbar = props => {
-  const {
-    children,
-    className
-  } = props;
+  const { children, className } = props;
   return _react.default.createElement(
     'div',
     { className: (0, (_classnames || _load_classnames()).default)('btn-toolbar', className) },

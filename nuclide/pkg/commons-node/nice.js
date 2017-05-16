@@ -3,14 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.niceAsyncExecute = exports.niceCheckOutput = exports.niceSafeSpawn = undefined;
+exports.niceSafeSpawn = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 let niceSafeSpawn = exports.niceSafeSpawn = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (command, args, execOptions) {
-    const nicified = yield nicifyCommand(command, args);
-    return (0, (_process || _load_process()).safeSpawn)(nicified.command, nicified.args, execOptions);
+    const nicified = yield nicifyCommand(command, args, execOptions);
+    const processStream = (0, (_process || _load_process()).spawn)(...nicified).publish();
+    const processPromise = processStream.take(1).toPromise();
+    processStream.connect();
+    return processPromise;
   });
 
   return function niceSafeSpawn(_x, _x2, _x3) {
@@ -18,31 +21,23 @@ let niceSafeSpawn = exports.niceSafeSpawn = (() => {
   };
 })();
 
-let niceCheckOutput = exports.niceCheckOutput = (() => {
-  var _ref2 = (0, _asyncToGenerator.default)(function* (command, args, execOptions) {
-    const nicified = yield nicifyCommand(command, args);
-    return (0, (_process || _load_process()).checkOutput)(nicified.command, nicified.args, execOptions);
-  });
+/**
+* Takes the arguments that you would normally pass to `spawn()` and returns an array of new
+* arguments to use to run the command under `nice`.
+ *
+ * Example:
+ *
+ * ```js
+ * observeProcess(...(await nicifyCommand('hg', ['diff']))).subscribe(...);
+ * ```
+ *
+ * See also `scriptifyCommand()` which does a similar thing but for `script`.
+ */
 
-  return function niceCheckOutput(_x4, _x5, _x6) {
-    return _ref2.apply(this, arguments);
-  };
-})();
-
-let niceAsyncExecute = exports.niceAsyncExecute = (() => {
-  var _ref3 = (0, _asyncToGenerator.default)(function* (command, args, execOptions) {
-    const nicified = yield nicifyCommand(command, args);
-    return (0, (_process || _load_process()).asyncExecute)(nicified.command, nicified.args, execOptions);
-  });
-
-  return function niceAsyncExecute(_x7, _x8, _x9) {
-    return _ref3.apply(this, arguments);
-  };
-})();
 
 let nicifyCommand = (() => {
-  var _ref4 = (0, _asyncToGenerator.default)(function* (command, args) {
-    const fullArgs = [command, ...args];
+  var _ref2 = (0, _asyncToGenerator.default)(function* (command, args, options) {
+    const fullArgs = [command, ...(args || [])];
     if (yield hasNiceCommand()) {
       fullArgs.unshift(NICE_COMMAND);
     }
@@ -59,19 +54,16 @@ let nicifyCommand = (() => {
       // think we can assume that it uses this interface if it exists.
       fullArgs.unshift(IONICE_COMMAND, '-n', '7');
     }
-    return {
-      command: fullArgs[0],
-      args: fullArgs.slice(1)
-    };
+    return [fullArgs[0], fullArgs.slice(1), options];
   });
 
-  return function nicifyCommand(_x10, _x11) {
-    return _ref4.apply(this, arguments);
+  return function nicifyCommand(_x4, _x5, _x6) {
+    return _ref2.apply(this, arguments);
   };
 })();
 
 let hasCommand = (() => {
-  var _ref5 = (0, _asyncToGenerator.default)(function* (command) {
+  var _ref3 = (0, _asyncToGenerator.default)(function* (command) {
     let result = commandAvailabilityCache.get(command);
     if (result == null) {
       result = (yield (0, (_which || _load_which()).default)(command)) != null;
@@ -80,8 +72,8 @@ let hasCommand = (() => {
     return result;
   });
 
-  return function hasCommand(_x12) {
-    return _ref5.apply(this, arguments);
+  return function hasCommand(_x7) {
+    return _ref3.apply(this, arguments);
   };
 })();
 
@@ -117,6 +109,7 @@ const NICE_COMMAND = 'nice'; /**
                               * the root directory of this source tree.
                               *
                               * 
+                              * @format
                               */
 
 const IONICE_COMMAND = 'ionice';
@@ -136,6 +129,6 @@ function hasIoniceCommand() {
   return hasCommand(IONICE_COMMAND);
 }
 
-function niceObserveProcess(command_, args_, options) {
-  return _rxjsBundlesRxMinJs.Observable.defer(() => nicifyCommand(command_, args_ || [])).switchMap(({ command, args }) => (0, (_process || _load_process()).observeProcess)(command, args, options));
+function niceObserveProcess(command, args, options) {
+  return _rxjsBundlesRxMinJs.Observable.defer(() => nicifyCommand(command, args, options)).switchMap(spawnArgs => (0, (_process || _load_process()).observeProcess)(...spawnArgs));
 }

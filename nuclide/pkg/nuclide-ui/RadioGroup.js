@@ -17,6 +17,7 @@ let uid = 0; /**
               * the root directory of this source tree.
               *
               * 
+              * @format
               */
 
 /**
@@ -37,7 +38,7 @@ class RadioGroup extends _react.default.Component {
       const id = 'nuclide-radiogroup-' + uid + '-' + i;
       return _react.default.createElement(
         'div',
-        { key: i },
+        { key: i, className: 'nuclide-ui-radiogroup-div' },
         _react.default.createElement('input', {
           className: 'input-radio',
           type: 'radio',

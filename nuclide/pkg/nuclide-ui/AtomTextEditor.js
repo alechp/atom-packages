@@ -39,6 +39,7 @@ const doNothing = () => {}; /**
                              * the root directory of this source tree.
                              *
                              * 
+                             * @format
                              */
 
 function setupTextEditor(props) {

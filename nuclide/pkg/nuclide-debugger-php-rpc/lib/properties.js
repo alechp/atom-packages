@@ -43,6 +43,7 @@ function convertProperties(id, properties) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function convertProperty(contextId, dbgpProperty) {

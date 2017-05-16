@@ -40,7 +40,8 @@ class ProviderContainer extends _react.default.Component {
       { className: 'nuclide-context-view-provider-container' },
       _react.default.createElement(
         (_Section || _load_Section()).Section,
-        { headline: this.props.title,
+        {
+          headline: this.props.title,
           collapsable: true,
           onChange: this._setCollapsed,
           collapsed: this.state.collapsed },
@@ -69,4 +70,5 @@ exports.ProviderContainer = ProviderContainer; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */

@@ -58,6 +58,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 const WATCHMAN_SETTLE_TIME_MS = 2500;
@@ -206,9 +207,12 @@ class WatchmanClient {
           since: clock
         });
         if (relativePath && !options.expression) {
-          // Passing an 'undefined' expression causes an exception in fb-watchman.
-          options.expression = ['dirname', relativePath];
+          options.relative_root = relativePath;
         }
+        // Try this thing out where we always set empty_on_fresh_instance. Eden will be a lot happier
+        // if we never ask Watchman to do something that results in a glob(**) near the root.
+        options.empty_on_fresh_instance = true;
+
         // relativePath is undefined if watchRoot is the same as directoryPath.
         const subscription = new (_WatchmanSubscription || _load_WatchmanSubscription()).default(
         /* subscriptionRoot */watchRoot,

@@ -29,6 +29,7 @@ const GUTTER_NAME = 'nuclide-patch-editor-checkbox-gutter'; /**
                                                              * the root directory of this source tree.
                                                              *
                                                              * 
+                                                             * @format
                                                              */
 
 class GutterCheckbox extends _react.default.Component {
@@ -44,7 +45,9 @@ class GutterCheckbox extends _react.default.Component {
     }
     this._gutter = gutter;
 
-    this._marker = props.editor.markBufferPosition([props.lineNumber, 0], { invalidate: 'never' });
+    this._marker = props.editor.markBufferPosition([props.lineNumber, 0], {
+      invalidate: 'never'
+    });
 
     gutter.decorateMarker(this._marker, { type: 'gutter', item: this._node });
   }

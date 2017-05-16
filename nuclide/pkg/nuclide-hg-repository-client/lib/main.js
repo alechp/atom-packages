@@ -19,4 +19,5 @@ exports.HgRepositoryClient = (_HgRepositoryClient || _load_HgRepositoryClient())
                                                                                                       * the root directory of this source tree.
                                                                                                       *
                                                                                                       * 
+                                                                                                      * @format
                                                                                                       */

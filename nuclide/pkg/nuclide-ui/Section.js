@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Section extends _react.default.Component {
@@ -58,7 +59,7 @@ class Section extends _react.default.Component {
     const collapsed = this.props.collapsed == null ? this.state.isCollapsed : this.props.collapsed;
     // Only include classes if the component is collapsable
     const iconClass = (0, (_classnames || _load_classnames()).default)({
-      'icon': collapsable,
+      icon: collapsable,
       'icon-chevron-down': collapsable && !collapsed,
       'icon-chevron-right': collapsable && collapsed,
       'nuclide-ui-section-collapsable': collapsable

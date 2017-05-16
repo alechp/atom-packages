@@ -31,6 +31,7 @@ function _load_eventKit() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let connectionCount = 1;

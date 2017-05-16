@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 40
+          line: 42
         },
         kind: "named",
         name: "NuclideUri"
@@ -23,7 +23,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 40
+          line: 43
         },
         kind: "number"
       }
@@ -33,7 +33,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 40
+          line: 44
         },
         kind: "string"
       }
@@ -49,7 +49,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 47
+          line: 52
         },
         kind: "named",
         name: "NuclideUri"
@@ -60,7 +60,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 48
+          line: 53
         },
         kind: "number"
       }
@@ -70,14 +70,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 49
+          line: 54
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 49
+            line: 54
           },
           kind: "named",
           name: "TextEdit"
@@ -95,7 +95,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 56
+          line: 61
         },
         kind: "named",
         name: "NuclideUri"
@@ -112,14 +112,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 83
+          line: 84
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 83
+            line: 84
           },
           kind: "named",
           name: "FileEvent"
@@ -137,7 +137,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 88
+          line: 89
         },
         kind: "named",
         name: "NuclideUri"
@@ -148,7 +148,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 89
+          line: 90
         },
         kind: "named",
         name: "Position"
@@ -160,14 +160,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 90
+          line: 91
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 90
+            line: 91
           },
           kind: "named",
           name: "HackCompletion"
@@ -184,7 +184,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 102
+          line: 103
         },
         kind: "named",
         name: "HackDiagnosticsMessage"
@@ -269,28 +269,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 16
+        line: 17
       },
       name: "Position",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 16
+          line: 17
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 17
+            line: 18
           },
           name: "line",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 17
+              line: 18
             },
             kind: "number"
           },
@@ -299,14 +299,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 18
+            line: 19
           },
           name: "column",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 18
+              line: 19
             },
             kind: "number"
           },
@@ -319,28 +319,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 23
+        line: 24
       },
       name: "Range",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 23
+          line: 24
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 24
+            line: 25
           },
           name: "start",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 24
+              line: 25
             },
             kind: "named",
             name: "Position"
@@ -350,14 +350,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 25
+            line: 26
           },
           name: "end",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 25
+              line: 26
             },
             kind: "named",
             name: "Position"
@@ -371,28 +371,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 32
+        line: 33
       },
       name: "TextEdit",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 32
+          line: 33
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 33
+            line: 34
           },
           name: "range",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 33
+              line: 34
             },
             kind: "named",
             name: "Range"
@@ -402,14 +402,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 34
+            line: 35
           },
           name: "text",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 34
+              line: 35
             },
             kind: "string"
           },
@@ -423,13 +423,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 40
+        line: 41
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 40
+          line: 41
         },
         kind: "function",
         argumentTypes: [{
@@ -438,7 +438,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 40
+              line: 42
             },
             kind: "named",
             name: "NuclideUri"
@@ -449,7 +449,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 40
+              line: 43
             },
             kind: "number"
           }
@@ -459,7 +459,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 40
+              line: 44
             },
             kind: "string"
           }
@@ -468,7 +468,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 40
+            line: 45
           },
           kind: "void"
         }
@@ -480,13 +480,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 46
+        line: 51
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 46
+          line: 51
         },
         kind: "function",
         argumentTypes: [{
@@ -495,7 +495,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 47
+              line: 52
             },
             kind: "named",
             name: "NuclideUri"
@@ -506,7 +506,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 48
+              line: 53
             },
             kind: "number"
           }
@@ -516,14 +516,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 49
+              line: 54
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "HackConnectionService.js",
-                line: 49
+                line: 54
               },
               kind: "named",
               name: "TextEdit"
@@ -534,7 +534,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 50
+            line: 55
           },
           kind: "void"
         }
@@ -546,13 +546,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 56
+        line: 61
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 56
+          line: 61
         },
         kind: "function",
         argumentTypes: [{
@@ -561,7 +561,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 56
+              line: 61
             },
             kind: "named",
             name: "NuclideUri"
@@ -571,7 +571,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 56
+            line: 61
           },
           kind: "void"
         }
@@ -582,21 +582,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 69
+        line: 74
       },
       name: "FileEventType",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 70
+          line: 74
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 70
+            line: 74
           },
           kind: "string-literal",
           value: "Created"
@@ -604,7 +604,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 71
+            line: 74
           },
           kind: "string-literal",
           value: "Changed"
@@ -612,7 +612,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 72
+            line: 74
           },
           kind: "string-literal",
           value: "Deleted"
@@ -620,7 +620,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 73
+            line: 74
           },
           kind: "string-literal",
           value: "Saved"
@@ -632,28 +632,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 75
+        line: 76
       },
       name: "FileEvent",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 75
+          line: 76
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 76
+            line: 77
           },
           name: "filename",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 76
+              line: 77
             },
             kind: "named",
             name: "NuclideUri"
@@ -663,14 +663,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 77
+            line: 78
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 77
+              line: 78
             },
             kind: "named",
             name: "FileEventType"
@@ -685,13 +685,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 83
+        line: 84
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 83
+          line: 84
         },
         kind: "function",
         argumentTypes: [{
@@ -700,14 +700,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 83
+              line: 84
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "HackConnectionService.js",
-                line: 83
+                line: 84
               },
               kind: "named",
               name: "FileEvent"
@@ -718,7 +718,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 83
+            line: 84
           },
           kind: "void"
         }
@@ -730,13 +730,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 87
+        line: 88
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 87
+          line: 88
         },
         kind: "function",
         argumentTypes: [{
@@ -745,7 +745,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 88
+              line: 89
             },
             kind: "named",
             name: "NuclideUri"
@@ -756,7 +756,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 89
+              line: 90
             },
             kind: "named",
             name: "Position"
@@ -766,21 +766,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 90
+            line: 91
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 90
+              line: 91
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "HackConnectionService.js",
-                line: 90
+                line: 91
               },
               kind: "named",
               name: "HackCompletion"
@@ -794,28 +794,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 94
+        line: 95
       },
       name: "HackDiagnosticsMessage",
       definition: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 94
+          line: 95
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 95
+            line: 96
           },
           name: "filename",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 95
+              line: 96
             },
             kind: "named",
             name: "NuclideUri"
@@ -825,35 +825,35 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 96
+            line: 97
           },
           name: "errors",
           type: {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 96
+              line: 97
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "HackConnectionService.js",
-                line: 96
+                line: 97
               },
               kind: "object",
               fields: [{
                 location: {
                   type: "source",
                   fileName: "HackConnectionService.js",
-                  line: 97
+                  line: 98
                 },
                 name: "message",
                 type: {
                   location: {
                     type: "source",
                     fileName: "HackConnectionService.js",
-                    line: 97
+                    line: 98
                   },
                   kind: "named",
                   name: "HackDiagnostic"
@@ -872,13 +872,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 101
+        line: 102
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 101
+          line: 102
         },
         kind: "function",
         argumentTypes: [],
@@ -893,7 +893,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "HackConnectionService.js",
-              line: 102
+              line: 103
             },
             kind: "named",
             name: "HackDiagnosticsMessage"
@@ -907,13 +907,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "HackConnectionService.js",
-        line: 107
+        line: 109
       },
       type: {
         location: {
           type: "source",
           fileName: "HackConnectionService.js",
-          line: 107
+          line: 109
         },
         kind: "function",
         argumentTypes: [],
@@ -921,7 +921,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "HackConnectionService.js",
-            line: 107
+            line: 109
           },
           kind: "void"
         }
@@ -932,39 +932,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 11
+        line: 12
       },
       name: "HackParameterDetails",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 11
+          line: 12
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 12
-          },
-          name: "name",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 12
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 13
           },
-          name: "type",
+          name: "name",
           type: {
             location: {
               type: "source",
@@ -980,12 +964,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 14
           },
-          name: "variadic",
+          name: "type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 14
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 15
+          },
+          name: "variadic",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 15
             },
             kind: "boolean"
           },
@@ -998,28 +998,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 17
+        line: 18
       },
       name: "HackFunctionDetails",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 17
+          line: 18
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 18
+            line: 19
           },
           name: "min_arity",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 18
+              line: 19
             },
             kind: "number"
           },
@@ -1028,14 +1028,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 19
+            line: 20
           },
           name: "return_type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 19
+              line: 20
             },
             kind: "string"
           },
@@ -1044,21 +1044,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 20
+            line: 21
           },
           name: "params",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 20
+              line: 21
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 20
+                line: 21
               },
               kind: "named",
               name: "HackParameterDetails"
@@ -1073,28 +1073,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 24
+        line: 25
       },
       name: "HackRange",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 24
+          line: 25
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 25
+            line: 26
           },
           name: "filename",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 25
+              line: 26
             },
             kind: "string"
           },
@@ -1103,25 +1103,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 26
-          },
-          name: "line",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 26
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 27
           },
-          name: "char_start",
+          name: "line",
           type: {
             location: {
               type: "source",
@@ -1137,12 +1121,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 28
           },
-          name: "char_end",
+          name: "char_start",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 28
+            },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 29
+          },
+          name: "char_end",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 29
             },
             kind: "number"
           },
@@ -1155,39 +1155,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 31
+        line: 32
       },
       name: "HackCompletion",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 31
+          line: 32
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 32
-          },
-          name: "name",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 32
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 33
           },
-          name: "type",
+          name: "name",
           type: {
             location: {
               type: "source",
@@ -1203,12 +1187,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 34
           },
-          name: "pos",
+          name: "type",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 34
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 35
+          },
+          name: "pos",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 35
             },
             kind: "named",
             name: "HackRange"
@@ -1218,21 +1218,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 35
+            line: 36
           },
           name: "func_details",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 35
+              line: 36
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 35
+                line: 36
               },
               kind: "named",
               name: "HackFunctionDetails"
@@ -1243,14 +1243,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 36
+            line: 37
           },
           name: "expected_ty",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 36
+              line: 37
             },
             kind: "boolean"
           },
@@ -1263,21 +1263,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 39
+        line: 40
       },
       name: "HackCompletionsResult",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 39
+          line: 40
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 39
+            line: 40
           },
           kind: "named",
           name: "HackCompletion"
@@ -1289,49 +1289,49 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 41
+        line: 42
       },
       name: "HackDiagnosticsResult",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 41
+          line: 42
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 42
+            line: 43
           },
           name: "errors",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 42
+              line: 43
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 42
+                line: 43
               },
               kind: "object",
               fields: [{
                 location: {
                   type: "source",
                   fileName: "rpc-types.js",
-                  line: 43
+                  line: 44
                 },
                 name: "message",
                 type: {
                   location: {
                     type: "source",
                     fileName: "rpc-types.js",
-                    line: 43
+                    line: 44
                   },
                   kind: "named",
                   name: "HackDiagnostic"
@@ -1349,21 +1349,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 52
+        line: 53
       },
       name: "HackDiagnostic",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 52
+          line: 53
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 52
+            line: 53
           },
           kind: "named",
           name: "SingleHackMessage"
@@ -1375,35 +1375,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 54
+        line: 55
       },
       name: "SingleHackMessage",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 54
+          line: 55
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 55
+            line: 56
           },
           name: "path",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 55
+              line: 56
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "rpc-types.js",
-                line: 55
+                line: 56
               },
               kind: "string"
             }
@@ -1413,14 +1413,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 56
+            line: 57
           },
           name: "descr",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
-              line: 56
+              line: 57
             },
             kind: "string"
           },
@@ -1429,25 +1429,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 57
-          },
-          name: "code",
-          type: {
-            location: {
-              type: "source",
-              fileName: "rpc-types.js",
-              line: 57
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "rpc-types.js",
             line: 58
           },
-          name: "line",
+          name: "code",
           type: {
             location: {
               type: "source",
@@ -1463,7 +1447,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 59
           },
-          name: "start",
+          name: "line",
           type: {
             location: {
               type: "source",
@@ -1479,12 +1463,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "rpc-types.js",
             line: 60
           },
-          name: "end",
+          name: "start",
           type: {
             location: {
               type: "source",
               fileName: "rpc-types.js",
               line: 60
+            },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 61
+          },
+          name: "end",
+          type: {
+            location: {
+              type: "source",
+              fileName: "rpc-types.js",
+              line: 61
             },
             kind: "number"
           },

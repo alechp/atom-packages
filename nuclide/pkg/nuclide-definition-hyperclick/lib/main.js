@@ -88,6 +88,7 @@ let currentService = null; /**
                             * the root directory of this source tree.
                             *
                             * 
+                            * @format
                             */
 
 // This package provides Hyperclick results for any language which provides a

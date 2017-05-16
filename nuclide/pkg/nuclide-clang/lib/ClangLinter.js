@@ -46,13 +46,14 @@ const IDENTIFIER_REGEX = /[a-z0-9_]+/gi; /**
                                           * the root directory of this source tree.
                                           *
                                           * 
+                                          * @format
                                           */
 
 const DEFAULT_FLAGS_WARNING = 'Diagnostics are disabled due to lack of compilation flags. ' + 'Build this file with Buck, or create a compile_commands.json file manually.';
 
 function isValidRange(clangRange) {
   // Some ranges are unbounded/invalid (end with -1) or empty.
-  return clangRange.end.row !== -1 && !clangRange.start.isEqual(clangRange.end);
+  return clangRange.start.row !== -1 && clangRange.end.row !== -1 && !clangRange.start.isEqual(clangRange.end);
 }
 
 function getRangeFromPoint(editor, location) {
@@ -150,8 +151,6 @@ class ClangLinter {
         }
 
         result.push({
-          scope: 'file',
-          providerName: 'Clang',
           type: diagnostic.severity === 2 ? 'Warning' : 'Error',
           filePath,
           text: diagnostic.spelling,
@@ -162,8 +161,6 @@ class ClangLinter {
       });
     } else {
       result.push({
-        scope: 'file',
-        providerName: 'Clang',
         type: 'Warning',
         filePath: bufferPath,
         text: DEFAULT_FLAGS_WARNING,

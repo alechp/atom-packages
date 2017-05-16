@@ -35,6 +35,7 @@ const MATCH_PREFIX_CASE_SENSITIVE_SCORE = 6; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 const MATCH_PREFIX_CASE_INSENSITIVE_SCORE = 4;

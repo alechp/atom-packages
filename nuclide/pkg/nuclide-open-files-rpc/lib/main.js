@@ -53,13 +53,14 @@ exports.FileVersionNotifier = (_FileVersionNotifier || _load_FileVersionNotifier
                                                                                                           * the root directory of this source tree.
                                                                                                           *
                                                                                                           * 
+                                                                                                          * @format
                                                                                                           */
 
 const OPEN_FILES_SERVICE = exports.OPEN_FILES_SERVICE = 'OpenFilesService';
 
 function getBufferAtVersion(fileVersion) {
   if (!(fileVersion.notifier instanceof (_FileCache || _load_FileCache()).FileCache)) {
-    throw new Error('Don\'t call this from the Atom process');
+    throw new Error("Don't call this from the Atom process");
   }
 
   return fileVersion.notifier.getBufferAtVersion(fileVersion);

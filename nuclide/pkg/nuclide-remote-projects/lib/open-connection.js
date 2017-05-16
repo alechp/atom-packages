@@ -52,6 +52,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
@@ -122,10 +123,10 @@ function openConnectionDialog(options) {
     }
 
     /*
-     * When the "+" button is clicked (the user intends to add a new connection profile),
-     * open a new dialog with a form to create one.
-     * This new dialog will be prefilled with the info from the default connection profile.
-     */
+    * When the "+" button is clicked (the user intends to add a new connection profile),
+    * open a new dialog with a form to create one.
+    * This new dialog will be prefilled with the info from the default connection profile.
+    */
     function onAddProfileClicked() {
       if (basePanel != null) {
         basePanel.destroy();
@@ -165,7 +166,9 @@ function openConnectionDialog(options) {
         profileHosts: (0, (_connectionProfileUtils || _load_connectionProfileUtils()).getUniqueHostsForProfiles)(compositeConnectionProfiles)
       };
 
-      newProfilePanel = atom.workspace.addModalPanel({ item: hostElementForNewProfileForm });
+      newProfilePanel = atom.workspace.addModalPanel({
+        item: hostElementForNewProfileForm
+      });
 
       // Pop up a dialog that is pre-filled with the default params.
       newProfileForm = _reactDom.default.render(_react.default.createElement((_CreateConnectionProfileForm || _load_CreateConnectionProfileForm()).default, initialDialogProps), hostElementForNewProfileForm);

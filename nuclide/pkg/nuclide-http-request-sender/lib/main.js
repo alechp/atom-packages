@@ -74,6 +74,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Activation {
@@ -117,8 +118,9 @@ class Activation {
     if (this._requestEditDialog != null) {
       return this._requestEditDialog;
     }
+    const BoundEditDialog = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(
     // $FlowFixMe -- Flow doesn't know about the Observable symbol used by from().
-    const BoundEditDialog = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(_rxjsBundlesRxMinJs.Observable.from(this._store), (_RequestEditDialog || _load_RequestEditDialog()).RequestEditDialog);
+    _rxjsBundlesRxMinJs.Observable.from(this._store), (_RequestEditDialog || _load_RequestEditDialog()).RequestEditDialog);
     const container = document.createElement('div');
     const requestEditDialog = atom.workspace.addModalPanel({
       item: container,

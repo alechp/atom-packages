@@ -55,6 +55,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class WatchExpressionStore {
@@ -124,7 +125,8 @@ class WatchExpressionStore {
         this._watchExpressions.delete(expression);
         continue;
       }
-      this._requestExpressionEvaluation(expression, subject, false /* no REPL support */);
+      this._requestExpressionEvaluation(expression, subject, false /* no REPL support */
+      );
     }
   }
 
@@ -154,7 +156,8 @@ class WatchExpressionStore {
   }
 
   evaluateWatchExpression(expression) {
-    return this._evaluateExpression(expression, false /* do not support REPL */);
+    return this._evaluateExpression(expression, false /* do not support REPL */
+    );
   }
 
   /**
@@ -207,15 +210,22 @@ class WatchExpressionStore {
     var _this = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const result = yield _this._sendEvaluationCommand('evaluateOnSelectedCallFrame', expression, objectGroup);
-      if (result == null) {
-        // TODO: It would be nice to expose a better error from the backend here.
+      try {
+        const result = yield _this._sendEvaluationCommand('evaluateOnSelectedCallFrame', expression, objectGroup);
+        if (result == null) {
+          // Backend returned neither a result nor an error message
+          return {
+            type: 'text',
+            value: `Failed to evaluate: ${expression}`
+          };
+        } else {
+          return result;
+        }
+      } catch (e) {
         return {
           type: 'text',
-          value: `Failed to evaluate: ${expression}`
+          value: `Failed to evaluate: ${expression} ` + e.toString()
         };
-      } else {
-        return result;
       }
     })();
   }
@@ -224,15 +234,22 @@ class WatchExpressionStore {
     var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const result = yield _this2._sendEvaluationCommand('runtimeEvaluate', expression);
-      if (result == null) {
-        // TODO: It would be nice to expose a better error from the backend here.
+      try {
+        const result = yield _this2._sendEvaluationCommand('runtimeEvaluate', expression);
+        if (result == null) {
+          // Backend returned neither a result nor an error message
+          return {
+            type: 'text',
+            value: `Failed to evaluate: ${expression}`
+          };
+        } else {
+          return result;
+        }
+      } catch (e) {
         return {
           type: 'text',
-          value: `Failed to evaluate: ${expression}`
+          value: `Failed to evaluate: ${expression} ` + e.toString()
         };
-      } else {
-        return result;
       }
     })();
   }
@@ -247,12 +264,19 @@ class WatchExpressionStore {
       _this3._evaluationRequestsInFlight.set(evalId, deferred);
       _this3._bridge.sendEvaluationCommand(command, evalId, ...args);
       let result = null;
+      let errorMsg = null;
       try {
         result = yield deferred.promise;
       } catch (e) {
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().warn(`${command}: Error getting result.`, e);
+        if (e.description) {
+          errorMsg = e.description;
+        }
       }
       _this3._evaluationRequestsInFlight.delete(evalId);
+      if (errorMsg != null) {
+        throw new Error(errorMsg);
+      }
       return result;
     })();
   }

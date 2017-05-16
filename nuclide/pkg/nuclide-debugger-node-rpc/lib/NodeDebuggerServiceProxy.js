@@ -13,14 +13,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "NodeDebuggerService.js",
-          line: 27
+          line: 29
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 27
+            line: 29
           },
           kind: "named",
           name: "NodeAttachTargetInfo"
@@ -41,7 +41,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 73
+            line: 85
           },
           name: "NodeDebuggerService"
         }).then(id => {
@@ -52,7 +52,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 89
+            line: 101
           },
           kind: "string"
         });
@@ -66,7 +66,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 93
+            line: 105
           },
           kind: "string"
         }
@@ -76,7 +76,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 73
+            line: 85
           },
           name: "NodeDebuggerService"
         }).then(id => {
@@ -87,7 +87,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 93
+            line: 105
           },
           kind: "void"
         });
@@ -101,7 +101,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 103
+            line: 117
           },
           kind: "named",
           name: "NodeAttachTargetInfo"
@@ -112,7 +112,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 73
+            line: 85
           },
           name: "NodeDebuggerService"
         }).then(id => {
@@ -123,7 +123,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 103
+            line: 117
           },
           kind: "void"
         });
@@ -206,28 +206,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "NodeDebuggerService.js",
-        line: 21
+        line: 22
       },
       name: "NodeAttachTargetInfo",
       definition: {
         location: {
           type: "source",
           fileName: "NodeDebuggerService.js",
-          line: 21
+          line: 22
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 22
+            line: 23
           },
           name: "pid",
           type: {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 22
+              line: 23
             },
             kind: "number"
           },
@@ -236,14 +236,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 23
+            line: 24
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 23
+              line: 24
             },
             kind: "string"
           },
@@ -252,14 +252,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 24
+            line: 25
           },
           name: "commandName",
           type: {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 24
+              line: 25
             },
             kind: "string"
           },
@@ -273,13 +273,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "NodeDebuggerService.js",
-        line: 27
+        line: 28
       },
       type: {
         location: {
           type: "source",
           fileName: "NodeDebuggerService.js",
-          line: 27
+          line: 28
         },
         kind: "function",
         argumentTypes: [],
@@ -287,21 +287,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 27
+            line: 28
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 27
+              line: 29
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 27
+                line: 29
               },
               kind: "named",
               name: "NodeAttachTargetInfo"
@@ -316,7 +316,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "NodeDebuggerService.js",
-        line: 73
+        line: 85
       },
       constructorArgs: [],
       staticMethods: {},
@@ -325,7 +325,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 89
+            line: 101
           },
           kind: "function",
           argumentTypes: [],
@@ -333,14 +333,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 89
+              line: 101
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 89
+                line: 101
               },
               kind: "string"
             }
@@ -350,7 +350,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 93
+            line: 105
           },
           kind: "function",
           argumentTypes: [{
@@ -359,7 +359,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 93
+                line: 105
               },
               kind: "string"
             }
@@ -368,14 +368,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 93
+              line: 105
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 93
+                line: 105
               },
               kind: "void"
             }
@@ -385,7 +385,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 103
+            line: 117
           },
           kind: "function",
           argumentTypes: [{
@@ -394,7 +394,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 103
+                line: 117
               },
               kind: "named",
               name: "NodeAttachTargetInfo"
@@ -404,14 +404,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 103
+              line: 117
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 103
+                line: 117
               },
               kind: "void"
             }
@@ -421,7 +421,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "NodeDebuggerService.js",
-            line: 135
+            line: 149
           },
           kind: "function",
           argumentTypes: [],
@@ -429,14 +429,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "NodeDebuggerService.js",
-              line: 135
+              line: 149
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "NodeDebuggerService.js",
-                line: 135
+                line: 149
               },
               kind: "void"
             }

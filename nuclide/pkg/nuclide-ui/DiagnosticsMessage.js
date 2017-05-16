@@ -41,14 +41,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
+const PROVIDER_CLASS_NAME = {
+  Error: 'highlight-error',
+  Warning: 'highlight-warning',
+  Info: 'highlight-info'
+};
+
 function diagnosticHeader(props) {
-  const {
-    message,
-    fixer
-  } = props;
-  const providerClassName = message.type === 'Error' ? 'highlight-error' : 'highlight-warning';
+  const { message, fixer } = props;
+  const providerClassName = PROVIDER_CLASS_NAME[message.type];
   let fixButton = null;
   if (message.fix != null) {
     const applyFix = () => {
@@ -59,7 +63,7 @@ function diagnosticHeader(props) {
     fixButton = _react.default.createElement(
       (_Button || _load_Button()).Button,
       { buttonType: buttonType, size: 'EXTRA_SMALL', onClick: applyFix },
-      'Fix'
+      message.fix.title || 'Fix'
     );
   }
   return _react.default.createElement(
@@ -79,10 +83,7 @@ function diagnosticHeader(props) {
 }
 
 function traceElements(props) {
-  const {
-    message,
-    goToLocation
-  } = props;
+  const { message, goToLocation } = props;
   return message.trace ? message.trace.map((traceItem, i) => _react.default.createElement((_DiagnosticsTraceItem || _load_DiagnosticsTraceItem()).DiagnosticsTraceItem, {
     key: i,
     trace: traceItem,

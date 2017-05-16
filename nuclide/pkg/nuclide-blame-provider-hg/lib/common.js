@@ -19,6 +19,7 @@ function _load_nuclideVcsBase() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function hgRepositoryForEditor(editor) {

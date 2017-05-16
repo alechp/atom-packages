@@ -25,4 +25,5 @@ function addPanel(location, options) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

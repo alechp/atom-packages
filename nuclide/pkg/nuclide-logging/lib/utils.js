@@ -57,6 +57,7 @@ function patchErrorsOfLoggingEvent(loggingEvent) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function serializeLoggingEvent(loggingEvent) {

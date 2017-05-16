@@ -81,16 +81,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Marshals messages from Nuclide's LanguageService
 // to VS Code's Language Server Protocol
-class LanguageServerProtocolProcess {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
+class LanguageServerProtocolProcess {
+  // tracks which fileversions we've received from Nuclide client
   constructor(logger, fileCache, createProcess, projectRoot, fileExtensions) {
     this._logger = logger;
     this._fileCache = fileCache;
-    this._fileVersionNotifier = new (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileVersionNotifier();
+    this._lspFileVersionNotifier = new (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileVersionNotifier();
     this._projectRoot = projectRoot;
     this._createProcess = createProcess;
     this._fileExtensions = fileExtensions;
-  }
+  } // tracks which fileversions we've sent to LSP
+
 
   static create(logger, fileCache, createProcess, projectRoot, fileExtensions) {
     return (0, _asyncToGenerator.default)(function* () {
@@ -101,54 +113,47 @@ class LanguageServerProtocolProcess {
   }
 
   _subscribeToFileEvents() {
-    this._fileSubscription = this._fileCache.observeFileEvents()
+    // This code's goal is to keep the LSP process aware of the current status of opened
+    // files. Challenge: LSP has no insight into fileversion: it relies wholly upon us
+    // to give a correct sequence of versions in didChange events and can't even verify them.
+    //
+    // The _lspFileVersionNotifier tracks which fileversion we've sent downstream to LSP so far.
+    //
+    // The _fileCache tracks our upstream connection to the Nuclide editor, and from that
+    // synthesizes a sequential consistent stream of Open/Edit/Close events.
+    // If the (potentially flakey) connection temporarily goes down, the _fileCache
+    // recovers, resyncs, and synthesizes for us an appropriate whole-document Edit event.
+    // Therefore, it's okay for us to simply send _fileCache's sequential stream of edits
+    // directly on to the LSP server.
+    //
+    this._fileEventSubscription = this._fileCache.observeFileEvents()
     // TODO: Filter on projectRoot
     .filter(fileEvent => {
       const fileExtension = (_nuclideUri || _load_nuclideUri()).default.extname(fileEvent.fileVersion.filePath);
       return this._fileExtensions.indexOf(fileExtension) !== -1;
     }).subscribe(fileEvent => {
-      const filePath = fileEvent.fileVersion.filePath;
-      const version = fileEvent.fileVersion.version;
+      if (!(fileEvent.fileVersion.notifier === this._fileCache)) {
+        throw new Error('Invariant violation: "fileEvent.fileVersion.notifier === this._fileCache"');
+      }
+      // This invariant just self-documents that _fileCache is asked on observe file
+      // events about fileVersions that themselves point directly back to the _fileCache.
+      // (It's a convenience so that folks can pass around just a fileVersion on its own.)
+
+
       switch (fileEvent.kind) {
         case (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileEventKind.OPEN:
-          this._process._connection.didOpenTextDocument({
-            textDocument: {
-              uri: filePath,
-              languageId: 'python', // TODO
-              version,
-              text: fileEvent.contents
-            }
-          });
+          this._fileOpen(fileEvent);
           break;
         case (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileEventKind.CLOSE:
-          this._process._connection.didCloseTextDocument({
-            textDocument: toTextDocumentIdentifier(filePath)
-          });
+          this._fileClose(fileEvent);
           break;
         case (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileEventKind.EDIT:
-          this._fileCache.getBufferAtVersion(fileEvent.fileVersion).then(buffer => {
-            if (buffer == null) {
-              // TODO: stale ... send full contents from current buffer version
-              return;
-            }
-            this._process._connection.didChangeTextDocument({
-              textDocument: {
-                uri: filePath,
-                version
-              },
-              // Send full contents
-              // TODO: If the provider handles incremental diffs
-              // Then send them instead
-              contentChanges: [{
-                text: buffer.getText()
-              }]
-            });
-          });
+          this._fileEdit(fileEvent);
           break;
         default:
-          throw new Error(`Unexpected FileEvent kind: ${JSON.stringify(fileEvent)}`);
+          this._logger.logError('Unrecognized fileEvent ' + JSON.stringify(fileEvent));
       }
-      this._fileVersionNotifier.onEvent(fileEvent);
+      this._lspFileVersionNotifier.onEvent(fileEvent);
     });
   }
 
@@ -158,7 +163,8 @@ class LanguageServerProtocolProcess {
 
     return (0, _asyncToGenerator.default)(function* () {
       try {
-        _this._process = yield LspProcess.create(_this._logger, _this._createProcess(), _this._projectRoot);
+        const proc = yield _this._createProcess();
+        _this._process = yield LspProcess.create(_this._logger, proc, _this._projectRoot);
         _this._subscribeToFileEvents();
       } catch (e) {
         _this._logger.logError('LanguageServerProtocolProcess - error spawning child process: ' + e);
@@ -176,17 +182,100 @@ class LanguageServerProtocolProcess {
     return this._projectRoot;
   }
 
-  getBufferAtVersion(fileVersion) {
+  tryGetBufferWhenWeAndLspAtSameVersion(fileVersion) {
     var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const buffer = yield (0, (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).getBufferAtVersion)(fileVersion);
-      // Must also wait for edits to be sent to the LSP process
-      if (!(yield _this2._fileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+      // Await until we have received this exact version from the client.
+      // (Might be null in the case the user had already typed further
+      // before we got a chance to be called.)
+      const buffer = yield _this2._fileCache.getBufferAtVersion(fileVersion);
+
+      if (!(buffer == null || buffer.changeCount === fileVersion.version)) {
+        throw new Error('Invariant violation: "buffer == null || buffer.changeCount === fileVersion.version"');
+      }
+
+      // Await until this exact version has been pushed to LSP too.
+
+
+      if (!(yield _this2._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        if (buffer != null) {
+          // Invariant: LSP is never ahead of our fileCache.
+          // Therefore it will eventually catch up.
+          _this2._logger.logError('LSP.version - could not catch up to version=' + fileVersion.version);
+        }
         return null;
       }
+
+      // During that second await, if the server received further edits from the client,
+      // then the buffer object might have been mutated in place, so its file-verion will
+      // no longer match. In this case we return null.
       return buffer != null && buffer.changeCount === fileVersion.version ? buffer : null;
     })();
+  }
+
+  _fileOpen(fileEvent) {
+    if (!this._process._derivedCapabilities.serverWantsOpenClose) {
+      return;
+    }
+    const params = {
+      textDocument: {
+        uri: fileEvent.fileVersion.filePath,
+        languageId: 'python', // TODO
+        version: fileEvent.fileVersion.version,
+        text: fileEvent.contents
+      }
+    };
+    this._process._connection.didOpenTextDocument(params);
+  }
+
+  _fileClose(fileEvent) {
+    if (!this._process._derivedCapabilities.serverWantsOpenClose) {
+      return;
+    }
+    const params = {
+      textDocument: {
+        uri: fileEvent.fileVersion.filePath
+      }
+    };
+    this._process._connection.didCloseTextDocument(params);
+  }
+
+  _fileEdit(fileEvent) {
+    let contentChange;
+    switch (this._process._derivedCapabilities.serverWantsChange) {
+      case 'incremental':
+        contentChange = {
+          range: atomRangeToRange(fileEvent.oldRange),
+          text: fileEvent.newText
+        };
+        break;
+      case 'full':
+        const buffer = this._fileCache.getBufferForFileEdit(fileEvent);
+        contentChange = {
+          text: buffer.getText()
+        };
+        break;
+      case 'none':
+        return;
+      default:
+        if (!false) {
+          throw new Error('Invariant violation: "false"');
+        }
+
+      // unreachable
+    }
+
+    const params = {
+      textDocument: {
+        uri: fileEvent.fileVersion.filePath,
+        version: fileEvent.fileVersion.version
+      },
+      contentChanges: [contentChange]
+    };
+    // eslint-disable-next-line max-len
+    this._logger.logInfo(`-->LSP ${this._process._derivedCapabilities.serverWantsChange} edit ${JSON.stringify(params)}`);
+    this._process._connection.didChangeTextDocument(params);
   }
 
   getDiagnostics(fileVersion) {
@@ -206,7 +295,13 @@ class LanguageServerProtocolProcess {
       if (_this3._process._capabilities.completionProvider == null) {
         return null;
       }
-      const result = yield _this3._process._connection.completion((yield _this3.createTextDocumentPositionParams(fileVersion, position)));
+      if (!(yield _this3._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const params = createTextDocumentPositionParams(fileVersion.filePath, position);
+      const result = yield _this3._process._connection.completion(params);
       if (Array.isArray(result)) {
         return {
           isIncomplete: false,
@@ -228,7 +323,13 @@ class LanguageServerProtocolProcess {
       if (!_this4._process._capabilities.definitionProvider) {
         return null;
       }
-      const result = yield _this4._process._connection.gotoDefinition((yield _this4.createTextDocumentPositionParams(fileVersion, position)));
+      if (!(yield _this4._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const params = createTextDocumentPositionParams(fileVersion.filePath, position);
+      const result = yield _this4._process._connection.gotoDefinition(params);
       return {
         // TODO: use wordAtPos to determine queryrange
         queryRange: [new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(position, position)],
@@ -249,8 +350,15 @@ class LanguageServerProtocolProcess {
       if (!_this5._process._capabilities.referencesProvider) {
         return null;
       }
-      const buffer = yield _this5.getBufferAtVersion(fileVersion);
-      const positionParams = createTextDocumentPositionParams(fileVersion, position);
+      if (!(yield _this5._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const buffer = yield _this5._fileCache.getBufferAtVersion(fileVersion);
+      // buffer may still be null despite the above check. We do handle that!
+
+      const positionParams = createTextDocumentPositionParams(fileVersion.filePath, position);
       const params = Object.assign({}, positionParams, { context: { includeDeclaration: true } });
       // ReferenceParams is like TextDocumentPositionParams but with one extra field.
       const response = yield _this5._process._connection.findReferences(params);
@@ -262,11 +370,28 @@ class LanguageServerProtocolProcess {
       // thanks to includeDeclaration:true then the file where the user clicked will
       // assuredly be in the cache!
       let referencedSymbolName = null;
-      for (const ref of references) {
-        const refBuffer = _this5._fileCache.getBuffer(ref.uri);
-        if (refBuffer != null) {
-          referencedSymbolName = refBuffer.getTextInRange(ref.range);
-          break;
+      // The very best we can do is if we and LSP were in sync at the moment the
+      // request was dispatched, and buffer still hasn't been modified since then,
+      // so we can guarantee that the ranges returned by LSP are identical
+      // to what we have in hand.
+      if (buffer != null) {
+        const refInBuffer = references.find(function (ref) {
+          return ref.uri === fileVersion.filePath;
+        });
+        if (refInBuffer != null) {
+          referencedSymbolName = buffer.getTextInRange(refInBuffer.range);
+        }
+      }
+      // Failing that, if any of the buffers are open we'll use them (even if we
+      // have no guarantees about which version our buffers are at compared to
+      // the ranges that LSP sent us back, so it might be a little off.)
+      if (referencedSymbolName == null) {
+        for (const ref of references) {
+          const refBuffer = _this5._fileCache.getBuffer(ref.uri);
+          if (refBuffer != null) {
+            referencedSymbolName = refBuffer.getTextInRange(ref.range);
+            break;
+          }
         }
       }
       // Failing that we'll try using a regexp on the buffer. (belt and braces!)
@@ -321,8 +446,14 @@ class LanguageServerProtocolProcess {
       if (!_this7._process._capabilities.documentSymbolProvider) {
         return null;
       }
-      yield _this7.getBufferAtVersion(fileVersion); // push out any pending edits
-      const params = { textDocument: toTextDocumentIdentifier(fileVersion.filePath) };
+      if (!(yield _this7._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const params = {
+        textDocument: toTextDocumentIdentifier(fileVersion.filePath)
+      };
       const response = yield _this7._process._connection.documentSymbol(params);
 
       // The response is a flat list of SymbolInformation, which has location+name+containerName.
@@ -361,7 +492,11 @@ class LanguageServerProtocolProcess {
       // parent of that name. But if there are multiple parent candidates, we'll try to pick
       // the one that comes immediately lexically before the item. (If there are no parent
       // candidates, we've been given a malformed item, so we'll just ignore it.)
-      const root = { plainText: '', startPosition: new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 0), children: [] };
+      const root = {
+        plainText: '',
+        startPosition: new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 0),
+        children: []
+      };
       map.set('', [root]);
       for (const [symbol, node] of list) {
         const parentName = symbol.containerName || '';
@@ -404,8 +539,13 @@ class LanguageServerProtocolProcess {
       if (!_this8._process._capabilities.hoverProvider) {
         return null;
       }
-      const request = yield _this8.createTextDocumentPositionParams(fileVersion, position);
-      const response = yield _this8._process._connection.hover(request);
+      if (!(yield _this8._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const params = createTextDocumentPositionParams(fileVersion.filePath, position);
+      const response = yield _this8._process._connection.hover(params);
 
       let hint = response.contents;
       if (Array.isArray(hint)) {
@@ -435,7 +575,12 @@ class LanguageServerProtocolProcess {
       if (!_this9._process._capabilities.documentHighlightProvider) {
         return null;
       }
-      const params = yield _this9.createTextDocumentPositionParams(fileVersion, position);
+      if (!(yield _this9._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+        return null;
+        // If the user typed more characters before we ended up being invoked, then there's
+        // no way we can fulfill the request.
+      }
+      const params = createTextDocumentPositionParams(fileVersion.filePath, position);
       const response = yield _this9._process._connection.documentHighlight(params);
       const convertHighlight = function (highlight) {
         return rangeToAtomRange(highlight.range);
@@ -448,14 +593,27 @@ class LanguageServerProtocolProcess {
     var _this10 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const buffer = yield _this10.getBufferAtVersion(fileVersion);
+      // In general, what should happen if we request a reformat but the user does typing
+      // while we're waiting for the reformat results to be (asynchronously) delivered?
+      // This is entirely handled by our upstream caller in CodeFormatManager.js which
+      // verifies that the buffer's contents haven't changed between asking for reformat and
+      // applying it; if they have, then it displays an error message to the user.
+      // So: this function doesn't need to do any such verification itself.
+
+      // But we do need the buffer, to know whether atomRange covers the whole document.
+      // And if we can't get it for reasons of syncing, then we'll have to bail by reporting
+      // the same error as that upstream caller.
+      const buffer = yield _this10.tryGetBufferWhenWeAndLspAtSameVersion(fileVersion);
       if (buffer == null) {
-        _this10._logger.logError('LSP.formatSource - null buffer');
+        _this10._logger.logError('LSP.formatSource - buffer changed before we could format');
         return null;
       }
       const options = { tabSize: 2, insertSpaces: true };
       // TODO: from where should we pick up these options? Can we omit them?
-      const params = { textDocument: toTextDocumentIdentifier(fileVersion.filePath), options };
+      const params = {
+        textDocument: toTextDocumentIdentifier(fileVersion.filePath),
+        options
+      };
       let edits;
 
       // The user might have requested to format either some or all of the buffer.
@@ -471,11 +629,16 @@ class LanguageServerProtocolProcess {
         // is character 0 of the start line, and range.end is character 0 of the
         // first line AFTER the selection.
         const range = atomRangeToRange(atomRange);
-        edits = yield _this10._process._connection.documentRangeFormattting(Object.assign({}, params, { range }));
+        edits = yield _this10._process._connection.documentRangeFormattting(Object.assign({}, params, {
+          range
+        }));
       } else {
         _this10._logger.logError('LSP.formatSource - not supported by server');
         return null;
       }
+
+      // As mentioned, the user might have done further typing during that 'await', but if so then
+      // our upstream caller will catch it and report an error: no need to re-verify here.
 
       const convertRange = function (lspTextEdit) {
         return {
@@ -540,8 +703,8 @@ class LanguageServerProtocolProcess {
         this._logger.logError('Hack Process died before disconnect() could be sent.');
       }
       super.dispose();
-      this._fileVersionNotifier.dispose();
-      this._fileSubscription.unsubscribe();
+      this._lspFileVersionNotifier.dispose();
+      this._fileEventSubscription.unsubscribe();
       if (processes.has(this._fileCache)) {
         processes.get(this._fileCache).delete(this._projectRoot);
       }
@@ -576,28 +739,47 @@ class LanguageServerProtocolProcess {
       return [this.locationToDefinition(locations)];
     }
   }
+}
 
-  createTextDocumentPositionParams(fileVersion, position) {
-    var _this12 = this;
+exports.LanguageServerProtocolProcess = LanguageServerProtocolProcess;
+class DerivedServerCapabilities {
 
-    return (0, _asyncToGenerator.default)(function* () {
-      yield _this12.getBufferAtVersion(fileVersion);
-      return createTextDocumentPositionParams(fileVersion, position);
-    })();
+  constructor(capabilities, logger) {
+    let syncKind;
+
+    // capabilities.textDocumentSync is either a number (protocol v2)
+    // or an object (protocol v3) or absent (indicating no capabilities).
+    const sync = capabilities.textDocumentSync;
+    if (typeof sync === 'number') {
+      this.serverWantsOpenClose = true;
+      syncKind = sync;
+    } else if (typeof sync === 'object') {
+      this.serverWantsOpenClose = Boolean(sync.openClose);
+      syncKind = Number(sync.change);
+    } else {
+      this.serverWantsOpenClose = false;
+      syncKind = (_protocol || _load_protocol()).TextDocumentSyncKind.None;
+      if (sync != null) {
+        logger.logError('LSP - invalid capabilities.textDocumentSync from server: ' + JSON.stringify(sync));
+      }
+    }
+
+    // The syncKind is a number, supposed to fall in the TextDocumentSyncKind
+    // enumeration, so we verify that here:
+    if (syncKind === (_protocol || _load_protocol()).TextDocumentSyncKind.Full) {
+      this.serverWantsChange = 'full';
+    } else if (syncKind === (_protocol || _load_protocol()).TextDocumentSyncKind.Incremental) {
+      this.serverWantsChange = 'incremental';
+    } else if (syncKind === (_protocol || _load_protocol()).TextDocumentSyncKind.None) {
+      this.serverWantsChange = 'none';
+    } else {
+      logger.logError('LSP initialize: invalid TextDocumentSyncKind');
+      this.serverWantsChange = 'none';
+    }
   }
 }
 
-exports.LanguageServerProtocolProcess = LanguageServerProtocolProcess; // Encapsulates an LSP process
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
+// Encapsulates an LSP process
 class LspProcess {
 
   constructor(logger, process, projectRoot, isIpc) {
@@ -647,18 +829,20 @@ class LspProcess {
   // Creates the connection and initializes capabilities
   static create(logger, process, projectRoot) {
     return (0, _asyncToGenerator.default)(function* () {
-      const result = new LspProcess(logger, process, projectRoot, false);
+      const lspProcess = new LspProcess(logger, process, projectRoot, false);
 
-      const init = {
+      const params = {
         // TODO:
         initializationOptions: {},
         processId: process.pid,
         rootPath: projectRoot,
         capabilities: {}
       };
-      result._capabilities = (yield result._connection.initialize(init)).capabilities;
 
-      return result;
+      const result = yield lspProcess._connection.initialize(params);
+      lspProcess._capabilities = result.capabilities;
+      lspProcess._derivedCapabilities = new DerivedServerCapabilities(result.capabilities, logger);
+      return lspProcess;
     })();
   }
 
@@ -733,9 +917,9 @@ function convertSeverity(severity) {
   }
 }
 
-function createTextDocumentPositionParams(fileVersion, position) {
+function createTextDocumentPositionParams(filePath, position) {
   return {
-    textDocument: toTextDocumentIdentifier(fileVersion.filePath),
+    textDocument: toTextDocumentIdentifier(filePath),
     position: pointToPosition(position)
   };
 }

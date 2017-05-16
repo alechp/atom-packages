@@ -31,6 +31,7 @@ function CustomSession(config, debuggerPort, wsConnection) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 _util.default.inherits(CustomSession, (_session || _load_session()).default);

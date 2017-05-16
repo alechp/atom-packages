@@ -161,4 +161,5 @@ exports.GraphQLLanguageService = GraphQLLanguageService; /**
                                                           * the root directory of this source tree.
                                                           *
                                                           * 
+                                                          * @format
                                                           */

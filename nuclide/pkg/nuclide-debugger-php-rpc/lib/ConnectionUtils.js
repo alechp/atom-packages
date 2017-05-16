@@ -23,6 +23,7 @@ let getHackRoot = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 let setRootDirectoryUri = exports.setRootDirectoryUri = (() => {

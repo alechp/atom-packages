@@ -92,6 +92,7 @@ const VALID_FILTER_CHARS = '!#./0123456789-:;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '_a
                                                                                                               * the root directory of this source tree.
                                                                                                               *
                                                                                                               * 
+                                                                                                              * @format
                                                                                                               */
 
 class ProjectSelectionManager {
@@ -128,7 +129,7 @@ class FileTreeController {
     this._updateRootDirectories();
     // Subsequent root directories updated on change
     this._disposables.add(atom.project.onDidChangePaths(() => this._updateRootDirectories()), atom.commands.add('atom-workspace', {
-      'nuclide-file-tree:reveal-in-file-tree': this._revealFile.bind(this),
+      'nuclide-file-tree:reveal-active-file': this._revealFile.bind(this),
       'nuclide-file-tree:recursive-collapse-all': this._collapseAll.bind(this),
       'nuclide-file-tree:add-file-relative': () => {
         (_FileSystemActions || _load_FileSystemActions()).default.openAddFileDialogRelative(this._openAndRevealFilePath.bind(this));
@@ -155,9 +156,11 @@ class FileTreeController {
       'nuclide-file-tree:add-folder': () => {
         (_FileSystemActions || _load_FileSystemActions()).default.openAddFolderDialog(this._openAndRevealDirectoryPath.bind(this));
       },
-      'nuclide-file-tree:collapse-directory': this._collapseSelection.bind(this, /* deep */false),
+      'nuclide-file-tree:collapse-directory': this._collapseSelection.bind(this,
+      /* deep */false),
       'nuclide-file-tree:recursive-collapse-directory': this._collapseSelection.bind(this, true),
-      'nuclide-file-tree:expand-directory': this._expandSelection.bind(this, /* deep */false),
+      'nuclide-file-tree:expand-directory': this._expandSelection.bind(this,
+      /* deep */false),
       'nuclide-file-tree:recursive-expand-directory': this._expandSelection.bind(this, true),
       'nuclide-file-tree:open-selected-entry': this._openSelectedEntry.bind(this),
       'nuclide-file-tree:open-selected-entry-up': this._openSelectedEntrySplitUp.bind(this),
@@ -560,7 +563,6 @@ class FileTreeController {
 
   _searchInDirectory(event) {
     const targetElement = event.target;
-    let shouldClearPath = false;
     // If the event was sent to the entire tree, rather then a single element - attempt to derive
     // the path to work on from the current selection.
     if (targetElement.classList.contains('nuclide-file-tree')) {
@@ -580,25 +582,27 @@ class FileTreeController {
 
       // What we see here is an unfortunate example of "DOM as an API" paradigm :-(
       // Atom's handler for the "show-in-current-directory" command is context sensitive
-      // and it derives the context from the custom "data-path" attribute.
-      // This attribute is available through the `.dataset.path` property of the event's target
-      // element. If missing in the target element, the descendants are queried.
-      // See: https://github.com/atom/find-and-replace/blob/66f09c532bb4f7b941282b99d4daf85a08d2288c/lib/project-find-view.coffee#L277
-      //
-      // This works when the command is targeted at an entry in the file-tree DOM structure, because
-      // we add these attributes too, to maintain compatibility with Atom. But, obviously, the
-      // file-tree root can't have one. Unfortunately, when we use keyboard shortcuts to trigger the
-      // commands the focused element is the tree root.
-      // So, to pass the contextual information somehow, we temporarily
-      // add this attribute to the root element (and cleanup once the command is issued).
-      targetElement.dataset.path = path;
-      shouldClearPath = true;
-    }
-    // Dispatch a command to show the `ProjectFindView`. This opens the view and focuses the search
-    // box.
-    atom.commands.dispatch(targetElement, 'project-find:show-in-current-directory');
-    if (shouldClearPath) {
-      delete targetElement.dataset.path;
+      // and it derives the context from the custom "data-path" attribute. The attribute must
+      // be present on a child of a closest element having a ".directory" class.
+      // See: https://github.com/atom/find-and-replace/blob/v0.208.1/lib/project-find-view.js#L356-L360
+      // We will just temporarily create a proper element for the event handler to work on
+      // and remove it immediately afterwards.
+      const temporaryElement = document.createElement('div');
+      temporaryElement.classList.add('directory');
+      const pathChild = document.createElement('div');
+      pathChild.dataset.path = path;
+      temporaryElement.appendChild(pathChild);
+
+      // Must attach to the workspace-view, otherwise the handler won't be found
+      const workspaceView = atom.views.getView(atom.workspace);
+      workspaceView.appendChild(temporaryElement);
+
+      atom.commands.dispatch(temporaryElement, 'project-find:show-in-current-directory');
+
+      // Cleaning for the workspace-view
+      workspaceView.removeChild(temporaryElement);
+    } else {
+      atom.commands.dispatch(targetElement, 'project-find:show-in-current-directory');
     }
   }
 

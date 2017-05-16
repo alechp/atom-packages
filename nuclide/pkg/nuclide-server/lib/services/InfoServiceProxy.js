@@ -13,7 +13,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 17
+          line: 18
         },
         kind: "string"
       });
@@ -27,7 +27,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 24
+          line: 25
         },
         kind: "boolean"
       }
@@ -38,7 +38,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 24
+          line: 25
         },
         kind: "void"
       });
@@ -117,13 +117,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "InfoService.js",
-        line: 17
+        line: 18
       },
       type: {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 17
+          line: 18
         },
         kind: "function",
         argumentTypes: [],
@@ -131,14 +131,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "InfoService.js",
-            line: 17
+            line: 18
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "InfoService.js",
-              line: 17
+              line: 18
             },
             kind: "string"
           }
@@ -151,13 +151,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "InfoService.js",
-        line: 24
+        line: 25
       },
       type: {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 24
+          line: 25
         },
         kind: "function",
         argumentTypes: [{
@@ -166,7 +166,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "InfoService.js",
-              line: 24
+              line: 25
             },
             kind: "boolean"
           }
@@ -175,14 +175,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "InfoService.js",
-            line: 24
+            line: 25
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "InfoService.js",
-              line: 24
+              line: 25
             },
             kind: "void"
           }

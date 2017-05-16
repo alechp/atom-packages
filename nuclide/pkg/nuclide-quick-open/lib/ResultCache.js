@@ -24,6 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const MAX_CACHED_QUERIES = 100;
@@ -85,6 +86,10 @@ class ResultCache {
 
   getLastCachedQuery(providerName) {
     return this._lastCachedQuery.get(providerName);
+  }
+
+  setLastCachedQuery(providerName, query) {
+    this._lastCachedQuery.set(providerName, query);
   }
 
   _ensureCacheEntry(providerName, directory) {

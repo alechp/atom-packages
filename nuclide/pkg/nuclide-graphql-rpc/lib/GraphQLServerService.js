@@ -18,6 +18,7 @@ function getDefinition(query, position, filePath) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getDiagnostics(query, filePath) {

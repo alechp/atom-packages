@@ -23,6 +23,7 @@ function compile(contents) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function get_completions(contents, line, column, tokenStartColumn, prefix) {

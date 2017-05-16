@@ -39,6 +39,7 @@ function getValidProjectPaths() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getAtomProjectRelativePath(path) {

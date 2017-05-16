@@ -29,6 +29,7 @@ const labels = ['choose', 'from', 'one of', 'several', 'options']; /**
                                                                     * the root directory of this source tree.
                                                                     *
                                                                     * 
+                                                                    * @format
                                                                     */
 
 class RadioGroupExample extends _react.default.Component {

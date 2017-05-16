@@ -16,12 +16,13 @@ const SwiftPMTaskRunnerBuildTaskMetadata = exports.SwiftPMTaskRunnerBuildTaskMet
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const SwiftPMTaskRunnerTestTaskMetadata = exports.SwiftPMTaskRunnerTestTaskMetadata = {
   type: 'test',
   label: 'Test',
-  description: 'Run a Swift package\'s tests',
+  description: "Run a Swift package's tests",
   icon: 'check'
 };
 

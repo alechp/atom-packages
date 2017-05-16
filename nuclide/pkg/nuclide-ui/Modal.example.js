@@ -73,6 +73,7 @@ class ModalExample extends _react.default.Component {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 const ModalExamples = exports.ModalExamples = {

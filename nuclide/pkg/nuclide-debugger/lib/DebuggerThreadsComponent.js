@@ -53,6 +53,7 @@ const activeThreadIndicatorComponent = props => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 class DebuggerThreadsComponent extends _react.default.Component {
@@ -139,10 +140,7 @@ class DebuggerThreadsComponent extends _react.default.Component {
   }
 
   render() {
-    const {
-      threadList,
-      selectedThreadId
-    } = this.state;
+    const { threadList, selectedThreadId } = this.state;
     const activeThreadCol = {
       component: activeThreadIndicatorComponent,
       title: '',

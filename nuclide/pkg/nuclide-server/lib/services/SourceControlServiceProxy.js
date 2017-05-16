@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "SourceControlService.js",
-          line: 23
+          line: 25
         },
         kind: "string"
       }
@@ -23,14 +23,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "SourceControlService.js",
-          line: 23
+          line: 26
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "SourceControlService.js",
-            line: 23
+            line: 26
           },
           kind: "named",
           name: "HgRepositoryDescription"
@@ -110,28 +110,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "SourceControlService.js",
-        line: 17
+        line: 18
       },
       name: "HgRepositoryDescription",
       definition: {
         location: {
           type: "source",
           fileName: "SourceControlService.js",
-          line: 17
+          line: 18
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "SourceControlService.js",
-            line: 18
+            line: 19
           },
           name: "repoPath",
           type: {
             location: {
               type: "source",
               fileName: "SourceControlService.js",
-              line: 18
+              line: 19
             },
             kind: "string"
           },
@@ -140,21 +140,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "SourceControlService.js",
-            line: 19
+            line: 20
           },
           name: "originURL",
           type: {
             location: {
               type: "source",
               fileName: "SourceControlService.js",
-              line: 19
+              line: 20
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "SourceControlService.js",
-                line: 19
+                line: 20
               },
               kind: "string"
             }
@@ -164,14 +164,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "SourceControlService.js",
-            line: 20
+            line: 21
           },
           name: "workingDirectoryPath",
           type: {
             location: {
               type: "source",
               fileName: "SourceControlService.js",
-              line: 20
+              line: 21
             },
             kind: "string"
           },
@@ -185,13 +185,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "SourceControlService.js",
-        line: 23
+        line: 24
       },
       type: {
         location: {
           type: "source",
           fileName: "SourceControlService.js",
-          line: 23
+          line: 24
         },
         kind: "function",
         argumentTypes: [{
@@ -200,7 +200,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "SourceControlService.js",
-              line: 23
+              line: 25
             },
             kind: "string"
           }
@@ -209,21 +209,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "SourceControlService.js",
-            line: 23
+            line: 26
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "SourceControlService.js",
-              line: 23
+              line: 26
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "SourceControlService.js",
-                line: 23
+                line: 26
               },
               kind: "named",
               name: "HgRepositoryDescription"

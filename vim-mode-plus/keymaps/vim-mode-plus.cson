@@ -146,8 +146,8 @@
   'g ~': 'vim-mode-plus:toggle-case'
   'g U': 'vim-mode-plus:upper-case'
   'g u': 'vim-mode-plus:lower-case'
-  'g c': 'vim-mode-plus:camel-case'
-  'g C': 'vim-mode-plus:pascal-case'
+  'g C': 'vim-mode-plus:camel-case'
+  # 'g C': 'vim-mode-plus:pascal-case'
   'g /': 'vim-mode-plus:toggle-line-comments'
   'g -': 'vim-mode-plus:dash-case'
   'g space': 'vim-mode-plus:compact-spaces'
@@ -156,9 +156,8 @@
   'g cmd-d': 'vim-mode-plus:select-occurrence'
   'g ,': 'vim-mode-plus:split-arguments'
   # 'g _': 'vim-mode-plus:snake-case'
-  # 'g r':   'vim-mode-plus:reverse'
-  # 'g s':   'vim-mode-plus:sort'
-  # 'ctrl-s': 'vim-mode-plus:transform-string-by-select-list'
+  'g r':   'vim-mode-plus:reverse' # incompatible-with-pure-vim
+  'g s':   'vim-mode-plus:sort' # incompatible-to-pure-vim
   # 'g tab': 'vim-mode-plus:convert-to-soft-tab'
   # 'g shift-tab': 'vim-mode-plus:convert-to-hard-tab'
 
@@ -252,6 +251,11 @@
   # 'g n': 'vim-mode-plus:move-to-next-number'
   # 'g N': 'vim-mode-plus:move-to-previous-number'
 
+
+# macOS only
+'.platform-darwin atom-text-editor.vim-mode-plus:not(.insert-mode)':
+  'ctrl-s': 'vim-mode-plus:transform-string-by-select-list'
+
 'atom-text-editor.vim-mode-plus.has-occurrence:not(.insert-mode)':
   'tab': 'vim-mode-plus:move-to-next-occurrence'
   'shift-tab': 'vim-mode-plus:move-to-previous-occurrence'
@@ -266,11 +270,13 @@
   'z s': 'vim-mode-plus:scroll-cursor-to-left'
   'z e': 'vim-mode-plus:scroll-cursor-to-right'
 
-  'z M': 'editor:fold-all'
-  'z R': 'editor:unfold-all'
   'z c': 'editor:fold-current-row'
   'z o': 'editor:unfold-current-row'
   'z a': 'vim-mode-plus:toggle-fold'
+  'z M': 'vim-mode-plus:fold-all'
+  'z R': 'vim-mode-plus:unfold-all'
+  'z m': 'vim-mode-plus:fold-next-indent-level'
+  'z r': 'vim-mode-plus:unfold-next-indent-level'
 
 'atom-text-editor.vim-mode-plus-input-char-waiting':
   'enter': 'core:confirm'
@@ -403,8 +409,10 @@
   'v': 'vim-mode-plus:activate-characterwise-visual-mode'
   'V': 'vim-mode-plus:activate-linewise-visual-mode'
   'ctrl-v': 'vim-mode-plus:activate-blockwise-visual-mode'
+
   'g v': 'vim-mode-plus:select-previous-selection'
-  # 'g c':    'vim-mode-plus:select-latest-change'
+  'g c': 'vim-mode-plus:select-latest-change'
+
   'u': 'vim-mode-plus:undo'
   'ctrl-r': 'vim-mode-plus:redo'
   'O': 'vim-mode-plus:insert-above-with-newline'
@@ -432,11 +440,12 @@
   'A': 'vim-mode-plus:move-to-last-character-of-line'
 
   # Shorthand keymap for two-keystroke text-object
-  'c': 'vim-mode-plus:inner-smart-word' # `y c` to `yank inner-smart-word`.
-  'd': 'vim-mode-plus:inner-subword'    # `y d` to `yank inner-subword`.
-  'C': 'vim-mode-plus:inner-whole-word' # `y C` to `yank inner-whole-word`.
-  'p': 'vim-mode-plus:inner-paragraph'  # `y p` to `yank inner-paragraph`.
-  ',': 'vim-mode-plus:inner-arguments'
+  'c': 'vim-mode-plus:inner-smart-word' # `y c` for `y i w`
+  'd': 'vim-mode-plus:inner-subword'    # `y d` for `y i d`
+  'C': 'vim-mode-plus:inner-whole-word' # `y C` for `y i W`
+  'p': 'vim-mode-plus:inner-paragraph'  # `y p` for `y i p`
+  ',': 'vim-mode-plus:inner-arguments'  # `y ,` for `y i ,`
+  'z': 'vim-mode-plus:a-fold'           # `y z` for `y a z`
 
   # In this scope, all operator keys are safely remappable.
   # e.g. p, d, D, x, u, X, S, ., r

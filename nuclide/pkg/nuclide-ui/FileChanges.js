@@ -51,6 +51,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getHighlightClass(type) {
@@ -65,10 +66,7 @@ function getHighlightClass(type) {
 
 const NBSP = '\xa0';
 const GutterElement = props => {
-  const {
-    lineNumber,
-    gutterWidth
-  } = props;
+  const { lineNumber, gutterWidth } = props;
   const fillWidth = gutterWidth - String(lineNumber).length;
   // Paralleling the original line-number implementation,
   // pad the line number with leading spaces.
@@ -96,10 +94,7 @@ class HunkDiff extends _react.default.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      hunk,
-      grammar
-    } = nextProps;
+    const { hunk, grammar } = nextProps;
     const changes = hunk.changes;
     const prevHunk = this.props.hunk;
     const editor = (0, (_nullthrows || _load_nullthrows()).default)(this.editor);
@@ -155,7 +150,9 @@ class HunkDiff extends _react.default.Component {
       }
       const displayLine = line + initialOffset - deletedLines;
       const item = this._createGutterItem(displayLine, gutterWidth);
-      const marker = editor.markBufferPosition([line, 0], { invalidate: 'touch' });
+      const marker = editor.markBufferPosition([line, 0], {
+        invalidate: 'touch'
+      });
       gutter.decorateMarker(marker, {
         type: 'gutter',
         item
@@ -172,7 +169,10 @@ class HunkDiff extends _react.default.Component {
 
   _createGutterItem(lineNumber, gutterWidthInCharacters) {
     const item = document.createElement('div');
-    _reactDom.default.render(_react.default.createElement(GutterElement, { lineNumber: lineNumber, gutterWidth: gutterWidthInCharacters }), item);
+    _reactDom.default.render(_react.default.createElement(GutterElement, {
+      lineNumber: lineNumber,
+      gutterWidth: gutterWidthInCharacters
+    }), item);
     return item;
   }
 
@@ -204,14 +204,8 @@ class HunkDiff extends _react.default.Component {
   }
 
   render() {
-    const {
-      hunk,
-      grammar
-    } = this.props;
-    const {
-      content,
-      changes
-    } = hunk;
+    const { hunk, grammar } = this.props;
+    const { content, changes } = hunk;
     // Remove the first character in each line (/[+- ]/) which indicates addition / deletion
     const text = changes.map(change => change.content.slice(1)).join('\n');
     const textBuffer = new _atom.TextBuffer();
@@ -245,22 +239,13 @@ class FileChanges extends _react.default.Component {
 
   render() {
     const { diff } = this.props;
-    const {
-      additions,
-      annotation,
-      chunks,
-      deletions,
-      to: fileName
-    } = diff;
+    const { additions, annotation, chunks, deletions, to: fileName } = diff;
     const grammar = atom.grammars.selectGrammar(fileName, '');
     const hunks = [];
     let i = 0;
     for (const chunk of chunks) {
       if (i > 0) {
-        hunks.push(_react.default.createElement('div', {
-          className: 'nuclide-ui-hunk-diff-spacer',
-          key: `spacer-${i}`
-        }));
+        hunks.push(_react.default.createElement('div', { className: 'nuclide-ui-hunk-diff-spacer', key: `spacer-${i}` }));
       }
       hunks.push(_react.default.createElement(this.props.hunkComponentClass, {
         collapsable: this.props.collapsable,
@@ -310,9 +295,7 @@ class FileChanges extends _react.default.Component {
 
     return _react.default.createElement(
       (_Section || _load_Section()).Section,
-      {
-        collapsable: this.props.collapsable,
-        headline: headline },
+      { collapsable: this.props.collapsable, headline: headline },
       hunks
     );
   }

@@ -29,6 +29,7 @@ const MAX_LENGTH = 256; /**
                          * the root directory of this source tree.
                          *
                          * 
+                         * @format
                          */
 
 class TypeHintHelpers {

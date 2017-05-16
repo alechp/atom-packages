@@ -19,6 +19,7 @@ function _load_HackHelpers() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function convertDefinitions(hackDefinitions, filePath, projectRoot) {

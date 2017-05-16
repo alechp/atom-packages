@@ -2,8 +2,7 @@ _ = require 'underscore-plus'
 semver = require 'semver'
 {Range, Point, Disposable} = require 'atom'
 {inspect} = require 'util'
-swrap = require '../lib/selection-wrapper'
-settings = require '../lib/settings'
+globalState = require '../lib/global-state'
 
 KeymapManager = atom.keymaps.constructor
 {normalizeKeystrokes} = require(atom.config.resourcePath + "/node_modules/atom-keymap/lib/helpers")
@@ -17,6 +16,11 @@ supportedModeClass = [
   'blockwise'
   'characterwise'
 ]
+
+# Init spec state
+# -------------------------
+beforeEach ->
+  globalState.reset()
 
 # Utils
 # -------------------------
@@ -35,12 +39,6 @@ withMockPlatform = (target, platform, fn) ->
 
 buildKeydownEvent = (key, options) ->
   KeymapManager.buildKeydownEvent(key, options)
-
-getHeadProperty = (selection) ->
-  swrap(selection).getBufferPositionFor('head', from: ['property'])
-
-getTailProperty = (selection) ->
-  swrap(selection).getBufferPositionFor('tail', from: ['property'])
 
 buildKeydownEventFromKeystroke = (keystroke, target) ->
   modifier = ['ctrl', 'alt', 'shift', 'cmd']
@@ -411,10 +409,14 @@ class VimEditor
     expect(actual).toEqual(toArray(text))
 
   ensurePropertyHead: (points) ->
+    getHeadProperty = (selection) =>
+      @vimState.swrap(selection).getBufferPositionFor('head', from: ['property'])
     actual = (getHeadProperty(s) for s in @editor.getSelections())
     expect(actual).toEqual(toArrayOfPoint(points))
 
   ensurePropertyTail: (points) ->
+    getTailProperty = (selection) =>
+      @vimState.swrap(selection).getBufferPositionFor('tail', from: ['property'])
     actual = (getTailProperty(s) for s in @editor.getSelections())
     expect(actual).toEqual(toArrayOfPoint(points))
 
@@ -463,7 +465,6 @@ class VimEditor
         switch
           when k.input?
             # TODO no longer need to use [input: 'char'] style.
-            # if settings.
             rawKeystroke(_key, target) for _key in k.input.split('')
           when k.search?
             @vimState.searchInput.editor.insertText(k.search) if k.search

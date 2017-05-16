@@ -80,6 +80,7 @@ const SERVER_LIMIT = 20;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const MEMORY_LIMIT = Math.round(_os.default.totalmem() * 15 / 100);
@@ -113,43 +114,27 @@ class ClangServerManager {
    * on diagnostic requests - and hence we only restart on 'compile' requests.
    */
   getClangServer(src, contents, compilationDBFile, defaultFlags, restartIfChanged) {
-    var _this = this;
-
-    return (0, _asyncToGenerator.default)(function* () {
-      let server = _this._servers.get(src);
-      if (server != null) {
-        if (restartIfChanged && server.getFlagsChanged()) {
-          _this.reset(src);
-        } else {
-          return server;
-        }
-      }
-      const [serverArgs, flagsResult] = yield Promise.all([(0, (_findClangServerArgs || _load_findClangServerArgs()).default)(src), _this._getFlags(src, compilationDBFile, defaultFlags)]);
-      if (flagsResult == null) {
-        return null;
-      }
-      // Another server could have been created while we were waiting.
-      server = _this._servers.get(src);
-      if (server != null) {
+    let server = this._servers.get(src);
+    if (server != null) {
+      if (restartIfChanged && server.getFlagsChanged()) {
+        this.reset(src);
+      } else {
         return server;
       }
-      server = new (_ClangServer || _load_ClangServer()).default(src, serverArgs, flagsResult);
-      // Seed with a compile request to ensure fast responses.
-      server.compile(contents).then(function () {
-        return _this._checkMemoryUsage();
-      });
-      _this._servers.set(src, server);
-      return server;
-    })();
+    }
+    server = new (_ClangServer || _load_ClangServer()).default(src, contents, (0, (_findClangServerArgs || _load_findClangServerArgs()).default)(src), this._getFlags(src, compilationDBFile, defaultFlags));
+    server.waitForReady().then(() => this._checkMemoryUsage());
+    this._servers.set(src, server);
+    return server;
   }
 
   // 1. Attempt to get flags from ClangFlagsManager.
   // 2. Otherwise, fall back to default flags.
   _getFlags(src, compilationDBFile, defaultFlags) {
-    var _this2 = this;
+    var _this = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const flagsData = yield _this2._flagsManager.getFlagsForSrc(src, compilationDBFile).catch(function (e) {
+      const flagsData = yield _this._flagsManager.getFlagsForSrc(src, compilationDBFile).catch(function (e) {
         (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`Error getting flags for ${src}:`, e);
         return null;
       });
@@ -186,11 +171,11 @@ class ClangServerManager {
   }
 
   _checkMemoryUsageImpl() {
-    var _this3 = this;
+    var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
       const usage = new Map();
-      yield Promise.all(_this3._servers.values().map((() => {
+      yield Promise.all(_this2._servers.values().map((() => {
         var _ref2 = (0, _asyncToGenerator.default)(function* (server) {
           const mem = yield server.getMemoryUsage();
           usage.set(server, mem);
@@ -204,7 +189,7 @@ class ClangServerManager {
       // Servers may have been deleted in the meantime, so calculate the total now.
       let total = 0;
       let count = 0;
-      _this3._servers.forEach(function (server) {
+      _this2._servers.forEach(function (server) {
         const mem = usage.get(server);
         if (mem) {
           total += mem;
@@ -216,7 +201,7 @@ class ClangServerManager {
       // Make sure we allow at least one server to stay alive.
       if (count > 1 && total > MEMORY_LIMIT) {
         const toDispose = [];
-        _this3._servers.rforEach(function (server, key) {
+        _this2._servers.rforEach(function (server, key) {
           const mem = usage.get(server);
           if (mem && count > 1 && total > MEMORY_LIMIT) {
             total -= mem;
@@ -225,7 +210,7 @@ class ClangServerManager {
           }
         });
         toDispose.forEach(function (key) {
-          return _this3._servers.del(key);
+          return _this2._servers.del(key);
         });
       }
     })();

@@ -20,6 +20,7 @@ const StatusCodeId = Object.freeze({
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* @providesModule HgConstants */
@@ -76,10 +77,20 @@ const CommitPhase = Object.freeze({
   SECRET: 'secret'
 });
 
-const HEAD_REVISION_EXPRESSION = '.';
-
 // This is to work around flow's missing support of enums.
 CommitPhase;
+
+const SuccessorType = Object.freeze({
+  PUBLIC: 'public',
+  AMEND: 'amend',
+  REBASE: 'rebase',
+  SPLIT: 'split',
+  FOLD: 'fold',
+  HISTEDIT: 'histedit'
+});
+
+// This is to work around flow's missing support of enums.
+SuccessorType;
 
 const MergeConflictFileStatus = Object.freeze({
   RESOLVED: 'R',
@@ -87,6 +98,8 @@ const MergeConflictFileStatus = Object.freeze({
 });
 
 MergeConflictFileStatus;
+
+const HEAD_REVISION_EXPRESSION = '.';
 
 module.exports = {
   AmendMode,
@@ -96,5 +109,6 @@ module.exports = {
   MergeConflictFileStatus,
   StatusCodeId,
   StatusCodeIdToNumber,
-  StatusCodeNumber
+  StatusCodeNumber,
+  SuccessorType
 };

@@ -38,13 +38,7 @@ class Toggle extends _react.default.Component {
   }
 
   render() {
-    const {
-      className,
-      disabled,
-      label,
-      onClick,
-      toggled
-    } = this.props;
+    const { className, disabled, label, onClick, toggled } = this.props;
     const text = label === '' ? null : _react.default.createElement(
       'span',
       { className: 'nuclide-ui-toggle-label-text' },
@@ -77,6 +71,7 @@ exports.Toggle = Toggle; /**
                           * the root directory of this source tree.
                           *
                           * 
+                          * @format
                           */
 
 Toggle.defaultProps = {

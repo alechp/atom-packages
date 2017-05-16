@@ -42,6 +42,12 @@ function _load_humanizeKeystroke() {
   return _humanizeKeystroke = _interopRequireDefault(require('../../commons-node/humanizeKeystroke'));
 }
 
+var _observable;
+
+function _load_observable() {
+  return _observable = require('../../commons-node/observable');
+}
+
 var _react = _interopRequireDefault(require('react'));
 
 var _reactDom = _interopRequireDefault(require('react-dom'));
@@ -70,16 +76,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Determine what the applicable shortcut for a given action is within this component's context.
  * For example, this will return different keybindings on windows vs linux.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 function _findKeybindingForAction(action, target) {
   const matchingKeyBindings = atom.keymaps.findKeyBindings({
     command: action,
@@ -87,7 +83,16 @@ function _findKeybindingForAction(action, target) {
   });
   const keystroke = matchingKeyBindings.length && matchingKeyBindings[0].keystrokes || '';
   return (0, (_humanizeKeystroke || _load_humanizeKeystroke()).default)(keystroke);
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   * @format
+   */
 
 class QuickSelectionComponent extends _react.default.Component {
 
@@ -134,6 +139,10 @@ class QuickSelectionComponent extends _react.default.Component {
    */
   focus() {
     this._getInputTextEditor().focus();
+  }
+
+  selectAllText() {
+    this._getTextEditor().selectAll();
   }
 
   setInputValue(value) {
@@ -187,9 +196,9 @@ class QuickSelectionComponent extends _react.default.Component {
 
   componentDidMount() {
     const modalNode = _reactDom.default.findDOMNode(this);
-    this._subscriptions.add(
+    this._subscriptions.add(atom.commands.add(
     // $FlowFixMe
-    atom.commands.add(modalNode, 'core:move-to-bottom', this._handleMoveToBottom),
+    modalNode, 'core:move-to-bottom', this._handleMoveToBottom),
     // $FlowFixMe
     atom.commands.add(modalNode, 'core:move-to-top', this._handleMoveToTop),
     // $FlowFixMe
@@ -197,15 +206,15 @@ class QuickSelectionComponent extends _react.default.Component {
     // $FlowFixMe
     atom.commands.add(modalNode, 'core:move-up', this._handleMoveUp),
     // $FlowFixMe
-    atom.commands.add(modalNode, 'core:confirm', this._select),
+    atom.commands.add(modalNode, 'core:confirm', this._select), atom.commands.add(
     // $FlowFixMe
-    atom.commands.add(modalNode, 'pane:show-previous-item', this._handleMovePreviousTab),
+    modalNode, 'pane:show-previous-item', this._handleMovePreviousTab), atom.commands.add(
     // $FlowFixMe
-    atom.commands.add(modalNode, 'pane:show-next-item', this._handleMoveNextTab), atom.commands.add('body', 'core:cancel', () => {
+    modalNode, 'pane:show-next-item', this._handleMoveNextTab), atom.commands.add('body', 'core:cancel', () => {
       this.props.onCancellation();
-    }), _rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mousedown').subscribe(this._handleDocumentMouseDown), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this._getTextEditor().onDidChange(cb))
-    // $FlowFixMe: Missing def for debounce and timer.
-    .debounce(() => _rxjsBundlesRxMinJs.Observable.timer(this.state.activeTab.debounceDelay || 0)).subscribe(this._handleTextInputChange), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this.props.searchResultManager.onProvidersChanged(cb)).debounceTime(0, _rxjsBundlesRxMinJs.Scheduler.animationFrame).subscribe(this._handleProvidersChange), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this.props.searchResultManager.onResultsChanged(cb)).debounceTime(50)
+    }), _rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mousedown').subscribe(this._handleDocumentMouseDown),
+    // The text editor often changes during dispatches, so wait until the next tick.
+    (0, (_observable || _load_observable()).throttle)((0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this._getTextEditor().onDidChange(cb)), (_observable || _load_observable()).nextTick, { leading: false }).subscribe(this._handleTextInputChange), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this.props.searchResultManager.onProvidersChanged(cb)).debounceTime(0, _rxjsBundlesRxMinJs.Scheduler.animationFrame).subscribe(this._handleProvidersChange), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => this.props.searchResultManager.onResultsChanged(cb)).debounceTime(50)
     // debounceTime seems to have issues canceling scheduled work. So
     // schedule it after we've debounced the events. See
     // https://github.com/ReactiveX/rxjs/pull/2135
@@ -289,6 +298,10 @@ class QuickSelectionComponent extends _react.default.Component {
 
   _handleProvidersChange() {
     this._updateResults();
+
+    // Execute the current query again.
+    // This will update any new providers.
+    this.props.quickSelectionActions.query(this._getTextEditor().getText());
   }
 
   _updateResults() {
@@ -595,7 +608,7 @@ class QuickSelectionComponent extends _react.default.Component {
               className: (0, (_classnames || _load_classnames()).default)({
                 'quick-open-result-item': true,
                 'list-item': true,
-                'selected': isSelected
+                selected: isSelected
               }),
               key: serviceName + dirName + itemIndex,
               onMouseDown: this._select,
@@ -620,7 +633,9 @@ class QuickSelectionComponent extends _react.default.Component {
         }
         return _react.default.createElement(
           'li',
-          { className: (0, (_classnames || _load_classnames()).default)({ 'list-nested-item': showDirectories }), key: dirName },
+          {
+            className: (0, (_classnames || _load_classnames()).default)({ 'list-nested-item': showDirectories }),
+            key: dirName },
           directoryLabel,
           message,
           _react.default.createElement(

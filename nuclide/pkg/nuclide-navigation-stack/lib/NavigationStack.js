@@ -15,6 +15,7 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const MAX_STACK_DEPTH = 100;

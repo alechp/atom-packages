@@ -21,7 +21,7 @@ let newFileSearch = (() => {
 
     const task = new (_nuclideTask || _load_nuclideTask()).default();
     yield task.invokeRemoteMethod({
-      file: require.resolve('./FileSearch'),
+      file: require.resolve('./process/FileSearch'),
       method: 'initFileSearchForDirectory',
       args: [directory, ignoredNames]
     });
@@ -115,6 +115,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FileSearchProcess {
@@ -139,7 +140,7 @@ class FileSearchProcess {
         throw new Error('Task has been disposed');
       }
       return task.invokeRemoteMethod({
-        file: require.resolve('./FileSearch'),
+        file: require.resolve('./process/FileSearch'),
         method: 'doSearch',
         args: [_this._directory, query]
       });

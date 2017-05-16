@@ -35,6 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function syncPaneItemVisibility(panesStream, visibilityStream) {
@@ -49,12 +50,10 @@ function syncPaneItemVisibility(panesStream, visibilityStream) {
   activeItemsStream.subscribe(activeItems => activeItems.forEach(item => {
     setItemVisibility(item, true);
   })),
-
   // When the pane container switches visibility, `setItemVisibility(paneContainerVisibility)`
   _rxjsBundlesRxMinJs.Observable.combineLatest(activeItemsStream, visibilityStream).subscribe(([activeItems, visible]) => {
     activeItems.forEach(item => setItemVisibility(item, visible));
   }),
-
   // When an item becomes inactive: if it's still in the container, `setItemVisibility(false)`
   activeItemsStream.pairwise().withLatestFrom(panesStream).subscribe(([[prev, next], panes_]) => {
     const deactivatedItems = (0, (_collection || _load_collection()).setDifference)(prev || new Set(), next || new Set());

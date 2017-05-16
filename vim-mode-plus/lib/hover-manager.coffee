@@ -1,11 +1,10 @@
-swrap = require './selection-wrapper'
-
 module.exports =
 class HoverManager
   constructor: (@vimState) ->
     {@editor, @editorElement} = @vimState
     @container = document.createElement('div')
     @decorationOptions = {type: 'overlay', item: @container}
+    @vimState.onDidDestroy(@destroy)
     @reset()
 
   getPoint: ->
@@ -13,7 +12,7 @@ class HoverManager
       @vimState.getLastBlockwiseSelection().getHeadSelection().getHeadBufferPosition()
     else
       selection = @editor.getLastSelection()
-      swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
+      @vimState.swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
 
   set: (text, point=@getPoint(), options={}) ->
     unless @marker?
@@ -29,6 +28,7 @@ class HoverManager
     @marker?.destroy()
     @marker = null
 
-  destroy: ->
-    {@vimState} = {}
-    @reset()
+  destroy: =>
+    @container.remove()
+    @marker?.destroy()
+    @marker = null

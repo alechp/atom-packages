@@ -12,6 +12,7 @@ exports.default = uiTreePath;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const TREE_API_DATA_PATH = 'data-path';

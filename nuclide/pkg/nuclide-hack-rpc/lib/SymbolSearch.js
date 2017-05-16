@@ -72,6 +72,7 @@ const pendingSearchPromises = new Map(); /**
                                           * the root directory of this source tree.
                                           *
                                           * 
+                                          * @format
                                           */
 
 function parseQueryString(queryString_) {
@@ -129,17 +130,17 @@ function convertSearchResults(hackRoot, searchResponse) {
 }
 
 const ICONS = {
-  'interface': 'puzzle',
-  'function': 'zap',
-  'method': 'zap',
-  'typedef': 'tag',
-  'class': 'code',
+  interface: 'puzzle',
+  function: 'zap',
+  method: 'zap',
+  typedef: 'tag',
+  class: 'code',
   'abstract class': 'code',
-  'constant': 'quote',
-  'trait': 'checklist',
-  'enum': 'file-binary',
-  'default': null,
-  'unknown': 'squirrel'
+  constant: 'quote',
+  trait: 'checklist',
+  enum: 'file-binary',
+  default: null,
+  unknown: 'squirrel'
 };
 
 function bestIconForDesc(desc) {

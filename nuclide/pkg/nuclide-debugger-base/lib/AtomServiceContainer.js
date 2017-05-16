@@ -18,6 +18,7 @@ let _outputServiceApi = null; /**
                                * the root directory of this source tree.
                                *
                                * 
+                               * @format
                                */
 
 let _raiseNativeNotification = null;

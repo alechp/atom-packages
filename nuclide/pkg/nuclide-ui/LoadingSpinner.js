@@ -34,6 +34,7 @@ const LoadingSpinnerSizes = exports.LoadingSpinnerSizes = Object.freeze({
      * the root directory of this source tree.
      *
      * 
+     * @format
      */
 
 const LoadingSpinnerClassnames = Object.freeze({
@@ -66,11 +67,7 @@ class LoadingSpinner extends _react.default.Component {
   }
 
   render() {
-    const {
-      className,
-      size,
-      tooltip
-    } = this.props;
+    const { className, size, tooltip } = this.props;
     if (!this.state.shouldRender) {
       return null;
     }

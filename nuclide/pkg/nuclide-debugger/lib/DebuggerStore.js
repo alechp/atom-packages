@@ -25,15 +25,21 @@ const DebuggerMode = exports.DebuggerMode = Object.freeze({
   PAUSED: 'paused',
   STOPPING: 'stopping',
   STOPPED: 'stopped'
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     * 
-     */
+});
+
+// This is to work around flow's missing support of enums.
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+DebuggerMode;
 
 const DEBUGGER_CHANGE_EVENT = 'change';
 const DEBUGGER_MODE_CHANGE_EVENT = 'debugger mode change';
@@ -43,6 +49,7 @@ const DEBUGGER_MODE_CHANGE_EVENT = 'debugger mode change';
  */
 class DebuggerStore {
 
+  // Stored values
   constructor(dispatcher, model) {
     this._dispatcher = dispatcher;
     this._model = model;
@@ -62,13 +69,11 @@ class DebuggerStore {
     this._consoleDisposable = null;
     this._customControlButtons = [];
     this._debugProcessInfo = null;
+    this._setSourcePathCallback = null;
     this.loaderBreakpointResumePromise = new Promise(resolve => {
       this._onLoaderBreakpointResume = resolve;
     });
   }
-
-  // Stored values
-
 
   dispose() {
     this._emitter.dispose();
@@ -113,6 +118,10 @@ class DebuggerStore {
     return this._debuggerMode;
   }
 
+  isDebugging() {
+    return this._debuggerMode !== DebuggerMode.STOPPED && this._debuggerMode !== DebuggerMode.STOPPING;
+  }
+
   getTogglePauseOnException() {
     return this._togglePauseOnException;
   }
@@ -131,6 +140,10 @@ class DebuggerStore {
 
   getEvaluationExpressionProviders() {
     return this._evaluationExpressionProviders;
+  }
+
+  getCanSetSourcePaths() {
+    return this._setSourcePathCallback != null;
   }
 
   initializeSingleThreadStepping(mode) {
@@ -219,6 +232,14 @@ class DebuggerStore {
         break;
       case (_DebuggerDispatcher || _load_DebuggerDispatcher()).ActionTypes.UPDATE_CUSTOM_CONTROL_BUTTONS:
         this._customControlButtons = payload.data;
+        break;
+      case (_DebuggerDispatcher || _load_DebuggerDispatcher()).ActionTypes.UPDATE_CONFIGURE_SOURCE_PATHS_CALLBACK:
+        this._setSourcePathCallback = payload.data;
+        break;
+      case (_DebuggerDispatcher || _load_DebuggerDispatcher()).ActionTypes.CONFIGURE_SOURCE_PATHS:
+        if (this._setSourcePathCallback != null) {
+          this._setSourcePathCallback();
+        }
         break;
       case (_DebuggerDispatcher || _load_DebuggerDispatcher()).ActionTypes.SET_DEBUG_PROCESS_INFO:
         if (this._debugProcessInfo != null) {

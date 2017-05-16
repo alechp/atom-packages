@@ -92,7 +92,9 @@ class FileReferencesView extends _react.default.Component {
           startRange.row + 1,
           ':',
           startRange.column + 1,
-          ' - ',
+          ' ',
+          '-',
+          ' ',
           endRange.row + 1,
           ':',
           endRange.column + 1,
@@ -151,4 +153,5 @@ exports.default = FileReferencesView; /**
                                        * the root directory of this source tree.
                                        *
                                        * 
+                                       * @format
                                        */

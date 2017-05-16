@@ -27,6 +27,7 @@ var _atom = require('atom');
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let currentService = null;

@@ -37,52 +37,80 @@ let getDiagnostics = exports.getDiagnostics = (() => {
       return [];
     }
 
+    let result;
+    try {
+      result = yield runLinterCommand(src, contents);
+    } catch (err) {
+      // A non-successful exit code can result in some cases that we want to ignore,
+      // for example when an incorrect python version is specified for a source file.
+      if (err instanceof (_process || _load_process()).ProcessExitError) {
+        return [];
+      } else if (err.errorCode === 'ENOENT') {
+        // Don't throw if flake8 is not found on the user's system.
+        // Don't retry again.
+        shouldRunFlake8 = false;
+        return [];
+      }
+      throw new Error(`flake8 failed with error: ${(0, (_string || _load_string()).maybeToString)(err.message)}`);
+    }
+
+    return (0, (_flake || _load_flake()).parseFlake8Output)(src, result);
+  });
+
+  return function getDiagnostics(_x7, _x8) {
+    return _ref3.apply(this, arguments);
+  };
+})();
+
+let runLinterCommand = (() => {
+  var _ref4 = (0, _asyncToGenerator.default)(function* (src, contents) {
     const dirName = (_nuclideUri || _load_nuclideUri()).default.dirname(src);
     const configDir = yield (_fsPromise || _load_fsPromise()).default.findNearestFile('.flake8', dirName);
     const configPath = configDir ? (_nuclideUri || _load_nuclideUri()).default.join(configDir, '.flake8') : null;
 
     let result;
+    let runFlake8;
     try {
       // $FlowFB
-      const runFlake8 = require('./fb/run-flake8').default;
-      result = yield runFlake8(src, contents, configPath);
+      runFlake8 = require('./fb/run-flake8').default;
     } catch (e) {
       // Ignore.
     }
 
-    if (!result) {
-      const command = global.atom && atom.config.get('nuclide.nuclide-python.pathToFlake8') || 'flake8';
-      const args = [];
-
-      if (configPath) {
-        args.push('--config');
-        args.push(configPath);
+    if (runFlake8 != null) {
+      result = yield runFlake8(src, contents, configPath);
+      if (result != null) {
+        return result;
       }
-
-      // Read contents from stdin.
-      args.push('-');
-
-      result = yield (0, (_process || _load_process()).asyncExecute)(command, args, { cwd: dirName, stdin: contents });
     }
-    // 1 indicates unclean lint result (i.e. has errors/warnings).
-    // A non-successful exit code can result in some cases that we want to ignore,
-    // for example when an incorrect python version is specified for a source file.
-    if (result.exitCode && result.exitCode > 1) {
-      return [];
-    } else if (result.exitCode == null) {
-      // Don't throw if flake8 is not found on the user's system.
-      if (result.errorCode === 'ENOENT') {
-        // Don't retry again.
-        shouldRunFlake8 = false;
-        return [];
+
+    const command = global.atom && atom.config.get('nuclide.nuclide-python.pathToFlake8') || 'flake8';
+    const args = [];
+
+    if (configPath) {
+      args.push('--config');
+      args.push(configPath);
+    }
+
+    // Read contents from stdin.
+    args.push('-');
+
+    if (!(typeof command === 'string')) {
+      throw new Error('Invariant violation: "typeof command === \'string\'"');
+    }
+
+    return (0, (_process || _load_process()).runCommand)(command, args, {
+      cwd: dirName,
+      input: contents,
+      // 1 indicates unclean lint result (i.e. has errors/warnings).
+      isExitError: function (exit) {
+        return exit.exitCode == null || exit.exitCode > 1;
       }
-      throw new Error(`flake8 failed with error: ${(0, (_string || _load_string()).maybeToString)(result.errorMessage)}, ` + `stderr: ${result.stderr}, stdout: ${result.stdout}`);
-    }
-    return (0, (_flake || _load_flake()).parseFlake8Output)(src, result.stdout);
+    }).toPromise();
   });
 
-  return function getDiagnostics(_x7, _x8) {
-    return _ref3.apply(this, arguments);
+  return function runLinterCommand(_x9, _x10) {
+    return _ref4.apply(this, arguments);
   };
 })();
 
@@ -168,6 +196,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const serverManager = new (_JediServerManager || _load_JediServerManager()).default();
@@ -281,26 +310,31 @@ class PythonSingleFileLanguageService {
       const libCommand = getFormatterPath();
       const dirName = (_nuclideUri || _load_nuclideUri()).default.dirname((_nuclideUri || _load_nuclideUri()).default.getPath(filePath));
 
-      const result = yield (0, (_process || _load_process()).asyncExecute)(libCommand, ['--line', `${start}-${end}`], { cwd: dirName, stdin: contents });
-
-      /*
-       * At the moment, yapf outputs 3 possible exit codes:
-       * 0 - success, no content change.
-       * 2 - success, contents changed.
-       * 1 - internal failure, most likely due to syntax errors.
-       *
-       * See: https://github.com/google/yapf/issues/228#issuecomment-198682079
-       */
-      if (result.exitCode === 1) {
+      let stdout;
+      try {
+        stdout = yield (0, (_process || _load_process()).runCommand)(libCommand, ['--line', `${start}-${end}`], {
+          cwd: dirName,
+          input: contents,
+          // At the moment, yapf outputs 3 possible exit codes:
+          // 0 - success, no content change.
+          // 2 - success, contents changed.
+          // 1 - internal failure, most likely due to syntax errors.
+          //
+          // See: https://github.com/google/yapf/issues/228#issuecomment-198682079
+          isExitError: function (exit) {
+            return exit.exitCode === 1;
+          }
+        }).toPromise();
+      } catch (err) {
         throw new Error(`"${libCommand}" failed, likely due to syntax errors.`);
-      } else if (result.exitCode == null) {
-        throw new Error(`"${libCommand}" failed with error: ${(0, (_string || _load_string()).maybeToString)(result.errorMessage)}, ` + `stderr: ${result.stderr}, stdout: ${result.stdout}.`);
-      } else if (contents !== '' && result.stdout === '') {
+      }
+
+      if (contents !== '' && stdout === '') {
         // Throw error if the yapf output is empty, which is almost never desirable.
         throw new Error('Empty output received from yapf.');
       }
 
-      return { formatted: result.stdout };
+      return { formatted: stdout };
     })();
   }
 

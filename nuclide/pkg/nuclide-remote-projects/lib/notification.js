@@ -32,6 +32,7 @@ function notifyLocalDiskFile(fileUri) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function notifyConnectedRemoteFile(fileUri) {

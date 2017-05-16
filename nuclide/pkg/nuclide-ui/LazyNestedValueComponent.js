@@ -59,6 +59,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // TODO @jxg export debugger typedefs from main module. (t11406963)
@@ -72,7 +73,7 @@ function isObjectValue(result) {
 function TreeItemWithLoadingSpinner() {
   return _react.default.createElement(
     (_Tree || _load_Tree()).TreeItem,
-    null,
+    { className: 'nuclide-ui-lazy-nested-value-spinner' },
     _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { size: 'EXTRA_SMALL', delay: SPINNER_DELAY })
   );
 }
@@ -257,10 +258,7 @@ class ValueComponent extends _react.default.Component {
       );
     }
     const description = evaluationResult.description || '<no description provided>';
-    const {
-      children,
-      isExpanded
-    } = this.state;
+    const { children, isExpanded } = this.state;
     let childListElement = null;
     if (isExpanded) {
       const cachedChildren = getCachedChildren(path);
@@ -295,7 +293,9 @@ class ValueComponent extends _react.default.Component {
     const title = renderValueLine(expression, description);
     return _react.default.createElement(
       (_Tree || _load_Tree()).TreeList,
-      { showArrows: true, className: 'nuclide-ui-lazy-nested-value-treelist' },
+      {
+        showArrows: true,
+        className: 'nuclide-ui-lazy-nested-value-treelist' },
       _react.default.createElement(
         (_Tree || _load_Tree()).NestedTreeItem,
         {
@@ -339,11 +339,18 @@ class TopLevelLazyNestedValueComponent extends _react.default.Component {
 
   handleExpansionChange(expandedValuePath, isExpanded) {
     const expandedValuePaths = this.getExpandedValuePaths();
-    const nodeData = expandedValuePaths.get(expandedValuePath) || { isExpanded, cachedChildren: null };
+    const nodeData = expandedValuePaths.get(expandedValuePath) || {
+      isExpanded,
+      cachedChildren: null
+    };
     if (isExpanded) {
-      expandedValuePaths.set(expandedValuePath, Object.assign({}, nodeData, { isExpanded: true }));
+      expandedValuePaths.set(expandedValuePath, Object.assign({}, nodeData, {
+        isExpanded: true
+      }));
     } else {
-      expandedValuePaths.set(expandedValuePath, Object.assign({}, nodeData, { isExpanded: false }));
+      expandedValuePaths.set(expandedValuePath, Object.assign({}, nodeData, {
+        isExpanded: false
+      }));
     }
   }
 
@@ -369,7 +376,9 @@ class TopLevelLazyNestedValueComponent extends _react.default.Component {
   setCachedChildren(path, children) {
     const nodeData = this.getExpandedValuePaths().get(path);
     if (nodeData != null) {
-      this.getExpandedValuePaths().set(path, Object.assign({}, nodeData, { cachedChildren: children }));
+      this.getExpandedValuePaths().set(path, Object.assign({}, nodeData, {
+        cachedChildren: children
+      }));
     }
   }
 
@@ -406,5 +415,6 @@ function arePropsEqual(p1, p2) {
   }
   return evaluationResult1.value === evaluationResult2.value && evaluationResult1.type === evaluationResult2.type && evaluationResult1.description === evaluationResult2.description;
 }
-const LazyNestedValueComponent = exports.LazyNestedValueComponent = (0, (_highlightOnUpdate || _load_highlightOnUpdate()).highlightOnUpdate)(TopLevelLazyNestedValueComponent, arePropsEqual, undefined, /* custom classname */
-undefined);
+const LazyNestedValueComponent = exports.LazyNestedValueComponent = (0, (_highlightOnUpdate || _load_highlightOnUpdate()).highlightOnUpdate)(TopLevelLazyNestedValueComponent, arePropsEqual, undefined /* custom classname */
+, undefined /* custom delay */
+);

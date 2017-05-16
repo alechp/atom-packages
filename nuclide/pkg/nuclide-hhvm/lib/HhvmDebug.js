@@ -16,6 +16,7 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let debug = exports.debug = (() => {

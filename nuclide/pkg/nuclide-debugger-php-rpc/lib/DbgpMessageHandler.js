@@ -34,6 +34,7 @@ const GLOBAL_HHVM_DEBUGGER_KEY = '_global_hhvm_debugger_key'; /**
                                                                * the root directory of this source tree.
                                                                *
                                                                * 
+                                                               * @format
                                                                */
 
 class DbgpMessageHandler {

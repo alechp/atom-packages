@@ -28,6 +28,7 @@ const HACK_CONFIG_PATH = exports.HACK_CONFIG_PATH = 'nuclide-hack'; /**
                                                                      * the root directory of this source tree.
                                                                      *
                                                                      * 
+                                                                     * @format
                                                                      */
 
 const SHOW_TYPE_COVERAGE_CONFIG_PATH = exports.SHOW_TYPE_COVERAGE_CONFIG_PATH = HACK_CONFIG_PATH + '.showTypeCoverage';

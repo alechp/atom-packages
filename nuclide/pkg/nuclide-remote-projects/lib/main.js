@@ -15,7 +15,8 @@ let createEditorForNuclide = (() => {
     try {
       let buffer;
       try {
-        buffer = yield (0, (_loadingNotification || _load_loadingNotification()).default)((0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).loadBufferForUri)(uri), `Opening \`${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(uri)}\`...`, 1000);
+        buffer = yield (0, (_loadingNotification || _load_loadingNotification()).default)((0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).loadBufferForUri)(uri), `Opening \`${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(uri)}\`...`, 1000 /* delay */
+        );
       } catch (err) {
         // Suppress ENOENT errors which occur if the file doesn't exist.
         // This is the same thing Atom does when opening a file (given a URI) that doesn't exist.
@@ -45,7 +46,11 @@ let createEditorForNuclide = (() => {
       // So when a pane is closed, the call to a non-existent `dispose` throws.
       if (typeof atom.textEditors.build === 'function') {
         // https://github.com/atom/atom/blob/v1.11.0-beta5/src/workspace.coffee#L564
-        const editor = atom.textEditors.build({ buffer, largeFileMode, autoHeight: false });
+        const editor = atom.textEditors.build({
+          buffer,
+          largeFileMode,
+          autoHeight: false
+        });
         return editor;
       } else {
         const editor = atom.workspace.buildTextEditor({ buffer, largeFileMode });
@@ -242,6 +247,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let packageSubscriptions = null;
@@ -338,7 +344,7 @@ function addRemoteFolderToProject(connection) {
     }
 
     const choice = atom.confirm({
-      message: 'No more remote projects on the host: \'' + hostname + '\'. Would you like to shutdown Nuclide server there?',
+      message: "No more remote projects on the host: '" + hostname + "'. Would you like to shutdown Nuclide server there?",
       buttons
     });
 
@@ -415,7 +421,7 @@ function shutdownServersAndRestartNuclide() {
           return _ref3.apply(this, arguments);
         };
       })(),
-      'Cancel': () => {}
+      Cancel: () => {}
     }
   });
 }

@@ -32,6 +32,7 @@ const defaultConfig = {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 let config = defaultConfig;

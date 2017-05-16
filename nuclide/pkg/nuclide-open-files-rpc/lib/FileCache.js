@@ -49,10 +49,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FileCache {
-
+  // Care! update() is the only way you're allowed to update _buffers or _requests
+  // or to fire a _fileEvents.next() event. That's to ensure that the three things
+  // stay in sync.
   constructor() {
     this._buffers = new Map();
     this._fileEvents = new _rxjsBundlesRxMinJs.Subject();
@@ -61,9 +64,21 @@ class FileCache {
 
     this._resources = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this._resources.add(this._requests);
-    this._resources.add(this._fileEvents.subscribe(event => {
-      this._requests.onEvent(event);
-    }));
+  }
+
+  update(updateBufferAndMakeEventFunc) {
+    const event = updateBufferAndMakeEventFunc();
+    this._requests.onEvent(event);
+
+    // invariant: because the above two lines have updated both _buffers and _requests,
+    // then getBufferAtVersion will necessarily return immediately and succesfully.
+    // And getBufferForFileEdit will also succeed.
+
+    if (!(event.kind !== 'edit' || this.getBufferForFileEdit(event))) {
+      throw new Error('Invariant violation: "event.kind !== \'edit\' || this.getBufferForFileEdit(event)"');
+    }
+
+    this._fileEvents.next(event);
   }
 
   // If any out of sync state is detected then an Error is thrown.
@@ -82,9 +97,7 @@ class FileCache {
         break;
       case (_constants || _load_constants()).FileEventKind.CLOSE:
         if (buffer != null) {
-          this._buffers.delete(filePath);
-          this._emitClose(filePath, buffer);
-          buffer.destroy();
+          this._close(filePath, buffer);
         }
         break;
       case (_constants || _load_constants()).FileEventKind.EDIT:
@@ -93,20 +106,22 @@ class FileCache {
         }
 
         if (!(buffer.changeCount === changeCount - 1)) {
-          throw new Error('Invariant violation: "buffer.changeCount === (changeCount - 1)"');
+          throw new Error('Invariant violation: "buffer.changeCount === changeCount - 1"');
         }
 
         if (!(buffer.getTextInRange(event.oldRange) === event.oldText)) {
           throw new Error('Invariant violation: "buffer.getTextInRange(event.oldRange) === event.oldText"');
         }
 
-        buffer.setTextInRange(event.oldRange, event.newText);
+        this.update(() => {
+          buffer.setTextInRange(event.oldRange, event.newText);
 
-        if (!(buffer.changeCount === changeCount)) {
-          throw new Error('Invariant violation: "buffer.changeCount === changeCount"');
-        }
+          if (!(buffer.changeCount === changeCount)) {
+            throw new Error('Invariant violation: "buffer.changeCount === changeCount"');
+          }
 
-        this._fileEvents.next(event);
+          return event;
+        });
         break;
       case (_constants || _load_constants()).FileEventKind.SYNC:
         if (buffer == null) {
@@ -137,10 +152,12 @@ class FileCache {
 
     const oldText = buffer.getText();
     const oldRange = buffer.getRange();
-    buffer.setText(contents);
-    const newRange = buffer.getRange();
-    buffer.changeCount = changeCount;
-    this._fileEvents.next(createEditEvent(this.createFileVersion(filePath, changeCount), oldRange, oldText, newRange, buffer.getText()));
+    this.update(() => {
+      buffer.setText(contents);
+      const newRange = buffer.getRange();
+      buffer.changeCount = changeCount;
+      return createEditEvent(this.createFileVersion(filePath, changeCount), oldRange, oldText, newRange, buffer.getText());
+    });
   }
 
   _open(filePath, contents, changeCount) {
@@ -148,35 +165,80 @@ class FileCache {
     // start the TextBuffer attempting to sync with the file system.
     const newBuffer = new (_simpleTextBuffer || _load_simpleTextBuffer()).default(contents);
     newBuffer.changeCount = changeCount;
-    this._buffers.set(filePath, newBuffer);
-    this._fileEvents.next(createOpenEvent(this.createFileVersion(filePath, changeCount), contents));
+    this.update(() => {
+      this._buffers.set(filePath, newBuffer);
+      return createOpenEvent(this.createFileVersion(filePath, changeCount), contents);
+    });
+  }
+
+  _close(filePath, buffer) {
+    this.update(() => {
+      this._buffers.delete(filePath);
+      return createCloseEvent(this.createFileVersion(filePath, buffer.changeCount));
+    });
+    buffer.destroy();
   }
 
   dispose() {
+    // The _close routine will delete elements from the _buffers map.
     for (const [filePath, buffer] of this._buffers.entries()) {
-      this._emitClose(filePath, buffer);
-      buffer.destroy();
+      this._close(filePath, buffer);
     }
-    this._buffers.clear();
+
+    if (!(this._buffers.size === 0)) {
+      throw new Error('Invariant violation: "this._buffers.size === 0"');
+    }
+
     this._resources.dispose();
     this._fileEvents.complete();
     this._directoryEvents.complete();
   }
 
+  // getBuffer: returns whatever is the current version of the buffer.
   getBuffer(filePath) {
+    // TODO: change this to return a string, to ensure that no caller will ever mutate
+    // the buffer contents (and hence its changeCount). The only modifications allowed
+    // are those that come from the editor inside this.onFileEvent.
     return this._buffers.get(filePath);
   }
 
+  // getBufferAtVersion(version): if the stream of onFileEvent gets up to this particular
+  // version, either now or in the future, then will return the buffer for that version.
+  // But if for whatever reason the stream of onFileEvent won't hit that precise version
+  // then returns null. See comments in _requests.waitForBufferAtVersion for
+  // the subtle scenarios where it might return null.
   getBufferAtVersion(fileVersion) {
     var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
+      // TODO: change this to return a string, like getBuffer() above.
       if (!(yield _this2._requests.waitForBufferAtVersion(fileVersion))) {
         return null;
       }
       const buffer = _this2.getBuffer(fileVersion.filePath);
       return buffer != null && buffer.changeCount === fileVersion.version ? buffer : null;
     })();
+  }
+
+  // getBufferForFileEdit - this function may be called immediately when an edit event
+  // happens, before any awaits. At that time the buffer is guaranteed to be
+  // available. If called at any other time, the buffer may no longer be available,
+  // in which case it may throw.
+  getBufferForFileEdit(fileEvent) {
+    // TODO: change this to return a string, like getBuffer() above.
+    const fileVersion = fileEvent.fileVersion;
+
+    if (!this._requests.isBufferAtVersion(fileVersion)) {
+      throw new Error('Invariant violation: "this._requests.isBufferAtVersion(fileVersion)"');
+    }
+
+    const buffer = this.getBuffer(fileVersion.filePath);
+
+    if (!(buffer != null && buffer.changeCount === fileVersion.version)) {
+      throw new Error('Invariant violation: "buffer != null && buffer.changeCount === fileVersion.version"');
+    }
+
+    return buffer;
   }
 
   getOpenDirectories() {
@@ -212,10 +274,6 @@ class FileCache {
 
   observeDirectoryEvents() {
     return this._directoryEvents;
-  }
-
-  _emitClose(filePath, buffer) {
-    this._fileEvents.next(createCloseEvent(this.createFileVersion(filePath, buffer.changeCount)));
   }
 
   createFileVersion(filePath, version) {

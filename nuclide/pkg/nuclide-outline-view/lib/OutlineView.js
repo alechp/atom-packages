@@ -59,18 +59,19 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 const TOKEN_KIND_TO_CLASS_NAME_MAP = {
-  'keyword': 'syntax--keyword',
+  keyword: 'syntax--keyword',
   'class-name': 'syntax--entity syntax--name syntax--class',
-  'constructor': 'syntax--entity syntax--name syntax--function',
-  'method': 'syntax--entity syntax--name syntax--function',
-  'param': 'syntax--variable',
-  'string': 'syntax--string',
-  'whitespace': '',
-  'plain': '',
-  'type': 'syntax--support syntax--type'
+  constructor: 'syntax--entity syntax--name syntax--function',
+  method: 'syntax--entity syntax--name syntax--function',
+  param: 'syntax--variable',
+  string: 'syntax--string',
+  whitespace: '',
+  plain: '',
+  type: 'syntax--support syntax--type'
 };
 
 class OutlineView extends _react.default.Component {
@@ -171,41 +172,48 @@ class OutlineViewComponent extends _react.default.Component {
   }
 }
 
-function renderTree(editor, outline, index) {
-  const onClick = () => {
-    const pane = atom.workspace.paneForItem(editor);
-    if (pane == null) {
-      return;
-    }
-    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('nuclide-outline-view:go-to-location');
-    pane.activate();
-    pane.activateItem(editor);
-    (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(editor, outline.startPosition.row, outline.startPosition.column);
-  };
+class OutlineTree extends _react.default.PureComponent {
 
-  const onDoubleClick = () => {
-    // Assumes that the click handler has already run, activating the text editor and moving the
-    // cursor to the start of the symbol.
-    const endPosition = outline.endPosition;
-    if (endPosition != null) {
-      editor.selectToBufferPosition(endPosition);
-    }
-  };
+  render() {
+    const { editor, outline } = this.props;
 
-  const classes = (0, (_classnames || _load_classnames()).default)('list-nested-item', { selected: outline.highlighted });
-  return _react.default.createElement(
-    'li',
-    { className: classes, key: index },
-    _react.default.createElement(
-      'div',
-      {
-        className: 'list-item nuclide-outline-view-item',
-        onClick: onClick,
-        onDoubleClick: onDoubleClick },
-      renderItem(outline)
-    ),
-    renderTrees(editor, outline.children)
-  );
+    const onClick = () => {
+      const pane = atom.workspace.paneForItem(editor);
+      if (pane == null) {
+        return;
+      }
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('nuclide-outline-view:go-to-location');
+      pane.activate();
+      pane.activateItem(editor);
+      (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(editor, outline.startPosition.row, outline.startPosition.column);
+    };
+
+    const onDoubleClick = () => {
+      // Assumes that the click handler has already run, activating the text editor and moving the
+      // cursor to the start of the symbol.
+      const endPosition = outline.endPosition;
+      if (endPosition != null) {
+        editor.selectToBufferPosition(endPosition);
+      }
+    };
+
+    const classes = (0, (_classnames || _load_classnames()).default)('list-nested-item', {
+      selected: outline.highlighted
+    });
+    return _react.default.createElement(
+      'li',
+      { className: classes },
+      _react.default.createElement(
+        'div',
+        {
+          className: 'list-item nuclide-outline-view-item',
+          onClick: onClick,
+          onDoubleClick: onDoubleClick },
+        renderItem(outline)
+      ),
+      renderTrees(editor, outline.children)
+    );
+  }
 }
 
 function renderItem(outline) {
@@ -246,7 +254,7 @@ function renderTrees(editor, outlines) {
     _react.default.createElement(
       'ul',
       { className: 'list-tree', style: { position: 'relative' } },
-      outlines.map((outline, index) => renderTree(editor, outline, index))
+      outlines.map((outline, index) => _react.default.createElement(OutlineTree, { editor: editor, outline: outline, key: index }))
     )
   );
 }

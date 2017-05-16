@@ -30,6 +30,7 @@ const ALL_FILES_LABEL = 'files:'; /**
                                    * the root directory of this source tree.
                                    *
                                    * 
+                                   * @format
                                    */
 
 const FILE_ADDS_LABEL = 'file-adds:';

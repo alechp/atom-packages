@@ -36,6 +36,7 @@ function getFbsimctlDevices() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 const getFbsimctlSimulators = exports.getFbsimctlSimulators = (0, (_lodash || _load_lodash()).default)(() => (0, (_process || _load_process()).runCommand)('fbsimctl', ['--json', '--simulators', '--format=%n%u%s%o%a', 'list']).map(parseSimulatorsFromFbsimctlOutput).catch(error => getSimulators())

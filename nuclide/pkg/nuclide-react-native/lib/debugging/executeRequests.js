@@ -41,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
@@ -54,15 +55,14 @@ function executeRequests(requests) {
   const workerProcess = requests.first().switchMap(createWorker).share();
 
   return workerProcess.switchMap(process => _rxjsBundlesRxMinJs.Observable.merge(_rxjsBundlesRxMinJs.Observable.of({ kind: 'pid', pid: process.pid }),
-
   // The messages we're receiving from the worker process.
   _rxjsBundlesRxMinJs.Observable.fromEvent(process, 'message'),
-
   // Send the incoming requests to the worker process for evaluation.
   requests.do(request => process.send(request)).ignoreElements(),
-
   // Pipe output from forked process. This just makes things easier to debug for us.
-  (0, (_process || _load_process()).getOutputStream)(process).do(message => {
+  (0, (_process || _load_process()).getOutputStream)(process, {
+    /* TODO(T17353599) */isExitError: () => false
+  }).do(message => {
     switch (message.kind) {
       case 'error':
         logger.error(message.error.message);
@@ -76,7 +76,7 @@ function executeRequests(requests) {
 }
 
 function createWorker() {
-  return (0, (_process || _load_process()).forkProcessStream)(
+  return (0, (_process || _load_process()).fork)(
   // TODO: The node location/path needs to be more configurable. We need to figure out a way to
   //   handle this across the board.
   (_nuclideUri || _load_nuclideUri()).default.join(__dirname, 'executor.js'), [], {

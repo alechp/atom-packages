@@ -13,8 +13,8 @@ let getAttachTargetInfoList = exports.getAttachTargetInfoList = (() => {
     // -e: include all processes, does not require -ww argument since truncation of process names is
     //     done by the OS, not the ps utility
     const pidToName = new Map();
-    const processes = yield (0, (_process || _load_process()).checkOutput)('ps', ['-e', '-o', 'pid,comm'], {});
-    processes.stdout.toString().split('\n').slice(1).forEach(function (line) {
+    const processes = yield (0, (_process || _load_process()).runCommand)('ps', ['-e', '-o', 'pid,comm'], {}).toPromise();
+    processes.toString().split('\n').slice(1).forEach(function (line) {
       const words = line.trim().split(' ');
       const pid = Number(words[0]);
       const command = words.slice(1).join(' ');
@@ -27,8 +27,8 @@ let getAttachTargetInfoList = exports.getAttachTargetInfoList = (() => {
     // -ww: provides unlimited width for output and prevents the truncating of command names by ps.
     // -o pid,args: custom format the output to be two columns(pid and command name)
     const pidToCommand = new Map();
-    const commands = yield (0, (_process || _load_process()).checkOutput)('ps', ['-eww', '-o', 'pid,args'], {});
-    commands.stdout.toString().split('\n').slice(1).forEach(function (line) {
+    const commands = yield (0, (_process || _load_process()).runCommand)('ps', ['-eww', '-o', 'pid,args'], {}).toPromise();
+    commands.toString().split('\n').slice(1).forEach(function (line) {
       const words = line.trim().split(' ');
       const pid = Number(words[0]);
       const command = words.slice(1).join(' ');
@@ -109,6 +109,7 @@ const { logInfo } = (_utils || _load_utils()).default; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 class NodeDebuggerService {

@@ -31,6 +31,7 @@ function _load_collection() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function validateDefinitions(definitions) {
@@ -188,7 +189,6 @@ function validateDefinitions(definitions) {
         break;
       case 'named':
         const name = type.name;
-        // $FlowFixMe(peterhal)
         const definition = namedTypes.get(name);
         if (containingDefinitions.indexOf(definition) !== -1) {
           throw errorDefinitions(containingDefinitions.slice(containingDefinitions.indexOf(definition)), `Type ${name} contains itself.`);
@@ -329,11 +329,11 @@ function validateDefinitions(definitions) {
       // Ensure no duplicates
       previousAlternates.forEach(previous => {
         if (!(previous.kind === 'string-literal' || previous.kind === 'number-literal' || previous.kind === 'boolean-literal')) {
-          throw new Error('Invariant violation: "previous.kind === \'string-literal\' || previous.kind === \'number-literal\'\\n            || previous.kind === \'boolean-literal\'"');
+          throw new Error('Invariant violation: "previous.kind === \'string-literal\' ||\\n            previous.kind === \'number-literal\' ||\\n            previous.kind === \'boolean-literal\'"');
         }
 
         if (!(alternate.kind === 'string-literal' || alternate.kind === 'number-literal' || alternate.kind === 'boolean-literal')) {
-          throw new Error('Invariant violation: "alternate.kind === \'string-literal\' || alternate.kind === \'number-literal\'\\n            || alternate.kind === \'boolean-literal\'"');
+          throw new Error('Invariant violation: "alternate.kind === \'string-literal\' ||\\n            alternate.kind === \'number-literal\' ||\\n            alternate.kind === \'boolean-literal\'"');
         }
 
         if (previous.value === alternate.value) {

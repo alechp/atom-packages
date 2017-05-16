@@ -24,11 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class DebuggerDatatipComponent extends _react.default.Component {
 
   render() {
-    const {
-      expression,
-      evaluationResult,
-      watchExpressionStore
-    } = this.props;
+    const { expression, evaluationResult, watchExpressionStore } = this.props;
     const fetchChildren = watchExpressionStore.getProperties.bind(watchExpressionStore);
     return _react.default.createElement(
       'div',
@@ -55,4 +51,5 @@ exports.DebuggerDatatipComponent = DebuggerDatatipComponent; /**
                                                               * the root directory of this source tree.
                                                               *
                                                               * 
+                                                              * @format
                                                               */

@@ -13,6 +13,7 @@ const UPDATE_STATE = exports.UPDATE_STATE = 'UPDATE_STATE'; /**
                                                              * the root directory of this source tree.
                                                              *
                                                              * 
+                                                             * @format
                                                              */
 
 const SEND_REQUEST = exports.SEND_REQUEST = 'SEND_REQUEST';

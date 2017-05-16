@@ -11,6 +11,7 @@ exports.setStatesForTaskRunners = setStatesForTaskRunners;
 exports.setProjectRoot = setProjectRoot;
 exports.setToolbarVisibility = setToolbarVisibility;
 exports.stopTask = stopTask;
+exports.requestToggleToolbarVisibility = requestToggleToolbarVisibility;
 exports.toggleToolbarVisibility = toggleToolbarVisibility;
 exports.unregisterTaskRunner = unregisterTaskRunner;
 /**
@@ -21,10 +22,12 @@ exports.unregisterTaskRunner = unregisterTaskRunner;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DID_ACTIVATE_INITIAL_PACKAGES = exports.DID_ACTIVATE_INITIAL_PACKAGES = 'DID_ACTIVATE_INITIAL_PACKAGES';
 const REGISTER_TASK_RUNNER = exports.REGISTER_TASK_RUNNER = 'REGISTER_TASK_RUNNER';
+const REQUEST_TOGGLE_TOOLBAR_VISIBILITY = exports.REQUEST_TOGGLE_TOOLBAR_VISIBILITY = 'REQUEST_TOGGLE_TOOLBAR_VISIBILITY';
 const RUN_TASK = exports.RUN_TASK = 'RUN_TASK';
 const SELECT_TASK_RUNNER = exports.SELECT_TASK_RUNNER = 'SELECT_TASK_RUNNER';
 const SET_STATES_FOR_TASK_RUNNERS = exports.SET_STATES_FOR_TASK_RUNNERS = 'SET_STATES_FOR_TASK_RUNNERS';
@@ -93,10 +96,17 @@ function stopTask() {
   return { type: STOP_TASK };
 }
 
-function toggleToolbarVisibility(taskRunner) {
+function requestToggleToolbarVisibility(visible, taskRunner) {
+  return {
+    type: REQUEST_TOGGLE_TOOLBAR_VISIBILITY,
+    payload: { visible, taskRunner }
+  };
+}
+
+function toggleToolbarVisibility(visible, taskRunner) {
   return {
     type: TOGGLE_TOOLBAR_VISIBILITY,
-    payload: { taskRunner }
+    payload: { visible, taskRunner }
   };
 }
 

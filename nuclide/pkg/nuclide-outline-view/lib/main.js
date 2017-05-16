@@ -64,6 +64,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Activation {
@@ -130,6 +131,8 @@ class Activation {
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
 
+// TODO this can be removed once we no longer want to support versions of Atom less than 1.17.0
+// (D4973408)
 function getActiveEditorRegistryEventSources() {
   return {
     activeEditors: (0, (_debounced || _load_debounced()).observeActivePaneItemDebounced)().switchMap(item => {

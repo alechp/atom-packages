@@ -1,5 +1,124 @@
 # Nuclide Changelog
 
+## v0.223.0
+
+* Fixed an issue with stream error handling.
+
+## v0.222.0
+
+* Fixed a redbox when right-clicking a file in the uncommitted changes section.
+* Fixed an issue with uncaught errors when spawning processes.
+
+## v0.221.0
+
+### Highlights
+
+* Perf: Reduce calls to `hg bookmarks` from O(n) users to O(1) (sharing managed data).
+* Improved reliability of console auto-scrolling.
+* PHP/Hack debugger: stdout from launched scripts is now redirected to the Nuclide console while debugging.
+
+### General
+
+* The Hack and Flow icons will now appear alongside the type coverage indicator in the status bar.
+* Fuzzy file search now strongly prioritizes exact-case matches when the query includes an uppercase character.
+* Fixed some minor flickering issues in Quick Open.
+* Fixed Cmd-F from the file-tree. The directory is auto populated.
+* Fix Ctrl-Click highlighting in the file-tree on Mac.
+* Fixed test runner invocation from the menu.
+* Remove the desktop computer icon in the status bar for local connections.
+* Upgraded the React Developer Tools for a host of improvements (thanks [Dan](https://github.com/gaearon) and [Andres](https://github.com/zertosh)!)
+* Nuclide's Diagnostics now supports (most of) the Linter [Standard and Indie v2 APIs](https://github.com/steelbrain/linter/tree/master/docs). See the [Nuclide Diagnostics README](https://github.com/facebook/nuclide/blob/master/pkg/nuclide-diagnostics-store/README.md) for more info.
+
+### C++
+
+* Fixed edge case causing invalid diagnostic highlighting.
+
+### Source Control
+
+* The “update” button in Interactive Smartlog is now labeled “Check out” to make it more intuitive.
+* Redundant “clean up” buttons on landed stacks are now being grouped as “clean up stack”.
+* Tooltips on uncommitted files now show the file's status and use the shorter, project-relative path.
+* Fix a bug with bookshelf serialization that wouldn’t restore open files when `hg bookmarks` failed.
+* UX: Add editor context menu item for “Open in Phabricator”.
+* Fix “Open in Diff View” editor context menu item.
+* Fix space-separated bookmark handling.
+
+### Debugger
+
+* Cleaned up debugger interface a bit and removed extra “stop” buttons from debugger pane
+* Fixed UX flashing/jitter when rendering a loading spinner in the console while waiting for an expression to be evaluated by the debugger.
+* Fixed several UX jitter issues with pinned data tips.
+* PHP/Hack debugger: added functionality to show exceptions with stack traces when a launched script exits due to an uncaught exception.
+
+### Console
+
+* Hide the "New Messages" button on console clear.
+* Fixed an issue that prevented the console from auto-scrolling after first opening it.
+
+## v0.220.0
+
+**Hotfix from 0.219.0**
+
+* Fix an exception being thrown when dragging files in the file-tree.
+
+## v0.219.0
+
+**Highlights**
+
+* Fuzzy-filename search is ~50% faster.
+* PHP Debugger: Added run to cursor location functionality.
+* New feature: “Open nearest `BUCK` (or `TARGETS`) file.” For the current file, opens the Buck build file that owns it. Use the keyboard shortcut `cmd-shift-k` on OS X (`ctrl-shift-k` on Windows/Linux), or search for “Open Nearest Build File” in the command palette.
+
+**General**
+
+* The number of active “arc lint” processes is now limited to half the number of CPUs.
+* Fixed a bug in “Search in Directory” returning duplicate results in remote Hg repositories.
+* Optimized outline tree rendering (especially for large files).
+* The “Nuclide File Tree: Reveal in File Tree” command has been renamed back to its original name, “Nuclide File Tree: Reveal Active File.”
+* Added support for `file-icons`.
+  * Install the third-party `file-icons` [package](https://atom.io/packages/file-icons) to get extension-specific icons in the file tree, Smartlog, quick-open, and source control sidebar.
+
+**Debuggers**
+
+* Added “Copy” to copy to clipboard in context menu for all variables in the Scopes pane.
+* Fixed a bug causing line numbers in the call stack pane to be off by one in all debuggers.
+* Fix an issue where debugger context menu items would act on wrong line numbers.
+* Fix an error case when deleting a breakpoint.
+* PHP/Hack - Fixed bug causing fatal “cannot find xdebug breakpoint” errors.
+* PHP/Hack - Fixed a bug that caused scopes, watch expressions and data tips not to update if an eval command is executed from the console that causes side effects.
+
+**UI**
+
+* Fixed a bug whereby the contents of the test runner panel would be hidden.
+* Fixed file-tree weird scrolling issues.
+
+## v0.218.0
+
+**Performance**
+
+* Quick Open should feel snappier (default 200ms debounce has been removed).
+* Fuzzy file search indexing is now faster in Hg repositories.
+* Fixed a bug where rebasing remote Hg repositories would flood the Nuclide server connection.
+* Significantly reduced the network/CPU usage of listing directories (e.g. in the file tree).
+
+**General**
+
+* Hyperclick URL matching is more accurate.
+* The Buck toolbar's target typeahead now suggests the owner of the current file at the top.
+
+**C++**
+
+* Language features are now compatible with the [language-cpp14](https://github.com/jbw3/language-cpp14) grammar package.
+
+**Debugger**
+
+* Fixed bugs around setting breakpoints by clicking in the gutter, and issues where clicking a line number to select a line of text sets unwanted breakpoints.
+* PHP/Hack: Fixed bug where debugger doesn't exit when the script being debugged finishes.
+* PHP/Hack: Fixed exceptions that can occur when resolving breakpoints that have already been removed.
+* C++ debugger: Fixed an issue where the child process is launched with an empty set of environment variables.
+* Added scrollbars to datatips so you can see all the content when examining variables that have lots of members.
+* Fixed weird scrolling issues in Watch Expressions pane.
+
 ## v0.217.0
 
 **Debugger**

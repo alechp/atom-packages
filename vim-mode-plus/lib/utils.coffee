@@ -1,4 +1,4 @@
-fs = require 'fs-plus'
+fs = null
 settings = require './settings'
 
 {Disposable, Range, Point} = require 'atom'
@@ -41,6 +41,7 @@ debug = (messages...) ->
     when 'console'
       console.log messages...
     when 'file'
+      fs ?= require 'fs-plus'
       filePath = fs.normalize settings.get('debugOutputFilePath')
       if fs.existsSync(filePath)
         fs.appendFileSync filePath, messages + "\n"
@@ -62,9 +63,6 @@ isLinewiseRange = ({start, end}) ->
 isEndsWithNewLineForBufferRow = (editor, row) ->
   {start, end} = editor.bufferRangeForBufferRow(row, includeNewline: true)
   start.row isnt end.row
-
-haveSomeNonEmptySelection = (editor) ->
-  editor.getSelections().some(isNotEmpty)
 
 sortRanges = (collection) ->
   collection.sort (a, b) -> a.compare(b)
@@ -258,18 +256,6 @@ moveCursorDownScreen = (cursor, options={}) ->
     motion = (cursor) -> cursor.moveDown()
     moveCursor(cursor, options, motion)
 
-# FIXME
-moveCursorDownBuffer = (cursor) ->
-  point = cursor.getBufferPosition()
-  unless getVimLastBufferRow(cursor.editor) is point.row
-    cursor.setBufferPosition(point.translate([+1, 0]))
-
-# FIXME
-moveCursorUpBuffer = (cursor) ->
-  point = cursor.getBufferPosition()
-  unless point.row is 0
-    cursor.setBufferPosition(point.translate([-1, 0]))
-
 moveCursorToFirstCharacterAtRow = (cursor, row) ->
   cursor.setBufferPosition([row, 0])
   cursor.moveToFirstCharacterOfLine()
@@ -303,6 +289,44 @@ getCodeFoldRowRangesContainesForRow = (editor, bufferRow, {includeStartRow}={}) 
       startRow <= bufferRow <= endRow
     else
       startRow < bufferRow <= endRow
+
+getFoldRowRanges = (editor) ->
+  seen = {}
+  [0..editor.getLastBufferRow()]
+    .map (row) ->
+      editor.languageMode.rowRangeForCodeFoldAtBufferRow(row)
+    .filter (rowRange) ->
+      rowRange? and rowRange[0]? and rowRange[1]?
+    .filter (rowRange) ->
+      if seen[rowRange]
+        false
+      else
+        seen[rowRange] = true
+
+getFoldRangesWithIndent = (editor) ->
+  getFoldRowRanges(editor)
+    .map ([startRow, endRow]) ->
+      indent = editor.indentationForBufferRow(startRow)
+      {startRow, endRow, indent}
+
+getFoldInfoByKind = (editor) ->
+  foldInfoByKind = {}
+
+  updateFoldInfo = (kind, rowRangeWithIndent) ->
+    foldInfo = (foldInfoByKind[kind] ?= {})
+    foldInfo.rowRangesWithIndent ?= []
+    foldInfo.rowRangesWithIndent.push(rowRangeWithIndent)
+    indent = rowRangeWithIndent.indent
+    foldInfo.minIndent = Math.min(foldInfo.minIndent ? indent, indent)
+    foldInfo.maxIndent = Math.max(foldInfo.maxIndent ? indent, indent)
+
+  for rowRangeWithIndent in getFoldRangesWithIndent(editor)
+    updateFoldInfo('allFold', rowRangeWithIndent)
+    if editor.isFoldedAtBufferRow(rowRangeWithIndent.startRow)
+      updateFoldInfo('folded', rowRangeWithIndent)
+    else
+      updateFoldInfo('unfolded', rowRangeWithIndent)
+  foldInfoByKind
 
 getBufferRangeForRowRange = (editor, rowRange) ->
   [startRange, endRange] = rowRange.map (row) ->
@@ -948,7 +972,6 @@ module.exports = {
   debug
   saveEditorState
   isLinewiseRange
-  haveSomeNonEmptySelection
   sortRanges
   getIndex
   getVisibleBufferRange
@@ -980,6 +1003,9 @@ module.exports = {
   isEmptyRow
   getCodeFoldRowRanges
   getCodeFoldRowRangesContainesForRow
+  getFoldRowRanges
+  getFoldRangesWithIndent
+  getFoldInfoByKind
   getBufferRangeForRowRange
   trimRange
   getFirstCharacterPositionForBufferRow
@@ -988,8 +1014,6 @@ module.exports = {
   getBufferRows
   smartScrollToBufferPosition
   matchScopes
-  moveCursorDownBuffer
-  moveCursorUpBuffer
   isSingleLineText
   getWordBufferRangeAtBufferPosition
   getWordBufferRangeAndKindAtBufferPosition

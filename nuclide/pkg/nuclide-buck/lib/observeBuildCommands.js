@@ -49,6 +49,7 @@ const CHECK_INTERVAL = 30000; /**
                                * the root directory of this source tree.
                                *
                                * 
+                               * @format
                                */
 
 const CONFIG_KEY = 'nuclide-buck.suggestTaskRunner';
@@ -66,7 +67,7 @@ function observeBuildCommands(store) {
     // We can't use Watchman because these logs are typically ignored.
     const buckService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getBuckServiceByNuclideUri)(buckRoot);
     return _rxjsBundlesRxMinJs.Observable.interval(CHECK_INTERVAL).switchMap(() => {
-      return _rxjsBundlesRxMinJs.Observable.fromPromise(buckService.getLastCommandInfo(buckRoot))
+      return _rxjsBundlesRxMinJs.Observable.fromPromise(buckService.getLastCommandInfo(buckRoot, 1))
       // Ignore errors.
       .catch(() => _rxjsBundlesRxMinJs.Observable.of(null)).switchMap(commandInfo => {
         if (commandInfo == null) {
@@ -97,7 +98,7 @@ function observeBuildCommands(store) {
         onDidClick: () => {
           (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('buck-prompt.clicked', { buildTarget: args[0] });
           store.dispatch((_Actions || _load_Actions()).setBuildTarget(args[0]));
-          atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-task-runner:Buck-build');
+          atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-task-runner:toggle-buck-toolbar', { visible: true });
           dismiss();
         }
       }, {

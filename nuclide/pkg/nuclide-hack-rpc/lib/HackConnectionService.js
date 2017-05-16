@@ -27,6 +27,7 @@ exports.disconnect = disconnect;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function didOpenFile(filename, version, contents) {

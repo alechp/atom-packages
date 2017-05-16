@@ -27,7 +27,20 @@ function _load_DebugBridge() {
   return _DebugBridge = require('./DebugBridge');
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
 class Adb extends (_DebugBridge || _load_DebugBridge()).DebugBridge {
   getAndroidProp(device, key) {
@@ -46,12 +59,45 @@ class Adb extends (_DebugBridge || _load_DebugBridge()).DebugBridge {
     return this.getAndroidProp(device, 'ro.build.version.sdk').toPromise();
   }
 
+  getBrand(device) {
+    return this.getAndroidProp(device, 'ro.product.brand').toPromise();
+  }
+
+  getManufacturer(device) {
+    return this.getAndroidProp(device, 'ro.product.manufacturer').toPromise();
+  }
+
+  getDeviceInfo(device) {
+    var _this = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      const infoTable = yield _this.getCommonDeviceInfo(device);
+      const unknownCB = function () {
+        return null;
+      };
+      infoTable.set('android_version', (yield _this.getOSVersion(device).catch(unknownCB)));
+      infoTable.set('manufacturer', (yield _this.getManufacturer(device).catch(unknownCB)));
+      infoTable.set('brand', (yield _this.getBrand(device).catch(unknownCB)));
+      return infoTable;
+    })();
+  }
+
+  getOSVersion(device) {
+    return this.getAndroidProp(device, 'ro.build.version.release').toPromise();
+  }
+
   installPackage(device, packagePath) {
+    // TODO(T17463635)
     if (!!(_nuclideUri || _load_nuclideUri()).default.isRemote(packagePath)) {
       throw new Error('Invariant violation: "!nuclideUri.isRemote(packagePath)"');
     }
 
     return this.runLongAdbCommand(device, ['install', '-r', packagePath]);
+  }
+
+  uninstallPackage(device, packageName) {
+    // TODO(T17463635)
+    return this.runLongAdbCommand(device, ['uninstall', packageName]);
   }
 
   forwardJdwpPortToPid(device, tcpPort, pid) {
@@ -78,16 +124,24 @@ class Adb extends (_DebugBridge || _load_DebugBridge()).DebugBridge {
   }
 
   getJavaProcesses(device) {
-    var _this = this;
+    var _this2 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      const allProcesses = yield _this.runShortAdbCommand(device, ['shell', 'ps']).map(function (stdout) {
+      const allProcesses = yield _this2.runShortAdbCommand(device, ['shell', 'ps']).map(function (stdout) {
         const psOutput = stdout.trim();
         return parsePsTableOutput(psOutput, ['user', 'pid', 'name']);
       }).toPromise();
 
       const args = (device !== '' ? ['-s', device] : []).concat('jdwp');
-      return (0, (_process || _load_process()).observeProcessRaw)(_this._adbPath, args, { killTreeOnComplete: true }).take(1).map(function (output) {
+      return (0, (_process || _load_process()).observeProcessRaw)(_this2._adbPath, args, {
+        killTreeWhenDone: true,
+        /* TDOO(17353599) */isExitError: function () {
+          return false;
+        }
+      }).catch(function (error) {
+        return _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error });
+      }) // TODO(T17463635)
+      .take(1).map(function (output) {
         const jdwpPids = new Set();
         if (output.kind === 'stdout') {
           const block = output.data;
@@ -102,18 +156,17 @@ class Adb extends (_DebugBridge || _load_DebugBridge()).DebugBridge {
       }).toPromise();
     })();
   }
+
+  dumpsysPackage(device, identifier) {
+    var _this3 = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      return _this3.runShortAdbCommand(device, ['shell', 'dumpsys', 'package', identifier]).toPromise();
+    })();
+  }
 }
 
-exports.Adb = Adb; /**
-                    * Copyright (c) 2015-present, Facebook, Inc.
-                    * All rights reserved.
-                    *
-                    * This source code is licensed under the license found in the LICENSE file in
-                    * the root directory of this source tree.
-                    *
-                    * 
-                    */
-
+exports.Adb = Adb;
 function parsePsTableOutput(output, desiredFields) {
   const lines = output.split(/\n/);
   const header = lines[0];

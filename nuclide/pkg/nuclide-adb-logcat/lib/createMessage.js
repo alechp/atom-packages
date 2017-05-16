@@ -17,6 +17,7 @@ exports.default = createMessage;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function createMessage(entry) {

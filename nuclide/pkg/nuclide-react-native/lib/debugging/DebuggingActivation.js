@@ -71,6 +71,7 @@ exports.DebuggingActivation = DebuggingActivation; /**
                                                     * the root directory of this source tree.
                                                     *
                                                     * 
+                                                    * @format
                                                     */
 
 function getProcessInfoList() {

@@ -210,4 +210,5 @@ exports.AtomLanguageService = AtomLanguageService;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */

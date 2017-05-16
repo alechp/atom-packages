@@ -53,6 +53,7 @@ const TARGET_ENVIRONMENTS = [{ label: 'iOS', value: 'iOS' }, { label: 'Android',
                                                                                                        * the root directory of this source tree.
                                                                                                        *
                                                                                                        * 
+                                                                                                       * @format
                                                                                                        */
 
 class AttachUiComponent extends _react.default.Component {

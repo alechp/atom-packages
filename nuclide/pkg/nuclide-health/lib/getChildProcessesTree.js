@@ -25,6 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getChildProcessesTree() {
@@ -32,7 +33,9 @@ function getChildProcessesTree() {
     return _rxjsBundlesRxMinJs.Observable.of(null);
   }
 
-  return (0, (_process || _load_process()).runCommand)('ps', ['axo', 'ppid,pid,pcpu,command'], { dontLogInNuclide: true }).map(parsePSOutput).map(ps => buildTree(ps, process.pid));
+  return (0, (_process || _load_process()).runCommand)('ps', ['axo', 'ppid,pid,pcpu,command'], {
+    dontLogInNuclide: true
+  }).map(parsePSOutput).map(ps => buildTree(ps, process.pid));
 }
 
 function getActiveHandles() {

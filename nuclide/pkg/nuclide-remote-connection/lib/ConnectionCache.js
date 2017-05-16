@@ -91,6 +91,7 @@ exports.ConnectionCache = ConnectionCache; // Returns null if there's no valid c
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function connectionOfUri(filePath) {

@@ -94,7 +94,8 @@ let getLanguageServiceConfig = (() => {
       coverage: {
         version: '0.0.0',
         priority: 10,
-        analyticsEventName: 'flow.coverage'
+        analyticsEventName: 'flow.coverage',
+        icon: 'nuclicon-flow'
       },
       definition: {
         version: '0.0.0',
@@ -252,6 +253,7 @@ let disposables; /**
                   * the root directory of this source tree.
                   *
                   * 
+                  * @format
                   */
 
 let connectionCache = null;

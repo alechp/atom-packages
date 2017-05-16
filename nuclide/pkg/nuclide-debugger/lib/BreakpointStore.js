@@ -4,12 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dedent;
-
-function _load_dedent() {
-  return _dedent = _interopRequireDefault(require('dedent'));
-}
-
 var _atom = require('atom');
 
 var _DebuggerDispatcher;
@@ -24,8 +18,6 @@ function _load_DebuggerStore() {
   return _DebuggerStore = require('./DebuggerStore');
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -34,6 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const BREAKPOINT_NEED_UI_UPDATE = 'BREAKPOINT_NEED_UI_UPDATE';
@@ -171,16 +164,9 @@ class BreakpointStore {
 
   _deleteBreakpoint(path, line, userAction = true) {
     const lineMap = this._breakpoints.get(path);
-
-    if (!(lineMap != null)) {
-      throw new Error((_dedent || _load_dedent()).default`
-        Expected a non-null lineMap.
-        path: ${path},
-        line: ${line},
-        userAction: ${userAction}
-      `);
+    if (lineMap == null) {
+      return;
     }
-
     const breakpoint = lineMap.get(line);
     if (lineMap.delete(line)) {
       if (!breakpoint) {
@@ -273,7 +259,7 @@ class BreakpointStore {
   getBreakpointAtLine(path, line) {
     const lineMap = this._breakpoints.get(path);
     if (lineMap == null) {
-      return;
+      return null;
     }
     return lineMap.get(line);
   }

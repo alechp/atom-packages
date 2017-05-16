@@ -21,6 +21,7 @@ function _load_LaunchAttachDispatcher() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ATTACH_TARGET_LIST_CHANGE_EVENT = 'ATTACH_TARGET_LIST_CHANGE_EVENT';

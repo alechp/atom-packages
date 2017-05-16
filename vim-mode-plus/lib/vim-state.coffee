@@ -1,84 +1,105 @@
-semver = require 'semver'
 Delegato = require 'delegato'
-{jQuery} = require 'atom-space-pen-views'
+jQuery = null
 
-_ = require 'underscore-plus'
 {Emitter, Disposable, CompositeDisposable, Range} = require 'atom'
 
 settings = require './settings'
-HoverManager = require './hover-manager'
-SearchInput = require './search-input'
-{getVisibleEditors, matchScopes, translatePointAndClip, haveSomeNonEmptySelection} = require './utils'
-swrap = require './selection-wrapper'
-
-OperationStack = require './operation-stack'
-MarkManager = require './mark-manager'
 ModeManager = require './mode-manager'
-RegisterManager = require './register-manager'
-SearchHistoryManager = require './search-history-manager'
-CursorStyleManager = require './cursor-style-manager'
-BlockwiseSelection = require './blockwise-selection'
-OccurrenceManager = require './occurrence-manager'
-HighlightSearchManager = require './highlight-search-manager'
-MutationManager = require './mutation-manager'
-PersistentSelectionManager = require './persistent-selection-manager'
-FlashManager = require './flash-manager'
 
-packageScope = 'vim-mode-plus'
+LazyLoadedLibs = {}
+
+lazyRequire = (file) ->
+  unless file of LazyLoadedLibs
+
+    if atom.inDevMode() and settings.get('debug')
+      console.log "# lazy-require: #{file}"
+      # console.trace()
+
+    LazyLoadedLibs[file] = require(file)
+  LazyLoadedLibs[file]
 
 module.exports =
 class VimState
   @vimStatesByEditor: new Map
 
-  @getByEditor: (editor) ->
-    @vimStatesByEditor.get(editor)
-
-  @forEach: (fn) ->
-    @vimStatesByEditor.forEach(fn)
-
-  @clear: ->
-    @vimStatesByEditor.clear()
+  @getByEditor: (editor) -> @vimStatesByEditor.get(editor)
+  @has: (editor) -> @vimStatesByEditor.has(editor)
+  @delete: (editor) -> @vimStatesByEditor.delete(editor)
+  @forEach: (fn) -> @vimStatesByEditor.forEach(fn)
+  @clear: -> @vimStatesByEditor.clear()
 
   Delegato.includeInto(this)
-
   @delegatesProperty('mode', 'submode', toProperty: 'modeManager')
   @delegatesMethods('isMode', 'activate', toProperty: 'modeManager')
   @delegatesMethods('flash', 'flashScreenRange', toProperty: 'flashManager')
   @delegatesMethods('subscribe', 'getCount', 'setCount', 'hasCount', 'addToClassList', toProperty: 'operationStack')
+
+  @defineLazyProperty: (name, fileToLoad, instantiate=true) ->
+    Object.defineProperty @prototype, name,
+      get: -> this["__#{name}"] ?= do =>
+        if instantiate
+          new (lazyRequire(fileToLoad))(this)
+        else
+          lazyRequire(fileToLoad)
+
+  getProp: (name) ->
+    this[name] if this["__#{name}"]?
+
+  @defineLazyProperty('swrap', './selection-wrapper', false)
+  @defineLazyProperty('utils', './utils', false)
+
+  @lazyProperties =
+    mark: './mark-manager'
+    register: './register-manager'
+    hover: './hover-manager'
+    hoverSearchCounter: './hover-manager'
+    searchHistory: './search-history-manager'
+    highlightSearch: './highlight-search-manager'
+    persistentSelection: './persistent-selection-manager'
+    occurrenceManager: './occurrence-manager'
+    mutationManager: './mutation-manager'
+    flashManager: './flash-manager'
+    searchInput: './search-input'
+    operationStack: './operation-stack'
+    cursorStyleManager: './cursor-style-manager'
+
+  for propName, fileToLoad of @lazyProperties
+    @defineLazyProperty(propName, fileToLoad)
+
+  reportRequireCache: ({focus, excludeNodModules}) ->
+    {inspect} = require 'util'
+    path = require 'path'
+    packPath = atom.packages.getLoadedPackage("vim-mode-plus").path
+    cachedPaths = Object.keys(require.cache)
+      .filter (p) -> p.startsWith(packPath + path.sep)
+      .map (p) -> p.replace(packPath, '')
+
+    for cachedPath in cachedPaths
+      if excludeNodModules and cachedPath.search(/node_modules/) >= 0
+        continue
+      if focus and cachedPath.search(///#{focus}///) >= 0
+        cachedPath = '*' + cachedPath
+
+      console.log cachedPath
+
 
   constructor: (@editor, @statusBarManager, @globalState) ->
     @editorElement = @editor.element
     @emitter = new Emitter
     @subscriptions = new CompositeDisposable
     @modeManager = new ModeManager(this)
-    @mark = new MarkManager(this)
-    @register = new RegisterManager(this)
-    @hover = new HoverManager(this)
-    @hoverSearchCounter = new HoverManager(this)
-    @searchHistory = new SearchHistoryManager(this)
-    @highlightSearch = new HighlightSearchManager(this)
-    @persistentSelection = new PersistentSelectionManager(this)
-    @occurrenceManager = new OccurrenceManager(this)
-    @mutationManager = new MutationManager(this)
-    @flashManager = new FlashManager(this)
-    @searchInput = new SearchInput(this)
-    @operationStack = new OperationStack(this)
-    @cursorStyleManager = new CursorStyleManager(this)
-    @blockwiseSelections = []
     @previousSelection = {}
     @observeSelections()
 
-    refreshHighlightSearch = =>
-      @highlightSearch.refresh()
-    @subscriptions.add @editor.onDidStopChanging(refreshHighlightSearch)
+    @editorElement.classList.add('vim-mode-plus')
+    startInsertScopes = @getConfig('startInInsertModeScopes')
 
-    @editorElement.classList.add(packageScope)
-    if @getConfig('startInInsertMode') or matchScopes(@editorElement, @getConfig('startInInsertModeScopes'))
+    if @getConfig('startInInsertMode') or startInsertScopes.length and @utils.matchScopes(@editorElement, startInsertScopes)
       @activate('insert')
     else
       @activate('normal')
 
-    @subscriptions.add @editor.onDidDestroy(@destroy.bind(this))
+    @editor.onDidDestroy(@destroy)
     @constructor.vimStatesByEditor.set(@editor, this)
 
   getConfig: (param) ->
@@ -87,36 +108,31 @@ class VimState
   # BlockwiseSelections
   # -------------------------
   getBlockwiseSelections: ->
-    BlockwiseSelection.getSelections(@editor)
+    @swrap.getBlockwiseSelections(@editor)
 
   getLastBlockwiseSelection: ->
-    BlockwiseSelection.getLastSelection(@editor)
+    @swrap.getLastBlockwiseSelections(@editor)
 
   getBlockwiseSelectionsOrderedByBufferPosition: ->
-    BlockwiseSelection.getSelectionsOrderedByBufferPosition(@editor)
+    @swrap.getBlockwiseSelectionsOrderedByBufferPosition(@editor)
 
   clearBlockwiseSelections: ->
-    BlockwiseSelection.clearSelections(@editor)
+    @getProp('swrap')?.clearBlockwiseSelections(@editor)
 
   # Other
   # -------------------------
-  toggleClassList: (className, bool=undefined) ->
-    @editorElement.classList.toggle(className, bool)
-
   # FIXME: I want to remove this dengerious approach, but I couldn't find the better way.
   swapClassName: (classNames...) ->
     oldMode = @mode
-
-    @editorElement.classList.remove(oldMode + "-mode")
-    @editorElement.classList.remove('vim-mode-plus')
+    @editorElement.classList.remove('vim-mode-plus', oldMode + "-mode")
     @editorElement.classList.add(classNames...)
 
     new Disposable =>
       @editorElement.classList.remove(classNames...)
+      classToAdd = ['vim-mode-plus', 'is-focused']
       if @mode is oldMode
-        @editorElement.classList.add(oldMode + "-mode")
-      @editorElement.classList.add('vim-mode-plus')
-      @editorElement.classList.add('is-focused')
+        classToAdd.push(oldMode + "-mode")
+      @editorElement.classList.add(classToAdd...)
 
   # All subscriptions here is celared on each operation finished.
   # -------------------------
@@ -185,31 +201,23 @@ class VimState
   emitDidSetInputChar: (char) -> @emitter.emit('did-set-input-char', char)
 
   isAlive: ->
-    @constructor.vimStatesByEditor.has(@editor)
+    @constructor.has(@editor)
 
-  destroy: ->
+  destroy: =>
     return unless @isAlive()
-    @constructor.vimStatesByEditor.delete(@editor)
-    BlockwiseSelection.clearSelections(@editor)
-
+    @constructor.delete(@editor)
     @subscriptions.dispose()
 
     if @editor.isAlive()
       @resetNormalMode()
       @reset()
       @editorElement.component?.setInputEnabled(true)
-      @editorElement.classList.remove(packageScope, 'normal-mode')
+      @editorElement.classList.remove('vim-mode-plus', 'normal-mode')
 
-    @hover?.destroy?()
-    @hoverSearchCounter?.destroy?()
-    @searchHistory?.destroy?()
-    @cursorStyleManager?.destroy?()
-    @search?.destroy?()
-    @register?.destroy?
     {
       @hover, @hoverSearchCounter, @operationStack,
       @searchHistory, @cursorStyleManager
-      @search, @modeManager, @register
+      @modeManager, @register
       @editor, @editorElement, @subscriptions,
       @occurrenceManager
       @previousSelection
@@ -217,22 +225,25 @@ class VimState
     } = {}
     @emitter.emit 'did-destroy'
 
+  haveSomeNonEmptySelection: ->
+    @editor.getSelections().some((selection) -> not selection.isEmpty())
+
   checkSelection: (event) ->
     return unless atom.workspace.getActiveTextEditor() is @editor
-    return if @operationStack.isProcessing()
+    return if @getProp('operationStack')?.isProcessing() # Don't populate lazy-prop on startup
     return if @mode is 'insert'
     # Intentionally using target.closest('atom-text-editor')
     # Don't use target.getModel() which is work for CustomEvent but not work for mouse event.
     return unless @editorElement is event.target?.closest?('atom-text-editor')
     return if event.type.startsWith('vim-mode-plus') # to match vim-mode-plus: and vim-mode-plus-user:
 
-    if haveSomeNonEmptySelection(@editor)
+    if @haveSomeNonEmptySelection()
       @editorElement.component.updateSync()
-      wise = swrap.detectWise(@editor)
+      wise = @swrap.detectWise(@editor)
       if @isMode('visual', wise)
-        for $selection in swrap.getSelections(@editor)
+        for $selection in @swrap.getSelections(@editor)
           $selection.saveProperties()
-        @updateCursorsVisibility()
+        @cursorStyleManager.refresh()
       else
         @activate('visual', wise)
     else
@@ -257,7 +268,7 @@ class VimState
     @editor.setCursorBufferPosition(@editor.getCursorBufferPosition())
 
   resetNormalMode: ({userInvocation}={}) ->
-    BlockwiseSelection.clearSelections(@editor)
+    @clearBlockwiseSelections()
 
     if userInvocation ? false
       switch
@@ -265,7 +276,7 @@ class VimState
           @clearSelections()
         when @hasPersistentSelections() and @getConfig('clearPersistentSelectionOnResetNormalMode')
           @clearPersistentSelections()
-        when @occurrenceManager.hasPatterns()
+        when @getProp('occurrenceManager')?.hasPatterns()
           @occurrenceManager.resetPatterns()
 
       if @getConfig('clearHighlightSearchOnResetNormalMode')
@@ -278,24 +289,22 @@ class VimState
     @saveOriginalCursorPosition()
 
   reset: ->
-    @register.reset()
-    @searchHistory.reset()
-    @hover.reset()
-    @operationStack.reset()
-    @mutationManager.reset()
+    # Don't populate lazy-prop on startup
+    @getProp('register')?.reset()
+    @getProp('searchHistory')?.reset()
+    @getProp('hover')?.reset()
+    @getProp('operationStack')?.reset()
+    @getProp('mutationManager')?.reset()
 
   isVisible: ->
-    @editor in getVisibleEditors()
-
-  updateCursorsVisibility: ->
-    @cursorStyleManager.refresh()
+    @editor in @utils.getVisibleEditors()
 
   # FIXME: naming, updateLastSelectedInfo ?
   updatePreviousSelection: ->
     if @isMode('visual', 'blockwise')
       properties = @getLastBlockwiseSelection()?.getProperties()
     else
-      properties = swrap(@editor.getLastSelection()).getProperties()
+      properties = @swrap(@editor.getLastSelection()).getProperties()
 
     # TODO#704 when cursor is added in visual-mode, corresponding selection prop yet not exists.
     return unless properties
@@ -304,10 +313,10 @@ class VimState
 
     if head.isGreaterThanOrEqual(tail)
       [start, end] = [tail, head]
-      head = end = translatePointAndClip(@editor, end, 'forward')
+      head = end = @utils.translatePointAndClip(@editor, end, 'forward')
     else
       [start, end] = [head, tail]
-      tail = end = translatePointAndClip(@editor, end, 'forward')
+      tail = end = @utils.translatePointAndClip(@editor, end, 'forward')
 
     @mark.set('<', start)
     @mark.set('>', end)
@@ -316,18 +325,19 @@ class VimState
   # Persistent selection
   # -------------------------
   hasPersistentSelections: ->
-    @persistentSelection.hasMarkers()
+    @getProp('persistentSelection')?.hasMarkers()
 
   getPersistentSelectionBufferRanges: ->
-    @persistentSelection.getMarkerBufferRanges()
+    @getProp('persistentSelection')?.getMarkerBufferRanges() ? []
 
   clearPersistentSelections: ->
-    @persistentSelection.clearMarkers()
+    @getProp('persistentSelection')?.clearMarkers()
 
   # Animation management
   # -------------------------
   scrollAnimationEffect: null
   requestScrollAnimation: (from, to, options) ->
+    jQuery ?= require('atom-space-pen-views').jQuery
     @scrollAnimationEffect = jQuery(from).animate(to, options)
 
   finishScrollAnimation: ->
@@ -342,7 +352,7 @@ class VimState
 
     if @mode is 'visual'
       selection = @editor.getLastSelection()
-      point = swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
+      point = @swrap(selection).getBufferPositionFor('head', from: ['property', 'selection'])
     else
       point = @editor.getCursorBufferPosition()
     @originalCursorPosition = point

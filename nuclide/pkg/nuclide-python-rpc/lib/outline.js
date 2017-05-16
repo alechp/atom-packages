@@ -34,6 +34,7 @@ function itemToOutlineTree(mode, item) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function classToOutlineTree(mode, item) {

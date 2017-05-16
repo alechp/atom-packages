@@ -16,12 +16,6 @@ function _load_process() {
   return _process = require('../../commons-node/process');
 }
 
-var _observable;
-
-function _load_observable() {
-  return _observable = require('../../commons-node/observable');
-}
-
 var _fsPromise;
 
 function _load_fsPromise() {
@@ -40,12 +34,6 @@ function _load_minimatch() {
   return _minimatch = require('minimatch');
 }
 
-var _split;
-
-function _load_split() {
-  return _split = _interopRequireDefault(require('split'));
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // This pattern is used for parsing the output of grep.
@@ -57,6 +45,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const GREP_PARSE_PATTERN = /(.*?):(\d*):(.*)/;
@@ -125,11 +114,11 @@ function searchInSubdir(matchesByFile, directory, subdir, regex) {
   const linesSource = getLinesFromCommand('hg', ['wgrep'].concat(vcsargs), cmdDir).catch(() => getLinesFromCommand('git', ['grep'].concat(vcsargs), cmdDir)).catch(() => getLinesFromCommand('grep', grepargs, cmdDir)).catch(() => _rxjsBundlesRxMinJs.Observable.throw(new Error('Failed to execute a grep search.')));
 
   // Transform lines into file matches.
-  const results = (0, (_observable || _load_observable()).compact)(linesSource.map(line => {
+  const results = linesSource.flatMap(line => {
     // Try to parse the output of grep.
     const grepMatchResult = line.match(GREP_PARSE_PATTERN);
     if (!grepMatchResult) {
-      return null;
+      return [];
     }
 
     // Extract the filename, line number, and line text from grep output.
@@ -137,28 +126,36 @@ function searchInSubdir(matchesByFile, directory, subdir, regex) {
     const lineNo = parseInt(grepMatchResult[2], 10) - 1;
     const filePath = (_nuclideUri || _load_nuclideUri()).default.join(subdir, grepMatchResult[1]);
 
-    // Try to extract the actual "matched" text.
-    const matchTextResult = regex.exec(lineText);
-    if (!matchTextResult) {
-      return null;
+    // Try to extract all actual "matched" texts on the same line.
+    const result = [];
+    // Loop through each matched text on a line
+    let matchTextResult;
+    // Note: Atom will auto-insert 'g' flag, so, we can loop through all matches.
+    while ((matchTextResult = regex.exec(lineText)) != null) {
+      const matchText = matchTextResult[0];
+      const matchIndex = matchTextResult.index;
+
+      result.push({
+        filePath,
+        match: {
+          lineText,
+          lineTextOffset: 0,
+          matchText,
+          range: [[lineNo, matchIndex], [lineNo, matchIndex + matchText.length]]
+        }
+      });
+
+      // Handle corner case if 'g' flag is not provided
+      if (!regex.global) {
+        break;
+      }
     }
 
     // IMPORTANT: reset the regex for the next search
     regex.lastIndex = 0;
 
-    const matchText = matchTextResult[0];
-    const matchIndex = matchTextResult.index;
-
-    return {
-      filePath,
-      match: {
-        lineText,
-        lineTextOffset: 0,
-        matchText,
-        range: [[lineNo, matchIndex], [lineNo, matchIndex + matchText.length]]
-      }
-    };
-  })).share();
+    return result;
+  }).share();
 
   return results
   // Limit the total result size.
@@ -173,41 +170,19 @@ function searchInSubdir(matchesByFile, directory, subdir, regex) {
 // Helper function that runs a command in a given directory, invoking a callback
 // as each line is written to stdout.
 function getLinesFromCommand(command, args, localDirectoryPath) {
-  return _rxjsBundlesRxMinJs.Observable.create(observer => {
-    let exited = false;
+  // Spawn the search command in the given directory.
+  return (0, (_process || _load_process()).observeProcess)(command, args, {
+    cwd: localDirectoryPath,
+    // An exit code of 0 or 1 is perfectly normal for grep (1 = no results).
+    // `hg grep` can sometimes have an exit code of 123, since it uses xargs.
+    isExitError: ({ exitCode, signal }) => {
+      return !signal && (exitCode == null || exitCode > 1 && exitCode !== 123);
+    }
+  }).filter(event => event.kind === 'stdout').map(event => {
+    if (!(event.kind === 'stdout')) {
+      throw new Error('Invariant violation: "event.kind === \'stdout\'"');
+    }
 
-    // Spawn the search command in the given directory.
-    const proc = (0, (_process || _load_process()).safeSpawn)(command, args, { cwd: localDirectoryPath });
-
-    // Reject on error.
-    proc.on('error', observer.error.bind(observer));
-
-    // Call the callback on each line.
-    proc.stdout.pipe((0, (_split || _load_split()).default)()).on('data', observer.next.bind(observer));
-
-    // Keep a running string of stderr, in case we need to throw an error.
-    let stderr = '';
-    proc.stderr.on('data', data => {
-      stderr += data;
-    });
-
-    // Resolve promise if error code is 0 (found matches) or 1 (found no matches). Otherwise
-    // reject. However, if a process was killed with a signal, don't reject, since this was likely
-    // to cancel the search.
-    proc.on('close', (code, signal) => {
-      exited = true;
-      if (signal || code <= 1) {
-        observer.complete();
-      } else {
-        observer.error(new Error(stderr));
-      }
-    });
-
-    // Kill the search process on dispose.
-    return () => {
-      if (!exited) {
-        proc && proc.kill();
-      }
-    };
+    return event.data;
   });
 }

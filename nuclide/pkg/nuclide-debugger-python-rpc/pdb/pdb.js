@@ -35,6 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function main(args) {
@@ -98,7 +99,7 @@ function interact(observable, commander) {
     next(message) {
       if (message.event === 'start') {
         // Give the user a chance to set breakpoints before starting the program.
-        console.log('Program started. Type \'c\' to continue or \'s\' to start stepping.');
+        console.log("Program started. Type 'c' to continue or 's' to start stepping.");
         ask();
       } else if (message.event === 'stop') {
         const { file, line } = message;

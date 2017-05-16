@@ -27,7 +27,9 @@ let tryCreateView = (() => {
     } catch (e) {
       // TODO(peterhal): Remove this when unhandled rejections have a default handler.
       logger.error('Exception in nuclide-find-references', e);
-      atom.notifications.addError(`nuclide-find-references: ${e}`, { dismissable: true });
+      atom.notifications.addError(`nuclide-find-references: ${e}`, {
+        dismissable: true
+      });
     }
   });
 
@@ -102,6 +104,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 /* global getSelection */
@@ -109,7 +112,9 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
 const FIND_REFERENCES_URI = 'atom://nuclide/find-references/';
 
 function showWarning(message) {
-  atom.notifications.addWarning('nuclide-find-references: ' + message, { dismissable: true });
+  atom.notifications.addWarning('nuclide-find-references: ' + message, {
+    dismissable: true
+  });
 }
 
 function enableForEditor(editor) {
@@ -156,7 +161,6 @@ class Activation {
         return _ref2.apply(this, arguments);
       };
     })()),
-
     // Mark text editors with a working provider with a special CSS class.
     // This ensures the context menu option only appears in supported projects.
     (0, (_textEditor || _load_textEditor()).observeTextEditors)((() => {
@@ -190,7 +194,6 @@ class Activation {
         return _ref3.apply(this, arguments);
       };
     })()),
-
     // Enable text copy from the symbol reference
     atom.commands.add('nuclide-find-references-view', 'core:copy', () => {
       const selection = getSelection();
@@ -199,7 +202,6 @@ class Activation {
         atom.clipboard.write(selectedText);
       }
     }),
-
     // Add the context menu programmatically so we can capture the mouse event.
     atom.contextMenu.add({
       'atom-text-editor:not(.mini).enable-nuclide-find-references': [{

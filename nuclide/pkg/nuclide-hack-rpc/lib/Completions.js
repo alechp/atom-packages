@@ -26,6 +26,7 @@ function _load_autocomplete() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function convertCompletions(contents, offset, prefix, hackCompletions) {

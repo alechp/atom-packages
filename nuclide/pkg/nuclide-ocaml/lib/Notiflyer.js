@@ -6,6 +6,7 @@
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // TODO: (chenglou) See D4100961. Temporarily removed to reconsider the UI/UX.

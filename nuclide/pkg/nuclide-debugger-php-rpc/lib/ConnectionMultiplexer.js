@@ -99,6 +99,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const CONNECTION_MUX_STATUS_EVENT = 'connection-mux-status';
@@ -167,6 +168,7 @@ class ConnectionMultiplexer {
     this._requestSwitchMessage = null;
     this._lastEnabledConnection = null;
     this._debuggerStartupDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    this._pausePending = false;
   }
 
   onStatus(callback) {
@@ -196,6 +198,7 @@ class ConnectionMultiplexer {
       this._launchedScriptProcessPromise = new Promise(resolve => {
         this._launchedScriptProcess = (0, (_helpers || _load_helpers()).launchPhpScriptWithXDebugEnabled)(expandedScript, (text, level) => {
           this._clientCallback.sendUserMessage('outputWindow', { level, text });
+          this._checkForEnd();
           resolve();
         });
       });
@@ -281,7 +284,8 @@ class ConnectionMultiplexer {
         const xdebugBreakpoint = notify;
         const breakpointId = this._breakpointStore.getBreakpointIdFromConnection(connection, xdebugBreakpoint);
         if (breakpointId == null) {
-          throw Error(`Cannot find xdebug breakpoint ${JSON.stringify(xdebugBreakpoint)} in connection.`);
+          (_utils || _load_utils()).default.logError(`Cannot find xdebug breakpoint ${JSON.stringify(xdebugBreakpoint)} in connection.`);
+          break;
         }
         this._breakpointStore.updateBreakpoint(breakpointId, xdebugBreakpoint);
         const breakpoint = this._breakpointStore.getBreakpoint(breakpointId);
@@ -328,6 +332,11 @@ class ConnectionMultiplexer {
           this._disableConnection();
         } else if (this._isPaused()) {
           this._emitRequestUpdate(connection);
+        }
+        if (this._pausePending) {
+          // If an async break is pending and a new connection has started,
+          // we can finish honoring the Debugger.Pause instruction now.
+          this.pause();
         }
         break;
       case (_DbgpSocket || _load_DbgpSocket()).ConnectionStatus.Break:
@@ -414,8 +423,8 @@ class ConnectionMultiplexer {
   }
 
   _isFirstStartingConnection(connection) {
-    return this._status === ConnectionMultiplexerStatus.UserAsyncBreakSent && connection.getStatus() === (_DbgpSocket || _load_DbgpSocket()).ConnectionStatus.Starting && this._connections.size === 2 // Dummy connection + first connection.
-    && !connection.isDummyConnection();
+    return this._status === ConnectionMultiplexerStatus.UserAsyncBreakSent && connection.getStatus() === (_DbgpSocket || _load_DbgpSocket()).ConnectionStatus.Starting && this._connections.size === 2 && // Dummy connection + first connection.
+    !connection.isDummyConnection();
   }
 
   _enableConnection(connection) {
@@ -639,9 +648,22 @@ class ConnectionMultiplexer {
   }
 
   pause() {
-    this._status = ConnectionMultiplexerStatus.UserAsyncBreakSent;
-    // allow a connection that hasn't hit a breakpoint to be enabled, then break all connections.
-    this._asyncBreak();
+    if (this._onlyDummyRemains() && this._dummyConnection != null && !this._dummyConnection.isViewable()) {
+      // If only the dummy remains, and the dummy is not viewable, there are no
+      // connections to break into. Since the front-end is waiting for a response
+      // from at least one connection, send a message to the console to indicate
+      // an async-break is pending, waiting for a request.
+      this._pausePending = true;
+      this._sendOutput('There are no active requests to break in to! The debugger will break when a new request ' + 'arrives.', 'warning');
+    } else {
+      if (this._pausePending) {
+        this._sendOutput('New connection received, breaking into debugger.', 'success');
+      }
+      this._pausePending = false;
+      this._status = ConnectionMultiplexerStatus.UserAsyncBreakSent;
+      // allow a connection that hasn't hit a breakpoint to be enabled, then break all connections.
+      this._asyncBreak();
+    }
   }
 
   resume() {
@@ -701,7 +723,7 @@ class ConnectionMultiplexer {
     var _this6 = this;
 
     return (0, _asyncToGenerator.default)(function* () {
-      if (_this6._onlyDummyRemains() && (_this6._attachConnector == null || _this6._launchConnector == null || (0, (_config || _load_config()).getConfig)().endDebugWhenNoRequests)) {
+      if ((_this6._connections.size === 0 || _this6._onlyDummyRemains()) && (_this6._attachConnector == null || _this6._launchConnector == null || (0, (_config || _load_config()).getConfig)().endDebugWhenNoRequests)) {
         if (_this6._launchedScriptProcessPromise != null) {
           yield _this6._launchedScriptProcessPromise;
           _this6._launchedScriptProcessPromise = null;
@@ -788,6 +810,10 @@ class ConnectionMultiplexer {
     } else {
       return null;
     }
+  }
+
+  getEnabledConnection() {
+    return this._enabledConnection;
   }
 
   selectThread(id) {

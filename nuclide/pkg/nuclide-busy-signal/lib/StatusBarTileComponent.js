@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class StatusBarTileComponent extends _react.default.Component {
@@ -32,7 +33,9 @@ class StatusBarTileComponent extends _react.default.Component {
   }
 
   render() {
-    const classes = (0, (_classnames || _load_classnames()).default)('nuclide-busy-signal-status-bar', { 'loading-spinner-tiny': this.props.busy });
+    const classes = (0, (_classnames || _load_classnames()).default)('nuclide-busy-signal-status-bar', {
+      'loading-spinner-tiny': this.props.busy
+    });
     return _react.default.createElement('div', { className: classes });
   }
 }

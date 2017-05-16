@@ -22,6 +22,7 @@ function _load_GraphQLLanguage() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Activation {

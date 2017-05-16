@@ -87,6 +87,7 @@ exports.CwdApi = CwdApi; /**
                           * the root directory of this source tree.
                           *
                           * 
+                          * @format
                           */
 
 function getDirectory(path) {

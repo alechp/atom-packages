@@ -8,8 +8,8 @@ exports.callHHClient = undefined;
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 /**
- * Executes hh_client with proper arguments returning the result string or json object.
- */
+  * Executes hh_client with proper arguments returning the result string or json object.
+  */
 let callHHClient = exports.callHHClient = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (args, errorStream, processInput, filePath) {
     if (!hhPromiseQueue) {
@@ -38,7 +38,17 @@ let callHHClient = exports.callHHClient = (() => {
 
         (_hackConfig || _load_hackConfig()).logger.log(`Calling Hack: ${hackCommand} with ${allArgs.toString()}`);
         execResult = yield (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(trackingIdOfHackArgs(args), function () {
-          return (0, (_process || _load_process()).asyncExecute)(hackCommand, allArgs, { stdin: processInput });
+          // TODO: Can't we do a better job with error handling here?
+          try {
+            return (0, (_process || _load_process()).runCommandDetailed)(hackCommand, allArgs, {
+              input: processInput,
+              isExitError: function () {
+                return false;
+              }
+            }).toPromise();
+          } catch (err) {
+            return { stdout: '', stderr: '' };
+          }
         });
 
         const { stdout, stderr } = execResult;
@@ -123,6 +133,7 @@ const HH_SERVER_INIT_MESSAGE = 'hh_server still initializing'; /**
                                                                 * the root directory of this source tree.
                                                                 *
                                                                 * 
+                                                                * @format
                                                                 */
 
 const HH_SERVER_BUSY_MESSAGE = 'hh_server is busy';

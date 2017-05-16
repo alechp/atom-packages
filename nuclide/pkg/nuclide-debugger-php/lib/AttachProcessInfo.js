@@ -53,6 +53,7 @@ const { logInfo } = (_utils || _load_utils()).default; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 class AttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebuggerBase()).DebuggerProcessInfo {
@@ -121,6 +122,10 @@ class AttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebuggerBa
   }
 
   singleThreadSteppingEnabled() {
+    return true;
+  }
+
+  supportContinueToLocation() {
     return true;
   }
 

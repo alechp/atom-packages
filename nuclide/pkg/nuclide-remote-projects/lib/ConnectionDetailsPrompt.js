@@ -62,6 +62,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ConnectionDetailsPrompt extends _react.default.Component {
@@ -83,7 +84,9 @@ class ConnectionDetailsPrompt extends _react.default.Component {
 
   componentDidMount() {
     if (this.props.connectionProfiles) {
-      this.setState({ IPs: (0, (_connectionProfileUtils || _load_connectionProfileUtils()).getIPsForHosts)((0, (_connectionProfileUtils || _load_connectionProfileUtils()).getUniqueHostsForProfiles)(this.props.connectionProfiles)) });
+      this.setState({
+        IPs: (0, (_connectionProfileUtils || _load_connectionProfileUtils()).getIPsForHosts)((0, (_connectionProfileUtils || _load_connectionProfileUtils()).getUniqueHostsForProfiles)(this.props.connectionProfiles))
+      });
     }
     this._checkForHostCollisions();
   }
@@ -108,7 +111,9 @@ class ConnectionDetailsPrompt extends _react.default.Component {
     }
 
     if (prevProps.connectionProfiles !== this.props.connectionProfiles && this.props.connectionProfiles) {
-      this.setState({ IPs: (0, (_connectionProfileUtils || _load_connectionProfileUtils()).getIPsForHosts)((0, (_connectionProfileUtils || _load_connectionProfileUtils()).getUniqueHostsForProfiles)(this.props.connectionProfiles)) });
+      this.setState({
+        IPs: (0, (_connectionProfileUtils || _load_connectionProfileUtils()).getIPsForHosts)((0, (_connectionProfileUtils || _load_connectionProfileUtils()).getUniqueHostsForProfiles)(this.props.connectionProfiles))
+      });
     }
     this._checkForHostCollisions();
   }

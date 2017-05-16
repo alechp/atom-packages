@@ -12,6 +12,7 @@ exports.default = rectContainsPoint;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function rectContainsPoint(rect, point) {

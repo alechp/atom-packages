@@ -6,52 +6,44 @@ Object.defineProperty(exports, "__esModule", {
 exports.createAdapters = createAdapters;
 exports.validateLinter = validateLinter;
 
-var _nuclideDiagnosticsProviderBase;
-
-function _load_nuclideDiagnosticsProviderBase() {
-  return _nuclideDiagnosticsProviderBase = require('../../nuclide-diagnostics-provider-base');
-}
-
 var _LinterAdapter;
 
 function _load_LinterAdapter() {
   return _LinterAdapter = require('./LinterAdapter');
 }
 
-// Flow didn't like it when I tried import type here. This shouldn't affect
-// performance though, since LinterAdapter requires this anyway.
-function createSingleAdapter(provider, ProviderBase) {
-  if (provider.disabledForNuclide) {
-    return;
-  }
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+function createSingleAdapter(provider) {
   const validationErrors = validateLinter(provider);
   if (validationErrors.length === 0) {
-    return new (_LinterAdapter || _load_LinterAdapter()).LinterAdapter(provider, ProviderBase);
+    return new (_LinterAdapter || _load_LinterAdapter()).LinterAdapter(provider);
   } else {
-    const nameString = provider && provider.providerName ? ` (${provider.providerName})` : '';
+    const nameString = provider.name;
     let message = `nuclide-diagnostics-store found problems with a linter${nameString}. ` + 'Diagnostic messages from that linter will be unavailable.\n';
     message += validationErrors.map(error => `- ${error}\n`).join('');
     atom.notifications.addError(message, { dismissable: true });
     return null;
   }
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
 
-function addSingleAdapter(adapters, provider, ProviderBase) {
+function addSingleAdapter(adapters, provider) {
   const adapter = createSingleAdapter(provider);
   if (adapter) {
     adapters.add(adapter);
   }
 }
 
-function createAdapters(providers, ProviderBase) {
+function createAdapters(providers) {
   const adapters = new Set();
   if (Array.isArray(providers)) {
     for (const provider of providers) {
@@ -81,9 +73,7 @@ function validateLinter(provider) {
     validate(provider.lint, 'lint function must be specified', errors);
     validate(typeof provider.lint === 'function', 'lint must be a function', errors);
 
-    if (provider.providerName) {
-      validate(typeof provider.providerName === 'string', 'providerName must be a string', errors);
-    }
+    validate(typeof provider.name === 'string', 'provider must have a name', errors);
   }
 
   return errors;

@@ -30,12 +30,6 @@ function _load_Bridge() {
   return _Bridge = _interopRequireDefault(require('./Bridge'));
 }
 
-var _Button;
-
-function _load_Button() {
-  return _Button = require('../../nuclide-ui/Button');
-}
-
 var _LoadingSpinner;
 
 function _load_LoadingSpinner() {
@@ -44,19 +38,22 @@ function _load_LoadingSpinner() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
 function getStateFromStore(store) {
   return {
     processSocket: store.getProcessSocket()
   };
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   */
+}
 
 class DebuggerControllerView extends _react.default.Component {
 
@@ -64,7 +61,6 @@ class DebuggerControllerView extends _react.default.Component {
     super(props);
     this.state = getStateFromStore(props.store);
 
-    this._handleClickClose = this._handleClickClose.bind(this);
     this._updateStateFromStore = this._updateStateFromStore.bind(this);
   }
 
@@ -114,19 +110,10 @@ class DebuggerControllerView extends _react.default.Component {
             'Starting Debugger...'
           ),
           _react.default.createElement((_LoadingSpinner || _load_LoadingSpinner()).LoadingSpinner, { className: 'inline-block', size: 'EXTRA_SMALL' })
-        ),
-        _react.default.createElement((_Button || _load_Button()).Button, {
-          icon: 'x',
-          onClick: this._handleClickClose,
-          title: 'Close'
-        })
+        )
       );
     }
     return null;
-  }
-
-  _handleClickClose() {
-    this.props.stopDebugging();
   }
 
   _updateStateFromStore(store) {

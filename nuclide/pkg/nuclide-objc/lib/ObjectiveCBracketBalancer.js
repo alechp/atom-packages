@@ -34,6 +34,7 @@ const GRAMMARS = ['source.objc', 'source.objcpp'];
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ObjectiveCBracketBalancer {
@@ -96,7 +97,7 @@ class ObjectiveCBracketBalancer {
     // Iterate through the line, determining if we have balanced brackets.
     // We do not count brackets we encounter inside string/char literals.
     for (let i = 0; i < startingLine.length; i++) {
-      if (startingLine[i] === '\'') {
+      if (startingLine[i] === "'") {
         singleQuoteCount++;
       } else if (startingLine[i] === '"') {
         doubleQuoteCount++;

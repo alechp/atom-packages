@@ -12,6 +12,7 @@ exports.default = humanizeKeystroke;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /*
@@ -47,10 +48,10 @@ const NON_MAC_MODIFIER_KEYMAP = {
 // Human key combos should always explicitly state the shift key. This map is a disambiguator.
 // 'shift-version': 'no-shift-version'
 const SHIFT_KEYMAP = {
-  '_': '-',
+  _: '-',
   ':': ';',
   '?': '/',
-  '"': '\'',
+  '"': "'",
   '{': '[',
   '}': ']',
   '+': '=',

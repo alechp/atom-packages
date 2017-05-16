@@ -30,6 +30,7 @@ function outlineFromHackIdeOutline(hackOutline) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function outlineFromHackIdeItem(hackItem) {

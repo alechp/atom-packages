@@ -49,6 +49,7 @@ class Activation {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 let activation;

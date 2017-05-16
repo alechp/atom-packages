@@ -10,8 +10,8 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 let getFlowVersionInformation = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (flowPath, root) {
     try {
-      const result = yield (0, (_process || _load_process()).checkOutput)(flowPath, ['version', '--json'], root != null ? { cwd: root } : undefined);
-      const json = JSON.parse(result.stdout);
+      const result = yield (0, (_process || _load_process()).runCommand)(flowPath, ['version', '--json'], root != null ? { cwd: root } : undefined).toPromise();
+      const json = JSON.parse(result);
       return {
         flowVersion: json.semver,
         pathToFlow: json.binary
@@ -101,6 +101,7 @@ const FLOW_BIN_PATH = 'node_modules/.bin/flow';
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FlowExecInfoContainer {

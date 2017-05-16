@@ -21,6 +21,7 @@ function _load_textEditor() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const GRAMMAR_CHANGE_EVENT = 'grammar-change';

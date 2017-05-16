@@ -15,6 +15,7 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 let refmt = exports.refmt = (() => {
@@ -27,17 +28,21 @@ let refmt = exports.refmt = (() => {
       // extra override; to simulate the same behavior, do this in your bashrc:
       // if [ "$TERM" = "nuclide"]; then someOverrideLogic if
       env: yield (0, (_process || _load_process()).getOriginalEnvironment)(),
-      stdin: content
+      input: content
     };
-    const result = yield (0, (_process || _load_process()).asyncExecute)(refmtPath, flags, options);
-    if (result.exitCode === 0) {
-      return { type: 'result', formattedResult: result.stdout };
+    try {
+      const stdout = yield (0, (_process || _load_process()).runCommand)(refmtPath, flags, options).toPromise();
+      return { type: 'result', formattedResult: stdout };
+    } catch (err) {
+      // Unsuccessfully exited. Two cases: syntax error and refmt nonexistent.
+      if (err.errno === 'ENOENT') {
+        return {
+          type: 'error',
+          error: 'refmt is not found. Is it available in the path?'
+        };
+      }
+      return { type: 'error', error: err.stderr };
     }
-    // Unsuccessfully exited. Two cases: syntax error and refmt nonexistent.
-    if (result.errorCode === 'ENOENT') {
-      return { type: 'error', error: 'refmt is not found. Is it available in the path?' };
-    }
-    return { type: 'error', error: result.stderr };
   });
 
   return function refmt(_x, _x2) {

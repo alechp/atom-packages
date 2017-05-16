@@ -29,6 +29,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 /**
@@ -44,11 +45,7 @@ class ListViewItem extends _react.default.Component {
 
   render() {
     const _props = this.props,
-          {
-      children,
-      index,
-      value
-    } = _props,
+          { children, index, value } = _props,
           remainingProps = _objectWithoutProperties(_props, ['children', 'index', 'value']);
     return _react.default.createElement(
       'div',
@@ -76,11 +73,7 @@ class ListView extends _react.default.Component {
   }
 
   render() {
-    const {
-      children,
-      alternateBackground,
-      selectable
-    } = this.props;
+    const { children, alternateBackground, selectable } = this.props;
     const renderedItems = _react.default.Children.map(children, (child, index) => _react.default.cloneElement(child, {
       index,
       onSelect: this._handleSelect

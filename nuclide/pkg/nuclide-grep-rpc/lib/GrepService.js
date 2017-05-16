@@ -31,7 +31,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function grepSearch(directory, regex, subdirs) {
   return (0, (_scanhandler || _load_scanhandler()).default)(directory, regex, subdirs).map(update => {
     // Transform filePath's to absolute paths.
-    return { filePath: (_nuclideUri || _load_nuclideUri()).default.join(directory, update.filePath), matches: update.matches };
+    return {
+      filePath: (_nuclideUri || _load_nuclideUri()).default.join(directory, update.filePath),
+      matches: update.matches
+    };
   }).publish();
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.
@@ -41,6 +44,7 @@ function grepSearch(directory, regex, subdirs) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function grepReplace(filePaths, regex, replacementText, concurrency = 4) {

@@ -198,6 +198,7 @@ exports.AtomInput = AtomInput; /**
                                 * the root directory of this source tree.
                                 *
                                 * 
+                                * @format
                                 */
 
 AtomInput.defaultProps = {

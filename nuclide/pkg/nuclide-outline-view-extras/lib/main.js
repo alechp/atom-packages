@@ -22,6 +22,7 @@ const NUX_OUTLINE_VIEW_TOUR = 'nuclide_outline_view_nux'; /**
                                                            * the root directory of this source tree.
                                                            *
                                                            * 
+                                                           * @format
                                                            */
 
 const NUX_OUTLINE_VIEW_ID = 4342;

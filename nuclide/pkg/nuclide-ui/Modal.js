@@ -34,6 +34,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class Modal extends _react.default.Component {
@@ -74,7 +75,7 @@ class Modal extends _react.default.Component {
     el.focus();
     this._cancelDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(atom.commands.add(window, 'core:cancel', () => {
       this.props.onDismiss();
-    }), _rxjsBundlesRxMinJs.Observable.fromEvent(window, 'click')
+    }), _rxjsBundlesRxMinJs.Observable.fromEvent(window, 'mousedown')
     // Ignore clicks in the current tick. We don't want to capture the click that showed this
     // modal.
     .skipUntil(_rxjsBundlesRxMinJs.Observable.interval(0).first()).subscribe(this._handleWindowClick));
@@ -88,10 +89,7 @@ class Modal extends _react.default.Component {
       { container: this._container },
       _react.default.createElement(
         'div',
-        Object.assign({
-          tabIndex: '0'
-        }, props, {
-          ref: this._handleContainerInnerElement }),
+        Object.assign({ tabIndex: '0' }, props, { ref: this._handleContainerInnerElement }),
         this.props.children
       )
     );

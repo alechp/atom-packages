@@ -76,6 +76,7 @@ function accumulateState(state, action) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getDeploymentTargetPreference(state) {

@@ -68,20 +68,20 @@ const { log, logError } = (_logger || _load_logger()).logger;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ConnectionMultiplexer {
-
-  constructor(sendMessageToClient) {
+  // Invariant: this._enabledConnection != null, if and only if that connection is paused.
+  constructor(sendMessageToClient, sendAtomNotification) {
     this._connections = new Set();
-    this._sendMessageToClient = message => sendMessageToClient(message);
+    this._sendMessageToClient = sendMessageToClient;
+    this._sendAtomNotification = sendAtomNotification;
     this._freshConnectionId = 0;
     this._newConnections = new _rxjsBundlesRxMinJs.Subject();
     this._breakpointManager = new (_BreakpointManager || _load_BreakpointManager()).BreakpointManager(this._sendMessageToClient.bind(this));
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(this._newConnections.subscribe(this._handleNewConnection.bind(this)), this._breakpointManager);
   }
-  // Invariant: this._enabledConnection != null, if and only if that connection is paused.
-
 
   sendCommand(message) {
     const [domain, method] = message.method.split('.');
@@ -168,7 +168,6 @@ class ConnectionMultiplexer {
             _this._sendMessageToClient(response);
             break;
           }
-
         // Events.  Typically we will just forward these to the client.
         case 'scriptParsed':
           {
@@ -314,7 +313,7 @@ class ConnectionMultiplexer {
   }
 
   _connectToContext(deviceInfo) {
-    const connection = new (_DebuggerConnection || _load_DebuggerConnection()).DebuggerConnection(this._freshConnectionId++, deviceInfo);
+    const connection = new (_DebuggerConnection || _load_DebuggerConnection()).DebuggerConnection(this._freshConnectionId++, deviceInfo, this._sendAtomNotification.bind(this));
     // While it is the CM's responsibility to create these subscriptions, their lifetimes are the
     // same as the connection, so their disposal will be handled by the connection.
     connection.onDispose(connection.getStatusChanges().subscribe(status => this._handleStatusChange(status, connection)), connection.subscribeToEvents(this.sendCommand.bind(this)));

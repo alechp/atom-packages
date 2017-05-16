@@ -41,11 +41,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const POLLING_INTERVAL = 2000;
 const PACKAGER_PORT = 8081;
 
+const ERROR_NO_DEVICES = 'Please run a debuggable app before attaching';
+const ERROR_LAST_DETACH = 'All app instances have been detached';
+
 function connectToPackager() {
-  return _rxjsBundlesRxMinJs.Observable.interval(POLLING_INTERVAL).mergeMap(() => fetchDeviceData(PACKAGER_PORT)).mergeMap(deviceInfos => deviceInfos).distinct(deviceInfo => deviceInfo.webSocketDebuggerUrl);
+  const origin = _rxjsBundlesRxMinJs.Observable.interval(POLLING_INTERVAL).mergeMap(() => fetchDeviceData(PACKAGER_PORT)).share();
+  const sizes = origin.map(devices => devices.length).distinctUntilChanged().startWith(0);
+  return _rxjsBundlesRxMinJs.Observable.merge(origin.mergeMap(deviceInfos => deviceInfos).distinct(deviceInfo => deviceInfo.webSocketDebuggerUrl),
+  // $FlowFixMe
+  _rxjsBundlesRxMinJs.Observable.zip(sizes.skip(1), sizes, (last, old) => [last, old]).mergeMap(([last, old]) => {
+    if (last === 0 && old === 0) {
+      return Promise.reject(packagerError(ERROR_NO_DEVICES));
+    } else if (last === 0) {
+      return Promise.reject(packagerError(ERROR_LAST_DETACH));
+    } else {
+      return _rxjsBundlesRxMinJs.Observable.empty();
+    }
+  }));
+}
+
+function packagerError(type) {
+  const error = new Error('Packager error');
+  error.type = type;
+  return error;
 }

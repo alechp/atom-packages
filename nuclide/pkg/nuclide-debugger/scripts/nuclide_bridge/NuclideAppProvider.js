@@ -45,6 +45,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class NuclideApp extends (_WebInspector || _load_WebInspector()).default.App {
@@ -73,8 +74,9 @@ class NuclideApp extends (_WebInspector || _load_WebInspector()).default.App {
       (_WebInspector || _load_WebInspector()).default.inspectorView.showInitialPanel();
       sourcesPanel._splitView.hideMain();
       rootView.attachToDocument(document);
-      // eslint-disable-next-line no-console
-    }).catch(e => console.error(e));
+    })
+    // eslint-disable-next-line no-console
+    .catch(e => console.error(e));
 
     // Clear breakpoints whenever they are saved to localStorage.
     (_WebInspector || _load_WebInspector()).default.settings.breakpoints.addChangeListener(this._onBreakpointSettingsChanged, this);

@@ -79,6 +79,7 @@ index abc123..cde456 100644
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 class FileChangesExample extends _react.default.Component {

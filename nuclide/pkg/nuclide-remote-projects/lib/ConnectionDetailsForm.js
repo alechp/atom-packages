@@ -58,6 +58,7 @@ const { SupportedMethods } = (_nuclideRemoteConnection || _load_nuclideRemoteCon
                                                                                                           * the root directory of this source tree.
                                                                                                           *
                                                                                                           * 
+                                                                                                          * @format
                                                                                                           */
 
 const authMethods = [SupportedMethods.PASSWORD, SupportedMethods.SSL_AGENT, SupportedMethods.PRIVATE_KEY];
@@ -193,7 +194,8 @@ class ConnectionDetailsForm extends _react.default.Component {
         {
           className: 'nuclide-auth-method-input nuclide-auth-method-password',
           onClick: this._handlePasswordInputClick },
-        _react.default.createElement('input', { type: 'password',
+        _react.default.createElement('input', {
+          type: 'password',
           className: 'nuclide-password native-key-bindings',
           disabled: activeAuthMethod !== SupportedMethods.PASSWORD,
           onChange: this._handleInputDidChange,
@@ -434,8 +436,10 @@ class ConnectionDetailsForm extends _react.default.Component {
   }
 
   _getPassword() {
-    // $FlowFixMe
-    return this.refs.password && _reactDom.default.findDOMNode(this.refs.password).value || '';
+    return (
+      // $FlowFixMe
+      this.refs.password && _reactDom.default.findDOMNode(this.refs.password).value || ''
+    );
   }
 
   clearPassword() {

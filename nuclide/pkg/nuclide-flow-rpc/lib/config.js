@@ -13,6 +13,7 @@ exports.setConfig = setConfig;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const config = {

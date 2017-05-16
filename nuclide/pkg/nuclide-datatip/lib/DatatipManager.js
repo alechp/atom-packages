@@ -155,6 +155,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global performance */
@@ -224,9 +225,14 @@ function renderProvider(datatip, editor, providerName, onPinClick) {
   });
 }
 
-function renderDatatip(editor, element, { range, renderedProvider }) {
+function renderDatatip(editor, element, {
+  range,
+  renderedProvider
+}) {
   // Transform the matched element range to the hint range.
-  const marker = editor.markBufferRange(range, { invalidate: 'never' });
+  const marker = editor.markBufferRange(range, {
+    invalidate: 'never'
+  });
 
   _reactDom.default.render(renderedProvider, element);
   element.style.display = 'block';
@@ -405,12 +411,23 @@ class DatatipManagerForEditor {
         return;
       }
 
+      if (_this._isHoveringOverPinnedTip()) {
+        _this._setState(DatatipState.HIDDEN);
+        return;
+      }
+
       _this._setState(DatatipState.VISIBLE);
       _this._interactedWith = false;
       _this._cumulativeWheelX = 0;
       _this._range = data.range;
       _this._marker = renderDatatip(_this._editor, _this._datatipElement, data);
     })();
+  }
+
+  _isHoveringOverPinnedTip() {
+    const pinnedDataTips = Array.from(this._pinnedDatatips.values());
+    const hoveringTips = pinnedDataTips.filter(dt => dt.isHovering());
+    return hoveringTips != null && hoveringTips.length > 0;
   }
 
   _hideDatatip() {
@@ -452,6 +469,12 @@ class DatatipManagerForEditor {
     if (this._insideDatatip) {
       return;
     }
+
+    if (this._isHoveringOverPinnedTip()) {
+      this._setState(DatatipState.HIDDEN);
+      return;
+    }
+
     const currentPosition = getBufferPosition(this._editor, this._editorView, this._lastMoveEvent);
     if (currentPosition && this._range && this._range.containsPoint(currentPosition)) {
       return;
@@ -464,6 +487,9 @@ class DatatipManagerForEditor {
     const pinnedDatatip = new (_PinnedDatatip || _load_PinnedDatatip()).PinnedDatatip(datatip, editor,
     /* onDispose */() => {
       this._pinnedDatatips.delete(pinnedDatatip);
+    },
+    /* hideDataTips */() => {
+      this._hideDatatip();
     });
     return pinnedDatatip;
   }
@@ -472,9 +498,15 @@ class DatatipManagerForEditor {
     (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('datatip-pinned-open');
     const startTime = (0, (_performanceNow || _load_performanceNow()).default)();
     this._setState(DatatipState.HIDDEN);
-    this._pinnedDatatips.add(new (_PinnedDatatip || _load_PinnedDatatip()).PinnedDatatip(datatip, editor, /* onDispose */pinnedDatatip => {
+    this._pinnedDatatips.add(new (_PinnedDatatip || _load_PinnedDatatip()).PinnedDatatip(datatip, editor,
+    /* onDispose */pinnedDatatip => {
       this._pinnedDatatips.delete(pinnedDatatip);
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('datatip-pinned-close', { duration: (0, (_performanceNow || _load_performanceNow()).default)() - startTime });
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('datatip-pinned-close', {
+        duration: (0, (_performanceNow || _load_performanceNow()).default)() - startTime
+      });
+    },
+    /* hideDataTips */() => {
+      this._hideDatatip();
     }));
   }
 

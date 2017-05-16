@@ -5,10 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.activate = activate;
 
-var _process;
+var _whenShellEnvironmentLoaded;
 
-function _load_process() {
-  return _process = require('../../commons-node/process');
+function _load_whenShellEnvironmentLoaded() {
+  return _whenShellEnvironmentLoaded = require('../../commons-node/whenShellEnvironmentLoaded');
 }
 
 /**
@@ -17,7 +17,7 @@ function _load_process() {
  * that the user's shell environment has been loaded in Atom.
  */
 function activate(state) {
-  (0, (_process || _load_process()).loadedShellEnvironment)();
+  (0, (_whenShellEnvironmentLoaded || _load_whenShellEnvironmentLoaded()).loadedShellEnvironment)();
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.
    * All rights reserved.
@@ -26,4 +26,7 @@ function activate(state) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
+
+// TODO(T17266325): Remove this package when `atom.whenShellEnvironmentLoaded()` lands.

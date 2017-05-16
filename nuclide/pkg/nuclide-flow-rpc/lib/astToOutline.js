@@ -31,6 +31,7 @@ function _load_tokenizedText() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function astToOutline(ast) {

@@ -49,6 +49,7 @@ const errors = new _rxjsBundlesRxMinJs.Subject(); /**
                                                    * the root directory of this source tree.
                                                    *
                                                    * 
+                                                   * @format
                                                    */
 
 function handleError(error) {

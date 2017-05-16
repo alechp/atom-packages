@@ -55,6 +55,7 @@ const BLAME_DECORATION_CLASS = 'blame-decoration'; /**
                                                     * the root directory of this source tree.
                                                     *
                                                     * 
+                                                    * @format
                                                     */
 
 let Avatar;
@@ -314,13 +315,8 @@ class GutterElement extends _react.default.Component {
         {
           className: 'nuclide-blame-row nuclide-blame-content',
           ref: (0, (_addTooltip || _load_addTooltip()).default)(tooltip) },
-        !isLastLine ? _react.default.createElement('div', {
-          className: 'nuclide-blame-vertical-bar nuclide-blame-vertical-bar-first'
-        }) : null,
-        Avatar ? _react.default.createElement(Avatar, {
-          size: 16,
-          unixname: unixname
-        }) : unixname + ': ',
+        !isLastLine ? _react.default.createElement('div', { className: 'nuclide-blame-vertical-bar nuclide-blame-vertical-bar-first' }) : null,
+        Avatar ? _react.default.createElement(Avatar, { size: 16, unixname: unixname }) : unixname + ': ',
         _react.default.createElement(
           'span',
           null,

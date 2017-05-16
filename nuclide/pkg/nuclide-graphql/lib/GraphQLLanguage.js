@@ -50,6 +50,7 @@ const GRAPHQL_SERVICE_NAME = 'GraphQLService'; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */
 
 const diagnosticsConfig = {

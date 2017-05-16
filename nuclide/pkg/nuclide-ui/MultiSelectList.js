@@ -27,6 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class MultiSelectList extends _react.default.Component {
@@ -99,9 +100,7 @@ class MultiSelectList extends _react.default.Component {
   render() {
     return _react.default.createElement(
       'div',
-      {
-        className: 'nuclide-multi-select-list select-list block',
-        tabIndex: '0' },
+      { className: 'nuclide-multi-select-list select-list block', tabIndex: '0' },
       _react.default.createElement(
         'ol',
         { className: 'list-group mark-active' },

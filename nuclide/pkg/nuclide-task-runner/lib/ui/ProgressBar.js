@@ -53,6 +53,7 @@ exports.ProgressBar = ProgressBar; /**
                                     * the root directory of this source tree.
                                     *
                                     * 
+                                    * @format
                                     */
 
 class Bar extends _react.default.Component {

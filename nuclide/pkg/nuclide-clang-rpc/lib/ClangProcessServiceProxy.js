@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 22
+          line: 23
         },
         kind: "string"
       }
@@ -23,7 +23,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 22
+          line: 23
         },
         kind: "named",
         name: "ClangCompileResult"
@@ -38,7 +38,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 27
+          line: 28
         },
         kind: "string"
       }
@@ -48,7 +48,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 28
+          line: 29
         },
         kind: "number"
       }
@@ -58,7 +58,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 29
+          line: 30
         },
         kind: "number"
       }
@@ -68,7 +68,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 30
+          line: 31
         },
         kind: "number"
       }
@@ -78,7 +78,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 31
+          line: 32
         },
         kind: "string"
       }
@@ -89,21 +89,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 32
+          line: 33
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 32
+            line: 33
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 32
+              line: 33
             },
             kind: "named",
             name: "ClangCompletion"
@@ -120,7 +120,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 37
+          line: 38
         },
         kind: "string"
       }
@@ -130,7 +130,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 38
+          line: 39
         },
         kind: "number"
       }
@@ -140,7 +140,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 39
+          line: 40
         },
         kind: "number"
       }
@@ -151,14 +151,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 40
+          line: 41
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 40
+            line: 41
           },
           kind: "named",
           name: "ClangDeclaration"
@@ -174,7 +174,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 45
+          line: 46
         },
         kind: "string"
       }
@@ -184,7 +184,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 46
+          line: 47
         },
         kind: "number"
       }
@@ -194,7 +194,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 47
+          line: 48
         },
         kind: "number"
       }
@@ -205,21 +205,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 48
+          line: 49
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 48
+            line: 49
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 48
+              line: 49
             },
             kind: "named",
             name: "ClangCursor"
@@ -236,7 +236,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 53
+          line: 54
         },
         kind: "string"
       }
@@ -247,21 +247,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 54
+          line: 55
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 54
+            line: 55
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 54
+              line: 55
             },
             kind: "named",
             name: "ClangOutlineTree"
@@ -278,7 +278,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 59
+          line: 60
         },
         kind: "string"
       }
@@ -288,7 +288,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 60
+          line: 61
         },
         kind: "number"
       }
@@ -298,7 +298,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 61
+          line: 62
         },
         kind: "number"
       }
@@ -309,14 +309,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 62
+          line: 63
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 62
+            line: 63
           },
           kind: "named",
           name: "ClangLocalReferences"
@@ -397,13 +397,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 22
+        line: 23
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 22
+          line: 23
         },
         kind: "function",
         argumentTypes: [{
@@ -412,7 +412,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 22
+              line: 23
             },
             kind: "string"
           }
@@ -421,14 +421,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 22
+            line: 23
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 22
+              line: 23
             },
             kind: "named",
             name: "ClangCompileResult"
@@ -442,13 +442,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 26
+        line: 27
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 26
+          line: 27
         },
         kind: "function",
         argumentTypes: [{
@@ -457,7 +457,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 27
+              line: 28
             },
             kind: "string"
           }
@@ -467,7 +467,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 28
+              line: 29
             },
             kind: "number"
           }
@@ -477,7 +477,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 29
+              line: 30
             },
             kind: "number"
           }
@@ -487,7 +487,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 30
+              line: 31
             },
             kind: "number"
           }
@@ -497,7 +497,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 31
+              line: 32
             },
             kind: "string"
           }
@@ -506,28 +506,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 32
+            line: 33
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 32
+              line: 33
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ClangProcessService.js",
-                line: 32
+                line: 33
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "ClangProcessService.js",
-                  line: 32
+                  line: 33
                 },
                 kind: "named",
                 name: "ClangCompletion"
@@ -543,13 +543,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 36
+        line: 37
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 36
+          line: 37
         },
         kind: "function",
         argumentTypes: [{
@@ -558,7 +558,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 37
+              line: 38
             },
             kind: "string"
           }
@@ -568,7 +568,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 38
+              line: 39
             },
             kind: "number"
           }
@@ -578,7 +578,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 39
+              line: 40
             },
             kind: "number"
           }
@@ -587,21 +587,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 40
+            line: 41
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 40
+              line: 41
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ClangProcessService.js",
-                line: 40
+                line: 41
               },
               kind: "named",
               name: "ClangDeclaration"
@@ -616,13 +616,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 44
+        line: 45
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 44
+          line: 45
         },
         kind: "function",
         argumentTypes: [{
@@ -631,7 +631,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 45
+              line: 46
             },
             kind: "string"
           }
@@ -641,7 +641,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 46
+              line: 47
             },
             kind: "number"
           }
@@ -651,7 +651,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 47
+              line: 48
             },
             kind: "number"
           }
@@ -660,28 +660,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 48
+            line: 49
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 48
+              line: 49
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ClangProcessService.js",
-                line: 48
+                line: 49
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "ClangProcessService.js",
-                  line: 48
+                  line: 49
                 },
                 kind: "named",
                 name: "ClangCursor"
@@ -697,13 +697,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 52
+        line: 53
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 52
+          line: 53
         },
         kind: "function",
         argumentTypes: [{
@@ -712,7 +712,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 53
+              line: 54
             },
             kind: "string"
           }
@@ -721,28 +721,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 54
+            line: 55
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 54
+              line: 55
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ClangProcessService.js",
-                line: 54
+                line: 55
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "ClangProcessService.js",
-                  line: 54
+                  line: 55
                 },
                 kind: "named",
                 name: "ClangOutlineTree"
@@ -758,13 +758,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ClangProcessService.js",
-        line: 58
+        line: 59
       },
       type: {
         location: {
           type: "source",
           fileName: "ClangProcessService.js",
-          line: 58
+          line: 59
         },
         kind: "function",
         argumentTypes: [{
@@ -773,7 +773,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 59
+              line: 60
             },
             kind: "string"
           }
@@ -783,7 +783,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 60
+              line: 61
             },
             kind: "number"
           }
@@ -793,7 +793,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 61
+              line: 62
             },
             kind: "number"
           }
@@ -802,21 +802,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ClangProcessService.js",
-            line: 62
+            line: 63
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ClangProcessService.js",
-              line: 62
+              line: 63
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ClangProcessService.js",
-                line: 62
+                line: 63
               },
               kind: "named",
               name: "ClangLocalReferences"

@@ -40,6 +40,7 @@ const FlexDirections = exports.FlexDirections = Object.freeze({
      * the root directory of this source tree.
      *
      * 
+     * @format
      */
 
 function getChildrenFlexScales(children) {
@@ -88,9 +89,9 @@ class ResizableFlexContainer extends _react.default.Component {
       const flexScale = flexScales[i];
       if (direction === FlexDirections.HORIZONTAL) {
         lastPane = lastPane.splitRight({ flexScale });
-      } else /* direction === SplitDirections.VERTICAL */{
-          lastPane = lastPane.splitDown({ flexScale });
-        }
+      } else {
+        /* direction === SplitDirections.VERTICAL */lastPane = lastPane.splitDown({ flexScale });
+      }
       this._panes.push(lastPane);
     }
     startingPane.setFlexScale(flexScales[0]);

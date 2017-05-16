@@ -1,6 +1,5 @@
 {Range, Point} = require 'atom'
 Base = require './base'
-swrap = require './selection-wrapper'
 _ = require 'underscore-plus'
 
 {
@@ -12,6 +11,8 @@ _ = require 'underscore-plus'
   isSingleLineRange
   isLeadingWhiteSpaceRange
   humanizeBufferRange
+  getFoldInfoByKind
+  limitNumber
 } = require './utils'
 
 class MiscCommand extends Base
@@ -35,7 +36,7 @@ class Mark extends MiscCommand
 class ReverseSelections extends MiscCommand
   @extend()
   execute: ->
-    swrap.setReversedState(@editor, not @editor.getLastSelection().isReversed())
+    @swrap.setReversedState(@editor, not @editor.getLastSelection().isReversed())
     if @isMode('visual', 'blockwise')
       @getLastBlockwiseSelection().autoscroll()
 
@@ -155,11 +156,65 @@ class Redo extends Undo
   mutate: ->
     @editor.redo()
 
+# za
 class ToggleFold extends MiscCommand
   @extend()
   execute: ->
     point = @editor.getCursorBufferPosition()
     @editor.toggleFoldAtBufferRow(point.row)
+
+# zR
+class UnfoldAll extends MiscCommand
+  @extend()
+  execute: ->
+    @editor.unfoldAll()
+
+# zM
+class FoldAll extends MiscCommand
+  @extend()
+  execute: ->
+    {allFold} = getFoldInfoByKind(@editor)
+    if allFold?
+      @editor.unfoldAll()
+      for {indent, startRow, endRow} in allFold.rowRangesWithIndent
+        if indent <= @getConfig('maxFoldableIndentLevel')
+          @editor.foldBufferRowRange(startRow, endRow)
+
+# zr
+class UnfoldNextIndentLevel extends MiscCommand
+  @extend()
+  execute: ->
+    {folded} = getFoldInfoByKind(@editor)
+    if folded?
+      {minIndent, rowRangesWithIndent} = folded
+      count = limitNumber(@getCount() - 1, min: 0)
+      targetIndents = [minIndent..(minIndent + count)]
+      for {indent, startRow} in rowRangesWithIndent
+        if indent in targetIndents
+          @editor.unfoldBufferRow(startRow)
+
+# zm
+class FoldNextIndentLevel extends MiscCommand
+  @extend()
+  execute: ->
+    {unfolded, allFold} = getFoldInfoByKind(@editor)
+    if unfolded?
+      # FIXME: Why I need unfoldAll()? Why can't I just fold non-folded-fold only?
+      # Unless unfoldAll() here, @editor.unfoldAll() delete foldMarker but fail
+      # to render unfolded rows correctly.
+      # I believe this is bug of text-buffer's markerLayer which assume folds are
+      # created **in-order** from top-row to bottom-row.
+      @editor.unfoldAll()
+
+      maxFoldable = @getConfig('maxFoldableIndentLevel')
+      fromLevel = Math.min(unfolded.maxIndent, maxFoldable)
+      count = limitNumber(@getCount() - 1, min: 0)
+      fromLevel = limitNumber(fromLevel - count, min: 0)
+      targetIndents = [fromLevel..maxFoldable]
+
+      for {indent, startRow, endRow} in allFold.rowRangesWithIndent
+        if indent in targetIndents
+          @editor.foldBufferRowRange(startRow, endRow)
 
 class ReplaceModeBackspace extends MiscCommand
   @commandScope: 'atom-text-editor.vim-mode-plus.insert-mode.replace'

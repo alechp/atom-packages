@@ -97,6 +97,7 @@ exports.Socket = Socket; /**
                           * the root directory of this source tree.
                           *
                           * 
+                          * @format
                           */
 
 function isEvent(obj) {

@@ -29,6 +29,7 @@ const DELETE_BUTTON_TITLE_DEFAULT = 'Delete selected item'; /**
                                                              * the root directory of this source tree.
                                                              *
                                                              * 
+                                                             * @format
                                                              */
 
 const DELETE_BUTTON_TITLE_NONE = 'No item selected to delete';

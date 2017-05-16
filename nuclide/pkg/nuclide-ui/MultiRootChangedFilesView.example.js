@@ -35,6 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function onFileChosen(uri) {
@@ -50,7 +51,7 @@ function BasicExample() {
       (_Block || _load_Block()).Block,
       null,
       _react.default.createElement((_MultiRootChangedFilesView || _load_MultiRootChangedFilesView()).MultiRootChangedFilesView, {
-        fileChanges: fileChanges,
+        fileStatuses: fileChanges,
         commandPrefix: 'sample-ui-playground',
         selectedFile: null,
         onFileChosen: onFileChosen

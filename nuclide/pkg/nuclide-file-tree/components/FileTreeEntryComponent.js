@@ -21,12 +21,6 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _fileTypeClass;
-
-function _load_fileTypeClass() {
-  return _fileTypeClass = _interopRequireDefault(require('../../commons-atom/file-type-class'));
-}
-
 var _observable;
 
 function _load_observable() {
@@ -75,6 +69,12 @@ function _load_addTooltip() {
   return _addTooltip = _interopRequireDefault(require('../../nuclide-ui/add-tooltip'));
 }
 
+var _PathWithFileIcon;
+
+function _load_PathWithFileIcon() {
+  return _PathWithFileIcon = _interopRequireDefault(require('../../nuclide-ui/PathWithFileIcon'));
+}
+
 var _os = _interopRequireDefault(require('os'));
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
@@ -89,6 +89,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
@@ -178,15 +179,15 @@ class FileTreeEntryComponent extends _react.default.Component {
       'file list-item': !node.isContainer,
       'directory list-nested-item': node.isContainer,
       'current-working-directory': node.isCwd,
-      'collapsed': !node.isLoading && !node.isExpanded,
-      'expanded': !node.isLoading && node.isExpanded,
+      collapsed: !node.isLoading && !node.isExpanded,
+      expanded: !node.isLoading && node.isExpanded,
       'project-root': node.isRoot,
-      'selected': node.isSelected || node.isDragHovered,
+      selected: node.isSelected || node.isDragHovered,
       'nuclide-file-tree-softened': node.shouldBeSoftened
     });
     const listItemClassName = (0, (_classnames || _load_classnames()).default)({
       'header list-item': node.isContainer,
-      'loading': this.state.isLoading
+      loading: this.state.isLoading
     });
 
     let statusClass;
@@ -215,17 +216,11 @@ class FileTreeEntryComponent extends _react.default.Component {
       }
     }
 
-    let iconName;
     let tooltip;
     if (node.isContainer) {
       if (node.isCwd) {
-        iconName = 'icon-nuclicon-file-directory-starred';
         tooltip = (0, (_addTooltip || _load_addTooltip()).default)({ title: 'Current Working Root' });
-      } else {
-        iconName = 'icon-nuclicon-file-directory';
       }
-    } else {
-      iconName = (0, (_fileTypeClass || _load_fileTypeClass()).default)(node.name);
     }
 
     return _react.default.createElement(
@@ -239,13 +234,16 @@ class FileTreeEntryComponent extends _react.default.Component {
         onDoubleClick: this._onDoubleClick },
       _react.default.createElement(
         'div',
-        {
-          className: listItemClassName,
-          ref: 'arrowContainer' },
+        { className: listItemClassName, ref: 'arrowContainer' },
         _react.default.createElement(
-          'span',
+          (_PathWithFileIcon || _load_PathWithFileIcon()).default,
           {
-            className: `nuclide-file-tree-path icon name ${iconName}`,
+            className: (0, (_classnames || _load_classnames()).default)('name', 'nuclide-file-tree-path', {
+              'icon-nuclicon-file-directory': node.isContainer && !node.isCwd,
+              'icon-nuclicon-file-directory-starred': node.isContainer && node.isCwd
+            }),
+            isFolder: node.isContainer,
+            path: node.uri,
             ref: elem => {
               this._pathContainer = elem;
               tooltip && tooltip(elem);
@@ -253,14 +251,7 @@ class FileTreeEntryComponent extends _react.default.Component {
             'data-name': node.name,
             'data-path': node.uri },
           this._renderCheckbox(),
-          _react.default.createElement(
-            'span',
-            {
-              className: 'nuclide-file-tree-path',
-              'data-name': node.name,
-              'data-path': node.uri },
-            (0, (_FileTreeFilterHelper || _load_FileTreeFilterHelper()).filterName)(node.name, node.highlightedText, node.isSelected)
-          )
+          (0, (_FileTreeFilterHelper || _load_FileTreeFilterHelper()).filterName)(node.name, node.highlightedText, node.isSelected)
         ),
         this._renderConnectionTitle()
       )
@@ -303,11 +294,11 @@ class FileTreeEntryComponent extends _react.default.Component {
     }
 
     const node = this.props.node;
-    return node.isContainer
+    return node.isContainer &&
     // $FlowFixMe
-    && _reactDom.default.findDOMNode(this.refs.arrowContainer).contains(event.target)
+    _reactDom.default.findDOMNode(this.refs.arrowContainer).contains(event.target) && event.clientX <
     // $FlowFixMe
-    && event.clientX < _reactDom.default.findDOMNode(this._pathContainer).getBoundingClientRect().left;
+    _reactDom.default.findDOMNode(this._pathContainer).getBoundingClientRect().left;
   }
 
   _onMouseDown(event) {
@@ -415,7 +406,12 @@ class FileTreeEntryComponent extends _react.default.Component {
 
   _onDragStart(event) {
     event.stopPropagation();
-    const target = this._pathContainer;
+    if (this._pathContainer == null) {
+      return;
+    }
+
+    // $FlowFixMe
+    const target = _reactDom.default.findDOMNode(this._pathContainer);
     if (target == null) {
       return;
     }
@@ -497,6 +493,9 @@ exports.FileTreeEntryComponent = FileTreeEntryComponent;
 function getSelectionMode(event) {
   if (_os.default.platform() === 'darwin' && event.metaKey && event.button === 0 || _os.default.platform() !== 'darwin' && event.ctrlKey && event.button === 0) {
     return 'multi-select';
+  }
+  if (_os.default.platform() === 'darwin' && event.ctrlKey && event.button === 0) {
+    return 'single-select';
   }
   if (event.shiftKey && event.button === 0) {
     return 'range-select';

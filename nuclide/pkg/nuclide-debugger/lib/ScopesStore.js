@@ -66,4 +66,5 @@ exports.default = ScopesStore; /**
                                 * the root directory of this source tree.
                                 *
                                 * 
+                                * @format
                                 */

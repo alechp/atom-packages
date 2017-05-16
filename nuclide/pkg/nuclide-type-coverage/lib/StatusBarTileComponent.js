@@ -7,6 +7,12 @@ exports.StatusBarTileComponent = undefined;
 
 var _react = _interopRequireDefault(require('react'));
 
+var _Icon;
+
+function _load_Icon() {
+  return _Icon = require('../../nuclide-ui/Icon');
+}
+
 var _addTooltip;
 
 function _load_addTooltip() {
@@ -35,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const REALLY_BAD_THRESHOLD = 50;
@@ -77,11 +84,19 @@ class StatusBarTileComponent extends _react.default.Component {
             delay: 0,
             placement: 'top'
           }) },
+        this._getIconElement(result.icon),
         formattedPercentage
       );
     } else {
       return null;
     }
+  }
+
+  _getIconElement(icon) {
+    if (icon == null) {
+      return null;
+    }
+    return _react.default.createElement((_Icon || _load_Icon()).Icon, { icon: icon });
   }
 }
 

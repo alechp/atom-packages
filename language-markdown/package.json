@@ -2,40 +2,40 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117316-13655-hpugmb.2dn16k1emi"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7488-1mhmsf3.torxgk3xr"
     ]
   ],
-  "_from": "../d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
-  "_id": "language-markdown@0.20.0",
+  "_from": "../d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
+  "_id": "language-markdown@0.22.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/language-markdown",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
-  "_shasum": "7ae4ff1ab98c0dd293af6c74fe31ad43eaee6247",
+  "_resolved": "file:../d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
+  "_shasum": "73334d0cc78273e1d2e005811b2bbec1f3e8ef5a",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117316-13655-10x1x6n.76gbdzehfr/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117316-13655-hpugmb.2dn16k1emi",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7488-15kdzl3.k9mfb6gvi/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7488-1mhmsf3.torxgk3xr",
   "bugs": {
     "url": "https://github.com/burodepeper/language-markdown/issues"
   },
@@ -72,11 +72,11 @@
   "name": "language-markdown",
   "optionalDependencies": {},
   "private": true,
-  "readme": "# Markdown grammar\n\nA realistic implementation of various Markdown specifications as a flexible, drop-in alternative for [language-gfm](https://github.com/atom/language-gfm/). Adds smart context-aware behavior to lists, and keyboard shortcuts for inline emphasis and links/images.\n\n[![Build Status](https://travis-ci.org/burodepeper/language-markdown.svg?branch=master)](https://travis-ci.org/burodepeper/language-markdown)\n[![apm](https://img.shields.io/apm/dm/language-markdown.svg)](https://atom.io/packages/language-markdown)\n[![apm](https://img.shields.io/apm/v/language-markdown.svg)](https://atom.io/packages/language-markdown)\n\n## Installation\n\n1. Install `language-markdown` via either\n  - your terminal: `apm install language-markdown`\n  - the Atom GUI: `Atom` > `Settings` > `Install` > Search for `language-markdown`\n2. Select `language-markdown` as your Markdown grammar. Open a Markdown file and\n  - press <kbd>ctrl+shift+L</kbd> and choose \"Markdown\"\n  - choose \"Markdown\" from the grammar selection interface in the bottom right-hand corner of the window\n\nTo avoid conflicts this package tries to disable the core package `language-gfm`. If you run into any issue, make sure you've selected the correct grammar.\n\n## Supported grammars\n\n- CommonMark Markdown\n- Github Flavored Markdown (including AtomDoc)\n- Markdown Extra\n- CriticMark annotation\n- Front Matter (yaml, toml and json)\n- R Markdown\n\n### Additional features\n\n- **Smarter lists**\n  - Automatically create new list-items when pressing <kbd>enter</kbd>\n  - Indent or outdent list-items by pressing <kbd>tab</kbd> or <kbd>shift+tab</kbd>\n  - Toggle tasks with <kbd>cmd+shift+x</kbd> or <kbd>ctrl+shift+x</kbd>\n  - Remove empty trailing list-items when pressing <kbd>enter</kbd>\n- Add shortcuts (via <kbd>_</kbd>, <kbd>*</kbd> and <kbd>~</kbd>) for toggling inline-emphasis and strike-through on selected text\n- Add shortcuts for converting selected text to a link (via <kbd>@</kbd>) or an image (via <kbd>!</kbd>)\n- Supports embedded `HTML`- and `Liquid`-tags\n- Embedded math functions (via `language-latex` and `language-mathematica`)\n\n### Syntax-theme support\n\nBy default, most syntax-themes only provide basic styling for `.markup` classes. This package provides additional, more specific classes which are supported by the following syntax-themes:\n\n- [minimal-syntax](https://atom.io/themes/minimal-syntax) (light, high-contrast)\n- [minimal-syntax-dark](https://atom.io/themes/minimal-syntax-dark) (dark, high-contrast)\n- [pen-paper-coffee](https://atom.io/themes/pen-paper-coffee-syntax) (light, low-contrast)\n- [pubster-syntax](https://atom.io/themes/pubster-syntax) (dark, high-contrast)\n- [one-o-eight-syntax](https://atom.io/themes/one-o-eight-syntax) (various, medium-contrast)\n\nIf you are interested in adding support for all `.markup` classes to your syntax-theme, take a look at [the relevant section](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md#syntax-theme-support) in [the contribution guide](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md).\n\n## F.A.Q.\n\nIf you run into any issues, consult the [F.A.Q.](https://github.com/burodepeper/language-markdown/blob/master/FAQ.md) first. Amongst other things, this document contains information about common issues involving spell-check, autocompletion and syntax-highlighting.\n\n## Contributing\n\nIf you want to contribute to this package, have a look at [the contribution guide](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md).\n",
+  "readme": "# Markdown grammar\n\nA realistic implementation of various Markdown specifications as a flexible, drop-in alternative for [language-gfm](https://github.com/atom/language-gfm/). Adds smart context-aware behavior to lists, and keyboard shortcuts for inline emphasis and links/images.\n\n[![Build Status](https://travis-ci.org/burodepeper/language-markdown.svg?branch=master)](https://travis-ci.org/burodepeper/language-markdown)\n[![apm](https://img.shields.io/apm/dm/language-markdown.svg)](https://atom.io/packages/language-markdown)\n[![apm](https://img.shields.io/apm/v/language-markdown.svg)](https://atom.io/packages/language-markdown)\n\n## Installation\n\n1. Install `language-markdown` via either\n  - your terminal: `apm install language-markdown`\n  - the Atom GUI: `Atom` > `Settings` > `Install` > Search for `language-markdown`\n2. Select `language-markdown` as your Markdown grammar. Open a Markdown file and\n  - press <kbd>ctrl+shift+L</kbd> and choose \"Markdown\"\n  - choose \"Markdown\" from the grammar selection interface in the bottom right-hand corner of the window\n\nTo avoid conflicts this package tries to disable the core package `language-gfm`. If you run into any issue, make sure you've selected the correct grammar.\n\n## Supported grammars\n\n- CommonMark Markdown\n- Github Flavored Markdown (including AtomDoc)\n- Markdown Extra\n- CriticMark annotation\n- Front Matter (yaml, toml and json)\n- R Markdown\n\n### Additional features\n\n- **Smarter lists**\n  - Automatically create new list-items when pressing <kbd>enter</kbd>\n  - Indent or outdent list-items by pressing <kbd>tab</kbd> or <kbd>shift+tab</kbd>\n  - Toggle tasks with <kbd>cmd+shift+x</kbd> or <kbd>ctrl+shift+x</kbd>\n  - Remove empty trailing list-items when pressing <kbd>enter</kbd>\n- Add shortcuts (via <kbd>_</kbd>, <kbd>*</kbd> and <kbd>~</kbd>) for toggling inline-emphasis and strike-through on selected text\n- Add shortcuts for converting selected text to a link (via <kbd>@</kbd>) or an image (via <kbd>!</kbd>)\n- Supports embedded `HTML`- and `Liquid`-tags\n- Embedded math functions (via `language-latex` and `language-mathematica`)\n\n### Syntax-theme support\n\nBy default, most syntax-themes only provide basic styling for `.markup` classes. This package provides additional, more specific classes which are supported by the following syntax-themes:\n\n- [minimal-syntax](https://atom.io/themes/minimal-syntax) (light, high-contrast)\n- [minimal-syntax-dark](https://atom.io/themes/minimal-syntax-dark) (dark, high-contrast)\n- [pen-paper-coffee](https://atom.io/themes/pen-paper-coffee-syntax) (light, low-contrast)\n- [pubster-syntax](https://atom.io/themes/pubster-syntax) (dark, high-contrast)\n- [one-o-eight-syntax](https://atom.io/themes/one-o-eight-syntax) (various, medium-contrast)\n\nIf you are interested in adding support for all `.markup` classes to your syntax-theme, take a look at [the relevant section](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md#syntax-theme-support) in [the contribution guide](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md).\n\n## F.A.Q.\n\nIf you run into any issues, consult the [F.A.Q.](https://github.com/burodepeper/language-markdown/blob/master/FAQ.md) first. Amongst other things, this document contains information about common issues involving:\n\n- spell-check\n- autocompletion\n- syntax-highlighting\n- whitespace\n\n## Contributing\n\nIf you want to contribute to this package, have a look at [the contribution guide](https://github.com/burodepeper/language-markdown/blob/master/CONTRIBUTING.md).\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/burodepeper/language-markdown.git"
   },
-  "version": "0.20.0"
+  "version": "0.22.0"
 }

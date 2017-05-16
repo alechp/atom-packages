@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ConsoleContainer = exports.WORKSPACE_VIEW_URI = undefined;
 
+var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
 var _viewableFromReactElement;
 
 function _load_viewableFromReactElement() {
@@ -55,15 +57,18 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/console'; /**
-                                                                                   * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                   * All rights reserved.
-                                                                                   *
-                                                                                   * This source code is licensed under the license found in the LICENSE file in
-                                                                                   * the root directory of this source tree.
-                                                                                   *
-                                                                                   * 
-                                                                                   */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/console';
 
 const INITIAL_RECORD_HEIGHT = 21;
 
@@ -77,7 +82,12 @@ class ConsoleContainer extends _react.default.Component {
     this._toggleRegExpFilter = this._toggleRegExpFilter.bind(this);
     this._updateFilterText = this._updateFilterText.bind(this);
     this._resetAllFilters = this._resetAllFilters.bind(this);
-    const { initialFilterText, initialEnableRegExpFilter, initialUnselectedSourceIds } = props;
+    this._createPaste = this._createPaste.bind(this);
+    const {
+      initialFilterText,
+      initialEnableRegExpFilter,
+      initialUnselectedSourceIds
+    } = props;
     this.state = {
       ready: false,
       currentExecutor: null,
@@ -151,6 +161,7 @@ class ConsoleContainer extends _react.default.Component {
   copy() {
     return (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.default.createElement(ConsoleContainer, {
       store: this.props.store,
+      createPasteFunction: this.props.createPasteFunction,
       initialFilterText: this.state.filterText,
       initialEnableRegExpFilter: this.state.enableRegExpFilter,
       initialUnselectedSourceIds: this.state.unselectedSourceIds
@@ -180,20 +191,72 @@ class ConsoleContainer extends _react.default.Component {
     this._updateFilterText('');
   }
 
-  render() {
-    if (!this.state.ready) {
-      return _react.default.createElement('span', null);
-    }
+  _createPaste() {
+    var _this = this;
 
-    const actionCreators = this._getBoundActionCreators();
+    return (0, _asyncToGenerator.default)(function* () {
+      if (_this.props.createPasteFunction == null) {
+        return;
+      }
 
+      const { displayableRecords } = _this._getFilterInfo();
+      const lines = displayableRecords.filter(function (displayable) {
+        return displayable.record.kind === 'message';
+      }).map(function (displayable) {
+        const record = displayable.record;
+        const level = record.level.toString().toUpperCase();
+        const timestamp = record.timestamp.toLocaleString();
+        return `[${level}][${record.sourceId}][${timestamp}]\t ${record.text}`;
+      }).join('\n');
+
+      if (lines === '') {
+        // Can't create an empty paste!
+        atom.notifications.addWarning('There is nothing in your console to Paste! Check your console filters and try again.');
+        return;
+      }
+
+      atom.notifications.addInfo('Creating Paste...');
+
+      if (!(_this.props.createPasteFunction != null)) {
+        throw new Error('Invariant violation: "this.props.createPasteFunction != null"');
+      }
+
+      const uri = yield _this.props.createPasteFunction(lines, {
+        title: 'Nuclide Console Paste'
+      }, 'console paste');
+
+      atom.notifications.addSuccess(`Created Paste at ${uri}`);
+    })();
+  }
+
+  _getFilterInfo() {
     const { pattern, isValid } = this._getFilterPattern(this.state.filterText, this.state.enableRegExpFilter);
 
     const selectedSourceIds = this.state.sources.map(source => source.id).filter(sourceId => this.state.unselectedSourceIds.indexOf(sourceId) === -1);
 
     const displayableRecords = filterRecords(this.state.displayableRecords, selectedSourceIds, pattern, this.state.sources.length !== selectedSourceIds.length);
 
+    return {
+      isValid,
+      selectedSourceIds,
+      displayableRecords
+    };
+  }
+
+  render() {
+    if (!this.state.ready) {
+      return _react.default.createElement('span', null);
+    }
+
+    const actionCreators = this._getBoundActionCreators();
+    const {
+      isValid,
+      selectedSourceIds,
+      displayableRecords
+    } = this._getFilterInfo();
     const filteredRecordCount = this.state.displayableRecords.length - displayableRecords.length;
+
+    const createPaste = this.props.createPasteFunction != null ? this._createPaste : null;
 
     // TODO(matthewwithanm): serialize and restore `initialSelectedSourceId`
     return _react.default.createElement((_Console || _load_Console()).default, {
@@ -201,6 +264,7 @@ class ConsoleContainer extends _react.default.Component {
       execute: actionCreators.execute,
       selectExecutor: actionCreators.selectExecutor,
       clearRecords: actionCreators.clearRecords,
+      createPaste: createPaste,
       currentExecutor: this.state.currentExecutor,
       unselectedSourceIds: this.state.unselectedSourceIds,
       filterText: this.state.filterText,

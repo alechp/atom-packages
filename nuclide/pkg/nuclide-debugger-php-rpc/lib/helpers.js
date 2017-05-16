@@ -10,10 +10,10 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 // Returns true if hphpd might be attached according to some heuristics applied to the process list.
 let hphpdMightBeAttached = exports.hphpdMightBeAttached = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* () {
-    const processes = yield (0, (_process || _load_process()).checkOutput)('ps', ['aux'], {});
-    return processes.stdout.toString().split('\n').slice(1).some(function (line) {
-      return line.indexOf('m debug') >= 0 // hhvm -m debug
-      || line.indexOf('mode debug') >= 0; // hhvm --mode debug
+    const processes = yield (0, (_process || _load_process()).runCommand)('ps', ['aux'], {}).toPromise();
+    return processes.toString().split('\n').slice(1).some(function (line) {
+      return line.indexOf('m debug') >= 0 || line.indexOf('mode debug') >= 0 // hhvm -m debug
+      ; // hhvm --mode debug
     });
   });
 
@@ -80,6 +80,7 @@ const DUMMY_FRAME_ID = exports.DUMMY_FRAME_ID = 'Frame.0'; /**
                                                             * the root directory of this source tree.
                                                             *
                                                             * 
+                                                            * @format
                                                             */
 
 function isContinuationCommand(command) {
@@ -169,6 +170,17 @@ function launchPhpScriptWithXDebugEnabled(scriptPath, sendToOutputWindowAndResol
     const block = chunk.toString();
     const output = `child_process(${proc.pid}) stdout: ${block}`;
     (_utils || _load_utils()).default.log(output);
+    if (sendToOutputWindowAndResolve != null) {
+      sendToOutputWindowAndResolve(block, 'text');
+    }
+  });
+  proc.stderr.on('data', chunk => {
+    const block = chunk.toString().trim();
+    const output = `child_process(${proc.pid}) stderr: ${block}`;
+    (_utils || _load_utils()).default.log(output);
+    if (sendToOutputWindowAndResolve != null) {
+      sendToOutputWindowAndResolve(block, 'error');
+    }
   });
   proc.on('error', err => {
     (_utils || _load_utils()).default.log(`child_process(${proc.pid}) error: ${err}`);

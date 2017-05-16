@@ -47,6 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const NEW_WORKING_SET_EVENT = 'new-working-set';
@@ -166,11 +167,22 @@ class WorkingSetsStore {
 
     let newDefinitions;
     if (nameIndex < 0) {
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('working-sets-create', { name, uris: workingSet.getUris().join(',') });
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('working-sets-create', {
+        name,
+        uris: workingSet.getUris().join(',')
+      });
 
-      newDefinitions = definitions.concat({ name, uris: workingSet.getUris(), active: false });
+      newDefinitions = definitions.concat({
+        name,
+        uris: workingSet.getUris(),
+        active: false
+      });
     } else {
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('working-sets-update', { oldName: name, name: newName, uris: workingSet.getUris().join(',') });
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('working-sets-update', {
+        oldName: name,
+        name: newName,
+        uris: workingSet.getUris().join(',')
+      });
 
       const active = definitions[nameIndex].active;
       newDefinitions = [].concat(definitions.slice(0, nameIndex), { name: newName, uris: workingSet.getUris(), active }, definitions.slice(nameIndex + 1));

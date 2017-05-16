@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const FileEventKind = exports.FileEventKind = Object.freeze({

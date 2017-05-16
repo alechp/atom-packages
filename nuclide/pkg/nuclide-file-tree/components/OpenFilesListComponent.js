@@ -117,7 +117,7 @@ class OpenFilesListComponent extends _react.default.PureComponent {
               'li',
               {
                 className: (0, (_classnames || _load_classnames()).default)('list-item', {
-                  'selected': e.isSelected,
+                  selected: e.isSelected,
                   'text-highlight': isHoveredUri
                 }),
                 key: e.uri,
@@ -154,6 +154,7 @@ exports.OpenFilesListComponent = OpenFilesListComponent; /**
                                                           * the root directory of this source tree.
                                                           *
                                                           * 
+                                                          * @format
                                                           */
 
 function propsToEntries(props) {

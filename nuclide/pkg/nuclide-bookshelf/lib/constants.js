@@ -22,6 +22,7 @@ const ActionType = exports.ActionType = Object.freeze({
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 ActionType;

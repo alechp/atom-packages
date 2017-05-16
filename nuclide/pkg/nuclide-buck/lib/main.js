@@ -21,10 +21,22 @@ function _load_registerGrammar() {
 
 var _atom = require('atom');
 
+var _buildFiles;
+
+function _load_buildFiles() {
+  return _buildFiles = require('./buildFiles');
+}
+
 var _HyperclickProvider;
 
 function _load_HyperclickProvider() {
   return _HyperclickProvider = require('./HyperclickProvider');
+}
+
+var _nuclideAnalytics;
+
+function _load_nuclideAnalytics() {
+  return _nuclideAnalytics = require('../../nuclide-analytics');
 }
 
 var _BuckBuildSystem;
@@ -41,16 +53,18 @@ function _load_PlatformService() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-let disposables = null; /**
-                         * Copyright (c) 2015-present, Facebook, Inc.
-                         * All rights reserved.
-                         *
-                         * This source code is licensed under the license found in the LICENSE file in
-                         * the root directory of this source tree.
-                         *
-                         * 
-                         */
+const OPEN_NEAREST_BUILD_FILE_COMMAND = 'nuclide-buck:open-nearest-build-file'; /**
+                                                                                 * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                 * All rights reserved.
+                                                                                 *
+                                                                                 * This source code is licensed under the license found in the LICENSE file in
+                                                                                 * the root directory of this source tree.
+                                                                                 *
+                                                                                 * 
+                                                                                 * @format
+                                                                                 */
 
+let disposables = null;
 let buildSystem = null;
 let initialState = null;
 
@@ -64,6 +78,11 @@ function activate(rawState) {
     buildSystem = null;
   }), new _atom.Disposable(() => {
     initialState = null;
+  }), atom.commands.add('atom-workspace', OPEN_NEAREST_BUILD_FILE_COMMAND, event => {
+    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)(OPEN_NEAREST_BUILD_FILE_COMMAND);
+    // Add feature logging.
+    const target = event.target;
+    (0, (_buildFiles || _load_buildFiles()).openNearestBuildFile)(target); // Note this returns a Promise.
   }));
   (0, (_registerGrammar || _load_registerGrammar()).default)('source.python', ['BUCK']);
   (0, (_registerGrammar || _load_registerGrammar()).default)('source.json', ['BUCK.autodeps']);

@@ -35,6 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const BasicTreeExample = () => _react.default.createElement(
@@ -75,11 +76,14 @@ const BasicTreeExample = () => _react.default.createElement(
           'TreeItem 4'
         )
       ),
-      _react.default.createElement((_Tree || _load_Tree()).NestedTreeItem, { title: _react.default.createElement(
+      _react.default.createElement((_Tree || _load_Tree()).NestedTreeItem, {
+        title: _react.default.createElement(
           'span',
           null,
           'NestedTreeItem 2'
-        ), collapsed: true })
+        ),
+        collapsed: true
+      })
     )
   )
 );
@@ -92,8 +96,7 @@ const AtomStyleguideTreeExample = () => _react.default.createElement(
     { showArrows: true },
     _react.default.createElement(
       (_Tree || _load_Tree()).NestedTreeItem,
-      {
-        title: _react.default.createElement(
+      { title: _react.default.createElement(
           (_Icon || _load_Icon()).Icon,
           { icon: 'file-directory' },
           'A Directory'

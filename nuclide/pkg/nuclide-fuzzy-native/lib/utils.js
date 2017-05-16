@@ -58,6 +58,7 @@ function valueComparator(a, b) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function scoreComparator(a, b) {

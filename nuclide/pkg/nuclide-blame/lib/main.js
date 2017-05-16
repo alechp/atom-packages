@@ -53,6 +53,7 @@ const PACKAGES_MISSING_MESSAGE = 'Could not open blame. Missing at least one bla
                                                                                                 * the root directory of this source tree.
                                                                                                 *
                                                                                                 * 
+                                                                                                * @format
                                                                                                 */
 
 const TOGGLE_BLAME_FILE_TREE_CONTEXT_MENU_PRIORITY = 2000;

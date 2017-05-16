@@ -42,6 +42,10 @@ class NodeAttachProcessInfo extends (_nuclideDebuggerBase || _load_nuclideDebugg
     const service = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getNodeDebuggerServiceByNuclideUri)(this.getTargetUri());
     return new service.NodeDebuggerService();
   }
+
+  supportContinueToLocation() {
+    return true;
+  }
 }
 exports.NodeAttachProcessInfo = NodeAttachProcessInfo; /**
                                                         * Copyright (c) 2015-present, Facebook, Inc.
@@ -51,4 +55,5 @@ exports.NodeAttachProcessInfo = NodeAttachProcessInfo; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */

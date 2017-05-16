@@ -40,6 +40,7 @@ function buildCommand(chdir, configuration, Xcc, Xlinker, Xswiftc, buildPath) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function testCommand(chdir, buildPath) {

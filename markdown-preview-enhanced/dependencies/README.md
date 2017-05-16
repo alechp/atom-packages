@@ -4,12 +4,12 @@ I managed many libraries by myself instead of through npm to reduce overall file
 ```json
 {
     "mermaid": "7.0.0",
-    "plantuml": "8054",
+    "plantuml": "1.2017.12",
     "wavedrom": "1.4.1",
     "reveal": "3.4.1",
     "viz": "1.7.0",
     "save-svg-as-png": "v1.1.0",
-    "MathJax": "v2.7.0",
+    "MathJax": "v2.7.1",
     "mpld3": "v0.3.0",
 }
 ```  

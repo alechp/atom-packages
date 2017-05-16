@@ -62,8 +62,8 @@ Markdown Preview Enhanced
 ## 该插件如何工作
 - [remarkable](https://github.com/jonschlinkert/remarkable) 转换 markdown 到 html
 - [KaTeX](https://github.com/Khan/KaTeX) 或者 [MathJax](https://github.com/mathjax/MathJax) 来渲染数学表达式。 ([KaTeX 支持的 functions/symbols](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX))
-  - `$...$` 里的内容将被正常渲染。  
-  - `$$...$$` 和 代码块<code>\`\`\`math</code> 里的内容将用 displayMode 渲染。   
+  - `$...$` 或者 `\(...\)` 里的内容将被正常渲染。  
+  - `$$...$$` 或者 `\[...\]` 和 代码块<code>\`\`\`math</code> 里的内容将用 displayMode 渲染。   
   - 你可以在 [settings panel](#settings-panel) 中设置你想要的渲染引擎。   
 		**MathJax** 支持更多的符号，但是比 **KaTeX** 渲染速度更慢。   
   - 想要支持数学表达式的高亮，请考虑安装 [language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) 插件。
@@ -90,9 +90,9 @@ Markdown Preview Enhanced
 	你也可以用快捷键 <kbd>ctrl+shift+m</kbd> 来开关预览.（为了防止快捷键冲突，请禁用默认的 [markdown preview](https://atom.io/packages/markdown-preview) 插件）
 - <strong>Markdown Preview Enhanced: Toggle Zen Mode </strong>  
 	- 开关清净式写作模式。  
-- <strong>Markdown Preview Enhanced: Customize CSS</strong>
+- <strong>Markdown Preview Enhanced: Customize Css</strong>
   - 编辑预览的样式。 你可以在 `style.less` 文件中的 `markdown-preview-enhanced-custom` 部分编辑样式。  
-  - 如果你在 `style.less` 文件中没有看到 `markdown-preview-enhanced-custom` 部分，请先运行 `Markdown Preview Enhanced: Customize CSS` 指令。
+  - [教程文章](https://github.com/shd101wyy/markdown-preview-enhanced/wiki/Customize-CSS)。
 - <strong>Markdown Preview Enhanced: Create Toc </strong>
   - 生成 TOC （预览需要被事先开启）[文档在这里](./toc.md)。   
 - <strong>Markdown Preview Enhanced: Toggle Scroll Sync </strong>

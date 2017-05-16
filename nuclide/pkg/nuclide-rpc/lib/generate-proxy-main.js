@@ -95,6 +95,7 @@ const argv = (_yargs || _load_yargs()).default.usage('Usage: $0 -d path/to/defin
           * the root directory of this source tree.
           *
           * 
+          * @format
           */
 
 /* eslint-disable no-console */

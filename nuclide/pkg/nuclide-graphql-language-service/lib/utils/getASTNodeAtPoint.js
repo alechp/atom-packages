@@ -45,6 +45,7 @@ function getASTNodeAtPoint(query, ast, point) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function pointToOffset(text, point) {

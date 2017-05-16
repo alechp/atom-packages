@@ -40,6 +40,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class HealthPaneItemComponent extends _react.default.Component {
@@ -47,8 +48,12 @@ class HealthPaneItemComponent extends _react.default.Component {
   render() {
     const sections = {
       Stats: _react.default.createElement((_BasicStatsSectionComponent || _load_BasicStatsSectionComponent()).default, this.props),
-      Subprocesses: _react.default.createElement((_ChildProcessTreeComponent || _load_ChildProcessTreeComponent()).default, { childProcessesTree: this.props.childProcessesTree }),
-      Handles: _react.default.createElement((_ActiveHandlesSectionComponent || _load_ActiveHandlesSectionComponent()).default, { activeHandlesByType: this.props.activeHandlesByType }),
+      Subprocesses: _react.default.createElement((_ChildProcessTreeComponent || _load_ChildProcessTreeComponent()).default, {
+        childProcessesTree: this.props.childProcessesTree
+      }),
+      Handles: _react.default.createElement((_ActiveHandlesSectionComponent || _load_ActiveHandlesSectionComponent()).default, {
+        activeHandlesByType: this.props.activeHandlesByType
+      }),
       Commands: _react.default.createElement((_CommandsSectionComponent || _load_CommandsSectionComponent()).default, null)
     };
 

@@ -12,6 +12,7 @@ exports.isPreludeMessage = isPreludeMessage;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const PRELUDE_MESSAGES = exports.PRELUDE_MESSAGES = [{

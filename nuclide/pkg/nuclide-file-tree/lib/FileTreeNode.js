@@ -47,6 +47,7 @@ const DEFAULT_OPTIONS = {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 /**

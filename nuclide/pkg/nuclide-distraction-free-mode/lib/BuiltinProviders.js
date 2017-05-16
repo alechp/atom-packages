@@ -26,6 +26,16 @@ function getBuiltinProviders() {
     providers.push(new FindAndReplaceProvider('project-find'));
   }
 
+  if (atom.workspace.getLeftDock != null) {
+    providers.push(new DockProvider(atom.workspace.getLeftDock(), 'left-dock'));
+  }
+  if (atom.workspace.getRightDock != null) {
+    providers.push(new DockProvider(atom.workspace.getRightDock(), 'right-dock'));
+  }
+  if (atom.workspace.getBottomDock != null) {
+    providers.push(new DockProvider(atom.workspace.getBottomDock(), 'bottom-dock'));
+  }
+
   return providers;
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.
@@ -35,6 +45,7 @@ function getBuiltinProviders() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 class FindAndReplaceProvider {
@@ -105,5 +116,21 @@ class StatusBarProvider {
   }
   _getStatusBarElement() {
     return document.querySelector('status-bar');
+  }
+}
+
+class DockProvider {
+
+  constructor(dock, name) {
+    this._dock = dock;
+    this.name = name;
+  }
+
+  isVisible() {
+    return this._dock.isVisible();
+  }
+
+  toggle() {
+    this._dock.toggle();
   }
 }

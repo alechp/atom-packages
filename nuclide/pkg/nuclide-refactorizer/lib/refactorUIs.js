@@ -39,6 +39,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const refactorUIFactories = [genericRefactorUI, closeOnEscape, focusEditorOnClose, renameShortcut];
@@ -140,10 +141,7 @@ class GenericUIRenderer {
         const element = document.createElement('div');
         this._panel = atom.workspace.addModalPanel({ item: element });
       }
-      _reactDom.default.render(_react.default.createElement((_MainRefactorComponent || _load_MainRefactorComponent()).MainRefactorComponent, {
-        appState: state,
-        store: this._store
-      }), this._panel.getItem());
+      _reactDom.default.render(_react.default.createElement((_MainRefactorComponent || _load_MainRefactorComponent()).MainRefactorComponent, { appState: state, store: this._store }), this._panel.getItem());
     } else {
       if (this._panel != null) {
         const panel = this._panel;

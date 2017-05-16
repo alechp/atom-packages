@@ -24,6 +24,7 @@ const CLEAR_RECORDS = exports.CLEAR_RECORDS = 'CLEAR_RECORDS'; /**
                                                                 * the root directory of this source tree.
                                                                 *
                                                                 * 
+                                                                * @format
                                                                 */
 
 const REGISTER_EXECUTOR = exports.REGISTER_EXECUTOR = 'REGISTER_EXECUTOR';

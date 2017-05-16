@@ -129,6 +129,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class SwiftPMTaskRunner {
@@ -154,10 +155,7 @@ class SwiftPMTaskRunner {
     const { store, actions } = this._getFlux();
     return class ExtraUi extends _react.default.Component {
       render() {
-        return _react.default.createElement((_SwiftPMTaskRunnerToolbar || _load_SwiftPMTaskRunnerToolbar()).default, {
-          store: store,
-          actions: actions
-        });
+        return _react.default.createElement((_SwiftPMTaskRunnerToolbar || _load_SwiftPMTaskRunnerToolbar()).default, { store: store, actions: actions });
       }
     };
   }
@@ -187,7 +185,10 @@ class SwiftPMTaskRunner {
     atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-console:toggle', { visible: true });
     this._logOutput(`${command.command} ${command.args.join(' ')}`, 'log');
 
-    const observable = (0, (_process || _load_process()).observeProcess)(command.command, command.args).do(message => {
+    const observable = (0, (_process || _load_process()).observeProcess)(command.command, command.args, {
+      /* TODO(T17353599) */isExitError: () => false
+    }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+    .do(message => {
       switch (message.kind) {
         case 'stderr':
         case 'stdout':

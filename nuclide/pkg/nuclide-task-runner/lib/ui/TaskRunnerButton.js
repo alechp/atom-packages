@@ -23,8 +23,7 @@ function TaskRunnerButton(props) {
   delete buttonProps.iconComponent;
   return _react.default.createElement(
     (_Button || _load_Button()).Button,
-    Object.assign({}, buttonProps, {
-      className: 'nuclide-task-runner-task-runner-button' }),
+    Object.assign({}, buttonProps, { className: 'nuclide-task-runner-task-runner-button' }),
     _react.default.createElement(
       'div',
       { className: 'nuclide-task-runner-task-runner-icon-wrapper' },
@@ -40,4 +39,5 @@ function TaskRunnerButton(props) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

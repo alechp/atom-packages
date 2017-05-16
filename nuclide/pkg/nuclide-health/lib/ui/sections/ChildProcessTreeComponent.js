@@ -66,6 +66,7 @@ exports.default = ChildProcessTreeComponent; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 function flatten(handles, process, level) {

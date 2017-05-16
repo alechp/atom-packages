@@ -53,6 +53,7 @@ function copyAbsolutePath() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function copyProjectRelativePath() {

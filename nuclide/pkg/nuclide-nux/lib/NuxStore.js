@@ -15,6 +15,7 @@ const NEW_NUX_EVENT = 'newNuxModel'; /**
                                       * the root directory of this source tree.
                                       *
                                       * 
+                                      * @format
                                       */
 
 /* global localStorage */
@@ -94,8 +95,7 @@ class NuxStore {
     if (!this._nuxMap.has(nuxModel.id)) {
       return;
     }
-    this._nuxMap.set(nuxModel.id,
-    /* completed */true);
+    this._nuxMap.set(nuxModel.id, /* completed */true);
     this._saveNuxState();
   }
 }

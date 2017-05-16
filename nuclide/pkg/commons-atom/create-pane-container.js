@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -12,10 +12,12 @@ exports.default = createPaneContainer;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function createPaneContainer() {
-  const PaneContainer = atom.workspace.paneContainer.constructor;
+  const instance = typeof atom.workspace.getCenter === 'function' ? atom.workspace.getCenter().paneContainer : atom.workspace.paneContainer;
+  const PaneContainer = instance.constructor;
   return new PaneContainer({
     viewRegistry: atom.views,
     config: atom.config,

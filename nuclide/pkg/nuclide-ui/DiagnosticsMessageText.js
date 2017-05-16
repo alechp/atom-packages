@@ -48,6 +48,7 @@ function separateUrls(message) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 const LEADING_WHITESPACE_RE = /^\s+/;
@@ -77,9 +78,7 @@ function renderRowWithLinks(message, rowIndex) {
 }
 
 const DiagnosticsMessageText = exports.DiagnosticsMessageText = props => {
-  const {
-    message
-  } = props;
+  const { message } = props;
   if (message.html != null) {
     return _react.default.createElement('span', { dangerouslySetInnerHTML: { __html: message.html } });
   } else if (message.text != null) {

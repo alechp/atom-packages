@@ -71,7 +71,9 @@ class Toolbar extends _react.default.Component {
       }
     }
 
-    const ButtonComponent = buttonProps => _react.default.createElement((_TaskRunnerButton || _load_TaskRunnerButton()).TaskRunnerButton, Object.assign({}, buttonProps, { iconComponent: this.props.iconComponent }));
+    const ButtonComponent = buttonProps => _react.default.createElement((_TaskRunnerButton || _load_TaskRunnerButton()).TaskRunnerButton, Object.assign({}, buttonProps, {
+      iconComponent: this.props.iconComponent
+    }));
 
     return _react.default.createElement(
       'div',
@@ -94,7 +96,10 @@ class Toolbar extends _react.default.Component {
         ),
         taskRunnerSpecificContent
       ),
-      _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, { progress: this.props.progress, visible: this.props.taskIsRunning })
+      _react.default.createElement((_ProgressBar || _load_ProgressBar()).ProgressBar, {
+        progress: this.props.progress,
+        visible: this.props.taskIsRunning
+      })
     );
   }
 
@@ -158,6 +163,7 @@ exports.Toolbar = Toolbar; /**
                             * the root directory of this source tree.
                             *
                             * 
+                            * @format
                             */
 
 function tooltip(title) {
@@ -181,12 +187,14 @@ function NoTaskRunnersMessage() {
   return _react.default.createElement(
     'span',
     { style: { 'white-space': 'nowrap' } },
-    'Install and enable a ',
+    'Install and enable a',
+    ' ',
     _react.default.createElement(
       'a',
       { href: featureLink },
       'task runner'
     ),
-    ' to use this toolbar'
+    ' ',
+    'to use this toolbar'
   );
 }

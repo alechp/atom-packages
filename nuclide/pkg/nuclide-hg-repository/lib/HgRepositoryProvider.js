@@ -44,6 +44,7 @@ function _load_nuclideSourceControlHelpers() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();

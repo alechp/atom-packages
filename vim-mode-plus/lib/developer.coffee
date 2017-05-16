@@ -1,19 +1,12 @@
-_ = require 'underscore-plus'
-path = require 'path'
-fs = require 'fs-plus'
 {Emitter, Disposable, BufferedProcess, CompositeDisposable} = require 'atom'
 
 Base = require './base'
-{generateIntrospectionReport} = require './introspection'
 settings = require './settings'
-{debug, getAncestors, getKeyBindingForCommand} = require './utils'
-
-packageScope = 'vim-mode-plus'
 getEditorState = null
 
 class Developer
-  init: (service) ->
-    {getEditorState} = service
+  init: (_getEditorState) ->
+    getEditorState = _getEditorState
     @devEnvironmentByBuffer = new Map
     @reloadSubscriptionByBuffer = new Map
 
@@ -22,75 +15,99 @@ class Developer
       'open-in-vim': => @openInVim()
       'generate-introspection-report': => @generateIntrospectionReport()
       'generate-command-summary-table': => @generateCommandSummaryTable()
-      'toggle-dev-environment': => @toggleDevEnvironment()
+      'write-command-table-on-disk': -> Base.writeCommandTableOnDisk()
       'clear-debug-output': => @clearDebugOutput()
-      'reload-packages': => @reloadPackages()
-      'toggle-reload-packages-on-save': => @toggleReloadPackagesOnSave()
+      'reload': => @reload()
+      'reload-with-dependencies': => @reload(true)
+      'report-total-marker-count': => @getAllMarkerCount()
+      'report-total-and-per-editor-marker-count': => @getAllMarkerCount(true)
+      'report-require-cache': => @reportRequireCache(excludeNodModules: true)
+      'report-require-cache-all': => @reportRequireCache(excludeNodModules: false)
 
     subscriptions = new CompositeDisposable
     for name, fn of commands
       subscriptions.add @addCommand(name, fn)
     subscriptions
 
-  reloadPackages: ->
-    packages = settings.get('devReloadPackages') ? []
-    packages.push('vim-mode-plus')
+  reportRequireCache: ({focus, excludeNodModules}) ->
+    pathSeparator = require('path').sep
+    packPath = atom.packages.getLoadedPackage("vim-mode-plus").path
+    cachedPaths = Object.keys(require.cache)
+      .filter (p) -> p.startsWith(packPath + pathSeparator)
+      .map (p) -> p.replace(packPath, '')
 
-    # Deactivate
-    for packName in packages
-      pack = atom.packages.getLoadedPackage(packName)
+    for cachedPath in cachedPaths
+      if excludeNodModules and cachedPath.search(/node_modules/) >= 0
+        continue
+      if focus and cachedPath.search(///#{focus}///) >= 0
+        cachedPath = '*' + cachedPath
+      console.log cachedPath
 
-      if pack?
-        console.log "- deactivating #{packName}"
-        atom.packages.deactivatePackage(packName)
-        atom.packages.unloadPackage(packName)
+  getAllMarkerCount: (showEditorsReport=false) ->
+    {inspect} = require 'util'
+    basename = require('path').basename
+    total =
+      mark: 0
+      hlsearch: 0
+      mutation: 0
+      occurrence: 0
+      persistentSel: 0
 
-        packPath = pack.path
-        Object.keys(require.cache)
-          .filter (p) ->
-            p.indexOf(packPath + path.sep) is 0
-          .forEach (p) ->
-            delete require.cache[p]
+    for editor in atom.workspace.getTextEditors()
+      vimState = getEditorState(editor)
+      mark = vimState.mark.markerLayer.getMarkerCount()
+      hlsearch = vimState.highlightSearch.markerLayer.getMarkerCount()
+      mutation = vimState.mutationManager.markerLayer.getMarkerCount()
+      occurrence = vimState.occurrenceManager.markerLayer.getMarkerCount()
+      persistentSel = vimState.persistentSelection.markerLayer.getMarkerCount()
+      if showEditorsReport
+        console.log basename(editor.getPath()), inspect({mark, hlsearch, mutation, occurrence, persistentSel})
 
-    # Activate
-    for packName in packages
-      atom.packages.loadPackage(packName)
+      total.mark += mark
+      total.hlsearch += hlsearch
+      total.mutation += mutation
+      total.occurrence += occurrence
+      total.persistentSel += persistentSel
+
+    console.log 'total', inspect(total)
+
+  reload: (reloadDependencies) ->
+    pathSeparator = require('path').sep
+
+    packages = ['vim-mode-plus']
+    if reloadDependencies
+      packages.push(settings.get('devReloadPackages')...)
+
+    invalidateRequireCacheForPackage = (packPath) ->
+      Object.keys(require.cache)
+        .filter (p) -> p.startsWith(packPath + pathSeparator)
+        .forEach (p) -> delete require.cache[p]
+
+    deactivate = (packName) ->
+      console.log "- deactivating #{packName}"
+      packPath = atom.packages.getLoadedPackage(packName).path
+      atom.packages.deactivatePackage(packName)
+      atom.packages.unloadPackage(packName)
+      invalidateRequireCacheForPackage(packPath)
+
+    activate = (packName) ->
       console.log "+ activating #{packName}"
+      atom.packages.loadPackage(packName)
       atom.packages.activatePackage(packName)
 
-  toggleReloadPackagesOnSave: ->
-    return unless editor = atom.workspace.getActiveTextEditor()
-    buffer = editor.getBuffer()
-    fileName = path.basename(editor.getPath())
-
-    if subscription = @reloadSubscriptionByBuffer.get(buffer)
-      subscription.dispose()
-      @reloadSubscriptionByBuffer.delete(buffer)
-      console.log "disposed reloadPackagesOnSave for #{fileName}"
-    else
-      @reloadSubscriptionByBuffer.set buffer, buffer.onDidSave =>
-        console.clear()
-        @reloadPackages()
-      console.log "activated reloadPackagesOnSave for #{fileName}"
-
-  toggleDevEnvironment: ->
-    return unless editor = atom.workspace.getActiveTextEditor()
-    buffer = editor.getBuffer()
-    fileName = path.basename(editor.getPath())
-
-    if @devEnvironmentByBuffer.has(buffer)
-      @devEnvironmentByBuffer.get(buffer).dispose()
-      @devEnvironmentByBuffer.delete(buffer)
-      console.log "disposed dev env #{fileName}"
-    else
-      @devEnvironmentByBuffer.set(buffer, new DevEnvironment(editor))
-      console.log "activated dev env #{fileName}"
+    loadedPackages = packages.filter (packName) -> atom.packages.getLoadedPackages(packName)
+    console.log "reload", loadedPackages
+    loadedPackages.map(deactivate)
+    console.time('activate')
+    loadedPackages.map(activate)
+    console.timeEnd('activate')
 
   addCommand: (name, fn) ->
-    atom.commands.add('atom-text-editor', "#{packageScope}:#{name}", fn)
+    atom.commands.add('atom-text-editor', "vim-mode-plus:#{name}", fn)
 
   clearDebugOutput: (name, fn) ->
-    filePath = fs.normalize(settings.get('debugOutputFilePath'))
+    {normalize} = require('fs-plus')
+    filePath = normalize(settings.get('debugOutputFilePath'))
     options = {searchAllPanes: true, activatePane: false}
     atom.workspace.open(filePath, options).then (editor) ->
       editor.setText('')
@@ -129,6 +146,8 @@ class Developer
     ".has-persistent-selection": '%'
 
   getCommandSpecs: ->
+    _ = require 'underscore-plus'
+
     compactSelector = (selector) ->
       pattern = ///(#{_.keys(selectorMap).map(_.escapeRegExp).join('|')})///g
       selector.split(/,\s*/g).map (scope) ->
@@ -148,8 +167,9 @@ class Developer
         .replace(/\|/g, '&#124;')
         .replace(/\s+/, '')
 
+    {getKeyBindingForCommand, getAncestors} = @vimstate.utils
     commands = (
-      for name, klass of Base.getRegistries() when klass.isCommand()
+      for name, klass of Base.getClassRegistry() when klass.isCommand()
         kind = getAncestors(klass).map((k) -> k.name)[-2..-2][0]
         commandName = klass.getCommandName()
         description = klass.getDesctiption()?.replace(/\n/g, '<br/>')
@@ -164,8 +184,14 @@ class Developer
     )
     commands
 
+  generateCommandTableForMotion: ->
+    require('./motion')
+
+
   kinds = ["Operator", "Motion", "TextObject", "InsertMode", "MiscCommand", "Scroll"]
   generateSummaryTableForCommandSpecs: (specs, {header}={}) ->
+    _ = require 'underscore-plus'
+
     grouped = _.groupBy(specs, 'kind')
     str = ""
     for kind in kinds when specs = grouped[kind]
@@ -219,12 +245,15 @@ class Developer
       args: ['-g', editor.getPath(), "+call cursor(#{row+1}, #{column+1})"]
 
   generateIntrospectionReport: ->
-    generateIntrospectionReport _.values(Base.getRegistries()),
+    _ = require 'underscore-plus'
+    generateIntrospectionReport = require './introspection'
+
+    generateIntrospectionReport _.values(Base.getClassRegistry()),
       excludeProperties: [
         'run'
         'getCommandNameWithoutPrefix'
         'getClass', 'extend', 'getParent', 'getAncestors', 'isCommand'
-        'getRegistries', 'command', 'reset'
+        'getClassRegistry', 'command', 'reset'
         'getDesctiption', 'description'
         'init', 'getCommandName', 'getCommandScope', 'registerCommand',
         'delegatesProperties', 'subscriptions', 'commandPrefix', 'commandScope'
@@ -233,36 +262,5 @@ class Developer
         'delegatesMethod',
       ]
       recursiveInspect: Base
-
-class DevEnvironment
-  constructor: (@editor) ->
-    @editorElement = @editor.element
-    @emitter = new Emitter
-    fileName = path.basename(@editor.getPath())
-    @disposable = @editor.onDidSave =>
-      console.clear()
-      Base.suppressWarning = true
-      @reload()
-      Base.suppressWarning = false
-      Base.reset()
-      @emitter.emit 'did-reload'
-      console.log "reloaded #{fileName}"
-
-  dispose: ->
-    @disposable?.dispose()
-
-  onDidReload: (fn) -> @emitter.on('did-reload', fn)
-
-  reload: ->
-    packPath = atom.packages.resolvePackagePath('vim-mode-plus')
-    originalRequire = global.require
-    global.require = (libPath) ->
-      if libPath.startsWith './'
-        originalRequire "#{packPath}/lib/#{libPath}"
-      else
-        originalRequire libPath
-
-    atom.commands.dispatch(@editorElement, 'run-in-atom:run-in-atom')
-    global.require = originalRequire
 
 module.exports = Developer

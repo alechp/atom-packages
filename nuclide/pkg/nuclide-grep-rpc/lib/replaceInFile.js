@@ -78,7 +78,6 @@ function replaceInFile(path, regex, replacement) {
       tempStream.write(line);
       return 0;
     }).reduce((acc, curr) => acc + curr, 0),
-
     // Wait for the temporary file to finish.
     // We need to ensure that the event handler is attached before end().
     _rxjsBundlesRxMinJs.Observable.create(observer => {
@@ -88,10 +87,8 @@ function replaceInFile(path, regex, replacement) {
       tempStream.end();
       return () => disposable.dispose();
     }),
-
     // Copy the permissions from the orignal file.
     _rxjsBundlesRxMinJs.Observable.defer(() => copyPermissions(path, tempPath)).ignoreElements(),
-
     // Overwrite the original file with the temporary file.
     _rxjsBundlesRxMinJs.Observable.defer(() => (_fsPromise || _load_fsPromise()).default.rename(tempPath, path)).ignoreElements()).catch(err => {
       // Make sure we clean up the temporary file if an error occurs.
@@ -107,4 +104,5 @@ function replaceInFile(path, regex, replacement) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

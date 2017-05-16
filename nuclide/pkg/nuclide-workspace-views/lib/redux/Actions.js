@@ -24,6 +24,7 @@ exports.toggleItemVisibility = toggleItemVisibility;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ADD_OPENER = exports.ADD_OPENER = 'ADD_OPENER';

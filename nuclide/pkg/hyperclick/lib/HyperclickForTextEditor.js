@@ -20,12 +20,6 @@ function _load_showTriggerConflictWarning() {
   return _showTriggerConflictWarning = _interopRequireDefault(require('./showTriggerConflictWarning'));
 }
 
-var _nuclideAnalytics;
-
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
-}
-
 var _nuclideLogging;
 
 function _load_nuclideLogging() {
@@ -91,7 +85,6 @@ class HyperclickForTextEditor {
 
     this._isDestroyed = false;
     this._isLoading = false;
-    this._loadingTracker = null;
 
     this._subscriptions.add(atom.config.observe(process.platform === 'darwin' ? 'nuclide.hyperclick.darwinTriggerKeys' : process.platform === 'win32' ? 'nuclide.hyperclick.win32TriggerKeys' : 'nuclide.hyperclick.linuxTriggerKeys', newValue => {
       // For all Flow knows, newValue.split could return any old strings
@@ -271,7 +264,6 @@ class HyperclickForTextEditor {
       }
 
       _this._isLoading = true;
-      _this._loadingTracker = (0, (_nuclideAnalytics || _load_nuclideAnalytics()).startTracking)('hyperclick-loading');
 
       try {
         _this._lastPosition = position;
@@ -287,13 +279,7 @@ class HyperclickForTextEditor {
           // Remove all the markers if we've finished loading and there's no suggestion.
           _this._updateNavigationMarkers(null);
         }
-        if (_this._loadingTracker != null) {
-          _this._loadingTracker.onSuccess();
-        }
       } catch (e) {
-        if (_this._loadingTracker != null) {
-          _this._loadingTracker.onError(e);
-        }
         logger.error('Error getting Hyperclick suggestion:', e);
       } finally {
         _this._doneLoading();
@@ -360,12 +346,12 @@ class HyperclickForTextEditor {
   _confirmSuggestionAtCursor() {
     var _this2 = this;
 
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('hyperclick:confirm-cursor', (0, _asyncToGenerator.default)(function* () {
+    return (0, _asyncToGenerator.default)(function* () {
       const suggestion = yield _this2._hyperclick.getSuggestion(_this2._textEditor, _this2._textEditor.getCursorBufferPosition());
       if (suggestion) {
         _this2._confirmSuggestion(suggestion);
       }
-    }));
+    })();
   }
 
   /**
@@ -401,7 +387,6 @@ class HyperclickForTextEditor {
 
   _doneLoading() {
     this._isLoading = false;
-    this._loadingTracker = null;
     this._textEditorView.classList.remove('hyperclick-loading');
   }
 

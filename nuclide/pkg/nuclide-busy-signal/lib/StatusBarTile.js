@@ -27,6 +27,7 @@ const STATUS_BAR_PRIORITY = 1000; /**
                                    * the root directory of this source tree.
                                    *
                                    * 
+                                   * @format
                                    */
 
 /* global MouseEvent */

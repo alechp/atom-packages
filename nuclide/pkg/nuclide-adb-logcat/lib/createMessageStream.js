@@ -41,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function createMessageStream(line$) {
@@ -90,19 +91,16 @@ function createMessageStream(line$) {
         buffer.push(line);
       }
     },
-
     // onError
     error => {
       flush();
       observer.error(error);
     },
-
     // onCompleted
     () => {
       flush();
       observer.complete();
     }),
-
     // We know *for certain* that we have a complete entry once we see the metadata for the next
     // one. But what if the next one takes a long time to happen? After a certain point, we need
     // to just assume we have the complete entry and move on.

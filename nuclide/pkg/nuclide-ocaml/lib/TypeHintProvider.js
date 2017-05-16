@@ -31,6 +31,7 @@ const MAX_LINES = 10; /**
                        * the root directory of this source tree.
                        *
                        * 
+                       * @format
                        */
 
 class TypeHintProvider {

@@ -24,6 +24,7 @@ function _load_nuclideAnalytics() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const CONNECTION_EVENT = 'nuclide-remote-connection';

@@ -37,10 +37,12 @@ const VALID_UDID = /^[a-f0-9-]+$/i; /**
                                      * the root directory of this source tree.
                                      *
                                      * 
+                                     * @format
                                      */
 
 function createProcessStream() {
-  const currentDeviceUdids = (0, (_process || _load_process()).observeProcess)('bash', ['-c', WATCH_CURRENT_UDID_SCRIPT]).map(event => {
+  const currentDeviceUdids = (0, (_process || _load_process()).observeProcess)('bash', ['-c', WATCH_CURRENT_UDID_SCRIPT], { /* TODO(T17353599) */isExitError: () => false }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+  .map(event => {
     if (event.kind === 'error') {
       throw event.error;
     } else if (event.kind === 'exit' && event.exitCode !== 0) {
@@ -58,7 +60,8 @@ function createProcessStream() {
   // Whenever the current device changes, start tailing that device's logs.
   return currentDeviceUdids.switchMap(udid => {
     const logDir = (_nuclideUri || _load_nuclideUri()).default.join(_os.default.homedir(), 'Library', 'Logs', 'CoreSimulator', udid, 'asl');
-    return (0, (_process || _load_process()).observeProcess)((_featureConfig || _load_featureConfig()).default.get('nuclide-ios-simulator-logs.pathToSyslog'), ['-w', '-F', 'xml', '-d', logDir]).map(event => {
+    return (0, (_process || _load_process()).observeProcess)((_featureConfig || _load_featureConfig()).default.get('nuclide-ios-simulator-logs.pathToSyslog'), ['-w', '-F', 'xml', '-d', logDir], { /* TODO(T17353599) */isExitError: () => false }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+    .map(event => {
       if (event.kind === 'error') {
         throw event.error;
       }

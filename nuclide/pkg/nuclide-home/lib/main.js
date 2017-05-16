@@ -115,6 +115,7 @@ let subscriptions = null;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global localStorage */

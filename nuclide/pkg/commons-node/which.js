@@ -30,14 +30,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 exports.default = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (command) {
     const whichCommand = process.platform === 'win32' ? 'where' : 'which';
     try {
-      const result = yield (0, (_process || _load_process()).checkOutput)(whichCommand, [command]);
-      return result.stdout.split(_os.default.EOL)[0];
+      const result = yield (0, (_process || _load_process()).runCommand)(whichCommand, [command]).toPromise();
+      return result.split(_os.default.EOL)[0];
     } catch (e) {
       return null;
     }

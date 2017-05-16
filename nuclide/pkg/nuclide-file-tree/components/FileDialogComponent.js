@@ -45,6 +45,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FileDialogComponent extends _react.default.Component {
@@ -121,10 +122,7 @@ class FileDialogComponent extends _react.default.Component {
         { className: labelClassName },
         this.props.message
       ),
-      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
-        initialValue: this.props.initialValue,
-        ref: 'input'
-      }),
+      _react.default.createElement((_AtomInput || _load_AtomInput()).AtomInput, { initialValue: this.props.initialValue, ref: 'input' }),
       checkboxes
     );
   }

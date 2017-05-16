@@ -112,10 +112,10 @@ let mkdirp = (() => {
 let isNfs = (() => {
   var _ref4 = (0, _asyncToGenerator.default)(function* (entityPath) {
     if (process.platform === 'linux' || process.platform === 'darwin') {
-      const { stdout, exitCode } = yield (0, (_process || _load_process()).asyncExecute)('stat', ['-f', '-L', '-c', '%T', entityPath]);
-      if (exitCode === 0) {
+      try {
+        const stdout = yield (0, (_process || _load_process()).runCommand)('stat', ['-f', '-L', '-c', '%T', entityPath]).toPromise();
         return stdout.trim() === 'nfs';
-      } else {
+      } catch (err) {
         return false;
       }
     } else {
@@ -215,6 +215,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function tempdir(prefix = '') {

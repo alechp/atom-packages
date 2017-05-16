@@ -1,12 +1,17 @@
 const config = require('./config-schema.json');
 // eslint-disable-next-line import/no-extraneous-dependencies, import/no-unresolved
 const { CompositeDisposable } = require('atom');
+const { createStatusTile, updateStatusTile, disposeTooltip } = require('./statusTile');
 
 // local helpers
 let format = null;
 let formatOnSave = null;
 let warnAboutLinterEslintFixOnSave = null;
+let displayDebugInfo = null;
+let toggleFormatOnSave = null;
 let subscriptions = null;
+let statusBarTile = null;
+let tileElement = null;
 
 // HACK: lazy load most of the code we need for performance
 const lazyFormat = () => {
@@ -33,11 +38,33 @@ const lazyWarnAboutLinterEslintFixOnSave = () => {
   warnAboutLinterEslintFixOnSave();
 };
 
+// HACK: lazy load most of the code we need for performance
+const lazyDisplayDebugInfo = () => {
+  if (!displayDebugInfo) {
+    // eslint-disable-next-line global-require
+    displayDebugInfo = require('./displayDebugInfo');
+  }
+  displayDebugInfo();
+};
+
+const lazyToggleFormatOnSave = () => {
+  if (!toggleFormatOnSave) {
+    // eslint-disable-next-line global-require
+    toggleFormatOnSave = require('./toggleFormatOnSave');
+  }
+  toggleFormatOnSave();
+};
+
 // public API
 const activate = () => {
   subscriptions = new CompositeDisposable();
 
   subscriptions.add(atom.commands.add('atom-workspace', 'prettier:format', lazyFormat));
+  subscriptions.add(atom.commands.add('atom-workspace', 'prettier:debug', lazyDisplayDebugInfo));
+  subscriptions.add(
+    atom.commands.add('atom-workspace', 'prettier:toggle-format-on-save', lazyToggleFormatOnSave),
+  );
+
   subscriptions.add(
     atom.workspace.observeTextEditors(editor =>
       subscriptions.add(editor.getBuffer().onWillSave(() => lazyFormatOnSave(editor))),
@@ -58,6 +85,25 @@ const activate = () => {
 
 const deactivate = () => {
   subscriptions.dispose();
+  disposeTooltip();
+  if (statusBarTile) {
+    statusBarTile.destroy();
+  }
+};
+
+const consumeStatusBar = (statusBar) => {
+  tileElement = createStatusTile();
+  statusBarTile = statusBar.addLeftTile({
+    item: tileElement,
+    priority: 1000,
+  });
+  updateStatusTile(subscriptions, tileElement);
+
+  subscriptions.add(
+    atom.config.observe('prettier-atom.formatOnSaveOptions.enabled', () =>
+      updateStatusTile(subscriptions, tileElement),
+    ),
+  );
 };
 
 module.exports = {
@@ -65,4 +111,5 @@ module.exports = {
   deactivate,
   config,
   subscriptions,
+  consumeStatusBar,
 };

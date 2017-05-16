@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('../../../commons-node/UniversalDisposable'));
+}
+
 var _debounce;
 
 function _load_debounce() {
@@ -42,10 +48,10 @@ function _load_PromptButton() {
   return _PromptButton = _interopRequireDefault(require('./PromptButton'));
 }
 
-var _UnseenMessagesNotification;
+var _NewMessagesNotification;
 
-function _load_UnseenMessagesNotification() {
-  return _UnseenMessagesNotification = _interopRequireDefault(require('./UnseenMessagesNotification'));
+function _load_NewMessagesNotification() {
+  return _NewMessagesNotification = _interopRequireDefault(require('./NewMessagesNotification'));
 }
 
 var _shallowequal;
@@ -56,16 +62,6 @@ function _load_shallowequal() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class Console extends _react.default.Component {
 
   constructor(props) {
@@ -73,13 +69,30 @@ class Console extends _react.default.Component {
     this.state = {
       unseenMessages: false
     };
-    this._isScrolledNearBottom = false;
+    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    this._isScrolledNearBottom = true;
     this._getExecutor = this._getExecutor.bind(this);
     this._getProvider = this._getProvider.bind(this);
     this._handleOutputTable = this._handleOutputTable.bind(this);
     this._handleScroll = this._handleScroll.bind(this);
     this._handleScrollEnd = (0, (_debounce || _load_debounce()).default)(this._handleScrollEnd, 100);
     this._scrollToBottom = this._scrollToBottom.bind(this);
+  }
+
+  componentDidMount() {
+    // Wait for `<OutputTable />` to render itself via react-virtualized before scrolling and
+    // re-measuring; Otherwise, the scrolled location will be inaccurate, preventing the Console
+    // from auto-scrolling.
+    const immediate = setImmediate(() => {
+      this._scrollToBottom();
+    });
+    this._disposables.add(() => {
+      clearImmediate(immediate);
+    });
+  }
+
+  componentWillUnmount() {
+    this._disposables.dispose();
   }
 
   componentDidUpdate(prevProps) {
@@ -120,6 +133,10 @@ class Console extends _react.default.Component {
         this.setState({ unseenMessages: true });
       }
     }
+
+    if (nextProps.displayableRecords.length === 0) {
+      this.setState({ unseenMessages: false });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -140,6 +157,7 @@ class Console extends _react.default.Component {
       { className: 'nuclide-console' },
       _react.default.createElement((_ConsoleHeader || _load_ConsoleHeader()).default, {
         clear: this.props.clearRecords,
+        createPaste: this.props.createPaste,
         invalidFilterInput: this.props.invalidFilterInput,
         enableRegExpFilter: this.props.enableRegExpFilter,
         filterText: this.props.filterText,
@@ -168,7 +186,7 @@ class Console extends _react.default.Component {
             onScroll: this._handleScroll,
             onDisplayableRecordHeightChange: this.props.onDisplayableRecordHeightChange
           }),
-          _react.default.createElement((_UnseenMessagesNotification || _load_UnseenMessagesNotification()).default, {
+          _react.default.createElement((_NewMessagesNotification || _load_NewMessagesNotification()).default, {
             visible: this.state.unseenMessages,
             onClick: this._scrollToBottom
           })
@@ -201,7 +219,9 @@ class Console extends _react.default.Component {
 
   _handleScrollEnd(offsetHeight, scrollHeight, scrollTop) {
     this._isScrolledNearBottom = this._isScrolledToBottom(offsetHeight, scrollHeight, scrollTop);
-    this.setState({ unseenMessages: this.state.unseenMessages && !this._isScrolledNearBottom });
+    this.setState({
+      unseenMessages: this.state.unseenMessages && !this._isScrolledNearBottom
+    });
   }
 
   _handleOutputTable(ref) {
@@ -216,4 +236,13 @@ class Console extends _react.default.Component {
     this.setState({ unseenMessages: false });
   }
 }
-exports.default = Console;
+exports.default = Console; /**
+                            * Copyright (c) 2015-present, Facebook, Inc.
+                            * All rights reserved.
+                            *
+                            * This source code is licensed under the license found in the LICENSE file in
+                            * the root directory of this source tree.
+                            *
+                            * 
+                            * @format
+                            */

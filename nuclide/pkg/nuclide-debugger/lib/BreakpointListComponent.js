@@ -47,6 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class BreakpointListComponent extends _react.default.Component {
@@ -84,10 +85,7 @@ class BreakpointListComponent extends _react.default.Component {
       throw new Error('Invariant violation: "breakpoint != null"');
     }
 
-    const {
-      path,
-      line
-    } = breakpoint;
+    const { path, line } = breakpoint;
     this.props.actions.openSourceLocation((_nuclideUri || _load_nuclideUri()).default.nuclideUriToUri(path), line);
   }
 
@@ -106,13 +104,7 @@ class BreakpointListComponent extends _react.default.Component {
     }))
     // Show resolved breakpoints at the top of the list, then order by filename & line number.
     .sort((breakpointA, breakpointB) => 100 * (Number(breakpointB.resolved) - Number(breakpointA.resolved)) + 10 * breakpointA.basename.localeCompare(breakpointB.basename) + Math.sign(breakpointA.line - breakpointB.line)).map((breakpoint, i) => {
-      const {
-        basename,
-        line,
-        enabled,
-        resolved,
-        path
-      } = breakpoint;
+      const { basename, line, enabled, resolved, path } = breakpoint;
       const label = `${basename}:${line + 1}`;
       const title = resolved ? null : 'Unresolved Breakpoint';
       const content = _react.default.createElement(

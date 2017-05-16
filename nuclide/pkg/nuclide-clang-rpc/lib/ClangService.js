@@ -9,16 +9,17 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 let getClangService = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (src, contents, compilationDBFile, defaultFlags, blocking) {
-    const server = yield serverManager.getClangServer(src, contents, compilationDBFile, defaultFlags);
-    if (server == null) {
-      return null;
-    }
-    if (server.getStatus() !== (_ClangServer || _load_ClangServer()).default.Status.READY) {
+    const server = serverManager.getClangServer(src, contents, compilationDBFile, defaultFlags);
+    if (!server.isReady()) {
       if (blocking) {
         yield server.waitForReady();
       } else {
         return null;
       }
+    }
+    // It's possible that the server got disposed while waiting.
+    if (server.isDisposed()) {
+      return null;
     }
     return server.getService();
   });
@@ -124,7 +125,9 @@ let formatCode = exports.formatCode = (() => {
     if (length != null) {
       args.push(`-length=${length}`);
     }
-    const { stdout } = yield (0, (_process || _load_process()).checkOutput)('clang-format', args, { stdin: contents });
+    const stdout = yield (0, (_process || _load_process()).runCommand)('clang-format', args, {
+      input: contents
+    }).toPromise();
 
     // The first line is a JSON blob indicating the new cursor position.
     const newLine = stdout.indexOf('\n');
@@ -164,12 +167,6 @@ function _load_process() {
   return _process = require('../../commons-node/process');
 }
 
-var _ClangServer;
-
-function _load_ClangServer() {
-  return _ClangServer = _interopRequireDefault(require('./ClangServer'));
-}
-
 var _ClangServerManager;
 
 function _load_ClangServerManager() {
@@ -178,13 +175,6 @@ function _load_ClangServerManager() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const serverManager = new (_ClangServerManager || _load_ClangServerManager()).default();
-
-// Maps clang's cursor types to the actual declaration types: for a full list see
-// https://github.com/llvm-mirror/clang/blob/master/include/clang/Basic/DeclNodes.td
-//
-// Keep in sync with the clang Python binding (../fb/lib/python/clang/cindex.py)
-// The order of the keys matches the ordering in cindex.py.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -193,8 +183,16 @@ const serverManager = new (_ClangServerManager || _load_ClangServerManager()).de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
+const serverManager = new (_ClangServerManager || _load_ClangServerManager()).default();
+
+// Maps clang's cursor types to the actual declaration types: for a full list see
+// https://github.com/llvm-mirror/clang/blob/master/include/clang/Basic/DeclNodes.td
+//
+// Keep in sync with the clang Python binding (../fb/lib/python/clang/cindex.py)
+// The order of the keys matches the ordering in cindex.py.
 const ClangCursorToDeclarationTypes = exports.ClangCursorToDeclarationTypes = Object.freeze({
   UNEXPOSED_DECL: '',
   STRUCT_DECL: 'Record',
@@ -245,8 +243,8 @@ function compile(src, contents, compilationDBFile, defaultFlags) {
   const doCompile = (() => {
     var _ref2 = (0, _asyncToGenerator.default)(function* () {
       // Note: restarts the server if the flags changed.
-      const server = yield serverManager.getClangServer(src, contents, compilationDBFile, defaultFlags, true);
-      if (server != null) {
+      const server = serverManager.getClangServer(src, contents, compilationDBFile, defaultFlags, true);
+      if (!server.isDisposed()) {
         return server.compile(contents);
       }
     });

@@ -39,10 +39,10 @@ function _load_promise() {
   return _promise = require('../../commons-node/promise');
 }
 
-var _nuclideDiagnosticsProviderBase;
+var _DiagnosticsProviderBase;
 
-function _load_nuclideDiagnosticsProviderBase() {
-  return _nuclideDiagnosticsProviderBase = require('../../nuclide-diagnostics-provider-base');
+function _load_DiagnosticsProviderBase() {
+  return _DiagnosticsProviderBase = require('./DiagnosticsProviderBase');
 }
 
 var _projects;
@@ -87,6 +87,7 @@ const diagnosticService = 'nuclide-diagnostics-provider'; /**
                                                            * the root directory of this source tree.
                                                            *
                                                            * 
+                                                           * @format
                                                            */
 
 function registerDiagnostics(name, grammars, config, logger, connectionToLanguageService, busySignalProvider) {
@@ -109,7 +110,7 @@ function registerDiagnostics(name, grammars, config, logger, connectionToLanguag
 
 class FileDiagnosticsProvider {
 
-  constructor(name, grammars, shouldRunOnTheFly, analyticsEventName, connectionToLanguageService, busySignalProvider, ProviderBase = (_nuclideDiagnosticsProviderBase || _load_nuclideDiagnosticsProviderBase()).DiagnosticsProviderBase) {
+  constructor(name, grammars, shouldRunOnTheFly, analyticsEventName, connectionToLanguageService, busySignalProvider, ProviderBase = (_DiagnosticsProviderBase || _load_DiagnosticsProviderBase()).DiagnosticsProviderBase) {
     this.name = name;
     this._analyticsEventName = analyticsEventName;
     this._busySignalProvider = busySignalProvider;
@@ -167,7 +168,10 @@ class FileDiagnosticsProvider {
         return;
       }
 
-      _this._providerBase.publishMessageInvalidation({ scope: 'file', filePaths: [filePath] });
+      _this._providerBase.publishMessageInvalidation({
+        scope: 'file',
+        filePaths: [filePath]
+      });
       _this._invalidatePathsForProjectRoot(projectRoot);
 
       const pathsForHackLanguage = new Set();
@@ -244,7 +248,10 @@ class FileDiagnosticsProvider {
 
   _invalidatePathsForProjectRoot(projectRoot) {
     const pathsToInvalidate = this._getPathsToInvalidate(projectRoot);
-    this._providerBase.publishMessageInvalidation({ scope: 'file', filePaths: pathsToInvalidate });
+    this._providerBase.publishMessageInvalidation({
+      scope: 'file',
+      filePaths: pathsToInvalidate
+    });
     this._projectRootToFilePaths.delete(projectRoot);
   }
 

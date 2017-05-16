@@ -51,6 +51,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ModalMultiSelect extends _react.default.Component {
@@ -125,8 +126,7 @@ class ModalMultiSelect extends _react.default.Component {
 
     return _react.default.createElement(
       (_Modal || _load_Modal()).Modal,
-      {
-        onDismiss: this._dismissModal },
+      { onDismiss: this._dismissModal },
       _react.default.createElement((_MultiSelectList || _load_MultiSelectList()).MultiSelectList, {
         commandScope: atom.views.getView(atom.workspace),
         value: this.state.activeValues,

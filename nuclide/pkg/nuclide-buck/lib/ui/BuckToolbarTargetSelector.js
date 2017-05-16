@@ -48,6 +48,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const NO_ACTIVE_PROJECT_ERROR = 'No active Buck project. Check your Current Working Root.';
@@ -65,6 +66,21 @@ class BuckToolbarTargetSelector extends _react.default.Component {
   // Putting the cache here allows the user to refresh it by toggling the UI.
 
 
+  _filterOptions(options, filterValue) {
+    const filterLowerCase = filterValue.toLowerCase();
+    return options.map((value, index) => {
+      const matchIndex = value.toLowerCase().indexOf(filterLowerCase);
+      if (matchIndex < 0) {
+        return null;
+      }
+      return { value, matchIndex, index };
+    }).filter(Boolean).sort((a, b) => {
+      // Prefer earlier matches, but don't break ties by string length.
+      // Instead, make the sort stable by breaking ties with the index.
+      return a.matchIndex - b.matchIndex || a.index - b.index;
+    }).map(option => option.value);
+  }
+
   _requestOptions(inputText) {
     const { buckRoot } = this.props.appState;
     if (buckRoot == null) {
@@ -77,7 +93,9 @@ class BuckToolbarTargetSelector extends _react.default.Component {
     let cachedAliases = this._projectAliasesCache.get(buckRoot);
     if (cachedAliases == null) {
       const buckService = (0, (_nuclideBuckBase || _load_nuclideBuckBase()).getBuckService)(buckRoot);
-      cachedAliases = buckService == null ? Promise.resolve([]) : buckService.listAliases(buckRoot);
+      cachedAliases = buckService == null ? Promise.resolve([]) : buckService.listAliases(buckRoot)
+      // Sort in alphabetical order.
+      .then(aliases => aliases.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())));
       this._projectAliasesCache.set(buckRoot, cachedAliases);
     }
     return cachedAliases;
@@ -121,7 +139,9 @@ class BuckToolbarTargetSelector extends _react.default.Component {
     , { key: this.props.appState.buildTarget,
       className: 'inline-block nuclide-buck-target-combobox',
       formatRequestOptionsErrorMessage: err => err.message,
+      filterOptions: this._filterOptions,
       requestOptions: this._requestOptions,
+      maxOptionCount: 20,
       size: 'sm',
       loadingMessage: 'Updating target names...',
       initialTextInput: this.props.appState.buildTarget,

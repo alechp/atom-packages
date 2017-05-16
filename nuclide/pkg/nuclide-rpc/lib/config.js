@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const SERVICE_FRAMEWORK3_PROTOCOL = exports.SERVICE_FRAMEWORK3_PROTOCOL = 'service_framework3_rpc';

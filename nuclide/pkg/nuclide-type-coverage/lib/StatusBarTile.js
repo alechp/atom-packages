@@ -17,16 +17,6 @@ function _load_StatusBarTileComponent() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class StatusBarTile extends _react.default.Component {
 
   constructor(props) {
@@ -75,7 +65,8 @@ class StatusBarTile extends _react.default.Component {
         this.setState({
           result: coverageResult == null ? null : {
             percentage: coverageResult.percentage,
-            providerName: result.provider.displayName
+            providerName: result.provider.displayName,
+            icon: result.provider.icon
           },
           pending: false
         });
@@ -93,4 +84,13 @@ class StatusBarTile extends _react.default.Component {
     return _react.default.createElement((_StatusBarTileComponent || _load_StatusBarTileComponent()).StatusBarTileComponent, Object.assign({}, this.state, { onClick: this.props.onClick }));
   }
 }
-exports.StatusBarTile = StatusBarTile;
+exports.StatusBarTile = StatusBarTile; /**
+                                        * Copyright (c) 2015-present, Facebook, Inc.
+                                        * All rights reserved.
+                                        *
+                                        * This source code is licensed under the license found in the LICENSE file in
+                                        * the root directory of this source tree.
+                                        *
+                                        * 
+                                        * @format
+                                        */

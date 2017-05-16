@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const { log } = (_logger || _load_logger()).logger;
@@ -65,14 +66,16 @@ const { log } = (_logger || _load_logger()).logger;
  * `Debugger.paused` events.  Interested parties can subscribe to these events via the
  * `subscribeToEvents` API, which accepts a callback called when events are emitted from the target.
  */
+
 class DebuggerConnection {
 
-  constructor(connectionId, deviceInfo) {
+  constructor(connectionId, deviceInfo, sendAtomNotification) {
+    this._sendAtomNotification = sendAtomNotification;
     this._deviceInfo = deviceInfo;
     this._connectionId = connectionId;
     this._events = new _rxjsBundlesRxMinJs.Subject();
     this._status = new _rxjsBundlesRxMinJs.BehaviorSubject((_constants || _load_constants()).RUNNING);
-    this._fileCache = new (_FileCache || _load_FileCache()).FileCache(this._getScriptSource.bind(this));
+    this._fileCache = new (_FileCache || _load_FileCache()).FileCache(this._getScriptSource.bind(this), sendAtomNotification);
     const { webSocketDebuggerUrl } = deviceInfo;
     this._socket = new (_Socket || _load_Socket()).Socket(webSocketDebuggerUrl, this._handleChromeEvent.bind(this), () => this._status.next((_constants || _load_constants()).ENDED));
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(this._socket);

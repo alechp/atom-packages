@@ -41,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class ScopesComponent extends _react.default.Component {
@@ -65,19 +66,13 @@ class ScopesComponent extends _react.default.Component {
       // `binding` might be `null` while switching threads.
       return null;
     }
-    const {
-      name,
-      value
-    } = binding;
+    const { name, value } = binding;
     return _react.default.createElement(
       'div',
-      {
-        className: 'nuclide-debugger-expression-value-row',
-        key: index },
+      { className: 'nuclide-debugger-expression-value-row', key: index },
       _react.default.createElement(
         'div',
-        {
-          className: 'nuclide-debugger-expression-value-content' },
+        { className: 'nuclide-debugger-expression-value-content' },
         _react.default.createElement((_LazyNestedValueComponent || _load_LazyNestedValueComponent()).LazyNestedValueComponent, {
           expression: name,
           evaluationResult: value,
@@ -115,10 +110,7 @@ class ScopesComponent extends _react.default.Component {
   }
 
   render() {
-    const {
-      watchExpressionStore,
-      scopes
-    } = this.props;
+    const { watchExpressionStore, scopes } = this.props;
     if (scopes == null || scopes.length === 0) {
       return _react.default.createElement(
         'span',

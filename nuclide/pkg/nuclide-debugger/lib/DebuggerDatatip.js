@@ -20,10 +20,7 @@ let debuggerDatatip = exports.debuggerDatatip = (() => {
     if (evaluationExpression == null) {
       return null;
     }
-    const {
-      expression,
-      range
-    } = evaluationExpression;
+    const { expression, range } = evaluationExpression;
     if (expression == null) {
       return null;
     }
@@ -37,7 +34,11 @@ let debuggerDatatip = exports.debuggerDatatip = (() => {
     const propStream = evaluation.filter(function (result) {
       return result != null;
     }).map(function (result) {
-      return { expression, evaluationResult: result, watchExpressionStore };
+      return {
+        expression,
+        evaluationResult: result,
+        watchExpressionStore
+      };
     });
     return {
       component: (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(propStream, (_DebuggerDatatipComponent || _load_DebuggerDatatipComponent()).DebuggerDatatipComponent),
@@ -85,6 +86,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const DEFAULT_WORD_REGEX = /\w+/gi;

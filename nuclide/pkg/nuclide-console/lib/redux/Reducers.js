@@ -21,6 +21,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function accumulateState(state, action) {

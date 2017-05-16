@@ -29,6 +29,7 @@ function _load_DebuggerStore() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class WatchExpressionListStore {

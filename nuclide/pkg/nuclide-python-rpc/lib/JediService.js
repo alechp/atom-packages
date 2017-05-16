@@ -25,6 +25,7 @@ let get_completions = exports.get_completions = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 let get_definitions = exports.get_definitions = (() => {

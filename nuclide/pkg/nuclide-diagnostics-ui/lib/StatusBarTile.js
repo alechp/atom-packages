@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const STATUS_BAR_PRIORITY = -99.5;
@@ -74,7 +75,7 @@ class StatusBarTile {
       warningCount: 0
     };
     this._diagnosticUpdaters.set(diagnosticUpdater, diagnosticCount);
-    this._subscriptions.add(diagnosticUpdater.allMessageUpdates.subscribe(this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater)));
+    this._subscriptions.add(diagnosticUpdater.allMessageUpdates.subscribe(this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater), null, this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater, [])));
   }
 
   consumeStatusBar(statusBar) {
@@ -100,7 +101,8 @@ class StatusBarTile {
     for (const message of messages) {
       if (message.type === 'Error') {
         ++errorCount;
-      } else if (message.type === 'Warning') {
+      } else if (message.type === 'Warning' || message.type === 'Info') {
+        // TODO: should "Info" messages have their own category?
         ++warningCount;
       }
     }

@@ -17,4 +17,23 @@ Object.defineProperty(exports, 'DiagnosticStore', {
   }
 });
 
+var _TextEventDispatcher;
+
+function _load_TextEventDispatcher() {
+  return _TextEventDispatcher = require('./TextEventDispatcher');
+}
+
+Object.defineProperty(exports, 'TextEventDispatcher', {
+  enumerable: true,
+  get: function () {
+    return (_TextEventDispatcher || _load_TextEventDispatcher()).TextEventDispatcher;
+  }
+});
+Object.defineProperty(exports, 'observeTextEditorEvents', {
+  enumerable: true,
+  get: function () {
+    return (_TextEventDispatcher || _load_TextEventDispatcher()).observeTextEditorEvents;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

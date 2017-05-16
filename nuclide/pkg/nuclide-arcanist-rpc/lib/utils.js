@@ -16,6 +16,7 @@ const DIFFERENTIAL_REVISION_REGEX = /^Differential Revision:\s*(\S+)/im; /**
                                                                           * the root directory of this source tree.
                                                                           *
                                                                           * 
+                                                                          * @format
                                                                           */
 
 const DIFFERENTIAL_ID_REGEX = /[dD]([1-9][0-9]{5,})/im;

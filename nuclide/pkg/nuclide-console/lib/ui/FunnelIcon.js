@@ -13,7 +13,9 @@ function FunnelIcon() {
   /* eslint-disable max-len */
   return _react.default.createElement(
     "svg",
-    { className: "nuclide-console-header-funnel-icon", viewBox: "0 0 188.53 176.98" },
+    {
+      className: "nuclide-console-header-funnel-icon",
+      viewBox: "0 0 188.53 176.98" },
     _react.default.createElement("rect", {
       className: "nuclide-console-header-icon-fill",
       x: "69.04",
@@ -37,4 +39,5 @@ function FunnelIcon() {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */

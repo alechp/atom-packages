@@ -16,6 +16,7 @@ const SET_PROJECT_ROOT = exports.SET_PROJECT_ROOT = 'SET_PROJECT_ROOT'; /**
                                                                          * the root directory of this source tree.
                                                                          *
                                                                          * 
+                                                                         * @format
                                                                          */
 
 const SET_BUILD_TARGET = exports.SET_BUILD_TARGET = 'SET_BUILD_TARGET';

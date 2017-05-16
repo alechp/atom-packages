@@ -38,6 +38,7 @@ function refactorReducers(state_, action) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function open(state, action) {

@@ -61,6 +61,7 @@ let localRpcClient = null; /**
                             * the root directory of this source tree.
                             *
                             * 
+                            * @format
                             */
 
 let knownLocalRpc = false;

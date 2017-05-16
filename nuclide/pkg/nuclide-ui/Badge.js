@@ -29,6 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const BadgeSizes = exports.BadgeSizes = Object.freeze({
@@ -58,13 +59,7 @@ const BadgeColorClassNames = Object.freeze({
 });
 
 const Badge = exports.Badge = props => {
-  const {
-    className,
-    color,
-    icon,
-    size,
-    value
-  } = props;
+  const { className, color, icon, size, value } = props;
   const sizeClassName = size == null ? '' : BadgeSizeClassNames[size] || '';
   const colorClassName = color == null ? '' : BadgeColorClassNames[color] || '';
   const newClassName = (0, (_classnames || _load_classnames()).default)(className, 'badge', {

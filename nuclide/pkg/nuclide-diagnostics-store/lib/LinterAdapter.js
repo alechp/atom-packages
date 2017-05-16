@@ -4,30 +4,36 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LinterAdapter = undefined;
-
-var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
-
 exports.linterMessageToDiagnosticMessage = linterMessageToDiagnosticMessage;
+exports.linterMessageV2ToDiagnosticMessage = linterMessageV2ToDiagnosticMessage;
 exports.linterMessagesToDiagnosticUpdate = linterMessagesToDiagnosticUpdate;
 
 var _atom = require('atom');
 
-var _nuclideDiagnosticsProviderBase;
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
-function _load_nuclideDiagnosticsProviderBase() {
-  return _nuclideDiagnosticsProviderBase = require('../../nuclide-diagnostics-provider-base');
+var _nuclideDiagnosticsCommon;
+
+function _load_nuclideDiagnosticsCommon() {
+  return _nuclideDiagnosticsCommon = require('../../nuclide-diagnostics-common');
 }
 
-var _nuclideUri;
+var _nuclideLogging;
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../commons-node/nuclideUri'));
+function _load_nuclideLogging() {
+  return _nuclideLogging = require('../../nuclide-logging');
 }
 
-var _promise;
+var _event;
 
-function _load_promise() {
-  return _promise = require('../../commons-node/promise');
+function _load_event() {
+  return _event = require('../../commons-node/event');
+}
+
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('../../commons-node/UniversalDisposable'));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -40,6 +46,7 @@ function linterMessageToDiagnosticMessage(msg, providerName) {
   // https://github.com/facebook/flow/issues/908
   const trace = msg.trace ? msg.trace.map(component => Object.assign({}, component)) : undefined;
   if (msg.filePath) {
+    const { fix } = msg;
     return {
       scope: 'file',
       providerName: msg.name != null ? msg.name : providerName,
@@ -49,10 +56,10 @@ function linterMessageToDiagnosticMessage(msg, providerName) {
       html: msg.html,
       range: msg.range && _atom.Range.fromObject(msg.range),
       trace,
-      fix: msg.fix == null ? undefined : {
-        oldRange: msg.fix.range,
-        oldText: msg.fix.oldText,
-        newText: msg.fix.newText
+      fix: fix == null ? undefined : {
+        oldRange: _atom.Range.fromObject(fix.range),
+        oldText: fix.oldText,
+        newText: fix.newText
       }
     };
   } else {
@@ -66,20 +73,69 @@ function linterMessageToDiagnosticMessage(msg, providerName) {
       trace
     };
   }
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   * @format
+   */
+
+const LinterSeverityMap = {
+  error: 'Error',
+  warning: 'Warning',
+  info: 'Info'
+};
+
+// Version 2 only handles file-level diagnostics.
+function linterMessageV2ToDiagnosticMessage(msg, providerName) {
+  let trace;
+  if (msg.trace != null) {
+    trace = msg.trace.map(component => Object.assign({}, component));
+  } else if (msg.reference != null) {
+    const point = msg.reference.position != null ? _atom.Point.fromObject(msg.reference.position) : null;
+    trace = [{
+      type: 'Trace',
+      filePath: msg.reference.file,
+      range: point ? new _atom.Range(point, point) : undefined
+    }];
+  }
+  // TODO: handle multiple solutions and priority.
+  let fix;
+  const { solutions } = msg;
+  if (solutions != null) {
+    const solution = solutions[0];
+    if (solution.replaceWith !== undefined) {
+      fix = {
+        oldRange: _atom.Range.fromObject(solution.position),
+        oldText: solution.currentText,
+        newText: solution.replaceWith,
+        title: solution.title
+      };
+    }
+    // TODO: support the callback version.
+  }
+  let text = msg.excerpt;
+  // TODO: use markdown + handle callback-based version.
+  if (typeof msg.description === 'string') {
+    text = text + '\n' + msg.description;
+  }
+  return {
+    scope: 'file',
+    providerName,
+    type: LinterSeverityMap[msg.severity],
+    filePath: msg.location.file,
+    text,
+    range: _atom.Range.fromObject(msg.location.position),
+    trace,
+    fix
+  };
 }
 
-// Exported for testing.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
-function linterMessagesToDiagnosticUpdate(currentPath, msgs, providerName = 'Unnamed Linter') {
+function linterMessagesToDiagnosticUpdate(currentPath, msgs, providerName) {
   const filePathToMessages = new Map();
   if (currentPath) {
     // Make sure we invalidate the messages for the current path. We may want to
@@ -89,7 +145,7 @@ function linterMessagesToDiagnosticUpdate(currentPath, msgs, providerName = 'Unn
   }
   const projectMessages = [];
   for (const msg of msgs) {
-    const diagnosticMessage = linterMessageToDiagnosticMessage(msg, providerName);
+    const diagnosticMessage = msg.type === undefined ? linterMessageV2ToDiagnosticMessage(msg, providerName) : linterMessageToDiagnosticMessage(msg, providerName);
     if (diagnosticMessage.scope === 'file') {
       const path = diagnosticMessage.filePath;
       let messages = filePathToMessages.get(path);
@@ -110,126 +166,84 @@ function linterMessagesToDiagnosticUpdate(currentPath, msgs, providerName = 'Unn
 }
 
 /**
- * Provides an adapter between legacy linters (defined by the LinterProvider
+ * Provides an adapter between Atom linters (defined by the LinterProvider
  * type), and Nuclide Diagnostic Providers.
  *
  * The constructor takes a LinterProvider as an argument, and the resulting
  * LinterAdapter is a valid DiagnosticProvider.
- *
- * Note that this allows an extension to ordinary LinterProviders. We allow an
- * optional additional field, providerName, to indicate the display name of the
- * linter.
  */
 class LinterAdapter {
 
-  /**
-   * Keep track of the files with diagnostics for each text buffer.
-   * This way we can accurately invalidate diagnostics when files are renamed.
-   */
-  constructor(provider, ProviderBase = (_nuclideDiagnosticsProviderBase || _load_nuclideDiagnosticsProviderBase()).DiagnosticsProviderBase) {
-    const utilsOptions = {
-      grammarScopes: new Set(provider.grammarScopes),
-      enableForAllGrammars: provider.allGrammarScopes,
-      shouldRunOnTheFly: provider.lintOnFly,
-      onTextEditorEvent: editor => this._runLint(editor),
-      onNewUpdateSubscriber: callback => this._newUpdateSubscriber(callback)
-    };
-    this._providerUtils = new ProviderBase(utilsOptions);
+  constructor(provider) {
     this._provider = provider;
-    this._enabled = true;
-    this._requestSerializer = new (_promise || _load_promise()).RequestSerializer();
-    this._filesForBuffer = new WeakMap();
-    this._onDestroyDisposables = new Map();
+    this._updates = new _rxjsBundlesRxMinJs.Subject();
+    this._invalidations = new _rxjsBundlesRxMinJs.Subject();
+    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default((0, (_nuclideDiagnosticsCommon || _load_nuclideDiagnosticsCommon()).observeTextEditorEvents)(this._provider.grammarScopes[0] === '*' ? 'all' : this._provider.grammarScopes, this._provider.lintsOnChange || this._provider.lintOnFly ? 'changes' : 'saves')
+    // Group text editor events by their underlying text buffer.
+    // Each grouped stream lasts until the buffer gets destroyed.
+    .groupBy(editor => editor.getBuffer(), editor => editor, grouped =>
+    // $FlowFixMe: add durationSelector to groupBy
+    (0, (_event || _load_event()).observableFromSubscribeFunction)(cb =>
+    // $FlowFixMe
+    grouped.key.onDidDestroy(cb)).take(1)).mergeMap(bufferObservable =>
+    // Run the linter on each buffer event.
+    _rxjsBundlesRxMinJs.Observable.concat(bufferObservable,
+    // When the buffer gets destroyed, immediately stop linting and invalidate.
+    _rxjsBundlesRxMinJs.Observable.of(null))
+    // switchMap ensures that earlier lints are overridden by later ones.
+    .switchMap(editor => editor == null ? _rxjsBundlesRxMinJs.Observable.of(null) : this._runLint(editor))
+    // Track the previous update so we can invalidate its results.
+    // (Prevents dangling diagnostics when a linter affects multiple files).
+    .scan((acc, update) => ({ update, lastUpdate: acc.update }), {
+      update: null,
+      lastUpdate: null
+    })).subscribe(({ update, lastUpdate }) => this._processUpdate(update, lastUpdate)));
   }
 
   _runLint(editor) {
-    var _this = this;
-
-    return (0, _asyncToGenerator.default)(function* () {
-      if (!_this._enabled) {
-        return;
+    return _rxjsBundlesRxMinJs.Observable.defer(() => {
+      const lintPromise = this._provider.lint(editor);
+      if (lintPromise == null) {
+        return _rxjsBundlesRxMinJs.Observable.empty();
       }
-
-      const maybe = _this._provider.lint(editor);
-      if (maybe == null) {
-        return;
-      }
-
-      const result = yield _this._requestSerializer.run(maybe);
-      if (result.status !== 'success') {
-        return;
-      }
-
-      const linterMessages = result.result;
+      return Promise.resolve(lintPromise).catch(error => {
+        // Prevent errors from blowing up the entire stream.
+        (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().error(`Error in linter provider ${this._provider.name}:`, error);
+        return null;
+      });
+    }).switchMap(linterMessages => {
       if (linterMessages == null) {
-        return;
+        return _rxjsBundlesRxMinJs.Observable.empty();
       }
-
-      const buffer = editor.getBuffer();
-      if (buffer.isDestroyed()) {
-        return;
-      }
-
-      if (_this._provider.invalidateOnClose && !_this._onDestroyDisposables.has(buffer)) {
-        const disposable = buffer.onDidDestroy(function () {
-          _this._invalidateBuffer(buffer);
-          _this._onDestroyDisposables.delete(buffer);
-          disposable.dispose();
-        });
-        _this._onDestroyDisposables.set(buffer, disposable);
-      }
-
-      const diagnosticUpdate = linterMessagesToDiagnosticUpdate(editor.getPath(), linterMessages, _this._provider.providerName || _this._provider.name);
-      _this._invalidateBuffer(buffer);
-      _this._providerUtils.publishMessageUpdate(diagnosticUpdate);
-      const { filePathToMessages } = diagnosticUpdate;
-      if (filePathToMessages != null) {
-        _this._filesForBuffer.set(buffer, Array.from(filePathToMessages.keys()));
-      }
-    })();
+      const update = linterMessagesToDiagnosticUpdate(editor.getPath(), linterMessages, this._provider.name);
+      return _rxjsBundlesRxMinJs.Observable.of(update);
+    });
   }
 
-  _newUpdateSubscriber(callback) {
-    const activeTextEditor = atom.workspace.getActiveTextEditor();
-    if (activeTextEditor && !(_nuclideUri || _load_nuclideUri()).default.isBrokenDeserializedUri(activeTextEditor.getPath())) {
-      const matchesGrammar = this._provider.grammarScopes.indexOf(activeTextEditor.getGrammar().scopeName) !== -1;
-      if (!this._lintInProgress() && matchesGrammar) {
-        this._runLint(activeTextEditor);
-      }
+  _processUpdate(update, lastUpdate) {
+    if (lastUpdate != null && lastUpdate.filePathToMessages != null) {
+      this._invalidations.next({
+        scope: 'file',
+        filePaths: Array.from(lastUpdate.filePathToMessages.keys())
+      });
     }
-  }
-
-  setEnabled(enabled) {
-    this._enabled = enabled;
-  }
-
-  setLintOnFly(lintOnFly) {
-    this._providerUtils.setRunOnTheFly(lintOnFly && this._provider.lintOnFly);
+    if (update != null) {
+      this._updates.next(update);
+    }
   }
 
   dispose() {
-    this._providerUtils.dispose();
-    this._onDestroyDisposables.forEach(disposable => disposable.dispose());
-    this._onDestroyDisposables.clear();
+    this._disposables.dispose();
+    this._updates.complete();
+    this._invalidations.complete();
   }
 
-  _lintInProgress() {
-    return this._requestSerializer.isRunInProgress();
+  getUpdates() {
+    return this._updates.asObservable();
   }
 
-  onMessageUpdate(callback) {
-    return this._providerUtils.onMessageUpdate(callback);
-  }
-
-  onMessageInvalidation(callback) {
-    return this._providerUtils.onMessageInvalidation(callback);
-  }
-
-  _invalidateBuffer(buffer) {
-    const filePaths = this._filesForBuffer.get(buffer);
-    if (filePaths != null) {
-      this._providerUtils.publishMessageInvalidation({ scope: 'file', filePaths });
-    }
+  getInvalidations() {
+    return this._invalidations.asObservable();
   }
 }
 exports.LinterAdapter = LinterAdapter;

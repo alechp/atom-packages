@@ -29,6 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const WS_URL = 'ws://localhost:8081/debugger-proxy?role=debugger&name=Nuclide';
@@ -43,7 +44,6 @@ function runApp(executorResults) {
   return websockets.switchMap(ws => _rxjsBundlesRxMinJs.Observable.merge(
   // The messages from the RN app.
   _rxjsBundlesRxMinJs.Observable.fromEvent(ws, 'message').map(event => JSON.parse(event.data)),
-
   // Send the executor results to the RN app.
   executorResults.do(response => {
     const { replyId, result } = response;
@@ -54,19 +54,19 @@ function runApp(executorResults) {
 function connectToRnApp() {
   const websockets = _rxjsBundlesRxMinJs.Observable.using(() => {
     const ws = new (_ws || _load_ws()).default(WS_URL);
-    return { ws, unsubscribe: () => {
+    return {
+      ws,
+      unsubscribe: () => {
         ws.close();
-      } };
+      }
+    };
   }, ({ ws }) => _rxjsBundlesRxMinJs.Observable.of(ws)).switchMap(ws => _rxjsBundlesRxMinJs.Observable.merge(_rxjsBundlesRxMinJs.Observable.never(),
-
   // A stream of websockets...
   _rxjsBundlesRxMinJs.Observable.of(ws),
-
   // ...that errors if the websocket closes before we unsubscribe.
   _rxjsBundlesRxMinJs.Observable.fromEvent(ws, 'close').map(() => {
     throw new PrematureCloseError();
   }),
-
   // ...or when there's a websocket error.
   _rxjsBundlesRxMinJs.Observable.fromEvent(ws, 'error').switchMap(_rxjsBundlesRxMinJs.Observable.throw))).retryWhen(errors => errors.scan((errorCount, error) => {
     // If the connection is being refused, or closes prematurely, just keep retrying

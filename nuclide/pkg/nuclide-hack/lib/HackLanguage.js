@@ -57,7 +57,8 @@ let createLanguageService = (() => {
       coverage: {
         version: '0.0.0',
         priority: 10,
-        analyticsEventName: 'hack:run-type-coverage'
+        analyticsEventName: 'hack:run-type-coverage',
+        icon: 'nuclicon-hack'
       },
       definition: {
         version: '0.0.0',
@@ -198,6 +199,7 @@ const HACK_SERVICE_NAME = 'HackService'; /**
                                           * the root directory of this source tree.
                                           *
                                           * 
+                                          * @format
                                           */
 
 let hackLanguageService = exports.hackLanguageService = createLanguageService();
@@ -215,7 +217,9 @@ function updateAutocompleteResults(request, firstResult) {
   }
   const replacementPrefix = (0, (_autocomplete || _load_autocomplete()).findHackPrefix)(request.editor.getBuffer(), request.bufferPosition);
   const updatedCompletions = updateReplacementPrefix(request, firstResult.items, replacementPrefix);
-  return Object.assign({}, firstResult, { items: (0, (_autocomplete || _load_autocomplete()).sortAndFilterCompletions)(updatedCompletions, replacementPrefix) });
+  return Object.assign({}, firstResult, {
+    items: (0, (_autocomplete || _load_autocomplete()).sortAndFilterCompletions)(updatedCompletions, replacementPrefix)
+  });
 }
 
 function updateReplacementPrefix(request, firstResult, prefixCandidate) {

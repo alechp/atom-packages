@@ -21,6 +21,7 @@ function _load_DebuggerDispatcher() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const CONNECTIONS_UPDATED_EVENT = 'CONNECTIONS_UPDATED_EVENT';

@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ResizableFlexContainerExample = () => _react.default.createElement(
@@ -33,8 +34,7 @@ const ResizableFlexContainerExample = () => _react.default.createElement(
     { style: { display: 'flex', height: 100 } },
     _react.default.createElement(
       (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexContainer,
-      {
-        direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.HORIZONTAL },
+      { direction: (_ResizableFlexContainer || _load_ResizableFlexContainer()).FlexDirections.HORIZONTAL },
       _react.default.createElement(
         (_ResizableFlexContainer || _load_ResizableFlexContainer()).ResizableFlexItem,
         { initialFlexScale: 1 },

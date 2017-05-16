@@ -127,6 +127,7 @@ function getAutocompleteSuggestions(schema, queryText, cursor) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getSuggestionsForFieldNames(cursor, token, typeInfo, schema) {

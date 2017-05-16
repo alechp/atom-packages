@@ -23,6 +23,7 @@ function _load_nuclideLogging() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class PlatformService {

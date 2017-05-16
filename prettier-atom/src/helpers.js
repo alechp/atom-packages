@@ -1,9 +1,10 @@
 // @flow
 const { findCached } = require('atom-linter');
 const fs = require('fs');
-const minimatch = require('minimatch');
+const ignore = require('ignore');
 const path = require('path');
 const bundledPrettier = require('prettier');
+const readPkg = require('read-pkg');
 
 // constants
 const LINE_SEPERATOR_REGEX = /(\r|\n|\r\n)/;
@@ -16,7 +17,7 @@ const getCurrentScope = (editor: TextEditor) => editor.getGrammar().scopeName;
 // robwise: my apologies for this one, but I love function composition and want to use one that is Facebook
 // flow inferrable. See https://drboolean.gitbooks.io/mostly-adequate-guide/ch5.html
 const flow = (func: Function, ...funcs: Array<Function>) => (...args) =>
-  (funcs.length ? flow(...funcs)(func(...args)) : func(...args));
+  funcs.length ? flow(...funcs)(func(...args)) : func(...args);
 
 const getDirFromFilePath = (filePath: FilePath): FilePath => path.parse(filePath).dir;
 
@@ -63,22 +64,25 @@ const getIgnoredGlobsFromNearestEslintIgnore: (filePath: FilePath) => Globs = fl
   maybePath => (maybePath ? getLinesFromFilePath(maybePath) : []),
 );
 
-const someGlobsMatchFilePath = (globs: Globs, filePath: FilePath) =>
-  globs.some(glob => minimatch(filePath, glob));
+const someGlobsMatchFilePath = (globs: Globs, filePath: FilePath) => ignore().add(globs).ignores(filePath);
 
 const getAtomTabLength = (editor: TextEditor) =>
   atom.config.get('editor.tabLength', { scope: editor.getLastCursor().getScopeDescriptor() });
 
 const useAtomTabLengthIfAuto = (editor, tabLength) =>
-  (tabLength === 'auto' ? getAtomTabLength(editor) : Number(tabLength));
+  tabLength === 'auto' ? getAtomTabLength(editor) : Number(tabLength);
 
 const isLinterLintCommandDefined = (editor: TextEditor) =>
   atom.commands
     .findCommands({ target: atom.views.getView(editor) })
     .some(command => command.name === LINTER_LINT_COMMAND);
 
+const getDepPath = (dep: string) => path.join(__dirname, '../node_modules', dep);
+
 // public helpers
 const getConfigOption = (key: string) => atom.config.get(`prettier-atom.${key}`);
+
+const setConfigOption = (key: string, value: any) => atom.config.set(`prettier-atom.${key}`, value);
 
 const shouldDisplayErrors = () => !getConfigOption('silenceErrors');
 
@@ -137,12 +141,21 @@ const getPrettierEslintOptions = () => ({
 });
 
 const runLinter = (editor: TextEditor) =>
-  (isLinterLintCommandDefined(editor)
+  isLinterLintCommandDefined(editor)
     ? atom.commands.dispatch(atom.views.getView(editor), LINTER_LINT_COMMAND)
-    : undefined);
+    : undefined;
+
+const getDebugInfo = () => ({
+  atomVersion: atom.getVersion(),
+  prettierAtomVersion: readPkg.sync().version,
+  prettierVersion: readPkg.sync(getDepPath('prettier')).version,
+  prettierESLintVersion: readPkg.sync(getDepPath('prettier-eslint')).version,
+  prettierAtomConfig: atom.config.get('prettier-atom'),
+});
 
 module.exports = {
   getConfigOption,
+  setConfigOption,
   shouldDisplayErrors,
   getPrettierOption,
   getPrettierEslintOption,
@@ -161,4 +174,5 @@ module.exports = {
   getPrettierOptions,
   getPrettierEslintOptions,
   runLinter,
+  getDebugInfo,
 };

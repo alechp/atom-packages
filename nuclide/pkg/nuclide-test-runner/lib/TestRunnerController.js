@@ -67,6 +67,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/test-runner';
@@ -75,7 +76,7 @@ class TestRunnerController {
 
   constructor(testRunners) {
     this._root = document.createElement('div');
-    this._root.style.display = 'flex';
+    this._root.className = 'nuclide-test-runner-root';
 
     // Bind Functions for use as callbacks;
     // TODO: Replace with property initializers when supported by Flow;

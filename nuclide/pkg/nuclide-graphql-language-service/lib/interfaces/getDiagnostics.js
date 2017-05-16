@@ -70,6 +70,7 @@ function getDiagnostics(filePath, queryText, schema = null, customRules) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function mapCat(array, mapper) {

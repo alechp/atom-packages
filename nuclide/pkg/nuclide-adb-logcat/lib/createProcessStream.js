@@ -35,10 +35,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function createProcessStream() {
-  const processEvents = (0, (_process || _load_process()).observeProcess)((_featureConfig || _load_featureConfig()).default.get('nuclide-adb-logcat.pathToAdb'), ['logcat', '-v', 'long']).share();
+  const processEvents = (0, (_process || _load_process()).observeProcess)((_featureConfig || _load_featureConfig()).default.get('nuclide-adb-logcat.pathToAdb'), ['logcat', '-v', 'long'], { /* TODO(T17353599) */isExitError: () => false }).catch(error => _rxjsBundlesRxMinJs.Observable.of({ kind: 'error', error })) // TODO(T17463635)
+  .share();
   const stdoutEvents = processEvents.filter(event => event.kind === 'stdout')
   // Not all versions of adb have a way to skip historical logs so we just ignore the first
   // second.

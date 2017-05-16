@@ -25,6 +25,7 @@ const MAX_LENGTH = 100; /**
                          * the root directory of this source tree.
                          *
                          * 
+                         * @format
                          */
 
 class MarkedStringSnippet extends _react.default.Component {

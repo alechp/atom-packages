@@ -279,16 +279,13 @@ exports.FileTreeToolbarComponent = FileTreeToolbarComponent; /**
                                                               * the root directory of this source tree.
                                                               *
                                                               * 
+                                                              * @format
                                                               */
 
 class SelectWorkingSetButton extends _react.default.Component {
 
   render() {
-    const {
-      isWorkingSetEmpty,
-      onClick,
-      onFocus
-    } = this.props;
+    const { isWorkingSetEmpty, onClick, onFocus } = this.props;
     return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {
@@ -311,12 +308,7 @@ class SelectWorkingSetButton extends _react.default.Component {
 class DefineWorkingSetButton extends _react.default.Component {
 
   render() {
-    const {
-      isActive,
-      isWorkingSetEmpty,
-      shouldShowLabel,
-      onClick
-    } = this.props;
+    const { isActive, isWorkingSetEmpty, shouldShowLabel, onClick } = this.props;
     return _react.default.createElement(
       (_Button || _load_Button()).Button,
       {

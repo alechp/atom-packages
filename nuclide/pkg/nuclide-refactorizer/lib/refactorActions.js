@@ -17,6 +17,7 @@ exports.close = close;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function open(ui) {

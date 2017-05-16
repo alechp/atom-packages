@@ -77,6 +77,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const CTAGS_KIND_NAMES = exports.CTAGS_KIND_NAMES = {

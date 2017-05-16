@@ -18,6 +18,7 @@ const { remote } = _electron.default; /**
                                        * the root directory of this source tree.
                                        *
                                        * 
+                                       * @format
                                        */
 
 if (!(remote != null)) {
@@ -34,7 +35,9 @@ class PromptButton extends _react.default.Component {
   render() {
     return _react.default.createElement(
       'span',
-      { className: 'nuclide-console-prompt-wrapper', onClick: this._handleClick },
+      {
+        className: 'nuclide-console-prompt-wrapper',
+        onClick: this._handleClick },
       _react.default.createElement(
         'span',
         { className: 'nuclide-console-prompt-label' },

@@ -50,6 +50,7 @@ exports.CodeFormatProvider = CodeFormatProvider; /**
                                                   * the root directory of this source tree.
                                                   *
                                                   * 
+                                                  * @format
                                                   */
 
 class RangeFormatProvider extends CodeFormatProvider {

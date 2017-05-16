@@ -92,6 +92,7 @@ let busySignalProvider = null; /**
                                 * the root directory of this source tree.
                                 *
                                 * 
+                                * @format
                                 */
 
 let subscriptions = null;
@@ -177,7 +178,6 @@ function provideLinter() {
     scope: 'file',
     lintOnFly: false,
     name: 'Clang',
-    invalidateOnClose: true,
     lint(editor) {
       const getResult = () => (_ClangLinter || _load_ClangLinter()).default.lint(editor);
       if (busySignalProvider) {

@@ -32,9 +32,6 @@ class StatusBarTile extends _react.default.Component {
     switch (this.props.connectionState) {
       case (_ConnectionState || _load_ConnectionState()).default.NONE:
         break;
-      case (_ConnectionState || _load_ConnectionState()).default.LOCAL:
-        iconName = 'device-desktop';
-        break;
       case (_ConnectionState || _load_ConnectionState()).default.CONNECTED:
         iconName = 'cloud-upload';
         break;
@@ -78,4 +75,5 @@ exports.default = StatusBarTile; /**
                                   * the root directory of this source tree.
                                   *
                                   * 
+                                  * @format
                                   */

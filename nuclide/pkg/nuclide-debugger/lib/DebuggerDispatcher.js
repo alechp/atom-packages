@@ -21,6 +21,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ActionTypes = exports.ActionTypes = Object.freeze({
@@ -66,6 +67,8 @@ const ActionTypes = exports.ActionTypes = Object.freeze({
   RECEIVED_EXPRESSION_EVALUATION_RESPONSE: 'RECEIVED_EXPRESSION_EVALUATION_RESPONSE',
   RECEIVED_GET_PROPERTIES_RESPONSE: 'RECEIVED_GET_PROPERTIES_RESPONSE',
   UPDATE_CUSTOM_CONTROL_BUTTONS: 'UPDATE_CUSTOM_CONTROL_BUTTONS',
+  UPDATE_CONFIGURE_SOURCE_PATHS_CALLBACK: 'UPDATE_CONFIGURE_SOURCE_PATHS_CALLBACK',
+  CONFIGURE_SOURCE_PATHS: 'CONFIGURE_SOURCE_PATHS',
   SET_DEBUG_PROCESS_INFO: 'SET_DEBUG_PROCESS_INFO'
 });
 

@@ -55,6 +55,7 @@ const DIFF_LINE_LIMIT = 10000; /**
                                 * the root directory of this source tree.
                                 *
                                 * 
+                                * @format
                                 */
 
 class NuclideTextBuffer extends _atom.TextBuffer {
@@ -124,7 +125,7 @@ class NuclideTextBuffer extends _atom.TextBuffer {
 
     return (0, _asyncToGenerator.default)(function* () {
       if (!filePath) {
-        throw new Error('Can\'t save buffer with no file path');
+        throw new Error("Can't save buffer with no file path");
       }
 
       let success;
@@ -139,7 +140,8 @@ class NuclideTextBuffer extends _atom.TextBuffer {
         }
 
         _this._pendingSaveContents = toSaveContents;
-        yield (0, (_loadingNotification || _load_loadingNotification()).default)(file.write(toSaveContents), `Saving ${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(filePath)}...`, 1000);
+        yield (0, (_loadingNotification || _load_loadingNotification()).default)(file.write(toSaveContents), `Saving ${(_nuclideUri || _load_nuclideUri()).default.nuclideUriToDisplayString(filePath)}...`, 1000 /* delay */
+        );
         _this.cachedDiskContents = toSaveContents;
         _this._saveID++;
         _this.conflict = false;
@@ -178,7 +180,7 @@ class NuclideTextBuffer extends _atom.TextBuffer {
   }
 
   updateCachedDiskContentsSync() {
-    throw new Error('updateCachedDiskContentsSync isn\'t supported in NuclideTextBuffer');
+    throw new Error("updateCachedDiskContentsSync isn't supported in NuclideTextBuffer");
   }
 
   updateCachedDiskContents(flushCache, callback) {

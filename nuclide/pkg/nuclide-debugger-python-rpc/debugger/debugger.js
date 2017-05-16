@@ -41,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const METHOD_CONNECT = 'connect';
@@ -69,7 +70,10 @@ function launchDebugger(commander, initialBreakpoints, pathToPythonExecutable, p
         const method = args[PARAM_METHOD];
         if (method === METHOD_CONNECT) {
           // On initial connection, we should send the breakpoints over.
-          write({ [PARAM_METHOD]: METHOD_INIT, [PARAM_BREAKPOINTS]: initialBreakpoints });
+          write({
+            [PARAM_METHOD]: METHOD_INIT,
+            [PARAM_BREAKPOINTS]: initialBreakpoints
+          });
           observer.next({ event: 'connected' });
         } else if (method === METHOD_STOP) {
           const { file, line } = args;

@@ -60,6 +60,7 @@ process.on('message', message => {
      * the root directory of this source tree.
      *
      * 
+     * @format
      */
 
 process.on('uncaughtException', err => {

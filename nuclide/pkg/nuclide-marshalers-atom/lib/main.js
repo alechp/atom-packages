@@ -22,6 +22,7 @@ const jsonToAtomPoint = json => new _atom.Point(json.row, json.column); /**
                                                                          * the root directory of this source tree.
                                                                          *
                                                                          * 
+                                                                         * @format
                                                                          */
 
 const jsonToAtomRange = json => new _atom.Range(jsonToAtomPoint(json.start), jsonToAtomPoint(json.end));

@@ -10,9 +10,6 @@ describe "Operator TransformString", ->
       {editor, editorElement} = vimState
       {set, ensure, keystroke} = vim
 
-  afterEach ->
-    vimState.resetNormalMode()
-
   describe 'the ~ keybinding', ->
     beforeEach ->
       set
@@ -344,17 +341,21 @@ describe "Operator TransformString", ->
         cursor: [0, 0]
 
     it "transform text by motion and repeatable", ->
-      ensure 'g c $', text: 'vimMode\natom-text-editor\n', cursor: [0, 0]
+      ensure 'g C $', text: 'vimMode\natom-text-editor\n', cursor: [0, 0]
       ensure 'j .', text: 'vimMode\natomTextEditor\n', cursor: [1, 0]
 
     it "transform selection", ->
-      ensure 'V j g c', text: 'vimMode\natomTextEditor\n', cursor: [0, 0]
+      ensure 'V j g C', text: 'vimMode\natomTextEditor\n', cursor: [0, 0]
 
     it "repeating twice works on current-line and won't move cursor", ->
-      ensure 'l g c g c', text: 'vimMode\natom-text-editor\n', cursor: [0, 1]
+      ensure 'l g C g C', text: 'vimMode\natom-text-editor\n', cursor: [0, 1]
 
   describe 'PascalCase', ->
     beforeEach ->
+      atom.keymaps.add "test",
+        'atom-text-editor.vim-mode-plus:not(.insert-mode)':
+          'g C': 'vim-mode-plus:pascal-case'
+
       set
         text: 'vim-mode\natom-text-editor\n'
         cursor: [0, 0]
@@ -550,6 +551,34 @@ describe "Operator TransformString", ->
             line )
           """
 
+    describe 'alias keymap for surround, change-surround, delete-surround', ->
+      it "surround by aliased char", ->
+        set textC: "|abc"; ensure ['y s i w', input: 'b'], text: "(abc)"
+        set textC: "|abc"; ensure ['y s i w', input: 'B'], text: "{abc}"
+        set textC: "|abc"; ensure ['y s i w', input: 'r'], text: "[abc]"
+        set textC: "|abc"; ensure ['y s i w', input: 'a'], text: "<abc>"
+      it "delete surround by aliased char", ->
+        set textC: "|(abc)"; ensure ['d S', input: 'b'], text: "abc"
+        set textC: "|{abc}"; ensure ['d S', input: 'B'], text: "abc"
+        set textC: "|[abc]"; ensure ['d S', input: 'r'], text: "abc"
+        set textC: "|<abc>"; ensure ['d S', input: 'a'], text: "abc"
+      it "change surround by aliased char", ->
+        set textC: "|(abc)"; ensure ['c S', input: 'bB'], text: "{abc}"
+        set textC: "|(abc)"; ensure ['c S', input: 'br'], text: "[abc]"
+        set textC: "|(abc)"; ensure ['c S', input: 'ba'], text: "<abc>"
+
+        set textC: "|{abc}"; ensure ['c S', input: 'Bb'], text: "(abc)"
+        set textC: "|{abc}"; ensure ['c S', input: 'Br'], text: "[abc]"
+        set textC: "|{abc}"; ensure ['c S', input: 'Ba'], text: "<abc>"
+
+        set textC: "|[abc]"; ensure ['c S', input: 'rb'], text: "(abc)"
+        set textC: "|[abc]"; ensure ['c S', input: 'rB'], text: "{abc}"
+        set textC: "|[abc]"; ensure ['c S', input: 'ra'], text: "<abc>"
+
+        set textC: "|<abc>"; ensure ['c S', input: 'ab'], text: "(abc)"
+        set textC: "|<abc>"; ensure ['c S', input: 'aB'], text: "{abc}"
+        set textC: "|<abc>"; ensure ['c S', input: 'ar'], text: "[abc]"
+
     describe 'surround', ->
       it "surround text object with ( and repeatable", ->
         ensure ['y s i w', input: '('],
@@ -631,6 +660,32 @@ describe "Operator TransformString", ->
             ensure ['y s i w', input: '}'], text: "(apple)\n{orange}\nlemmon"
             keystroke 'j'
             ensure ['y s i w', input: ']'], text: "(apple)\n{orange}\n[lemmon]"
+
+        describe "it distinctively handle aliased keymap", ->
+          describe "normal pair-chars are set to add space", ->
+            beforeEach ->
+              settings.set('charactersToAddSpaceOnSurround', ['(', '{', '[', '<'])
+            it "distinctively handle", ->
+              set textC: "|abc"; ensure ['y s i w', input: '('], text: "( abc )"
+              set textC: "|abc"; ensure ['y s i w', input: 'b'], text: "(abc)"
+              set textC: "|abc"; ensure ['y s i w', input: '{'], text: "{ abc }"
+              set textC: "|abc"; ensure ['y s i w', input: 'B'], text: "{abc}"
+              set textC: "|abc"; ensure ['y s i w', input: '['], text: "[ abc ]"
+              set textC: "|abc"; ensure ['y s i w', input: 'r'], text: "[abc]"
+              set textC: "|abc"; ensure ['y s i w', input: '<'], text: "< abc >"
+              set textC: "|abc"; ensure ['y s i w', input: 'a'], text: "<abc>"
+          describe "aliased pair-chars are set to add space", ->
+            beforeEach ->
+              settings.set('charactersToAddSpaceOnSurround', ['b', 'B', 'r', 'a'])
+            it "distinctively handle", ->
+              set textC: "|abc"; ensure ['y s i w', input: '('], text: "(abc)"
+              set textC: "|abc"; ensure ['y s i w', input: 'b'], text: "( abc )"
+              set textC: "|abc"; ensure ['y s i w', input: '{'], text: "{abc}"
+              set textC: "|abc"; ensure ['y s i w', input: 'B'], text: "{ abc }"
+              set textC: "|abc"; ensure ['y s i w', input: '['], text: "[abc]"
+              set textC: "|abc"; ensure ['y s i w', input: 'r'], text: "[ abc ]"
+              set textC: "|abc"; ensure ['y s i w', input: '<'], text: "<abc>"
+              set textC: "|abc"; ensure ['y s i w', input: 'a'], text: "< abc >"
 
     describe 'map-surround', ->
       beforeEach ->

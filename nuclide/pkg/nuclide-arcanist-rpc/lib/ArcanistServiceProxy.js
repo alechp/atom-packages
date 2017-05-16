@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 57
+          line: 62
         },
         kind: "named",
         name: "NuclideUri"
@@ -24,14 +24,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 57
+          line: 63
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 57
+            line: 63
           },
           kind: "named",
           name: "NuclideUri"
@@ -47,7 +47,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 65
+          line: 74
         },
         kind: "named",
         name: "NuclideUri"
@@ -59,14 +59,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 65
+          line: 74
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 65
+            line: 74
           },
           kind: "any"
         }
@@ -81,7 +81,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 81
+          line: 93
         },
         kind: "named",
         name: "NuclideUri"
@@ -92,7 +92,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 82
+          line: 94
         },
         kind: "string"
       }
@@ -103,14 +103,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 83
+          line: 95
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 83
+            line: 95
           },
           kind: "string"
         }
@@ -125,7 +125,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 91
+          line: 102
         },
         kind: "named",
         name: "NuclideUri"
@@ -137,14 +137,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 91
+          line: 103
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 91
+            line: 103
           },
           kind: "string"
         }
@@ -159,7 +159,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 96
+          line: 109
         },
         kind: "named",
         name: "NuclideUri"
@@ -171,28 +171,28 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 96
+          line: 111
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 96
+            line: 111
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 97
+              line: 112
             },
             name: "projectId",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 97
+                line: 112
               },
               kind: "string"
             },
@@ -201,14 +201,14 @@ module.exports = _client => {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 98
+              line: 113
             },
             name: "directory",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 98
+                line: 113
               },
               kind: "named",
               name: "NuclideUri"
@@ -227,7 +227,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 111
+          line: 128
         },
         kind: "named",
         name: "NuclideUri"
@@ -239,14 +239,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 111
+          line: 129
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 111
+            line: 129
           },
           kind: "string"
         }
@@ -261,7 +261,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 117
+          line: 135
         },
         kind: "named",
         name: "NuclideUri"
@@ -272,14 +272,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 118
+          line: 136
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 118
+            line: 136
           },
           kind: "string"
         }
@@ -291,7 +291,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 119
+          line: 137
         },
         kind: "named",
         name: "ArcDiagnostic"
@@ -306,7 +306,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 214
+          line: 259
         },
         kind: "named",
         name: "NuclideUri"
@@ -317,7 +317,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 215
+          line: 260
         },
         kind: "boolean"
       }
@@ -327,14 +327,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 216
+          line: 261
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 216
+            line: 261
           },
           kind: "string"
         }
@@ -346,21 +346,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 217
+          line: 262
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 217
+            line: 262
           },
           name: "stderr",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 217
+              line: 262
             },
             kind: "string"
           },
@@ -369,14 +369,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 217
+            line: 262
           },
           name: "stdout",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 217
+              line: 262
             },
             kind: "string"
           },
@@ -393,7 +393,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 223
+          line: 268
         },
         kind: "named",
         name: "NuclideUri"
@@ -404,7 +404,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 224
+          line: 269
         },
         kind: "string"
       }
@@ -414,7 +414,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 225
+          line: 270
         },
         kind: "boolean"
       }
@@ -424,14 +424,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 226
+          line: 271
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 226
+            line: 271
           },
           kind: "string"
         }
@@ -442,7 +442,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 227
+          line: 272
         },
         kind: "boolean"
       }
@@ -453,21 +453,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 228
+          line: 273
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 228
+            line: 273
           },
           name: "stderr",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 228
+              line: 273
             },
             kind: "string"
           },
@@ -476,14 +476,14 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 228
+            line: 273
           },
           name: "stdout",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 228
+              line: 273
             },
             kind: "string"
           },
@@ -500,7 +500,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 242
+          line: 284
         },
         kind: "named",
         name: "NuclideUri"
@@ -511,7 +511,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 243
+          line: 285
         },
         kind: "boolean"
       }
@@ -521,7 +521,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 244
+          line: 286
         },
         kind: "boolean"
       }
@@ -532,10 +532,10 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 245
+          line: 287
         },
         kind: "named",
-        name: "ProcessMessage"
+        name: "LegacyProcessMessage"
       });
     }).publish();
   };
@@ -547,7 +547,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 261
+          line: 310
         },
         kind: "named",
         name: "NuclideUri"
@@ -559,10 +559,10 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 262
+          line: 311
         },
         kind: "named",
-        name: "ProcessMessage"
+        name: "LegacyProcessMessage"
       });
     }).publish();
   };
@@ -574,7 +574,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 270
+          line: 326
         },
         kind: "named",
         name: "NuclideUri"
@@ -585,7 +585,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 271
+          line: 327
         },
         kind: "string"
       }
@@ -596,10 +596,10 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 272
+          line: 328
         },
         kind: "named",
-        name: "ProcessMessage"
+        name: "LegacyProcessMessage"
       });
     }).publish();
   };
@@ -675,35 +675,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 41
+        line: 42
       },
       name: "ArcDiagnostic",
       definition: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 41
+          line: 42
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 42
+            line: 43
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 42
+              line: 43
             },
             kind: "union",
             types: [{
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 42
+                line: 43
               },
               kind: "string-literal",
               value: "Error"
@@ -711,7 +711,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 42
+                line: 43
               },
               kind: "string-literal",
               value: "Warning"
@@ -722,14 +722,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 43
+            line: 44
           },
           name: "text",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 43
+              line: 44
             },
             kind: "string"
           },
@@ -738,14 +738,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 44
+            line: 45
           },
           name: "filePath",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 44
+              line: 45
             },
             kind: "named",
             name: "NuclideUri"
@@ -755,25 +755,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 45
-          },
-          name: "row",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 45
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "ArcanistService.js",
             line: 46
           },
-          name: "col",
+          name: "row",
           type: {
             location: {
               type: "source",
@@ -789,19 +773,35 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "ArcanistService.js",
             line: 47
           },
-          name: "code",
+          name: "col",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
               line: 47
             },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "ArcanistService.js",
+            line: 48
+          },
+          name: "code",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 48
+            },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 47
+                line: 48
               },
               kind: "string"
             }
@@ -811,14 +811,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 50
+            line: 51
           },
           name: "original",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 50
+              line: 51
             },
             kind: "string"
           },
@@ -827,14 +827,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 51
+            line: 52
           },
           name: "replacement",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 51
+              line: 52
             },
             kind: "string"
           },
@@ -848,13 +848,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 57
+        line: 61
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 57
+          line: 61
         },
         kind: "function",
         argumentTypes: [{
@@ -863,7 +863,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 57
+              line: 62
             },
             kind: "named",
             name: "NuclideUri"
@@ -873,21 +873,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 57
+            line: 63
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 57
+              line: 63
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 57
+                line: 63
               },
               kind: "named",
               name: "NuclideUri"
@@ -902,13 +902,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 65
+        line: 74
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 65
+          line: 74
         },
         kind: "function",
         argumentTypes: [{
@@ -917,7 +917,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 65
+              line: 74
             },
             kind: "named",
             name: "NuclideUri"
@@ -927,21 +927,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 65
+            line: 74
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 65
+              line: 74
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 65
+                line: 74
               },
               kind: "any"
             }
@@ -955,13 +955,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 80
+        line: 92
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 80
+          line: 92
         },
         kind: "function",
         argumentTypes: [{
@@ -970,7 +970,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 81
+              line: 93
             },
             kind: "named",
             name: "NuclideUri"
@@ -981,7 +981,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 82
+              line: 94
             },
             kind: "string"
           }
@@ -990,21 +990,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 83
+            line: 95
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 83
+              line: 95
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 83
+                line: 95
               },
               kind: "string"
             }
@@ -1018,13 +1018,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 91
+        line: 101
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 91
+          line: 101
         },
         kind: "function",
         argumentTypes: [{
@@ -1033,7 +1033,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 91
+              line: 102
             },
             kind: "named",
             name: "NuclideUri"
@@ -1043,21 +1043,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 91
+            line: 103
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 91
+              line: 103
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 91
+                line: 103
               },
               kind: "string"
             }
@@ -1071,13 +1071,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 96
+        line: 108
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 96
+          line: 108
         },
         kind: "function",
         argumentTypes: [{
@@ -1086,7 +1086,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 96
+              line: 109
             },
             kind: "named",
             name: "NuclideUri"
@@ -1096,35 +1096,35 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 96
+            line: 110
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 96
+              line: 111
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 96
+                line: 111
               },
               kind: "object",
               fields: [{
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 97
+                  line: 112
                 },
                 name: "projectId",
                 type: {
                   location: {
                     type: "source",
                     fileName: "ArcanistService.js",
-                    line: 97
+                    line: 112
                   },
                   kind: "string"
                 },
@@ -1133,14 +1133,14 @@ Object.defineProperty(module.exports, "defs", {
                 location: {
                   type: "source",
                   fileName: "ArcanistService.js",
-                  line: 98
+                  line: 113
                 },
                 name: "directory",
                 type: {
                   location: {
                     type: "source",
                     fileName: "ArcanistService.js",
-                    line: 98
+                    line: 113
                   },
                   kind: "named",
                   name: "NuclideUri"
@@ -1158,13 +1158,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 111
+        line: 127
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 111
+          line: 127
         },
         kind: "function",
         argumentTypes: [{
@@ -1173,7 +1173,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 111
+              line: 128
             },
             kind: "named",
             name: "NuclideUri"
@@ -1183,21 +1183,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 111
+            line: 129
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 111
+              line: 129
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 111
+                line: 129
               },
               kind: "string"
             }
@@ -1211,13 +1211,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 116
+        line: 134
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 116
+          line: 134
         },
         kind: "function",
         argumentTypes: [{
@@ -1226,7 +1226,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 117
+              line: 135
             },
             kind: "named",
             name: "NuclideUri"
@@ -1237,14 +1237,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 118
+              line: 136
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "ArcanistService.js",
-                line: 118
+                line: 136
               },
               kind: "string"
             }
@@ -1254,14 +1254,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 119
+            line: 137
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 119
+              line: 137
             },
             kind: "named",
             name: "ArcDiagnostic"
@@ -1275,13 +1275,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 213
+        line: 258
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 213
+          line: 258
         },
         kind: "function",
         argumentTypes: [{
@@ -1290,7 +1290,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 214
+              line: 259
             },
             kind: "named",
             name: "NuclideUri"
@@ -1301,297 +1301,27 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 215
+              line: 260
             },
             kind: "boolean"
           }
         }, {
           name: "lintExcuse",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 216
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 216
-              },
-              kind: "string"
-            }
-          }
-        }],
-        returnType: {
-          location: {
-            type: "source",
-            fileName: "ArcanistService.js",
-            line: 217
-          },
-          kind: "observable",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 217
-            },
-            kind: "object",
-            fields: [{
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 217
-              },
-              name: "stderr",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 217
-                },
-                kind: "string"
-              },
-              optional: true
-            }, {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 217
-              },
-              name: "stdout",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 217
-                },
-                kind: "string"
-              },
-              optional: true
-            }]
-          }
-        }
-      }
-    },
-    updatePhabricatorRevision: {
-      kind: "function",
-      name: "updatePhabricatorRevision",
-      location: {
-        type: "source",
-        fileName: "ArcanistService.js",
-        line: 222
-      },
-      type: {
-        location: {
-          type: "source",
-          fileName: "ArcanistService.js",
-          line: 222
-        },
-        kind: "function",
-        argumentTypes: [{
-          name: "filePath",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 223
-            },
-            kind: "named",
-            name: "NuclideUri"
-          }
-        }, {
-          name: "message",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 224
-            },
-            kind: "string"
-          }
-        }, {
-          name: "allowUntracked",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 225
-            },
-            kind: "boolean"
-          }
-        }, {
-          name: "lintExcuse",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 226
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 226
-              },
-              kind: "string"
-            }
-          }
-        }, {
-          name: "verbatimModeEnabled",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 227
-            },
-            kind: "boolean"
-          }
-        }],
-        returnType: {
-          location: {
-            type: "source",
-            fileName: "ArcanistService.js",
-            line: 228
-          },
-          kind: "observable",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 228
-            },
-            kind: "object",
-            fields: [{
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 228
-              },
-              name: "stderr",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 228
-                },
-                kind: "string"
-              },
-              optional: true
-            }, {
-              location: {
-                type: "source",
-                fileName: "ArcanistService.js",
-                line: 228
-              },
-              name: "stdout",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "ArcanistService.js",
-                  line: 228
-                },
-                kind: "string"
-              },
-              optional: true
-            }]
-          }
-        }
-      }
-    },
-    execArcPull: {
-      kind: "function",
-      name: "execArcPull",
-      location: {
-        type: "source",
-        fileName: "ArcanistService.js",
-        line: 241
-      },
-      type: {
-        location: {
-          type: "source",
-          fileName: "ArcanistService.js",
-          line: 241
-        },
-        kind: "function",
-        argumentTypes: [{
-          name: "cwd",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 242
-            },
-            kind: "named",
-            name: "NuclideUri"
-          }
-        }, {
-          name: "fetchLatest",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 243
-            },
-            kind: "boolean"
-          }
-        }, {
-          name: "allowDirtyChanges",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 244
-            },
-            kind: "boolean"
-          }
-        }],
-        returnType: {
-          location: {
-            type: "source",
-            fileName: "ArcanistService.js",
-            line: 245
-          },
-          kind: "observable",
-          type: {
-            location: {
-              type: "source",
-              fileName: "ArcanistService.js",
-              line: 245
-            },
-            kind: "named",
-            name: "ProcessMessage"
-          }
-        }
-      }
-    },
-    execArcLand: {
-      kind: "function",
-      name: "execArcLand",
-      location: {
-        type: "source",
-        fileName: "ArcanistService.js",
-        line: 260
-      },
-      type: {
-        location: {
-          type: "source",
-          fileName: "ArcanistService.js",
-          line: 260
-        },
-        kind: "function",
-        argumentTypes: [{
-          name: "cwd",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
               line: 261
             },
-            kind: "named",
-            name: "NuclideUri"
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 261
+              },
+              kind: "string"
+            }
           }
         }],
         returnType: {
@@ -1607,8 +1337,278 @@ Object.defineProperty(module.exports, "defs", {
               fileName: "ArcanistService.js",
               line: 262
             },
+            kind: "object",
+            fields: [{
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 262
+              },
+              name: "stderr",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 262
+                },
+                kind: "string"
+              },
+              optional: true
+            }, {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 262
+              },
+              name: "stdout",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 262
+                },
+                kind: "string"
+              },
+              optional: true
+            }]
+          }
+        }
+      }
+    },
+    updatePhabricatorRevision: {
+      kind: "function",
+      name: "updatePhabricatorRevision",
+      location: {
+        type: "source",
+        fileName: "ArcanistService.js",
+        line: 267
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "ArcanistService.js",
+          line: 267
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "filePath",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 268
+            },
             kind: "named",
-            name: "ProcessMessage"
+            name: "NuclideUri"
+          }
+        }, {
+          name: "message",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 269
+            },
+            kind: "string"
+          }
+        }, {
+          name: "allowUntracked",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 270
+            },
+            kind: "boolean"
+          }
+        }, {
+          name: "lintExcuse",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 271
+            },
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 271
+              },
+              kind: "string"
+            }
+          }
+        }, {
+          name: "verbatimModeEnabled",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 272
+            },
+            kind: "boolean"
+          }
+        }],
+        returnType: {
+          location: {
+            type: "source",
+            fileName: "ArcanistService.js",
+            line: 273
+          },
+          kind: "observable",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 273
+            },
+            kind: "object",
+            fields: [{
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 273
+              },
+              name: "stderr",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 273
+                },
+                kind: "string"
+              },
+              optional: true
+            }, {
+              location: {
+                type: "source",
+                fileName: "ArcanistService.js",
+                line: 273
+              },
+              name: "stdout",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "ArcanistService.js",
+                  line: 273
+                },
+                kind: "string"
+              },
+              optional: true
+            }]
+          }
+        }
+      }
+    },
+    execArcPull: {
+      kind: "function",
+      name: "execArcPull",
+      location: {
+        type: "source",
+        fileName: "ArcanistService.js",
+        line: 283
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "ArcanistService.js",
+          line: 283
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "cwd",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 284
+            },
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }, {
+          name: "fetchLatest",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 285
+            },
+            kind: "boolean"
+          }
+        }, {
+          name: "allowDirtyChanges",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 286
+            },
+            kind: "boolean"
+          }
+        }],
+        returnType: {
+          location: {
+            type: "source",
+            fileName: "ArcanistService.js",
+            line: 287
+          },
+          kind: "observable",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 287
+            },
+            kind: "named",
+            name: "LegacyProcessMessage"
+          }
+        }
+      }
+    },
+    execArcLand: {
+      kind: "function",
+      name: "execArcLand",
+      location: {
+        type: "source",
+        fileName: "ArcanistService.js",
+        line: 309
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "ArcanistService.js",
+          line: 309
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "cwd",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 310
+            },
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }],
+        returnType: {
+          location: {
+            type: "source",
+            fileName: "ArcanistService.js",
+            line: 311
+          },
+          kind: "observable",
+          type: {
+            location: {
+              type: "source",
+              fileName: "ArcanistService.js",
+              line: 311
+            },
+            kind: "named",
+            name: "LegacyProcessMessage"
           }
         }
       }
@@ -1619,13 +1619,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "ArcanistService.js",
-        line: 269
+        line: 325
       },
       type: {
         location: {
           type: "source",
           fileName: "ArcanistService.js",
-          line: 269
+          line: 325
         },
         kind: "function",
         argumentTypes: [{
@@ -1634,7 +1634,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 270
+              line: 326
             },
             kind: "named",
             name: "NuclideUri"
@@ -1645,7 +1645,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 271
+              line: 327
             },
             kind: "string"
           }
@@ -1654,17 +1654,17 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "ArcanistService.js",
-            line: 272
+            line: 328
           },
           kind: "observable",
           type: {
             location: {
               type: "source",
               fileName: "ArcanistService.js",
-              line: 272
+              line: 328
             },
             kind: "named",
-            name: "ProcessMessage"
+            name: "LegacyProcessMessage"
           }
         }
       }
@@ -1674,28 +1674,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process-rpc-types.js",
-        line: 13
+        line: 14
       },
       name: "ProcessExitMessage",
       definition: {
         location: {
           type: "source",
           fileName: "process-rpc-types.js",
-          line: 13
+          line: 14
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 14
+            line: 15
           },
           name: "kind",
           type: {
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 14
+              line: 15
             },
             kind: "string-literal",
             value: "exit"
@@ -1705,33 +1705,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 15
-          },
-          name: "exitCode",
-          type: {
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
-              line: 15
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 15
-              },
-              kind: "number"
-            }
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "process-rpc-types.js",
             line: 16
           },
-          name: "signal",
+          name: "exitCode",
           type: {
             location: {
               type: "source",
@@ -1744,6 +1720,30 @@ Object.defineProperty(module.exports, "defs", {
                 type: "source",
                 fileName: "process-rpc-types.js",
                 line: 16
+              },
+              kind: "number"
+            }
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 17
+          },
+          name: "signal",
+          type: {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 17
+            },
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 17
               },
               kind: "string"
             }
@@ -1757,35 +1757,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process-rpc-types.js",
-        line: 20
+        line: 21
       },
       name: "ProcessMessage",
       definition: {
         location: {
           type: "source",
           fileName: "process-rpc-types.js",
-          line: 20
+          line: 22
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 20
+            line: 22
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 21
+              line: 23
             },
             name: "kind",
             type: {
               location: {
                 type: "source",
                 fileName: "process-rpc-types.js",
-                line: 21
+                line: 23
               },
               kind: "string-literal",
               value: "stdout"
@@ -1795,130 +1795,16 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 22
-            },
-            name: "data",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 22
-              },
-              kind: "string"
-            },
-            optional: false
-          }]
-        }, {
-          location: {
-            type: "source",
-            fileName: "process-rpc-types.js",
-            line: 23
-          },
-          kind: "object",
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
               line: 24
             },
-            name: "kind",
+            name: "data",
             type: {
               location: {
                 type: "source",
                 fileName: "process-rpc-types.js",
                 line: 24
               },
-              kind: "string-literal",
-              value: "stderr"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
-              line: 25
-            },
-            name: "data",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 25
-              },
               kind: "string"
-            },
-            optional: false
-          }]
-        }, {
-          location: {
-            type: "source",
-            fileName: "process-rpc-types.js",
-            line: 13
-          },
-          kind: "object",
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
-              line: 14
-            },
-            name: "kind",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 14
-              },
-              kind: "string-literal",
-              value: "exit"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
-              line: 15
-            },
-            name: "exitCode",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 15
-              },
-              kind: "nullable",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "process-rpc-types.js",
-                  line: 15
-                },
-                kind: "number"
-              }
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "process-rpc-types.js",
-              line: 16
-            },
-            name: "signal",
-            type: {
-              location: {
-                type: "source",
-                fileName: "process-rpc-types.js",
-                line: 16
-              },
-              kind: "nullable",
-              type: {
-                location: {
-                  type: "source",
-                  fileName: "process-rpc-types.js",
-                  line: 16
-                },
-                kind: "string"
-              }
             },
             optional: false
           }]
@@ -1943,7 +1829,7 @@ Object.defineProperty(module.exports, "defs", {
                 line: 27
               },
               kind: "string-literal",
-              value: "error"
+              value: "stderr"
             },
             optional: false
           }, {
@@ -1952,12 +1838,300 @@ Object.defineProperty(module.exports, "defs", {
               fileName: "process-rpc-types.js",
               line: 28
             },
-            name: "error",
+            name: "data",
             type: {
               location: {
                 type: "source",
                 fileName: "process-rpc-types.js",
                 line: 28
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }, {
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 14
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 15
+            },
+            name: "kind",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 15
+              },
+              kind: "string-literal",
+              value: "exit"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 16
+            },
+            name: "exitCode",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 16
+              },
+              kind: "nullable",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "process-rpc-types.js",
+                  line: 16
+                },
+                kind: "number"
+              }
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 17
+            },
+            name: "signal",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 17
+              },
+              kind: "nullable",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "process-rpc-types.js",
+                  line: 17
+                },
+                kind: "string"
+              }
+            },
+            optional: false
+          }]
+        }],
+        discriminantField: "kind"
+      }
+    },
+    LegacyProcessMessage: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "process-rpc-types.js",
+        line: 34
+      },
+      name: "LegacyProcessMessage",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "process-rpc-types.js",
+          line: 35
+        },
+        kind: "union",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 22
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 23
+            },
+            name: "kind",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 23
+              },
+              kind: "string-literal",
+              value: "stdout"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 24
+            },
+            name: "data",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 24
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }, {
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 26
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 27
+            },
+            name: "kind",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 27
+              },
+              kind: "string-literal",
+              value: "stderr"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 28
+            },
+            name: "data",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 28
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }, {
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 14
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 15
+            },
+            name: "kind",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 15
+              },
+              kind: "string-literal",
+              value: "exit"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 16
+            },
+            name: "exitCode",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 16
+              },
+              kind: "nullable",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "process-rpc-types.js",
+                  line: 16
+                },
+                kind: "number"
+              }
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 17
+            },
+            name: "signal",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 17
+              },
+              kind: "nullable",
+              type: {
+                location: {
+                  type: "source",
+                  fileName: "process-rpc-types.js",
+                  line: 17
+                },
+                kind: "string"
+              }
+            },
+            optional: false
+          }]
+        }, {
+          location: {
+            type: "source",
+            fileName: "process-rpc-types.js",
+            line: 36
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 36
+            },
+            name: "kind",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 36
+              },
+              kind: "string-literal",
+              value: "error"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "process-rpc-types.js",
+              line: 36
+            },
+            name: "error",
+            type: {
+              location: {
+                type: "source",
+                fileName: "process-rpc-types.js",
+                line: 36
               },
               kind: "named",
               name: "Object"
@@ -1973,28 +2147,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process-rpc-types.js",
-        line: 31
+        line: 38
       },
       name: "ProcessInfo",
       definition: {
         location: {
           type: "source",
           fileName: "process-rpc-types.js",
-          line: 31
+          line: 38
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 32
+            line: 39
           },
           name: "parentPid",
           type: {
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 32
+              line: 39
             },
             kind: "number"
           },
@@ -2003,14 +2177,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 33
+            line: 40
           },
           name: "pid",
           type: {
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 33
+              line: 40
             },
             kind: "number"
           },
@@ -2019,14 +2193,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "process-rpc-types.js",
-            line: 34
+            line: 41
           },
           name: "command",
           type: {
             location: {
               type: "source",
               fileName: "process-rpc-types.js",
-              line: 34
+              line: 41
             },
             kind: "string"
           },

@@ -53,6 +53,7 @@ const DBGP_ATTACH_EVENT = 'dbgp-attach-event'; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */
 
 const DBGP_CLOSE_EVENT = 'dbgp-close-event';

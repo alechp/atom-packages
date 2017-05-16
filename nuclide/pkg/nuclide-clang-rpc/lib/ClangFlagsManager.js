@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
-var _os = _interopRequireDefault(require('os'));
-
 var _nuclideUri;
 
 function _load_nuclideUri() {
@@ -56,15 +54,18 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
-                                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                                              * All rights reserved.
-                                                                              *
-                                                                              * This source code is licensed under the license found in the LICENSE file in
-                                                                              * the root directory of this source tree.
-                                                                              *
-                                                                              * 
-                                                                              */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)();
 
 const BUCK_TIMEOUT = 10 * 60 * 1000;
 
@@ -85,21 +86,34 @@ const SINGLE_LETTER_CLANG_FLAGS_THAT_TAKE_PATHS = new Set(Array.from(CLANG_FLAGS
 
 const INCLUDE_SEARCH_TIMEOUT = 15000;
 
-let _overrideIncludePath = undefined;
-function overrideIncludePath(src) {
-  if (_overrideIncludePath === undefined) {
-    _overrideIncludePath = null;
-    try {
-      // $FlowFB
-      _overrideIncludePath = require('./fb/custom-flags').overrideIncludePath;
-    } catch (e) {
-      // open-source version
-    }
+let _customFlags;
+function getCustomFlags() {
+  if (_customFlags !== undefined) {
+    return _customFlags;
   }
-  if (_overrideIncludePath != null) {
-    return _overrideIncludePath(src);
+  try {
+    // $FlowFB
+    _customFlags = require('./fb/custom-flags');
+  } catch (e) {
+    _customFlags = null;
+  }
+  return _customFlags;
+}
+
+function overrideIncludePath(src) {
+  const customFlags = getCustomFlags();
+  if (customFlags != null) {
+    return customFlags.overrideIncludePath(src);
   }
   return src;
+}
+
+function customizeBuckTarget(root, target) {
+  const customFlags = getCustomFlags();
+  if (customFlags != null) {
+    return customFlags.customizeBuckTarget(root, target);
+  }
+  return Promise.resolve([target]);
 }
 
 class ClangFlagsManager {
@@ -482,20 +496,19 @@ class ClangFlagsManager {
       // TODO(t12973165): Allow configuring a custom flavor.
       // For now, this seems to use cxx.default_platform, which tends to be correct.
       const buildTarget = target + '#compilation-database';
-      // Since this is a background process, avoid stressing the system.
-      const maxLoad = _os.default.cpus().length / 2;
       const buildReport = yield (_nuclideBuckRpc || _load_nuclideBuckRpc()).build(buckProjectRoot, [
       // Small builds, like those used for a compilation database, can degrade overall
       // `buck build` performance by unnecessarily invalidating the Action Graph cache.
       // See https://buckbuild.com/concept/buckconfig.html#client.skip-action-graph-cache
       // for details on the importance of using skip-action-graph-cache=true.
-      '--config', 'client.skip-action-graph-cache=true', buildTarget, '-L', String(maxLoad)], { commandOptions: { timeout: BUCK_TIMEOUT } });
+      '--config', 'client.skip-action-graph-cache=true', ...(yield customizeBuckTarget(buckProjectRoot, buildTarget))], { commandOptions: { timeout: BUCK_TIMEOUT } });
       if (!buildReport.success) {
         const error = `Failed to build ${buildTarget}`;
         logger.error(error);
         throw error;
       }
-      let pathToCompilationDatabase = buildReport.results[buildTarget].output;
+      const firstResult = Object.keys(buildReport.results)[0];
+      let pathToCompilationDatabase = buildReport.results[firstResult].output;
       pathToCompilationDatabase = (_nuclideUri || _load_nuclideUri()).default.join(buckProjectRoot, pathToCompilationDatabase);
 
       const compilationDatabase = JSON.parse((yield (_fsPromise || _load_fsPromise()).default.readFile(pathToCompilationDatabase, 'utf8')));
@@ -545,8 +558,8 @@ class ClangFlagsManager {
   }
 
   static sanitizeCommand(sourceFile, args_, basePath) {
-    // The first string is always the path to the compiler (g++, clang)
-    let args = args_.slice(1);
+    // Make a mutable copy.
+    let args = [...args_];
     // For safety, create a new copy of the array. We exclude the path to the file to compile from
     // compilation database generated by Buck. It must be removed from the list of command-line
     // arguments passed to libclang.

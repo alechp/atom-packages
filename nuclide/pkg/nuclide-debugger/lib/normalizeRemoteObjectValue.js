@@ -12,6 +12,7 @@ exports.normalizeRemoteObjectValue = normalizeRemoteObjectValue;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function normalizeRemoteObjectValue(remoteObject) {

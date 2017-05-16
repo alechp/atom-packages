@@ -75,7 +75,11 @@ class MercurialConflictContext {
         return [];
       }
       _this._cachedMergeConflicts = yield _this._conflictingRepository.fetchMergeConflicts();
-      return _this._cachedMergeConflicts;
+      return _this._cachedMergeConflicts.map(function (conflict) {
+        return Object.assign({}, conflict, {
+          message: conflict.status
+        });
+      });
     })();
   }
 
@@ -102,9 +106,9 @@ class MercurialConflictContext {
     return (0, _asyncToGenerator.default)(function* () {
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-conflict-detctor.resolve-file');
       if (_this3._conflictingRepository == null) {
-        throw new Error('Mercurial merge conflict resolver doesn\'t have a conflicting repository');
+        throw new Error("Mercurial merge conflict resolver doesn't have a conflicting repository");
       }
-      yield _this3._conflictingRepository.resolveConflictedFile(filePath).toPromise();
+      yield _this3._conflictingRepository.markConflictedFile(filePath, /* resolved */true).toPromise();
       _this3._cachedMergeConflicts = _this3._cachedMergeConflicts.filter(function (mergeConflict) {
         return mergeConflict.path !== filePath;
       });
@@ -142,7 +146,7 @@ class MercurialConflictContext {
             notification.dismiss();
             _this4.clearConflictState();
             try {
-              yield repository.continueRebase().toPromise();
+              yield repository.continueOperation( /* operation to continue */'rebase').toPromise();
               atom.notifications.addInfo('Rebase continued');
             } catch (error) {
               atom.notifications.addError('Failed to continue rebase\n' + 'You will have to run `hg rebase --continue` manually.');
@@ -180,7 +184,7 @@ class MercurialConflictContext {
             notification.dismiss();
             _this5.clearConflictState();
             try {
-              yield repository.abortRebase();
+              yield repository.abortOperation( /* operation to abort */'rebase').toPromise();
               atom.notifications.addInfo('Rebase aborted');
             } catch (error) {
               atom.notifications.addError('Failed to abort rebase\n' + 'You will have to run `hg rebase --abort` manually.');
@@ -205,4 +209,5 @@ exports.MercurialConflictContext = MercurialConflictContext; /**
                                                               * the root directory of this source tree.
                                                               *
                                                               * 
+                                                              * @format
                                                               */

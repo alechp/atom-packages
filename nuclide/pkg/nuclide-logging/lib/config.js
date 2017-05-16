@@ -115,6 +115,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const LOG_DIRECTORY = (_nuclideUri || _load_nuclideUri()).default.join(_os.default.tmpdir(), `/nuclide-${_os.default.userInfo().username}-logs`);
@@ -133,7 +134,7 @@ function getPathToLogFile() {
 }
 
 const FileAppender = exports.FileAppender = {
-  type: 'file',
+  type: (_nuclideUri || _load_nuclideUri()).default.join(__dirname, './fileAppender'),
   filename: LOG_FILE_PATH,
   maxLogSize: MAX_LOG_SIZE,
   backups: MAX_LOG_BACKUPS,

@@ -75,6 +75,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 /* global localStorage */
@@ -101,7 +102,10 @@ function getDefaultConnectionProfile(options) {
     throw new Error('Invariant violation: "lastConnectionDetails != null"');
   }
 
-  const { lastOfficialRemoteServerCommand, updatedConfig } = lastConnectionDetails;
+  const {
+    lastOfficialRemoteServerCommand,
+    updatedConfig
+  } = lastConnectionDetails;
   const lastConfig = updatedConfig || {};
 
   // Only use the user's last saved remote server command if there has been no

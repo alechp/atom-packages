@@ -70,6 +70,7 @@ const MAX_RESULTS_COUNT = 1000; /**
                                  * the root directory of this source tree.
                                  *
                                  * 
+                                 * @format
                                  */
 
 const EmptyComponent = () => _react.default.createElement(
@@ -80,7 +81,8 @@ const EmptyComponent = () => _react.default.createElement(
 
 const TypeToHighlightColor = Object.freeze({
   ERROR: (_Highlight || _load_Highlight()).HighlightColors.error,
-  WARNING: (_Highlight || _load_Highlight()).HighlightColors.warning
+  WARNING: (_Highlight || _load_Highlight()).HighlightColors.warning,
+  INFO: (_Highlight || _load_Highlight()).HighlightColors.info
 });
 
 function TypeComponent(props) {
@@ -113,7 +115,11 @@ function getMessageContent(showTraces, diagnostic) {
   return {
     text: text.trim(),
     html: isPlainText ? null : text.trim(),
-    element: showTraces && diagnostic.scope === 'file' ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({ message: diagnostic, goToLocation: (_goToLocation || _load_goToLocation()).goToLocation, fixer: () => {} }) : null
+    element: showTraces && diagnostic.scope === 'file' ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({
+      message: diagnostic,
+      goToLocation: (_goToLocation || _load_goToLocation()).goToLocation,
+      fixer: () => {}
+    }) : null
   };
 }
 
@@ -201,10 +207,7 @@ class DiagnosticsPane extends _react.default.Component {
 
   render() {
     const { diagnostics, showTraces } = this.props;
-    const {
-      sortedColumn,
-      sortDescending
-    } = this.state;
+    const { sortedColumn, sortDescending } = this.state;
     const diagnosticRows = diagnostics.map(diagnostic => {
       const messageContent = getMessageContent(showTraces, diagnostic);
       return {
@@ -232,7 +235,8 @@ class DiagnosticsPane extends _react.default.Component {
     }
     return _react.default.createElement(
       'div',
-      { className: (0, (_classnames || _load_classnames()).default)({
+      {
+        className: (0, (_classnames || _load_classnames()).default)({
           'nuclide-diagnostics-ui-table-container': true,
           'nuclide-diagnostics-ui-table-container-empty': sortedRows.length === 0
         }) },

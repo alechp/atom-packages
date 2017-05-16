@@ -16,7 +16,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 27
+            line: 28
           },
           name: "IwdpDebuggerService"
         }).then(id => {
@@ -27,7 +27,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 47
+            line: 51
           },
           kind: "string"
         });
@@ -41,7 +41,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 27
+            line: 28
           },
           name: "IwdpDebuggerService"
         }).then(id => {
@@ -52,7 +52,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 51
+            line: 55
           },
           kind: "named",
           name: "AtomNotification"
@@ -67,7 +67,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 55
+            line: 59
           },
           kind: "named",
           name: "TargetEnvironment"
@@ -78,7 +78,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 27
+            line: 28
           },
           name: "IwdpDebuggerService"
         }).then(id => {
@@ -89,7 +89,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 55
+            line: 59
           },
           kind: "string"
         });
@@ -103,7 +103,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 78
+            line: 85
           },
           kind: "string"
         }
@@ -113,7 +113,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 27
+            line: 28
           },
           name: "IwdpDebuggerService"
         }).then(id => {
@@ -124,7 +124,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 78
+            line: 85
           },
           kind: "void"
         });
@@ -208,37 +208,12 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "IwdpDebuggerService.js",
-        line: 27
+        line: 28
       },
       constructorArgs: [],
       staticMethods: {},
       instanceMethods: {
         getServerMessageObservable: {
-          location: {
-            type: "source",
-            fileName: "IwdpDebuggerService.js",
-            line: 47
-          },
-          kind: "function",
-          argumentTypes: [],
-          returnType: {
-            location: {
-              type: "source",
-              fileName: "IwdpDebuggerService.js",
-              line: 47
-            },
-            kind: "observable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "IwdpDebuggerService.js",
-                line: 47
-              },
-              kind: "string"
-            }
-          }
-        },
-        getAtomNotificationObservable: {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
@@ -259,6 +234,31 @@ Object.defineProperty(module.exports, "defs", {
                 fileName: "IwdpDebuggerService.js",
                 line: 51
               },
+              kind: "string"
+            }
+          }
+        },
+        getAtomNotificationObservable: {
+          location: {
+            type: "source",
+            fileName: "IwdpDebuggerService.js",
+            line: 55
+          },
+          kind: "function",
+          argumentTypes: [],
+          returnType: {
+            location: {
+              type: "source",
+              fileName: "IwdpDebuggerService.js",
+              line: 55
+            },
+            kind: "observable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "IwdpDebuggerService.js",
+                line: 55
+              },
               kind: "named",
               name: "AtomNotification"
             }
@@ -268,7 +268,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 55
+            line: 59
           },
           kind: "function",
           argumentTypes: [{
@@ -277,7 +277,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "IwdpDebuggerService.js",
-                line: 55
+                line: 59
               },
               kind: "named",
               name: "TargetEnvironment"
@@ -287,14 +287,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "IwdpDebuggerService.js",
-              line: 55
+              line: 59
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "IwdpDebuggerService.js",
-                line: 55
+                line: 59
               },
               kind: "string"
             }
@@ -304,7 +304,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 78
+            line: 85
           },
           kind: "function",
           argumentTypes: [{
@@ -313,7 +313,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "IwdpDebuggerService.js",
-                line: 78
+                line: 85
               },
               kind: "string"
             }
@@ -322,14 +322,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "IwdpDebuggerService.js",
-              line: 78
+              line: 85
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "IwdpDebuggerService.js",
-                line: 78
+                line: 85
               },
               kind: "void"
             }
@@ -339,7 +339,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "IwdpDebuggerService.js",
-            line: 83
+            line: 90
           },
           kind: "function",
           argumentTypes: [],
@@ -347,14 +347,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "IwdpDebuggerService.js",
-              line: 83
+              line: 90
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "IwdpDebuggerService.js",
-                line: 83
+                line: 90
               },
               kind: "void"
             }
@@ -367,887 +367,9 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 11
-      },
-      name: "DeviceInfo",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 11
-        },
-        kind: "object",
-        fields: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 12
-          },
-          name: "webSocketDebuggerUrl",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 12
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 13
-          },
-          name: "title",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 13
-            },
-            kind: "string"
-          },
-          optional: false
-        }]
-      }
-    },
-    IosDeviceInfo: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 16
-      },
-      name: "IosDeviceInfo",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 16
-        },
-        kind: "intersection",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 16
-          },
-          kind: "named",
-          name: "DeviceInfo"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 16
-          },
-          kind: "object",
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 17
-            },
-            name: "devtoolsFrontendUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 17
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 18
-            },
-            name: "faviconUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 18
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 19
-            },
-            name: "thumbnailUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 19
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 20
-            },
-            name: "url",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 20
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 21
-            },
-            name: "appId",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 21
-              },
-              kind: "string"
-            },
-            optional: false
-          }]
-        }],
-        flattened: {
-          kind: "object",
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 16
-          },
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 12
-            },
-            name: "webSocketDebuggerUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 12
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 13
-            },
-            name: "title",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 13
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 17
-            },
-            name: "devtoolsFrontendUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 17
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 18
-            },
-            name: "faviconUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 18
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 19
-            },
-            name: "thumbnailUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 19
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 20
-            },
-            name: "url",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 20
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 21
-            },
-            name: "appId",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 21
-              },
-              kind: "string"
-            },
-            optional: false
-          }]
-        }
-      }
-    },
-    PackagerDeviceInfo: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 24
-      },
-      name: "PackagerDeviceInfo",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 24
-        },
-        kind: "intersection",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 24
-          },
-          kind: "named",
-          name: "DeviceInfo"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 24
-          },
-          kind: "object",
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 25
-            },
-            name: "id",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 25
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 26
-            },
-            name: "description",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 26
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 27
-            },
-            name: "devtoolsFrontendUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 27
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 28
-            },
-            name: "deviceId",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 28
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 29
-            },
-            name: "deviceName",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 29
-              },
-              kind: "string"
-            },
-            optional: false
-          }]
-        }],
-        flattened: {
-          kind: "object",
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 24
-          },
-          fields: [{
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 12
-            },
-            name: "webSocketDebuggerUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 12
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 13
-            },
-            name: "title",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 13
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 25
-            },
-            name: "id",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 25
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 26
-            },
-            name: "description",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 26
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 27
-            },
-            name: "devtoolsFrontendUrl",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 27
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 28
-            },
-            name: "deviceId",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 28
-              },
-              kind: "string"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 29
-            },
-            name: "deviceName",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 29
-              },
-              kind: "string"
-            },
-            optional: false
-          }]
-        }
-      }
-    },
-    RuntimeStatus: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 32
-      },
-      name: "RuntimeStatus",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 32
-        },
-        kind: "union",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 32
-          },
-          kind: "string-literal",
-          value: "RUNNING"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 32
-          },
-          kind: "string-literal",
-          value: "PAUSED"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 32
-          },
-          kind: "string-literal",
-          value: "ENDED"
-        }]
-      }
-    },
-    BreakpointId: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 33
-      },
-      name: "BreakpointId",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 33
-        },
-        kind: "string"
-      }
-    },
-    BreakpointParams: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 34
-      },
-      name: "BreakpointParams",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 34
-        },
-        kind: "object",
-        fields: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 35
-          },
-          name: "lineNumber",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 35
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 36
-          },
-          name: "url",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 36
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 37
-          },
-          name: "columnNumber",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 37
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 38
-          },
-          name: "condition",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 38
-            },
-            kind: "string"
-          },
-          optional: false
-        }]
-      }
-    },
-    Breakpoint: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 40
-      },
-      name: "Breakpoint",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 40
-        },
-        kind: "object",
-        fields: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 41
-          },
-          name: "nuclideId",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 41
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 42
-          },
-          name: "jscId",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 42
-            },
-            kind: "nullable",
-            type: {
-              location: {
-                type: "source",
-                fileName: "types.js",
-                line: 42
-              },
-              kind: "string"
-            }
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 43
-          },
-          name: "resolved",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 43
-            },
-            kind: "boolean"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 44
-          },
-          name: "params",
-          type: {
-            location: {
-              type: "source",
-              fileName: "types.js",
-              line: 44
-            },
-            kind: "named",
-            name: "BreakpointParams"
-          },
-          optional: false
-        }]
-      }
-    },
-    PauseOnExceptionState: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 46
-      },
-      name: "PauseOnExceptionState",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 46
-        },
-        kind: "union",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 46
-          },
-          kind: "string-literal",
-          value: "none"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 46
-          },
-          kind: "string-literal",
-          value: "uncaught"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 46
-          },
-          kind: "string-literal",
-          value: "all"
-        }]
-      }
-    },
-    TargetEnvironment: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 48
-      },
-      name: "TargetEnvironment",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 48
-        },
-        kind: "union",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 48
-          },
-          kind: "string-literal",
-          value: "iOS"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 48
-          },
-          kind: "string-literal",
-          value: "Android"
-        }]
-      }
-    },
-    AtomNotificationType: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 11
-      },
-      name: "AtomNotificationType",
-      definition: {
-        location: {
-          type: "source",
-          fileName: "types.js",
-          line: 11
-        },
-        kind: "union",
-        types: [{
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 11
-          },
-          kind: "string-literal",
-          value: "info"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 11
-          },
-          kind: "string-literal",
-          value: "warning"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 11
-          },
-          kind: "string-literal",
-          value: "error"
-        }, {
-          location: {
-            type: "source",
-            fileName: "types.js",
-            line: 11
-          },
-          kind: "string-literal",
-          value: "fatalError"
-        }]
-      }
-    },
-    AtomNotification: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
         line: 12
       },
-      name: "AtomNotification",
+      name: "DeviceInfo",
       definition: {
         location: {
           type: "source",
@@ -1261,15 +383,14 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "types.js",
             line: 13
           },
-          name: "type",
+          name: "webSocketDebuggerUrl",
           type: {
             location: {
               type: "source",
               fileName: "types.js",
               line: 13
             },
-            kind: "named",
-            name: "AtomNotificationType"
+            kind: "string"
           },
           optional: false
         }, {
@@ -1278,7 +399,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "types.js",
             line: 14
           },
-          name: "message",
+          name: "title",
           type: {
             location: {
               type: "source",
@@ -1291,33 +412,578 @@ Object.defineProperty(module.exports, "defs", {
         }]
       }
     },
-    ThreadColumn: {
+    IosDeviceInfo: {
       kind: "alias",
       location: {
         type: "source",
         fileName: "types.js",
-        line: 18
+        line: 17
       },
-      name: "ThreadColumn",
+      name: "IosDeviceInfo",
       definition: {
         location: {
           type: "source",
           fileName: "types.js",
-          line: 18
+          line: 17
+        },
+        kind: "intersection",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 17
+          },
+          kind: "named",
+          name: "DeviceInfo"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 17
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 18
+            },
+            name: "devtoolsFrontendUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 18
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 19
+            },
+            name: "faviconUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 19
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 20
+            },
+            name: "thumbnailUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 20
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 21
+            },
+            name: "url",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 21
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 22
+            },
+            name: "appId",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 22
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }],
+        flattened: {
+          kind: "object",
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 17
+          },
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 13
+            },
+            name: "webSocketDebuggerUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 13
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 14
+            },
+            name: "title",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 14
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 18
+            },
+            name: "devtoolsFrontendUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 18
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 19
+            },
+            name: "faviconUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 19
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 20
+            },
+            name: "thumbnailUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 20
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 21
+            },
+            name: "url",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 21
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 22
+            },
+            name: "appId",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 22
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }
+      }
+    },
+    PackagerDeviceInfo: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 25
+      },
+      name: "PackagerDeviceInfo",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 25
+        },
+        kind: "intersection",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 25
+          },
+          kind: "named",
+          name: "DeviceInfo"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 25
+          },
+          kind: "object",
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 26
+            },
+            name: "id",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 26
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 27
+            },
+            name: "description",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 27
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 28
+            },
+            name: "devtoolsFrontendUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 28
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 29
+            },
+            name: "deviceId",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 29
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 30
+            },
+            name: "deviceName",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 30
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }],
+        flattened: {
+          kind: "object",
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 25
+          },
+          fields: [{
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 13
+            },
+            name: "webSocketDebuggerUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 13
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 14
+            },
+            name: "title",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 14
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 26
+            },
+            name: "id",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 26
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 27
+            },
+            name: "description",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 27
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 28
+            },
+            name: "devtoolsFrontendUrl",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 28
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 29
+            },
+            name: "deviceId",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 29
+              },
+              kind: "string"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 30
+            },
+            name: "deviceName",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 30
+              },
+              kind: "string"
+            },
+            optional: false
+          }]
+        }
+      }
+    },
+    RuntimeStatus: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 33
+      },
+      name: "RuntimeStatus",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 33
+        },
+        kind: "union",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 33
+          },
+          kind: "string-literal",
+          value: "RUNNING"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 33
+          },
+          kind: "string-literal",
+          value: "PAUSED"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 33
+          },
+          kind: "string-literal",
+          value: "ENDED"
+        }]
+      }
+    },
+    BreakpointId: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 34
+      },
+      name: "BreakpointId",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 34
+        },
+        kind: "string"
+      }
+    },
+    BreakpointParams: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 35
+      },
+      name: "BreakpointParams",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 35
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "types.js",
-            line: 19
+            line: 36
           },
-          name: "title",
+          name: "lineNumber",
           type: {
             location: {
               type: "source",
               fileName: "types.js",
-              line: 19
+              line: 36
+            },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 37
+          },
+          name: "url",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 37
             },
             kind: "string"
           },
@@ -1326,9 +992,327 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "types.js",
+            line: 38
+          },
+          name: "columnNumber",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 38
+            },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 39
+          },
+          name: "condition",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 39
+            },
+            kind: "string"
+          },
+          optional: false
+        }]
+      }
+    },
+    Breakpoint: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 41
+      },
+      name: "Breakpoint",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 41
+        },
+        kind: "object",
+        fields: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 42
+          },
+          name: "nuclideId",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 42
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 43
+          },
+          name: "jscId",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 43
+            },
+            kind: "nullable",
+            type: {
+              location: {
+                type: "source",
+                fileName: "types.js",
+                line: 43
+              },
+              kind: "string"
+            }
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 44
+          },
+          name: "resolved",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 44
+            },
+            kind: "boolean"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 45
+          },
+          name: "params",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 45
+            },
+            kind: "named",
+            name: "BreakpointParams"
+          },
+          optional: false
+        }]
+      }
+    },
+    PauseOnExceptionState: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 47
+      },
+      name: "PauseOnExceptionState",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 47
+        },
+        kind: "union",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 47
+          },
+          kind: "string-literal",
+          value: "none"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 47
+          },
+          kind: "string-literal",
+          value: "uncaught"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 47
+          },
+          kind: "string-literal",
+          value: "all"
+        }]
+      }
+    },
+    TargetEnvironment: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 49
+      },
+      name: "TargetEnvironment",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 49
+        },
+        kind: "union",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 49
+          },
+          kind: "string-literal",
+          value: "iOS"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 49
+          },
+          kind: "string-literal",
+          value: "Android"
+        }]
+      }
+    },
+    AtomNotificationType: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 12
+      },
+      name: "AtomNotificationType",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 12
+        },
+        kind: "union",
+        types: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 12
+          },
+          kind: "string-literal",
+          value: "info"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 12
+          },
+          kind: "string-literal",
+          value: "warning"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 12
+          },
+          kind: "string-literal",
+          value: "error"
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 12
+          },
+          kind: "string-literal",
+          value: "fatalError"
+        }]
+      }
+    },
+    AtomNotification: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 13
+      },
+      name: "AtomNotification",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 13
+        },
+        kind: "object",
+        fields: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 14
+          },
+          name: "type",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 14
+            },
+            kind: "named",
+            name: "AtomNotificationType"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 15
+          },
+          name: "message",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 15
+            },
+            kind: "string"
+          },
+          optional: false
+        }]
+      }
+    },
+    ThreadColumn: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 19
+      },
+      name: "ThreadColumn",
+      definition: {
+        location: {
+          type: "source",
+          fileName: "types.js",
+          line: 19
+        },
+        kind: "object",
+        fields: [{
+          location: {
+            type: "source",
+            fileName: "types.js",
             line: 20
           },
-          name: "key",
+          name: "title",
           type: {
             location: {
               type: "source",
@@ -1342,14 +1326,30 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "types.js",
-            line: 22
+            line: 21
+          },
+          name: "key",
+          type: {
+            location: {
+              type: "source",
+              fileName: "types.js",
+              line: 21
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "types.js",
+            line: 23
           },
           name: "width",
           type: {
             location: {
               type: "source",
               fileName: "types.js",
-              line: 22
+              line: 23
             },
             kind: "number"
           },
@@ -1358,14 +1358,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "types.js",
-            line: 25
+            line: 26
           },
           name: "component",
           type: {
             location: {
               type: "source",
               fileName: "types.js",
-              line: 25
+              line: 26
             },
             kind: "any"
           },

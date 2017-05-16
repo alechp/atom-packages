@@ -63,8 +63,8 @@ You can choose [MathJax](https://github.com/mathjax/MathJax) or [KaTeX](https://
 ## How it works
 - [remarkable](https://github.com/jonschlinkert/remarkable) to convert markdown to html.
 - [KaTeX](https://github.com/Khan/KaTeX) or [MathJax](https://github.com/mathjax/MathJax) to render math expressions. ([KaTeX Supported functions/symbols](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX)) (MathJax is incompatible with `preview-inline` package)
-  - expression within `$...$` will be rendered normally.  
-  - expression within `$$...$$` and code block <code>\`\`\`math</code> will be rendered in displayMode.   
+  - expression within `$...$` or `\(...\)` will be rendered normally.  
+  - expression within `$$...$$` or `\[...\]` and code block <code>\`\`\`math</code> will be rendered in displayMode.   
   - if you want to enable math highlighting, try [language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) package.  
   - You can choose your math rendering method from [settings panel](#settings-panel).   
 		**MathJax** supports more symbols, but it has slower rendering speed compared to **KaTeX**.
@@ -91,9 +91,9 @@ To use this package, press <kbd>cmd + shift + p</kbd>   in atom editor first to 
 	You can also use the keymap <kbd>ctrl+shift+m</kbd> to toggle preview. (To use keymap, you have to disable the default [markdown preview](https://atom.io/packages/markdown-preview) package, otherwise there would be keymap conflict)
 - <strong>Markdown Preview Enhanced: Toggle Zen Mode </strong>  
 	- Toggle distraction free writing.  
-- <strong>Markdown Preview Enhanced: Customize CSS</strong>
-  - Customize preview page css. You can edit styles inside `markdown-preview-enhanced-custom` section in `style.less` file.  
-  - If you didn't see `markdown-preview-enhanced-custom` section in `style.less` file, you may need to run `Markdown Preview Enhanced: Customize CSS` command first.
+- <strong>Markdown Preview Enhanced: Customize Css</strong>
+  - Customize preview page css. You can edit styles inside `.markdown-preview-enhanced.markdown-preview-enhanced` section in `style.less` file.  
+  - Here is a quick [tutorial](https://github.com/shd101wyy/markdown-preview-enhanced/wiki/Customize-CSS).
 - <strong>Markdown Preview Enhanced: Create Toc </strong>
   - Generate TOC (need preview toggled). [doc is here](./docs/toc.md).    
 - <strong>Markdown Preview Enhanced: Toggle Scroll Sync </strong>

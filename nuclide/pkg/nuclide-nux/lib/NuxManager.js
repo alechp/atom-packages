@@ -74,6 +74,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const NUX_PER_SESSION_LIMIT = 3;
@@ -169,10 +170,7 @@ class NuxManager {
 
   // Handles NUX registry
   _handleNewTour(value) {
-    const {
-      nuxTour,
-      nuxTourModel
-    } = value;
+    const { nuxTour, nuxTourModel } = value;
 
     nuxTour.setNuxCompleteCallback(this._handleNuxCompleted.bind(this, nuxTourModel));
 

@@ -51,6 +51,7 @@ const LANGUAGE = exports.LANGUAGE = 'GraphQL'; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */
 
 function getDefinitionQueryResultForDefinitionNode(path, text, definition) {

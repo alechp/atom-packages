@@ -12,7 +12,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 76
+          line: 80
         },
         kind: "named",
         name: "NuclideUri"
@@ -23,7 +23,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 77
+          line: 81
         },
         kind: "string"
       }
@@ -33,7 +33,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 78
+          line: 82
         },
         kind: "number"
       }
@@ -43,7 +43,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 79
+          line: 83
         },
         kind: "number"
       }
@@ -54,21 +54,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 80
+          line: 84
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 80
+            line: 84
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 80
+              line: 84
             },
             kind: "named",
             name: "JediCompletion"
@@ -85,7 +85,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 85
+          line: 89
         },
         kind: "named",
         name: "NuclideUri"
@@ -96,7 +96,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 86
+          line: 90
         },
         kind: "string"
       }
@@ -106,7 +106,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 87
+          line: 91
         },
         kind: "number"
       }
@@ -116,7 +116,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 88
+          line: 92
         },
         kind: "number"
       }
@@ -127,21 +127,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 89
+          line: 93
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 89
+            line: 93
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 89
+              line: 93
             },
             kind: "named",
             name: "JediDefinition"
@@ -158,7 +158,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 94
+          line: 98
         },
         kind: "named",
         name: "NuclideUri"
@@ -169,7 +169,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 95
+          line: 99
         },
         kind: "string"
       }
@@ -179,7 +179,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 96
+          line: 100
         },
         kind: "number"
       }
@@ -189,7 +189,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 97
+          line: 101
         },
         kind: "number"
       }
@@ -200,21 +200,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 98
+          line: 102
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 98
+            line: 102
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 98
+              line: 102
             },
             kind: "named",
             name: "JediReference"
@@ -231,7 +231,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 103
+          line: 107
         },
         kind: "named",
         name: "NuclideUri"
@@ -242,7 +242,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 104
+          line: 108
         },
         kind: "string"
       }
@@ -253,21 +253,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 105
+          line: 109
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 105
+            line: 109
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 105
+              line: 109
             },
             kind: "named",
             name: "JediOutlineItem"
@@ -284,14 +284,14 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 110
+          line: 113
         },
         kind: "array",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 110
+            line: 113
           },
           kind: "string"
         }
@@ -303,21 +303,21 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 111
+          line: 113
         },
         kind: "nullable",
         type: {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 111
+            line: 113
           },
           kind: "array",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 111
+              line: 113
             },
             kind: "string"
           }
@@ -397,39 +397,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 15
+        line: 16
       },
       name: "JediCompletion",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 15
+          line: 16
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 16
-          },
-          name: "type",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 16
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 17
           },
-          name: "text",
+          name: "type",
           type: {
             location: {
               type: "source",
@@ -445,7 +429,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 18
           },
-          name: "description",
+          name: "text",
           type: {
             location: {
               type: "source",
@@ -454,26 +438,42 @@ Object.defineProperty(module.exports, "defs", {
             },
             kind: "string"
           },
-          optional: true
+          optional: false
         }, {
           location: {
             type: "source",
             fileName: "JediService.js",
             line: 19
           },
-          name: "params",
+          name: "description",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 19
             },
+            kind: "string"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 20
+          },
+          name: "params",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 20
+            },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 19
+                line: 20
               },
               kind: "string"
             }
@@ -487,39 +487,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 22
+        line: 23
       },
       name: "JediDefinition",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 22
+          line: 23
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 23
-          },
-          name: "type",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 23
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 24
           },
-          name: "text",
+          name: "type",
           type: {
             location: {
               type: "source",
@@ -535,12 +519,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 25
           },
-          name: "file",
+          name: "text",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 25
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 26
+          },
+          name: "file",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 26
             },
             kind: "named",
             name: "NuclideUri"
@@ -550,14 +550,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 26
+            line: 27
           },
           name: "line",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 26
+              line: 27
             },
             kind: "number"
           },
@@ -566,14 +566,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 27
+            line: 28
           },
           name: "column",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 27
+              line: 28
             },
             kind: "number"
           },
@@ -586,39 +586,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 30
+        line: 31
       },
       name: "JediReference",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 30
+          line: 31
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 31
-          },
-          name: "type",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 31
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 32
           },
-          name: "text",
+          name: "type",
           type: {
             location: {
               type: "source",
@@ -634,12 +618,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 33
           },
-          name: "file",
+          name: "text",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 33
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 34
+          },
+          name: "file",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 34
             },
             kind: "named",
             name: "NuclideUri"
@@ -649,25 +649,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 34
-          },
-          name: "line",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 34
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 35
           },
-          name: "column",
+          name: "line",
           type: {
             location: {
               type: "source",
@@ -683,12 +667,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 36
           },
-          name: "parentName",
+          name: "column",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 36
+            },
+            kind: "number"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 37
+          },
+          name: "parentName",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 37
             },
             kind: "string"
           },
@@ -701,28 +701,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 39
+        line: 40
       },
       name: "Position",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 39
+          line: 40
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 40
+            line: 41
           },
           name: "line",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 40
+              line: 41
             },
             kind: "number"
           },
@@ -731,14 +731,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 41
+            line: 42
           },
           name: "column",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 41
+              line: 42
             },
             kind: "number"
           },
@@ -751,28 +751,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 44
+        line: 45
       },
       name: "JediFunctionItem",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 44
+          line: 45
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 45
+            line: 46
           },
           name: "kind",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 45
+              line: 46
             },
             kind: "string-literal",
             value: "function"
@@ -782,14 +782,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 46
+            line: 47
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 46
+              line: 47
             },
             kind: "string"
           },
@@ -798,26 +798,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 47
-          },
-          name: "start",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 47
-            },
-            kind: "named",
-            name: "Position"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 48
           },
-          name: "end",
+          name: "start",
           type: {
             location: {
               type: "source",
@@ -834,19 +817,36 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 49
           },
-          name: "children",
+          name: "end",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 49
             },
+            kind: "named",
+            name: "Position"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 50
+          },
+          name: "children",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 50
+            },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 49
+                line: 50
               },
               kind: "named",
               name: "JediOutlineItem"
@@ -857,14 +857,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 50
+            line: 51
           },
           name: "docblock",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 50
+              line: 51
             },
             kind: "string"
           },
@@ -873,21 +873,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 51
+            line: 52
           },
           name: "params",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 51
+              line: 52
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 51
+                line: 52
               },
               kind: "string"
             }
@@ -901,28 +901,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 54
+        line: 55
       },
       name: "JediClassItem",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 54
+          line: 55
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 55
+            line: 56
           },
           name: "kind",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 55
+              line: 56
             },
             kind: "string-literal",
             value: "class"
@@ -932,14 +932,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 56
+            line: 57
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 56
+              line: 57
             },
             kind: "string"
           },
@@ -948,26 +948,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 57
-          },
-          name: "start",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 57
-            },
-            kind: "named",
-            name: "Position"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 58
           },
-          name: "end",
+          name: "start",
           type: {
             location: {
               type: "source",
@@ -984,19 +967,36 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 59
           },
-          name: "children",
+          name: "end",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 59
             },
+            kind: "named",
+            name: "Position"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 60
+          },
+          name: "children",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 60
+            },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 59
+                line: 60
               },
               kind: "named",
               name: "JediOutlineItem"
@@ -1007,14 +1007,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 60
+            line: 61
           },
           name: "docblock",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 60
+              line: 61
             },
             kind: "string"
           },
@@ -1023,21 +1023,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 62
+            line: 63
           },
           name: "params",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 62
+              line: 63
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 62
+                line: 63
               },
               kind: "string"
             }
@@ -1051,28 +1051,28 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 65
+        line: 66
       },
       name: "JediStatementItem",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 65
+          line: 66
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 66
+            line: 67
           },
           name: "kind",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 66
+              line: 67
             },
             kind: "string-literal",
             value: "statement"
@@ -1082,14 +1082,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 67
+            line: 68
           },
           name: "name",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 67
+              line: 68
             },
             kind: "string"
           },
@@ -1098,26 +1098,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 68
-          },
-          name: "start",
-          type: {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
-              line: 68
-            },
-            kind: "named",
-            name: "Position"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "JediService.js",
             line: 69
           },
-          name: "end",
+          name: "start",
           type: {
             location: {
               type: "source",
@@ -1134,12 +1117,29 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "JediService.js",
             line: 70
           },
-          name: "docblock",
+          name: "end",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
               line: 70
+            },
+            kind: "named",
+            name: "Position"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "JediService.js",
+            line: 71
+          },
+          name: "docblock",
+          type: {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 71
             },
             kind: "string"
           },
@@ -1152,35 +1152,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 73
+        line: 74
       },
       name: "JediOutlineItem",
       definition: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 73
+          line: 75
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 44
+            line: 45
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 45
+              line: 46
             },
             name: "kind",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 45
+                line: 46
               },
               kind: "string-literal",
               value: "function"
@@ -1190,14 +1190,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 46
+              line: 47
             },
             name: "name",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 46
+                line: 47
               },
               kind: "string"
             },
@@ -1206,26 +1206,9 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 47
-            },
-            name: "start",
-            type: {
-              location: {
-                type: "source",
-                fileName: "JediService.js",
-                line: 47
-              },
-              kind: "named",
-              name: "Position"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
               line: 48
             },
-            name: "end",
+            name: "start",
             type: {
               location: {
                 type: "source",
@@ -1242,19 +1225,36 @@ Object.defineProperty(module.exports, "defs", {
               fileName: "JediService.js",
               line: 49
             },
-            name: "children",
+            name: "end",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
                 line: 49
               },
+              kind: "named",
+              name: "Position"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 50
+            },
+            name: "children",
+            type: {
+              location: {
+                type: "source",
+                fileName: "JediService.js",
+                line: 50
+              },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 49
+                  line: 50
                 },
                 kind: "named",
                 name: "JediOutlineItem"
@@ -1265,14 +1265,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 50
+              line: 51
             },
             name: "docblock",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 50
+                line: 51
               },
               kind: "string"
             },
@@ -1281,21 +1281,21 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 51
+              line: 52
             },
             name: "params",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 51
+                line: 52
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 51
+                  line: 52
                 },
                 kind: "string"
               }
@@ -1306,21 +1306,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 54
+            line: 55
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 55
+              line: 56
             },
             name: "kind",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 55
+                line: 56
               },
               kind: "string-literal",
               value: "class"
@@ -1330,14 +1330,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 56
+              line: 57
             },
             name: "name",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 56
+                line: 57
               },
               kind: "string"
             },
@@ -1346,26 +1346,9 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 57
-            },
-            name: "start",
-            type: {
-              location: {
-                type: "source",
-                fileName: "JediService.js",
-                line: 57
-              },
-              kind: "named",
-              name: "Position"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
               line: 58
             },
-            name: "end",
+            name: "start",
             type: {
               location: {
                 type: "source",
@@ -1382,19 +1365,36 @@ Object.defineProperty(module.exports, "defs", {
               fileName: "JediService.js",
               line: 59
             },
-            name: "children",
+            name: "end",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
                 line: 59
               },
+              kind: "named",
+              name: "Position"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 60
+            },
+            name: "children",
+            type: {
+              location: {
+                type: "source",
+                fileName: "JediService.js",
+                line: 60
+              },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 59
+                  line: 60
                 },
                 kind: "named",
                 name: "JediOutlineItem"
@@ -1405,14 +1405,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 60
+              line: 61
             },
             name: "docblock",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 60
+                line: 61
               },
               kind: "string"
             },
@@ -1421,21 +1421,21 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 62
+              line: 63
             },
             name: "params",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 62
+                line: 63
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 62
+                  line: 63
                 },
                 kind: "string"
               }
@@ -1446,21 +1446,21 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 65
+            line: 66
           },
           kind: "object",
           fields: [{
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 66
+              line: 67
             },
             name: "kind",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 66
+                line: 67
               },
               kind: "string-literal",
               value: "statement"
@@ -1470,14 +1470,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 67
+              line: 68
             },
             name: "name",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 67
+                line: 68
               },
               kind: "string"
             },
@@ -1486,26 +1486,9 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 68
-            },
-            name: "start",
-            type: {
-              location: {
-                type: "source",
-                fileName: "JediService.js",
-                line: 68
-              },
-              kind: "named",
-              name: "Position"
-            },
-            optional: false
-          }, {
-            location: {
-              type: "source",
-              fileName: "JediService.js",
               line: 69
             },
-            name: "end",
+            name: "start",
             type: {
               location: {
                 type: "source",
@@ -1522,12 +1505,29 @@ Object.defineProperty(module.exports, "defs", {
               fileName: "JediService.js",
               line: 70
             },
-            name: "docblock",
+            name: "end",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
                 line: 70
+              },
+              kind: "named",
+              name: "Position"
+            },
+            optional: false
+          }, {
+            location: {
+              type: "source",
+              fileName: "JediService.js",
+              line: 71
+            },
+            name: "docblock",
+            type: {
+              location: {
+                type: "source",
+                fileName: "JediService.js",
+                line: 71
               },
               kind: "string"
             },
@@ -1543,13 +1543,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 75
+        line: 79
       },
       type: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 75
+          line: 79
         },
         kind: "function",
         argumentTypes: [{
@@ -1558,7 +1558,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 76
+              line: 80
             },
             kind: "named",
             name: "NuclideUri"
@@ -1569,7 +1569,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 77
+              line: 81
             },
             kind: "string"
           }
@@ -1579,7 +1579,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 78
+              line: 82
             },
             kind: "number"
           }
@@ -1589,7 +1589,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 79
+              line: 83
             },
             kind: "number"
           }
@@ -1598,28 +1598,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 80
+            line: 84
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 80
+              line: 84
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 80
+                line: 84
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 80
+                  line: 84
                 },
                 kind: "named",
                 name: "JediCompletion"
@@ -1635,13 +1635,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 84
+        line: 88
       },
       type: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 84
+          line: 88
         },
         kind: "function",
         argumentTypes: [{
@@ -1650,7 +1650,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 85
+              line: 89
             },
             kind: "named",
             name: "NuclideUri"
@@ -1661,7 +1661,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 86
+              line: 90
             },
             kind: "string"
           }
@@ -1671,7 +1671,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 87
+              line: 91
             },
             kind: "number"
           }
@@ -1681,7 +1681,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 88
+              line: 92
             },
             kind: "number"
           }
@@ -1690,28 +1690,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 89
+            line: 93
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 89
+              line: 93
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 89
+                line: 93
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 89
+                  line: 93
                 },
                 kind: "named",
                 name: "JediDefinition"
@@ -1727,13 +1727,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 93
+        line: 97
       },
       type: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 93
+          line: 97
         },
         kind: "function",
         argumentTypes: [{
@@ -1742,7 +1742,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 94
+              line: 98
             },
             kind: "named",
             name: "NuclideUri"
@@ -1753,7 +1753,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 95
+              line: 99
             },
             kind: "string"
           }
@@ -1763,7 +1763,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 96
+              line: 100
             },
             kind: "number"
           }
@@ -1773,7 +1773,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 97
+              line: 101
             },
             kind: "number"
           }
@@ -1782,28 +1782,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 98
+            line: 102
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 98
+              line: 102
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 98
+                line: 102
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 98
+                  line: 102
                 },
                 kind: "named",
                 name: "JediReference"
@@ -1819,13 +1819,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 102
+        line: 106
       },
       type: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 102
+          line: 106
         },
         kind: "function",
         argumentTypes: [{
@@ -1834,7 +1834,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 103
+              line: 107
             },
             kind: "named",
             name: "NuclideUri"
@@ -1845,7 +1845,7 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 104
+              line: 108
             },
             kind: "string"
           }
@@ -1854,28 +1854,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 105
+            line: 109
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 105
+              line: 109
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 105
+                line: 109
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 105
+                  line: 109
                 },
                 kind: "named",
                 name: "JediOutlineItem"
@@ -1891,13 +1891,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JediService.js",
-        line: 109
+        line: 113
       },
       type: {
         location: {
           type: "source",
           fileName: "JediService.js",
-          line: 109
+          line: 113
         },
         kind: "function",
         argumentTypes: [{
@@ -1906,14 +1906,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 110
+              line: 113
             },
             kind: "array",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 110
+                line: 113
               },
               kind: "string"
             }
@@ -1923,28 +1923,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "JediService.js",
-            line: 111
+            line: 113
           },
           kind: "promise",
           type: {
             location: {
               type: "source",
               fileName: "JediService.js",
-              line: 111
+              line: 113
             },
             kind: "nullable",
             type: {
               location: {
                 type: "source",
                 fileName: "JediService.js",
-                line: 111
+                line: 113
               },
               kind: "array",
               type: {
                 location: {
                   type: "source",
                   fileName: "JediService.js",
-                  line: 111
+                  line: 113
                 },
                 kind: "string"
               }

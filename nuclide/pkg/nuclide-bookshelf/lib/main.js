@@ -78,7 +78,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createStateStream(actions, initialState) {
   const states = new _rxjsBundlesRxMinJs.BehaviorSubject(initialState);
-  actions.scan((_accumulateState || _load_accumulateState()).accumulateState, initialState).subscribe(states);
+  actions.scan((_accumulateState || _load_accumulateState()).accumulateState, initialState).catch(error => {
+    (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)().fatal('bookshelf middleware got broken', error);
+    atom.notifications.addError('Nuclide bookshelf broke, please report a bug to help us fix it!');
+    return _rxjsBundlesRxMinJs.Observable.empty();
+  }).subscribe(states);
   return states;
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.
@@ -88,6 +92,7 @@ function createStateStream(actions, initialState) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 class Activation {

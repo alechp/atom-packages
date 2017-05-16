@@ -43,6 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class DebugUiComponent extends _react.default.Component {
@@ -111,8 +112,7 @@ class DebugUiComponent extends _react.default.Component {
           null,
           _react.default.createElement(
             (_Button || _load_Button()).Button,
-            {
-              onClick: this._handleCancelButtonClick },
+            { onClick: this._handleCancelButtonClick },
             'Cancel'
           ),
           _react.default.createElement(

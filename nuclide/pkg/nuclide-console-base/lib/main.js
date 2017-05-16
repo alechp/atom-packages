@@ -18,9 +18,11 @@ function dispatchConsoleToggle(visible) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
-function pipeProcessMessagesToConsole(processName, progressUpdates, processMessage) {
+function pipeProcessMessagesToConsole(processName, progressUpdates, showNotificationOnCompletion, processMessage /* TODO(T17463635) */
+) {
   switch (processMessage.kind) {
     case 'stderr':
       progressUpdates.next({ text: processMessage.data, level: 'error' });
@@ -32,20 +34,31 @@ function pipeProcessMessagesToConsole(processName, progressUpdates, processMessa
 
     case 'error':
       const { error } = processMessage;
-      progressUpdates.next({ text: error.message || String(error), level: 'error' });
+      progressUpdates.next({
+        text: error.message || String(error),
+        level: 'error'
+      });
       break;
 
     case 'exit':
       if (processMessage.exitCode === 0) {
-        progressUpdates.next({ text: `${processName} completed successfully`, level: 'success' });
+        progressUpdates.next({
+          text: `${processName} completed successfully`,
+          level: 'success'
+        });
         atom.notifications.addSuccess('Operation completed successfully', {
           detail: `${processName} finished`
         });
       } else {
-        progressUpdates.next({ text: `${processName} exited with non zero code`, level: 'error' });
-        atom.notifications.addError('Operation Failed', {
-          detail: 'Check console for output'
+        progressUpdates.next({
+          text: `${processName} exited with non zero code`,
+          level: 'error'
         });
+        if (showNotificationOnCompletion) {
+          atom.notifications.addError('Operation Failed', {
+            detail: 'Check console for output'
+          });
+        }
         dispatchConsoleToggle(true /* console visibility */);
       }
       break;

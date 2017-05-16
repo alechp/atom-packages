@@ -22,6 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class FileTreeSidebarFilterComponent extends _react.default.Component {
@@ -31,7 +32,7 @@ class FileTreeSidebarFilterComponent extends _react.default.Component {
 
     const classes = (0, (_classnames || _load_classnames()).default)({
       'nuclide-file-tree-filter': true,
-      'show': Boolean(filter && filter.length),
+      show: Boolean(filter && filter.length),
       'not-found': !found
     });
     const text = `search for: ${filter}`;

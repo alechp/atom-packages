@@ -37,6 +37,7 @@ function _load_process2() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class PerConnectionLanguageService extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).MultiProjectLanguageService {
@@ -44,7 +45,11 @@ class PerConnectionLanguageService extends (_nuclideLanguageServiceRpc || _load_
     const languageServiceFactory = projectDir => {
       return (_process || _load_process()).LanguageServerProtocolProcess.create(logger, fileCache, () => {
         logger.logInfo(`PerConnectionLanguageService launch: ${command} ${args.join(' ')}`);
-        return (0, (_process2 || _load_process2()).safeSpawn)(command, args); // TODO: current dir?
+        // TODO: This should be cancelable/killable.
+        const processStream = (0, (_process2 || _load_process2()).spawn)(command, args).publish(); // TODO: current dir?
+        const processPromise = processStream.take(1).toPromise();
+        processStream.connect();
+        return processPromise;
       }, projectDir, fileExtensions);
     };
     super(logger, fileCache, projectFileName, fileExtensions, languageServiceFactory);

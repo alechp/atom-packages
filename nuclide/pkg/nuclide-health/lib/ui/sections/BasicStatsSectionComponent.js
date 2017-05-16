@@ -118,4 +118,5 @@ exports.default = BasicStatsSectionComponent; /**
                                                * the root directory of this source tree.
                                                *
                                                * 
+                                               * @format
                                                */

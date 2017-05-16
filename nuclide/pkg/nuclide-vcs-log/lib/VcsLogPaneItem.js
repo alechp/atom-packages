@@ -36,6 +36,9 @@ class VcsLogPaneItem extends (_CustomPaneItem || _load_CustomPaneItem()).CustomP
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
-exports.default = document.registerElement('nuclide-vcs-log', { prototype: VcsLogPaneItem.prototype });
+exports.default = document.registerElement('nuclide-vcs-log', {
+  prototype: VcsLogPaneItem.prototype
+});

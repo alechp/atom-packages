@@ -51,6 +51,7 @@ function diagnosticProviderForResultStream(results, isEnabledStream) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function diagnosticsForResult(result) {

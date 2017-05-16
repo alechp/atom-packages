@@ -58,13 +58,14 @@ function convertValue(contextId, dbgpProperty) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function convertStringValue(dbgpProperty) {
   let value;
   if (dbgpProperty.hasOwnProperty('_')) {
-    // $FlowFixMe(peterhal)
-    value = dbgpProperty.$.encoding === 'base64' ? (0, (_helpers || _load_helpers()).base64Decode)(dbgpProperty._) : `TODO: Non-base64 encoded string: ${JSON.stringify(dbgpProperty)}`;
+    value = dbgpProperty.$.encoding === 'base64' ? // $FlowFixMe(peterhal)
+    (0, (_helpers || _load_helpers()).base64Decode)(dbgpProperty._) : `TODO: Non-base64 encoded string: ${JSON.stringify(dbgpProperty)}`;
   } else {
     // zero length strings have no dbgpProperty._ property
     value = '';

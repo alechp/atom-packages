@@ -115,6 +115,7 @@ exports.default = AutocompleteCacher; /**
                                        * the root directory of this source tree.
                                        *
                                        * 
+                                       * @format
                                        */
 
 const IDENTIFIER_REGEX = /^[a-zA-Z_]+$/;

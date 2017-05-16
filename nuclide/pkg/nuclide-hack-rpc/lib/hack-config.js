@@ -10,8 +10,11 @@ var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 // Returns the empty string on failure
 let findHackCommand = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* () {
-    // `stdout` would be empty if there is no such command.
-    return (yield (0, (_process || _load_process()).asyncExecute)('which', [PATH_TO_HH_CLIENT])).stdout.trim();
+    try {
+      return (yield (0, (_process || _load_process()).runCommand)('which', [PATH_TO_HH_CLIENT]).toPromise()).trim();
+    } catch (err) {
+      return '';
+    }
   });
 
   return function findHackCommand() {
@@ -66,6 +69,7 @@ const HACK_LOGGER_CATEGORY = 'nuclide-hack'; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 const logger = exports.logger = (0, (_nuclideLogging || _load_nuclideLogging()).getCategoryLogger)(HACK_LOGGER_CATEGORY);

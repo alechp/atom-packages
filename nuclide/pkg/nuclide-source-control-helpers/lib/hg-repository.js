@@ -59,6 +59,7 @@ function findHgRepository(startDirectoryPath) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function tryIsDirectorySync(dirname) {

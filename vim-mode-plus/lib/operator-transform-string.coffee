@@ -11,7 +11,6 @@ _ = require 'underscore-plus'
   getIndentLevelForBufferRow
   adjustIndentWithKeepingLayout
 } = require './utils'
-swrap = require './selection-wrapper'
 Base = require './base'
 Operator = Base.getClass('Operator')
 
@@ -87,7 +86,7 @@ class Replace extends TransformString
 
   initialize: ->
     @onDidSelectTarget =>
-      @focusInput(1, true)
+      @focusInput(hideCursor: true)
     super
 
   getNewText: (text) ->
@@ -411,6 +410,13 @@ class SurroundBase extends TransformString
     ['{', '}']
     ['<', '>']
   ]
+  pairsByAlias: {
+    b: ['(', ')']
+    B: ['{', '}']
+    r: ['[', ']']
+    a: ['<', '>']
+  }
+
   pairCharsAllowForwarding: '[](){}'
   input: null
   requireInput: true
@@ -420,7 +426,7 @@ class SurroundBase extends TransformString
     inputUI = @newInputUI()
     inputUI.onDidConfirm(@onConfirmSurroundChar.bind(this))
     inputUI.onDidCancel(@cancelOperation.bind(this))
-    inputUI.focus(1, true)
+    inputUI.focus(hideCursor: true)
 
   focusInputForTargetPairChar: ->
     inputUI = @newInputUI()
@@ -429,10 +435,10 @@ class SurroundBase extends TransformString
     inputUI.focus()
 
   getPair: (char) ->
-    if pair = _.detect(@pairs, (pair) -> char in pair)
-      pair
-    else
-      [char, char]
+    pair = @pairsByAlias[char]
+    pair ?= _.detect(@pairs, (pair) -> char in pair)
+    pair ?= [char, char]
+    pair
 
   surround: (text, char, options={}) ->
     keepLayout = options.keepLayout ? false
@@ -577,7 +583,7 @@ class JoinBase extends TransformString
   target: "MoveToRelativeLineMinimumOne"
 
   initialize: ->
-    @focusInput(10) if @requireInput
+    @focusInput(charsMax: 10) if @requireInput
     super
 
   getNewText: (text) ->
@@ -618,7 +624,7 @@ class SplitString extends TransformString
 
   initialize: ->
     @onDidSetTarget =>
-      @focusInput(10)
+      @focusInput(charsMax: 10)
     super
 
   getNewText: (text) ->
@@ -708,16 +714,26 @@ class ReverseInnerAnyPair extends Reverse
 class Rotate extends ChangeOrder
   @extend()
   @registerToSelectList()
+  backwards: false
   getNewList: (rows) ->
-    rows.unshift(rows.pop())
+    if @backwards
+      rows.push(rows.shift())
+    else
+      rows.unshift(rows.pop())
     rows
 
 class RotateBackwards extends ChangeOrder
   @extend()
   @registerToSelectList()
-  getNewList: (rows) ->
-    rows.push(rows.shift())
-    rows
+  backwards: true
+
+class RotateArgumentsOfInnerPair extends Rotate
+  @extend()
+  target: "InnerAnyPair"
+
+class RotateArgumentsBackwardsOfInnerPair extends RotateArgumentsOfInnerPair
+  @extend()
+  backwards: true
 
 class Sort extends ChangeOrder
   @extend()

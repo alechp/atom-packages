@@ -38,6 +38,7 @@ const PYTHON_EXECUTABLE = 'python'; /**
                                      * the root directory of this source tree.
                                      *
                                      * 
+                                     * @format
                                      */
 
 const LIB_PATH = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../VendorLib');
@@ -46,7 +47,8 @@ const OPTS = {
   cwd: (_nuclideUri || _load_nuclideUri()).default.dirname(PROCESS_PATH),
   stdio: 'pipe',
   detached: false, // When Atom is killed, server process should be killed.
-  env: { PYTHONPATH: LIB_PATH }
+  env: { PYTHONPATH: LIB_PATH },
+  /* TODO(T17353599) */isExitError: () => false
 };
 
 let serviceRegistry = null;
@@ -68,7 +70,7 @@ class JediServer {
       args.push('-p');
       args = args.concat(paths);
     }
-    const processStream = (0, (_process || _load_process()).createProcessStream)(pythonPath, args, OPTS);
+    const processStream = (0, (_process || _load_process()).spawn)(pythonPath, args, OPTS);
     this._process = new (_nuclideRpc || _load_nuclideRpc()).RpcProcess(name, getServiceRegistry(), processStream);
     this._isDisposed = false;
   }

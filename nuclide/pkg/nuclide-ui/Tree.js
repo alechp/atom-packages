@@ -23,24 +23,21 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
                                                                                                                                                                                                                               * the root directory of this source tree.
                                                                                                                                                                                                                               *
                                                                                                                                                                                                                               * 
+                                                                                                                                                                                                                              * @format
                                                                                                                                                                                                                               */
 
 const TreeItem = props => {
-  const {
-    className,
-    selected,
-    children
-  } = props,
+  const { className, selected, children } = props,
         remainingProps = _objectWithoutProperties(props, ['className', 'selected', 'children']);
   return _react.default.createElement(
     'li',
-    Object.assign({ className: (0, (_classnames || _load_classnames()).default)(className, {
+    Object.assign({
+      className: (0, (_classnames || _load_classnames()).default)(className, {
         selected
       }, 'list-item')
     }, remainingProps),
-    selected && typeof children === 'string'
-    // String children must be wrapped to receive correct styles when selected.
-    ? _react.default.createElement(
+    selected && typeof children === 'string' ? // String children must be wrapped to receive correct styles when selected.
+    _react.default.createElement(
       'span',
       null,
       children
@@ -60,7 +57,8 @@ const NestedTreeItem = props => {
         remainingProps = _objectWithoutProperties(props, ['className', 'selected', 'collapsed', 'title', 'children']);
   return _react.default.createElement(
     'li',
-    Object.assign({ className: (0, (_classnames || _load_classnames()).default)(className, {
+    Object.assign({
+      className: (0, (_classnames || _load_classnames()).default)(className, {
         selected,
         collapsed
       }, 'list-nested-item')
@@ -81,7 +79,8 @@ const NestedTreeItem = props => {
 exports.NestedTreeItem = NestedTreeItem;
 const TreeList = exports.TreeList = props => _react.default.createElement(
   'ul',
-  { className: (0, (_classnames || _load_classnames()).default)(props.className, {
+  {
+    className: (0, (_classnames || _load_classnames()).default)(props.className, {
       'has-collapsable-children': props.showArrows
     }, 'list-tree') },
   props.children

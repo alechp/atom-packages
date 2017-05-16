@@ -22,6 +22,7 @@ const observerConfig = {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 function getElementDimensions(node) {

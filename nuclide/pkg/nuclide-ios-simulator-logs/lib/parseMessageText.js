@@ -12,6 +12,7 @@ exports.parseMessageText = parseMessageText;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const TAG_RE = /\[([^[\]]*)]/g;

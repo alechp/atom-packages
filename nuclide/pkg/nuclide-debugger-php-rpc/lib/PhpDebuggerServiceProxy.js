@@ -16,7 +16,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 70
+            line: 71
           },
           name: "PhpDebuggerService"
         }).then(id => {
@@ -27,7 +27,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 88
+            line: 89
           },
           kind: "named",
           name: "NotificationMessage"
@@ -42,7 +42,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 70
+            line: 71
           },
           name: "PhpDebuggerService"
         }).then(id => {
@@ -53,7 +53,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 92
+            line: 93
           },
           kind: "string"
         });
@@ -67,7 +67,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 70
+            line: 71
           },
           name: "PhpDebuggerService"
         }).then(id => {
@@ -78,7 +78,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 96
+            line: 97
           },
           kind: "string"
         });
@@ -92,7 +92,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 100
+            line: 101
           },
           kind: "named",
           name: "PhpDebuggerSessionConfig"
@@ -103,7 +103,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 70
+            line: 71
           },
           name: "PhpDebuggerService"
         }).then(id => {
@@ -114,7 +114,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 100
+            line: 101
           },
           kind: "string"
         });
@@ -128,7 +128,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 123
+            line: 126
           },
           kind: "string"
         }
@@ -138,7 +138,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 70
+            line: 71
           },
           name: "PhpDebuggerService"
         }).then(id => {
@@ -149,7 +149,7 @@ module.exports = _client => {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 123
+            line: 126
           },
           kind: "void"
         });
@@ -232,39 +232,23 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "PhpDebuggerService.js",
-        line: 21
+        line: 22
       },
       name: "PhpDebuggerSessionConfig",
       definition: {
         location: {
           type: "source",
           fileName: "PhpDebuggerService.js",
-          line: 21
+          line: 22
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 22
-          },
-          name: "xdebugAttachPort",
-          type: {
-            location: {
-              type: "source",
-              fileName: "PhpDebuggerService.js",
-              line: 22
-            },
-            kind: "number"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "PhpDebuggerService.js",
             line: 23
           },
-          name: "xdebugLaunchingPort",
+          name: "xdebugAttachPort",
           type: {
             location: {
               type: "source",
@@ -280,30 +264,30 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 24
           },
-          name: "launchScriptPath",
+          name: "xdebugLaunchingPort",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 24
             },
-            kind: "string"
+            kind: "number"
           },
-          optional: true
+          optional: false
         }, {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
             line: 25
           },
-          name: "pid",
+          name: "launchScriptPath",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 25
             },
-            kind: "number"
+            kind: "string"
           },
           optional: true
         }, {
@@ -312,14 +296,14 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 26
           },
-          name: "attachScriptRegex",
+          name: "pid",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 26
             },
-            kind: "string"
+            kind: "number"
           },
           optional: true
         }, {
@@ -328,7 +312,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 27
           },
-          name: "idekeyRegex",
+          name: "attachScriptRegex",
           type: {
             location: {
               type: "source",
@@ -344,14 +328,14 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 28
           },
-          name: "endDebugWhenNoRequests",
+          name: "idekeyRegex",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 28
             },
-            kind: "boolean"
+            kind: "string"
           },
           optional: true
         }, {
@@ -360,12 +344,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 29
           },
-          name: "logLevel",
+          name: "endDebugWhenNoRequests",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 29
+            },
+            kind: "boolean"
+          },
+          optional: true
+        }, {
+          location: {
+            type: "source",
+            fileName: "PhpDebuggerService.js",
+            line: 30
+          },
+          name: "logLevel",
+          type: {
+            location: {
+              type: "source",
+              fileName: "PhpDebuggerService.js",
+              line: 30
             },
             kind: "named",
             name: "LogLevel"
@@ -375,25 +375,9 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 30
-          },
-          name: "targetUri",
-          type: {
-            location: {
-              type: "source",
-              fileName: "PhpDebuggerService.js",
-              line: 30
-            },
-            kind: "string"
-          },
-          optional: false
-        }, {
-          location: {
-            type: "source",
-            fileName: "PhpDebuggerService.js",
             line: 31
           },
-          name: "phpRuntimePath",
+          name: "targetUri",
           type: {
             location: {
               type: "source",
@@ -409,7 +393,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 32
           },
-          name: "phpRuntimeArgs",
+          name: "phpRuntimePath",
           type: {
             location: {
               type: "source",
@@ -425,7 +409,7 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 33
           },
-          name: "dummyRequestFilePath",
+          name: "phpRuntimeArgs",
           type: {
             location: {
               type: "source",
@@ -441,12 +425,28 @@ Object.defineProperty(module.exports, "defs", {
             fileName: "PhpDebuggerService.js",
             line: 34
           },
-          name: "stopOneStopAll",
+          name: "dummyRequestFilePath",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
               line: 34
+            },
+            kind: "string"
+          },
+          optional: false
+        }, {
+          location: {
+            type: "source",
+            fileName: "PhpDebuggerService.js",
+            line: 35
+          },
+          name: "stopOneStopAll",
+          type: {
+            location: {
+              type: "source",
+              fileName: "PhpDebuggerService.js",
+              line: 35
             },
             kind: "boolean"
           },
@@ -459,35 +459,35 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "PhpDebuggerService.js",
-        line: 37
+        line: 38
       },
       name: "NotificationMessage",
       definition: {
         location: {
           type: "source",
           fileName: "PhpDebuggerService.js",
-          line: 37
+          line: 38
         },
         kind: "object",
         fields: [{
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 38
+            line: 39
           },
           name: "type",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 38
+              line: 39
             },
             kind: "union",
             types: [{
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 38
+                line: 39
               },
               kind: "string-literal",
               value: "info"
@@ -495,7 +495,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 38
+                line: 39
               },
               kind: "string-literal",
               value: "warning"
@@ -503,7 +503,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 38
+                line: 39
               },
               kind: "string-literal",
               value: "error"
@@ -511,7 +511,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 38
+                line: 39
               },
               kind: "string-literal",
               value: "fatalError"
@@ -522,14 +522,14 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 39
+            line: 40
           },
           name: "message",
           type: {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 39
+              line: 40
             },
             kind: "string"
           },
@@ -543,7 +543,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "PhpDebuggerService.js",
-        line: 70
+        line: 71
       },
       constructorArgs: [],
       staticMethods: {},
@@ -552,7 +552,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 88
+            line: 89
           },
           kind: "function",
           argumentTypes: [],
@@ -560,14 +560,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 88
+              line: 89
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 88
+                line: 89
               },
               kind: "named",
               name: "NotificationMessage"
@@ -578,7 +578,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 92
+            line: 93
           },
           kind: "function",
           argumentTypes: [],
@@ -586,14 +586,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 92
+              line: 93
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 92
+                line: 93
               },
               kind: "string"
             }
@@ -603,7 +603,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 96
+            line: 97
           },
           kind: "function",
           argumentTypes: [],
@@ -611,14 +611,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 96
+              line: 97
             },
             kind: "observable",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 96
+                line: 97
               },
               kind: "string"
             }
@@ -628,7 +628,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 100
+            line: 101
           },
           kind: "function",
           argumentTypes: [{
@@ -637,7 +637,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 100
+                line: 101
               },
               kind: "named",
               name: "PhpDebuggerSessionConfig"
@@ -647,14 +647,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 100
+              line: 101
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 100
+                line: 101
               },
               kind: "string"
             }
@@ -664,7 +664,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 123
+            line: 126
           },
           kind: "function",
           argumentTypes: [{
@@ -673,7 +673,7 @@ Object.defineProperty(module.exports, "defs", {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 123
+                line: 126
               },
               kind: "string"
             }
@@ -682,14 +682,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 123
+              line: 126
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 123
+                line: 126
               },
               kind: "void"
             }
@@ -699,7 +699,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "PhpDebuggerService.js",
-            line: 156
+            line: 158
           },
           kind: "function",
           argumentTypes: [],
@@ -707,14 +707,14 @@ Object.defineProperty(module.exports, "defs", {
             location: {
               type: "source",
               fileName: "PhpDebuggerService.js",
-              line: 156
+              line: 158
             },
             kind: "promise",
             type: {
               location: {
                 type: "source",
                 fileName: "PhpDebuggerService.js",
-                line: 156
+                line: 158
               },
               kind: "void"
             }
@@ -727,21 +727,21 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 11
+        line: 12
       },
       name: "LogLevel",
       definition: {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 12
+          line: 13
         },
         kind: "union",
         types: [{
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 12
+            line: 13
           },
           kind: "string-literal",
           value: "ALL"
@@ -749,7 +749,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 13
+            line: 14
           },
           kind: "string-literal",
           value: "TRACE"
@@ -757,7 +757,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 14
+            line: 15
           },
           kind: "string-literal",
           value: "DEBUG"
@@ -765,7 +765,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 15
+            line: 16
           },
           kind: "string-literal",
           value: "INFO"
@@ -773,7 +773,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 16
+            line: 17
           },
           kind: "string-literal",
           value: "WARN"
@@ -781,7 +781,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 17
+            line: 18
           },
           kind: "string-literal",
           value: "ERROR"
@@ -789,7 +789,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 18
+            line: 19
           },
           kind: "string-literal",
           value: "FATAL"
@@ -797,7 +797,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 19
+            line: 20
           },
           kind: "string-literal",
           value: "OFF"

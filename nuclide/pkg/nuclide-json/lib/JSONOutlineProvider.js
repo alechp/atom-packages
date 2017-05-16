@@ -19,6 +19,7 @@ function _load_parsing() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function getOutline(text) {

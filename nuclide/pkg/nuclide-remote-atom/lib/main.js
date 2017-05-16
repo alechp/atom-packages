@@ -56,6 +56,7 @@ const REMOTE_COMMAND_SERVICE = 'RemoteCommandService'; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 class Activation {
@@ -92,6 +93,11 @@ class Activation {
 
     this._disposables = new (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).ConnectionCache((() => {
       var _ref = (0, _asyncToGenerator.default)(function* (connection) {
+        // Return a dummy object for the 'null' local connection.
+        // This doesn't have much utility locally.
+        if (connection == null) {
+          return { dispose: function () {} };
+        }
         const service = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getServiceByConnection)(REMOTE_COMMAND_SERVICE, connection);
         const fileNotifier = yield (0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getNotifierByConnection)(connection);
         return service.RemoteCommandService.registerAtomCommands(fileNotifier, _this._commands);
@@ -120,7 +126,7 @@ function openFile(uri, line, column, isWaiting) {
             (_featureConfig || _load_featureConfig()).default.set('nuclide-remote-atom.shouldNotifyWhenCommandLineIsWaitingOnFile', false);
             notification.dismiss();
           },
-          text: 'Don\'t show again'
+          text: "Don't show again"
         }, {
           onDidClick: () => {
             editor.destroy();

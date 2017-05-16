@@ -18,6 +18,7 @@ const defaultSettings = {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 let settings = defaultSettings;

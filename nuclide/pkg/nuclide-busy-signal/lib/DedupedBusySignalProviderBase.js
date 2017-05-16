@@ -21,6 +21,7 @@ function _load_BusySignalProviderBase() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class DedupedBusySignalProviderBase extends (_BusySignalProviderBase || _load_BusySignalProviderBase()).BusySignalProviderBase {

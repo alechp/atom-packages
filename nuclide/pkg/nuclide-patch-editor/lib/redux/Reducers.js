@@ -47,6 +47,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function rootReducer(state, action) {
@@ -74,10 +75,7 @@ function rootReducer(state, action) {
 
     case (_ActionTypes || _load_ActionTypes()).TOGGLE_FILE_ACTION:
       {
-        const {
-          patchId,
-          fileId
-        } = action.payload;
+        const { patchId, fileId } = action.payload;
 
         const patchEditors = new Map(state.patchEditors);
         const patchData = (0, (_nullthrows || _load_nullthrows()).default)(patchEditors.get(patchId));
@@ -89,11 +87,7 @@ function rootReducer(state, action) {
 
     case (_ActionTypes || _load_ActionTypes()).TOGGLE_HUNK_ACTION:
       {
-        const {
-          patchId,
-          fileId,
-          hunkOldStart
-        } = action.payload;
+        const { patchId, fileId, hunkOldStart } = action.payload;
 
         const patchEditors = new Map(state.patchEditors);
         const patchData = (0, (_nullthrows || _load_nullthrows()).default)(patchEditors.get(patchId));
@@ -105,12 +99,7 @@ function rootReducer(state, action) {
 
     case (_ActionTypes || _load_ActionTypes()).TOGGLE_LINE_ACTION:
       {
-        const {
-          patchId,
-          fileId,
-          hunkOldStart,
-          line
-        } = action.payload;
+        const { patchId, fileId, hunkOldStart, line } = action.payload;
 
         const patchEditors = new Map(state.patchEditors);
         const patchData = (0, (_nullthrows || _load_nullthrows()).default)(patchEditors.get(patchId));
@@ -153,7 +142,7 @@ function updateFileData(fileData, hunkOldStart, line) {
     // Update countEnabledChunks and countPartialChunks based on change in selected state
 
     if (!(!(oldHunk.selected === (_constants || _load_constants()).SelectedState.ALL && newHunk.selected === (_constants || _load_constants()).SelectedState.ALL) && !(oldHunk.selected === (_constants || _load_constants()).SelectedState.NONE && newHunk.selected === (_constants || _load_constants()).SelectedState.NONE))) {
-      throw new Error('Invariant violation: "!(oldHunk.selected === SelectedState.ALL && newHunk.selected === SelectedState.ALL) &&\\n      !(oldHunk.selected === SelectedState.NONE && newHunk.selected === SelectedState.NONE)"');
+      throw new Error('Invariant violation: "!(oldHunk.selected === SelectedState.ALL &&\\n        newHunk.selected === SelectedState.ALL) &&\\n        !(oldHunk.selected === SelectedState.NONE &&\\n          newHunk.selected === SelectedState.NONE)"');
     }
 
     if (oldHunk.selected === (_constants || _load_constants()).SelectedState.ALL && newHunk.selected === (_constants || _load_constants()).SelectedState.SOME) {

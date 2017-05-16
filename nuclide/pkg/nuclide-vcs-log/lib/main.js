@@ -66,6 +66,7 @@ const SHOW_LOG_FILE_TREE_CONTEXT_MENU_PRIORITY = 500; /**
                                                        * the root directory of this source tree.
                                                        *
                                                        * 
+                                                       * @format
                                                        */
 
 // TODO: Make it possible to move or split a pane with a VcsLogPaneItem.

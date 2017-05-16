@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class WorkingSetSelectionComponent extends _react.default.Component {
@@ -162,10 +163,7 @@ class WorkingSetSelectionComponent extends _react.default.Component {
 
     return _react.default.createElement(
       'div',
-      {
-        className: 'select-list',
-        tabIndex: '0',
-        onBlur: this._checkFocus },
+      { className: 'select-list', tabIndex: '0', onBlur: this._checkFocus },
       _react.default.createElement(
         'ol',
         { className: 'list-group mark-active', style: { 'max-height': '80vh' } },

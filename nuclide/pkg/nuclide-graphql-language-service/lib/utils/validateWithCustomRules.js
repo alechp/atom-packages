@@ -28,13 +28,16 @@ function _load_validate() {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function validateWithCustomRules(schema, ast, customRules) {
   // Because every fragment is considered for determing model subsets that may
   // be used anywhere in the codebase they're all technically "used" by clients
   // of graphql-data. So we remove this rule from the validators.
-  const { NoUnusedFragments } = require('graphql/validation/rules/NoUnusedFragments');
+  const {
+    NoUnusedFragments
+  } = require('graphql/validation/rules/NoUnusedFragments');
   const rules = (_graphql || _load_graphql()).specifiedRules.filter(rule => rule !== NoUnusedFragments);
 
   const typeInfo = new (_graphql || _load_graphql()).TypeInfo(schema);

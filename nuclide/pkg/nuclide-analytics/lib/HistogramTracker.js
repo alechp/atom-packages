@@ -19,6 +19,7 @@ const HISTOGRAM_TRACKER_KEY = 'performance-histogram'; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 class Bucket {

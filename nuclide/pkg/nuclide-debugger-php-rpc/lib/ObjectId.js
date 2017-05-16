@@ -62,6 +62,7 @@ const WATCH_CONTEXT_ID = 'Watch Context Id'; /**
                                               * the root directory of this source tree.
                                               *
                                               * 
+                                              * @format
                                               */
 
 function getWatchContextObjectId(enableCount, frameIndex) {
@@ -192,7 +193,11 @@ function getChildIds(id) {
     if (childCount <= pagesize) {
       childId = singlePageObjectId(id, id.fullname, Math.trunc(childStartIndex / pagesize));
     } else {
-      childId = pagedObjectId(id, id.fullname, { pagesize, startIndex: childStartIndex, count: childCount });
+      childId = pagedObjectId(id, id.fullname, {
+        pagesize,
+        startIndex: childStartIndex,
+        count: childCount
+      });
     }
 
     result.push(childId);

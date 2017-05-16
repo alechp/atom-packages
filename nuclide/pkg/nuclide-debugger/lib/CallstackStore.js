@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _DebuggerStore;
+
+function _load_DebuggerStore() {
+  return _DebuggerStore = require('./DebuggerStore');
+}
+
 var _atom = require('atom');
 
 var _nuclideUri;
@@ -26,23 +32,14 @@ function _load_debounce() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 class CallstackStore {
 
-  constructor(dispatcher) {
+  constructor(dispatcher, debuggerStore) {
     const dispatcherToken = dispatcher.register(this._handlePayload.bind(this));
     this._disposables = new _atom.CompositeDisposable(new _atom.Disposable(() => {
       dispatcher.unregister(dispatcherToken);
     }));
+    this._debuggerStore = debuggerStore;
     this._callstack = null;
     this._selectedCallFrameIndex = 0;
     this._selectedCallFrameMarker = null;
@@ -89,15 +86,17 @@ class CallstackStore {
   }
 
   _openSourceLocation(sourceURL, lineNumber) {
-    const path = (_nuclideUri || _load_nuclideUri()).default.uriToNuclideUri(sourceURL);
-    if (path != null && atom.workspace != null) {
-      // only handle real files for now.
-      // This should be goToLocation instead but since the searchAllPanes option is correctly
-      // provided it's not urgent.
-      this._openPathInEditor(path).then(editor => {
-        this._nagivateToLocation(editor, lineNumber);
-      });
-    }
+    try {
+      const path = (_nuclideUri || _load_nuclideUri()).default.uriToNuclideUri(sourceURL);
+      if (path != null && atom.workspace != null) {
+        // only handle real files for now.
+        // This should be goToLocation instead but since the searchAllPanes option is correctly
+        // provided it's not urgent.
+        this._openPathInEditor(path).then(editor => {
+          this._nagivateToLocation(editor, lineNumber);
+        });
+      }
+    } catch (e) {}
   }
 
   _openPathInEditor(path) {
@@ -139,7 +138,9 @@ class CallstackStore {
   }
 
   _highlightCallFrameLine(editor, line) {
-    const marker = editor.markBufferRange([[line, 0], [line, Infinity]], { invalidate: 'never' });
+    const marker = editor.markBufferRange([[line, 0], [line, Infinity]], {
+      invalidate: 'never'
+    });
     editor.decorateMarker(marker, {
       type: 'line',
       class: 'nuclide-current-line-highlight'
@@ -166,9 +167,22 @@ class CallstackStore {
     return this._selectedCallFrameIndex;
   }
 
+  getDebuggerStore() {
+    return this._debuggerStore;
+  }
+
   dispose() {
     this._clearSelectedCallFrameMarker();
     this._disposables.dispose();
   }
 }
-exports.default = CallstackStore;
+exports.default = CallstackStore; /**
+                                   * Copyright (c) 2015-present, Facebook, Inc.
+                                   * All rights reserved.
+                                   *
+                                   * This source code is licensed under the license found in the LICENSE file in
+                                   * the root directory of this source tree.
+                                   *
+                                   * 
+                                   * @format
+                                   */

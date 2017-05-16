@@ -32,6 +32,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate, getElementWithProps, syncWidth = false) {
@@ -79,7 +80,9 @@ function syncBlockDecorations(editorElement, diffBlockType, source, shouldUpdate
     }
 
     const { element, customProps } = getElementWithProps(value);
-    const marker = editor.markBufferPosition([lineNumber, 0], { invalidate: 'never' });
+    const marker = editor.markBufferPosition([lineNumber, 0], {
+      invalidate: 'never'
+    });
 
     // The position should be `after` if the element is at the end of the file.
     const position = lineNumber >= editor.getLineCount() - 1 ? 'after' : 'before';

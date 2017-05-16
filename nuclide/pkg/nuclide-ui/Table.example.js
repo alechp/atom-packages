@@ -33,6 +33,7 @@ const Highlight42Component = props => _react.default.createElement(
     * the root directory of this source tree.
     *
     * 
+    * @format
     */
 
 const TableExample = () => {
@@ -82,11 +83,7 @@ const TableExample = () => {
   return _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _react.default.createElement((_Table || _load_Table()).Table, {
-      columns: columns,
-      rows: rows,
-      selectable: true
-    })
+    _react.default.createElement((_Table || _load_Table()).Table, { columns: columns, rows: rows, selectable: true })
   );
 };
 
@@ -180,10 +177,7 @@ const EmptyTableExample = () => {
   return _react.default.createElement(
     (_Block || _load_Block()).Block,
     null,
-    _react.default.createElement((_Table || _load_Table()).Table, {
-      columns: columns,
-      rows: rows
-    })
+    _react.default.createElement((_Table || _load_Table()).Table, { columns: columns, rows: rows })
   );
 };
 

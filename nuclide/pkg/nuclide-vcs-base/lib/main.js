@@ -3,28 +3,26 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DIFF_EDITOR_MARKER_CLASS = exports.RevertibleStatusCodes = exports.FileChangeStatusToTextColor = exports.FileChangeStatusToIcon = exports.FileChangeStatusToPrefix = exports.HgStatusToFileChangeStatus = exports.FileChangeStatus = exports.findVcs = undefined;
+exports.confirmAndDeletePath = exports.DIFF_EDITOR_MARKER_CLASS = exports.RevertibleStatusCodes = exports.FileChangeStatusToLabel = exports.FileChangeStatusToTextColor = exports.FileChangeStatusToIcon = exports.FileChangeStatusToPrefix = exports.HgStatusToFileChangeStatus = exports.FileChangeStatus = exports.findVcs = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
 let findVcsHelper = (() => {
   var _ref = (0, _asyncToGenerator.default)(function* (dir) {
     const options = { cwd: dir };
-    const hgResult = yield (0, (_process || _load_process()).asyncExecute)('hg', ['root'], options);
-    if (hgResult.exitCode === 0) {
+    try {
       return {
         vcs: 'hg',
-        root: hgResult.stdout.trim()
+        root: (yield (0, (_process || _load_process()).runCommand)('hg', ['root'], options).toPromise()).trim()
       };
-    }
+    } catch (err) {}
 
-    const gitResult = yield (0, (_process || _load_process()).asyncExecute)('git', ['rev-parse', '--show-toplevel'], options);
-    if (gitResult.exitCode === 0) {
+    try {
       return {
         vcs: 'git',
-        root: gitResult.stdout.trim()
+        root: (yield (0, (_process || _load_process()).runCommand)('git', ['rev-parse', '--show-toplevel'], options).toPromise()).trim()
       };
-    }
+    } catch (err) {}
 
     throw new Error('Could not find VCS for: ' + dir);
   });
@@ -58,7 +56,7 @@ let findVcs = exports.findVcs = (() => {
 })();
 
 let hgActionToPath = (() => {
-  var _ref5 = (0, _asyncToGenerator.default)(function* (nodePath, actionName, actionDoneMessage, action) {
+  var _ref6 = (0, _asyncToGenerator.default)(function* (nodePath, actionName, actionDoneMessage, action) {
     if (nodePath == null || nodePath.length === 0) {
       atom.notifications.addError(`Cannot ${actionName} an empty path!`);
       return;
@@ -77,36 +75,62 @@ let hgActionToPath = (() => {
     }
   });
 
-  return function hgActionToPath(_x5, _x6, _x7, _x8) {
-    return _ref5.apply(this, arguments);
+  return function hgActionToPath(_x6, _x7, _x8, _x9) {
+    return _ref6.apply(this, arguments);
+  };
+})();
+
+let confirmAndDeletePath = exports.confirmAndDeletePath = (() => {
+  var _ref7 = (0, _asyncToGenerator.default)(function* (nuclideFilePath) {
+    const result = atom.confirm({
+      message: 'Are you sure you want to delete the following item?',
+      detailedMessage: `You are deleting: \n ${(_nuclideUri || _load_nuclideUri()).default.getPath(nuclideFilePath)}`,
+      buttons: ['Delete', 'Cancel']
+    });
+
+    if (!(result === 0 || result === 1)) {
+      throw new Error('Invariant violation: "result === 0 || result === 1"');
+    }
+
+    if (result === 0) {
+      return deleteFile(nuclideFilePath);
+    }
+    return false;
+  });
+
+  return function confirmAndDeletePath(_x10) {
+    return _ref7.apply(this, arguments);
   };
 })();
 
 let deleteFile = (() => {
-  var _ref6 = (0, _asyncToGenerator.default)(function* (nuclideFilePath) {
+  var _ref8 = (0, _asyncToGenerator.default)(function* (nuclideFilePath) {
     const filePath = (_nuclideUri || _load_nuclideUri()).default.getPath(nuclideFilePath);
     const fsService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getFileSystemServiceByNuclideUri)(nuclideFilePath);
     try {
       yield fsService.unlink(filePath);
       const repository = repositoryForPath(nuclideFilePath);
       if (repository == null || repository.getType() !== 'hg') {
-        return;
+        return false;
       }
       yield repository.remove([filePath], true);
     } catch (error) {
       atom.notifications.addError('Failed to delete file', {
         detail: error
       });
+      return false;
     }
+    return true;
   });
 
-  return function deleteFile(_x9) {
-    return _ref6.apply(this, arguments);
+  return function deleteFile(_x11) {
+    return _ref8.apply(this, arguments);
   };
 })();
 
 exports.getDirtyFileChanges = getDirtyFileChanges;
 exports.observeStatusChanges = observeStatusChanges;
+exports.forgetPath = forgetPath;
 exports.addPath = addPath;
 exports.revertPath = revertPath;
 exports.confirmAndRevertPath = confirmAndRevertPath;
@@ -116,7 +140,6 @@ exports.repositoryForPath = repositoryForPath;
 exports.repositoryContainsPath = repositoryContainsPath;
 exports.filterMultiRootFileChanges = filterMultiRootFileChanges;
 exports.getMultiRootFileChanges = getMultiRootFileChanges;
-exports.confirmAndDeletePath = confirmAndDeletePath;
 
 var _collection;
 
@@ -180,6 +203,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const { StatusCodeNumber: HgStatusCodeNumber } = (_nuclideHgRpc || _load_nuclideHgRpc()).hgConstants;
@@ -227,6 +251,14 @@ const FileChangeStatusToTextColor = exports.FileChangeStatusToTextColor = Object
   [FileChangeStatus.UNTRACKED]: 'text-error'
 });
 
+const FileChangeStatusToLabel = exports.FileChangeStatusToLabel = Object.freeze({
+  [FileChangeStatus.ADDED]: 'Added',
+  [FileChangeStatus.MODIFIED]: 'Modified',
+  [FileChangeStatus.MISSING]: 'Missing',
+  [FileChangeStatus.REMOVED]: 'Removed',
+  [FileChangeStatus.UNTRACKED]: 'Untracked'
+});
+
 const RevertibleStatusCodes = exports.RevertibleStatusCodes = [FileChangeStatus.ADDED, FileChangeStatus.MODIFIED, FileChangeStatus.REMOVED];
 
 const DIFF_EDITOR_MARKER_CLASS = exports.DIFF_EDITOR_MARKER_CLASS = 'nuclide-diff-editor-marker';
@@ -248,15 +280,15 @@ function observeStatusChanges(repository) {
   return (0, (_event || _load_event()).observableFromSubscribeFunction)(repository.onDidChangeStatuses.bind(repository)).debounceTime(UPDATE_STATUS_DEBOUNCE_MS).startWith(null).map(() => getDirtyFileChanges(repository));
 }
 
-function addPath(nodePath) {
-  return hgActionToPath(nodePath, 'add', 'Added', (() => {
+function forgetPath(nodePath) {
+  return hgActionToPath(nodePath, 'forget', 'Forgot', (() => {
     var _ref3 = (0, _asyncToGenerator.default)(function* (hgRepository) {
       if (!nodePath) {
         throw new Error('Invariant violation: "nodePath"');
       }
 
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-repository-add', { nodePath });
-      yield hgRepository.addAll([nodePath]);
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-repository-forget', { nodePath });
+      yield hgRepository.forget([nodePath]);
     });
 
     return function (_x3) {
@@ -265,15 +297,15 @@ function addPath(nodePath) {
   })());
 }
 
-function revertPath(nodePath, toRevision) {
-  return hgActionToPath(nodePath, 'revert', 'Reverted', (() => {
+function addPath(nodePath) {
+  return hgActionToPath(nodePath, 'add', 'Added', (() => {
     var _ref4 = (0, _asyncToGenerator.default)(function* (hgRepository) {
       if (!nodePath) {
         throw new Error('Invariant violation: "nodePath"');
       }
 
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-repository-revert', { nodePath });
-      yield hgRepository.revert([nodePath], toRevision);
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-repository-add', { nodePath });
+      yield hgRepository.addAll([nodePath]);
     });
 
     return function (_x4) {
@@ -282,9 +314,26 @@ function revertPath(nodePath, toRevision) {
   })());
 }
 
+function revertPath(nodePath, toRevision) {
+  return hgActionToPath(nodePath, 'revert', 'Reverted', (() => {
+    var _ref5 = (0, _asyncToGenerator.default)(function* (hgRepository) {
+      if (!nodePath) {
+        throw new Error('Invariant violation: "nodePath"');
+      }
+
+      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('hg-repository-revert', { nodePath });
+      yield hgRepository.revert([nodePath], toRevision);
+    });
+
+    return function (_x5) {
+      return _ref5.apply(this, arguments);
+    };
+  })());
+}
+
 function confirmAndRevertPath(path, toRevision) {
   const result = atom.confirm({
-    message: 'Are you sure you want to revert?',
+    message: `Are you sure you want to revert${path == null ? '' : ` "${path}"`}?`,
     buttons: ['Revert', 'Cancel']
   });
 
@@ -397,20 +446,4 @@ function getMultiRootFileChanges(fileChanges, rootPaths) {
   }));
 
   return changedRoots;
-}
-
-function confirmAndDeletePath(nuclideFilePath) {
-  const result = atom.confirm({
-    message: 'Are you sure you want to delete the following item?',
-    detailedMessage: `You are deleting: \n ${(_nuclideUri || _load_nuclideUri()).default.getPath(nuclideFilePath)}`,
-    buttons: ['Delete', 'Cancel']
-  });
-
-  if (!(result === 0 || result === 1)) {
-    throw new Error('Invariant violation: "result === 0 || result === 1"');
-  }
-
-  if (result === 0) {
-    deleteFile(nuclideFilePath);
-  }
 }

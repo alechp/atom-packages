@@ -13,21 +13,25 @@ function _load_simpleTextBuffer() {
   return _simpleTextBuffer = require('simple-text-buffer');
 }
 
+// Flow sometimes reports this as the file path for an error. When this happens, we should simply
+// leave out the location, since it isn't very useful and it's not a well-formed path, which can
+// cause issues down the line.
+const BUILTIN_LOCATION = '(builtins)'; /**
+                                        * Copyright (c) 2015-present, Facebook, Inc.
+                                        * All rights reserved.
+                                        *
+                                        * This source code is licensed under the license found in the LICENSE file in
+                                        * the root directory of this source tree.
+                                        *
+                                        * 
+                                        * @format
+                                        */
+
 function flowStatusOutputToDiagnostics(statusOutput) {
   return statusOutput.errors.map(flowMessageToDiagnosticMessage);
 }
 
 // Exported for testing
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- */
-
 function diagnosticToFix(diagnostic) {
   for (const extractionFunction of fixExtractionFunctions) {
     const fix = extractionFunction(diagnostic);
@@ -115,7 +119,10 @@ function namedImportTypo(diagnostic) {
  */
 
 function extractPath(message) {
-  return message.loc == null ? undefined : message.loc.source;
+  if (message.loc == null || message.loc.source === BUILTIN_LOCATION) {
+    return undefined;
+  }
+  return message.loc.source;
 }
 
 // A trace object is very similar to an error object.
@@ -197,12 +204,11 @@ function extractTraces(flowStatusError) {
 // compatible with the `range` property, which is an optional property rather than a nullable
 // property.
 function extractRange(message) {
-  // It's unclear why the 1-based to 0-based indexing works the way that it
-  // does, but this has the desired effect in the UI, in practice.
-  const flowRange = message.loc;
-  if (flowRange == null) {
+  if (message.loc == null || message.loc.source === BUILTIN_LOCATION) {
     return undefined;
   } else {
-    return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([flowRange.start.line - 1, flowRange.start.column - 1], [flowRange.end.line - 1, flowRange.end.column]);
+    // It's unclear why the 1-based to 0-based indexing works the way that it
+    // does, but this has the desired effect in the UI, in practice.
+    return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([message.loc.start.line - 1, message.loc.start.column - 1], [message.loc.end.line - 1, message.loc.end.column]);
   }
 }

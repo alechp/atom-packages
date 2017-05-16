@@ -36,6 +36,7 @@ const BUCK_GEN_PATH = 'buck-out/gen'; /**
                                        * the root directory of this source tree.
                                        *
                                        * 
+                                       * @format
                                        */
 
 const LINK_TREE_SUFFIXES = {

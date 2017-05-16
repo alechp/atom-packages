@@ -161,6 +161,7 @@ exports.default = CharacterStream; /**
                                     * the root directory of this source tree.
                                     *
                                     * 
+                                    * @format
                                     */
 
 /**

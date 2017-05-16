@@ -79,6 +79,7 @@ function taskFromObservable(observable) {
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // It's really convenient to model processes with Observables but Atom use a more OO [Task

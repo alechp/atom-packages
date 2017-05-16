@@ -47,6 +47,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 class LaunchUIComponent extends _react.default.Component {
@@ -137,9 +138,7 @@ class LaunchUIComponent extends _react.default.Component {
           null,
           _react.default.createElement(
             (_Button || _load_Button()).Button,
-            {
-              tabIndex: '17',
-              onClick: this._cancelClick },
+            { tabIndex: '17', onClick: this._cancelClick },
             'Cancel'
           ),
           _react.default.createElement(

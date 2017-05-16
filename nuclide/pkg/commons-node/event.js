@@ -27,6 +27,7 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function attachEvent(emitter, eventName, callback) {

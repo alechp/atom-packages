@@ -23,6 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const START_OBSERVING_TEXT_EDITOR_EVENT = 'start-observing-text-editor';

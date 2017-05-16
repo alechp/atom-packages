@@ -31,7 +31,10 @@ class ReactNativeLaunchAttachProvider extends (_nuclideDebuggerBase || _load_nuc
       throw new Error('Invariant violation: "action === \'Attach\'"');
     }
 
-    return _react.default.createElement((_DebugUiComponent || _load_DebugUiComponent()).DebugUiComponent, { targetUri: this.getTargetUri(), parentEmitter: parentEventEmitter });
+    return _react.default.createElement((_DebugUiComponent || _load_DebugUiComponent()).DebugUiComponent, {
+      targetUri: this.getTargetUri(),
+      parentEmitter: parentEventEmitter
+    });
   }
 
   dispose() {}
@@ -44,4 +47,5 @@ exports.ReactNativeLaunchAttachProvider = ReactNativeLaunchAttachProvider; /**
                                                                             * the root directory of this source tree.
                                                                             *
                                                                             * 
+                                                                            * @format
                                                                             */

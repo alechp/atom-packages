@@ -29,6 +29,7 @@ function createMessage(record) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function getLevel(level) {

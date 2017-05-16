@@ -64,6 +64,7 @@ const tabs = [{
      * the root directory of this source tree.
      *
      * 
+     * @format
      */
 
 class TabExample extends _react.default.Component {

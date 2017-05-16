@@ -45,6 +45,7 @@ function trackingMiddleware(store) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function trackTaskAction(type, store, action) {

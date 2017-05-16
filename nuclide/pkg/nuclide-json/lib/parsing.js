@@ -48,6 +48,7 @@ function parseJSON(json) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function babelPosToPoint(pos) {

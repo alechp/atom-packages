@@ -80,6 +80,7 @@ exports.LocalStorageJsonTable = LocalStorageJsonTable; /**
                                                         * the root directory of this source tree.
                                                         *
                                                         * 
+                                                        * @format
                                                         */
 
 /* global localStorage */

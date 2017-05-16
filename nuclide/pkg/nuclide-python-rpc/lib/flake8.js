@@ -8,8 +8,7 @@ exports.parseFlake8Output = parseFlake8Output;
 
 function classifyCode(code) {
   if (/^(B9|C|E[35]|T400|T49)/.test(code)) {
-    // TODO: make this "info" level when it's supported
-    return 'Warning';
+    return 'Info';
   } else if (/^(F|B|T484|E999)/.test(code)) {
     return 'Error';
   }
@@ -22,6 +21,7 @@ function classifyCode(code) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function parseFlake8Output(src, output) {

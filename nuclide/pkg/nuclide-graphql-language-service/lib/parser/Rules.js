@@ -12,8 +12,8 @@ function _load_RuleHelpers() {
 }
 
 /**
- * Whitespace tokens defined in GraphQL spec.
- */
+  * Whitespace tokens defined in GraphQL spec.
+  */
 const isIgnored = exports.isIgnored = ch => ch === ' ' || ch === '\t' || ch === ',' || ch === '\n' || ch === '\r' || ch === '\uFEFF';
 
 /**
@@ -27,6 +27,7 @@ const isIgnored = exports.isIgnored = ch => ch === ' ' || ch === '\t' || ch === 
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const LexRules = exports.LexRules = {
@@ -126,7 +127,8 @@ const ParseRules = exports.ParseRules = {
         return null;
       case 'Name':
         switch (token.value) {
-          case 'true':case 'false':
+          case 'true':
+          case 'false':
             return 'BooleanValue';
         }
         if (token.value === 'null') {

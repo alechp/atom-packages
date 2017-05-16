@@ -31,6 +31,7 @@ const DEFAULT_PANE_DEBOUNCE_INTERVAL_MS = 100; /**
                                                 * the root directory of this source tree.
                                                 *
                                                 * 
+                                                * @format
                                                 */
 
 /**
@@ -47,6 +48,9 @@ const DEFAULT_POSITION_DEBOUNCE_INTERVAL_MS = 300;
 
 function observeActivePaneItemDebounced(debounceInterval = DEFAULT_PANE_DEBOUNCE_INTERVAL_MS) {
   return (0, (_event || _load_event()).observableFromSubscribeFunction)(callback => {
+    if (atom.workspace.getCenter != null) {
+      return atom.workspace.getCenter().observeActivePaneItem(callback);
+    }
     return atom.workspace.observeActivePaneItem(callback);
   }).debounceTime(debounceInterval);
 }

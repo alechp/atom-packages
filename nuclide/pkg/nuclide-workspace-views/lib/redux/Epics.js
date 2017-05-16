@@ -57,6 +57,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const preferredLocationStorage = new (_LocalStorageJsonTable || _load_LocalStorageJsonTable()).LocalStorageJsonTable('nuclide:nuclide-workspace-views:preferredLocationIds');

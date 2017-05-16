@@ -31,6 +31,18 @@ function _load_Table() {
   return _Table = require('../../nuclide-ui/Table');
 }
 
+var _classnames;
+
+function _load_classnames() {
+  return _classnames = _interopRequireDefault(require('classnames'));
+}
+
+var _addTooltip;
+
+function _load_addTooltip() {
+  return _addTooltip = _interopRequireDefault(require('../../nuclide-ui/add-tooltip'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class DebuggerCallstackComponent extends _react.default.Component {
@@ -38,11 +50,42 @@ class DebuggerCallstackComponent extends _react.default.Component {
   constructor(props) {
     super(props);
     this._handleCallframeClick = this._handleCallframeClick.bind(this);
+    this._locationComponent = this._locationComponent.bind(this);
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this.state = {
       callstack: props.callstackStore.getCallstack(),
       selectedCallFrameIndex: props.callstackStore.getSelectedCallFrameIndex()
     };
+  }
+
+  _locationComponent(props) {
+    const missingSourceItem = this.props.callstackStore.getDebuggerStore().getCanSetSourcePaths() && !props.data.hasSource ? _react.default.createElement('span', {
+      className: (0, (_classnames || _load_classnames()).default)('text-error', 'icon', 'icon-alert'),
+      onClick: () => this.props.actions.configureSourcePaths(),
+      ref: (0, (_addTooltip || _load_addTooltip()).default)({
+        title: 'Source file not found! Some debugger features will not work without source.' + '<br/><br/>' + 'Click to configure source file paths...'
+      })
+    }) : null;
+
+    // Callstack paths may have a format like file://foo/bar, or
+    // lldb://asm/0x1234. These are not valid paths that can be used to
+    // construct a nuclideUri so we need to skip the protocol prefix.
+    const path = (_nuclideUri || _load_nuclideUri()).default.basename(props.data.path.replace(/^[a-zA-Z]+:\/\//, ''));
+
+    // Chrome line numbers are actually 0-based, so add 1.
+    const line = props.data.line + 1;
+    return _react.default.createElement(
+      'div',
+      { title: `${path}:${line}` },
+      missingSourceItem,
+      _react.default.createElement(
+        'span',
+        null,
+        path,
+        ':',
+        line
+      )
+    );
   }
 
   componentDidMount() {
@@ -67,19 +110,13 @@ class DebuggerCallstackComponent extends _react.default.Component {
   render() {
     const { callstack } = this.state;
     const rows = callstack == null ? [] : callstack.map((callstackItem, i) => {
-      const {
-        location
-      } = callstackItem;
-      // Callstack paths may have a format like file://foo/bar, or
-      // lldb://asm/0x1234. These are not valid paths that can be used to
-      // construct a nuclideUri so we need to skip the protocol prefix.
-      const path = (_nuclideUri || _load_nuclideUri()).default.basename(location.path.replace(/^[a-zA-Z]+:\/\//, ''));
+      const { location } = callstackItem;
       const isSelected = this.state.selectedCallFrameIndex === i;
       const cellData = {
         data: {
           frame: i,
           address: callstackItem.name,
-          location: `${path}:${callstackItem.location.line}`,
+          location,
           isSelected
         }
       };
@@ -100,6 +137,7 @@ class DebuggerCallstackComponent extends _react.default.Component {
       title: 'Address',
       key: 'address'
     }, {
+      component: this._locationComponent,
       title: 'File Location',
       key: 'location'
     }];
@@ -131,4 +169,5 @@ exports.DebuggerCallstackComponent = DebuggerCallstackComponent; /**
                                                                   * the root directory of this source tree.
                                                                   *
                                                                   * 
+                                                                  * @format
                                                                   */

@@ -205,13 +205,15 @@ const LLDB_PROCESS_ID_REGEX = /lldb -p ([0-9]+)/;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 const ANDROID_ACTIVITY_REGEX = /Starting activity (.*)\/(.*)\.\.\./;
 const LLDB_TARGET_TYPE = 'LLDB';
 const ANDROID_TARGET_TYPE = 'android';
 
-function getDeployBuildEvents(processStream, buckService, buckRoot, buildTarget, runArguments) {
+function getDeployBuildEvents(processStream, // TODO(T17463635)
+buckService, buckRoot, buildTarget, runArguments) {
   const argString = runArguments.length === 0 ? '' : ` with arguments "${runArguments.join(' ')}"`;
   return processStream.filter(message => message.kind === 'exit' && message.exitCode === 0).switchMap(() => {
     return _rxjsBundlesRxMinJs.Observable.fromPromise(debugBuckTarget(buckService, buckRoot, buildTarget, runArguments)).map(path => ({
@@ -236,7 +238,8 @@ function getDeployBuildEvents(processStream, buckService, buckRoot, buildTarget,
   });
 }
 
-function getDeployInstallEvents(processStream, buckRoot) {
+function getDeployInstallEvents(processStream, // TODO(T17463635)
+buckRoot) {
   let targetType = LLDB_TARGET_TYPE;
   return (0, (_observable || _load_observable()).compact)(processStream.map(message => {
     if (message.kind === 'stdout' || message.kind === 'stderr') {
@@ -272,7 +275,8 @@ function getDeployInstallEvents(processStream, buckRoot) {
   });
 }
 
-function getDeployTestEvents(processStream, buckRoot) {
+function getDeployTestEvents(processStream, // TODO(T17463635)
+buckRoot) {
   return processStream.flatMap(message => {
     if (message.kind !== 'stderr') {
       return _rxjsBundlesRxMinJs.Observable.empty();

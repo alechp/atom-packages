@@ -27,6 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function highlightOnUpdate(ComposedComponent,
@@ -71,7 +72,8 @@ unhighlightDelay = 200) {
     render() {
       return _react.default.createElement(
         'span',
-        { className: `${className} ${this.showFlash ? className + '-highlight' : ''}` },
+        {
+          className: `${className} ${this.showFlash ? className + '-highlight' : ''}` },
         _react.default.createElement(ComposedComponent, this.props)
       );
     }

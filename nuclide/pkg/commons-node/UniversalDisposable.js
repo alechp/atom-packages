@@ -70,6 +70,7 @@ exports.default = UniversalDisposable; /**
                                         * the root directory of this source tree.
                                         *
                                         * 
+                                        * @format
                                         */
 
 function assertTeardown(teardown) {

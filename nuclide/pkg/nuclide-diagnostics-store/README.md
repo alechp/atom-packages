@@ -9,14 +9,14 @@ is our UI implementation.
 
 We consume two APIs: Our own provider API, described below, and the
 [`linter`](https://atom.io/packages/linter) [package
-API](https://github.com/atom-community/linter/wiki/Linter-API) (with some extensions).
+APIs](http://steelbrain.me/linter) (with some extensions).
 
 The Nuclide API is designed to support a "push" model where providers notify the store
 asynchronously about new diagnostics (and when to invalidate old ones). A provider may choose to
 publish diagnostics in response to file change events from a `TextEditor`, but it may also report
-diagnostics in response to other events, such as file changes that occur outside of Atom. By
-comparison, the `linter` API exclusively polls for changes in response to change events from a
-`TextEditor`.
+diagnostics in response to other events, such as file changes that occur outside of Atom.
+
+For simple pull-based use cases (linting on save), we recommend just using the Standard Linter API.
 
 ## Provider API
 
@@ -92,45 +92,17 @@ Note that when an update is sent, any file names that are keys in `filePathToMes
 have their previous messages invalidated. This means that simple providers that act only on the
 currently active file need not ever send an invalidation message.
 
-### Implementing a Provider
-
-You are free to implement a provider using only the specification above, but you will duplicate a
-lot of work -- most of it related to subscribing to the appropriate Atom events. To alleviate that
-pain, we have created the
-[`nuclide-diagnostics-provider-base`](https://github.com/facebook/nuclide/tree/master/pkg/nuclide-diagnostics-provider-base)
-feature.
-
-To see it in action, look at our [sample diagnostics
-provider](https://github.com/facebook/nuclide/tree/master/pkg/sample/diagnostics-provider).
-
 ## Linter API
 
-`nuclide-diagnostics` is compatible with
-[providers](https://github.com/atom-community/linter/wiki/Linter-API) for the
-[`linter`](https://atom.io/packages/linter) package.
+`nuclide-diagnostics` is compatible with the following APIs for the [`linter`](https://atom.io/packages/linter) package.
+- [Standard Linter v1 API](https://github.com/steelbrain/linter/blob/v1/docs/types/standard-linter-v1.md)
+- [Standard Linter v2 API](https://github.com/steelbrain/linter/blob/master/docs/types/standard-linter-v2.md)
+- [Indie (push-based) Linter v2 API](https://github.com/steelbrain/linter/blob/master/docs/types/indie-linter-v2.md)
 
-We implement several extensions to the linter API. Here is the type for providers that we accept:
+Note that a few v2 message features are currently unimplemented:
 
-```js
-type LinterProvider = {
-  /**
-   * Extension: Allows a provider to include a display name that will be shown with its messages.
-   */
-  providerName?: string;
-  /**
-   * Extension: Intended for developers who want to provide both interfaces to cater towards people
-   * who use only the `linter` package. This way you can provide both, but tell Nuclide to ignore
-   * the `linter` provider so that duplicate results do not appear.
-   */
-  disabledForNuclide?: boolean;
-  grammarScopes: Array<string>;
-  /**
-   * Extension: Overrides `grammarScopes` and triggers the linter on changes to any file, rather
-   * than just files with specific grammar scopes.
-   */
-  allGrammarScopes?: boolean;
-  scope: 'file' | 'project';
-  lintOnFly: boolean;
-  lint: (textEditor: TextEditor) => Promise<Array<LinterMessage>>;
-};
-```
+- markdown rendering of `description`
+- the `url` and `icon` fields
+- multiple `solutions` (only the first one is used)
+- callback-based `solutions`
+- callback-based `description`

@@ -84,6 +84,7 @@ const OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS = 150; /**
                                                      * the root directory of this source tree.
                                                      *
                                                      * 
+                                                     * @format
                                                      */
 
 const DESERIALIZER_VERSION = atom.workspace.getLeftDock == null ? 1 : 2;
@@ -213,7 +214,8 @@ class Activation {
     });
     this._disposables.add(currentSubscription);
 
-    const rebuildSignals = _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidAddPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidDestroyPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)((_textEditor || _load_textEditor()).observeTextEditors).flatMap(textEditor => {
+    const rebuildSignals = _rxjsBundlesRxMinJs.Observable.merge(_rxjsBundlesRxMinJs.Observable.of(null), // None of the subscriptions below will trigger at startup.
+    (0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidAddPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidDestroyPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)((_textEditor || _load_textEditor()).observeTextEditors).flatMap(textEditor => {
       return (0, (_event || _load_event()).observableFromSubscribeFunction)(textEditor.onDidChangePath.bind(textEditor)).takeUntil((0, (_event || _load_event()).observableFromSubscribeFunction)(textEditor.onDidDestroy.bind(textEditor)));
     })).debounceTime(OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS);
 

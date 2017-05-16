@@ -54,6 +54,12 @@ function _load_ToolbarRight() {
   return _ToolbarRight = require('../../../nuclide-ui/ToolbarRight');
 }
 
+var _addTooltip;
+
+function _load_addTooltip() {
+  return _addTooltip = _interopRequireDefault(require('../../../nuclide-ui/add-tooltip'));
+}
+
 var _Button;
 
 function _load_Button() {
@@ -62,17 +68,35 @@ function _load_Button() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
 class ConsoleHeader extends _react.default.Component {
 
   constructor(props) {
     super(props);
     this._handleClearButtonClick = this._handleClearButtonClick.bind(this);
+    this._handleCreatePasteButtonClick = this._handleCreatePasteButtonClick.bind(this);
     this._handleReToggleButtonClick = this._handleReToggleButtonClick.bind(this);
     this._renderOption = this._renderOption.bind(this);
   }
 
   _handleClearButtonClick(event) {
     this.props.clear();
+  }
+
+  _handleCreatePasteButtonClick(event) {
+    if (this.props.createPaste != null) {
+      this.props.createPaste();
+    }
   }
 
   _handleReToggleButtonClick() {
@@ -114,10 +138,7 @@ class ConsoleHeader extends _react.default.Component {
     };
     return _react.default.createElement(
       (_Button || _load_Button()).Button,
-      {
-        className: 'pull-right',
-        icon: icon,
-        onClick: clickHandler },
+      { className: 'pull-right', icon: icon, onClick: clickHandler },
       label
     );
   }
@@ -149,6 +170,17 @@ class ConsoleHeader extends _react.default.Component {
     });
 
     const MultiSelectOption = this._renderOption;
+    const pasteButton = this.props.createPaste == null ? null : _react.default.createElement(
+      (_Button || _load_Button()).Button,
+      {
+        className: 'inline-block',
+        size: (_Button || _load_Button()).ButtonSizes.SMALL,
+        onClick: this._handleCreatePasteButtonClick,
+        ref: (0, (_addTooltip || _load_addTooltip()).default)({
+          title: 'Creates a Paste from the current contents of the console'
+        }) },
+      'Create Paste'
+    );
 
     return _react.default.createElement(
       (_Toolbar || _load_Toolbar()).Toolbar,
@@ -196,6 +228,7 @@ class ConsoleHeader extends _react.default.Component {
       _react.default.createElement(
         (_ToolbarRight || _load_ToolbarRight()).ToolbarRight,
         null,
+        pasteButton,
         _react.default.createElement(
           (_Button || _load_Button()).Button,
           {
@@ -208,16 +241,7 @@ class ConsoleHeader extends _react.default.Component {
   }
 }
 
-exports.default = ConsoleHeader; /**
-                                  * Copyright (c) 2015-present, Facebook, Inc.
-                                  * All rights reserved.
-                                  *
-                                  * This source code is licensed under the license found in the LICENSE file in
-                                  * the root directory of this source tree.
-                                  *
-                                  * 
-                                  */
-
+exports.default = ConsoleHeader;
 function sortAlpha(a, b) {
   const aLower = a.toLowerCase();
   const bLower = b.toLowerCase();

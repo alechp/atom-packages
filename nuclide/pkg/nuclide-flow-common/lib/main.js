@@ -25,6 +25,7 @@ const JAVASCRIPT_IDENTIFIER_REGEX = exports.JAVASCRIPT_IDENTIFIER_REGEX = /[$_a-
                                                                                                  * the root directory of this source tree.
                                                                                                  *
                                                                                                  * 
+                                                                                                 * @format
                                                                                                  */
 
 const JAVASCRIPT_WHOLE_STRING_IDENTIFIER_REGEX = exports.JAVASCRIPT_WHOLE_STRING_IDENTIFIER_REGEX = /^[$_a-zA-Z][$_\w]*$/;
@@ -71,7 +72,9 @@ function filterResultsByPrefix(prefix, results) {
   if (replacementPrefix === '') {
     items = resultsWithCurrentPrefix;
   } else {
-    items = (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.filter(resultsWithCurrentPrefix, replacementPrefix, { key: 'displayText' });
+    items = (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.filter(resultsWithCurrentPrefix, replacementPrefix, {
+      key: 'displayText'
+    });
   }
   return Object.assign({}, results, { items });
 }

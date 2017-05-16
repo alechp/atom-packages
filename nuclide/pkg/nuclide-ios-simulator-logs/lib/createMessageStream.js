@@ -41,6 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function createMessageStream(line$) {
@@ -49,14 +50,11 @@ function createMessageStream(line$) {
   // Don't include empty buffers. This happens if the stream completes since we opened a new
   // buffer when the previous record ended.
   .filter(lines => lines.length > 1).map(lines => lines.join(''))
-
   // Parse the plists. Each parsed plist contains an array which, in turn, *may* contain dicts
   // (that correspond to records). We just want those dicts so we use `flatMap()`.
   .flatMap(xml => (_plist || _load_plist()).default.parse(xml))
-
   // Exclude dicts that don't have any message property.
   .filter(record => record.hasOwnProperty('Message'))
-
   // Exclude blacklisted senders.
   // FIXME: This is a stopgap. What we really need to do is identify the currently running app and
   //   only show its messages. ):
@@ -64,7 +62,6 @@ function createMessageStream(line$) {
     const blacklist = (_featureConfig || _load_featureConfig()).default.get('nuclide-ios-simulator-logs.senderBlacklist');
     return blacklist.indexOf(record.Sender) === -1;
   })
-
   // Format the messages for Nuclide.
   .map((_createMessage || _load_createMessage()).createMessage);
 

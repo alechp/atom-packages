@@ -58,7 +58,7 @@ let createNewEntry = exports.createNewEntry = (() => {
     const clearDirectory = true;
     const configDirectory = yield createConfigDirectory(clearDirectory);
     if (configDirectory == null) {
-      throw new Error('Could\'t create config directory');
+      throw new Error("Could't create config directory");
     }
 
     // TODO: Instead of using this dummy '0' port, will need to figure out
@@ -176,6 +176,7 @@ const logger = (0, (_nuclideLogging || _load_nuclideLogging()).getLogger)(); /**
                                                                               * the root directory of this source tree.
                                                                               *
                                                                               * 
+                                                                              * @format
                                                                               */
 
 const RPC_PROTOCOL = exports.RPC_PROTOCOL = 'atom_rpc_protocol';

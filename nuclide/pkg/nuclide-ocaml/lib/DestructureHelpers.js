@@ -38,6 +38,7 @@ let cases = exports.cases = (() => {
        * the root directory of this source tree.
        *
        * 
+       * @format
        */
 
 var _atom = require('atom');

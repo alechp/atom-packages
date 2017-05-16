@@ -30,6 +30,7 @@ let subscriptions = null; /**
                            * the root directory of this source tree.
                            *
                            * 
+                           * @format
                            */
 
 let watchers = null;

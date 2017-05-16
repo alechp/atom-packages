@@ -27,6 +27,7 @@ function convertDiagnostics(result) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function graphqlMessageToDiagnosticMessage(graphqlMessage) {

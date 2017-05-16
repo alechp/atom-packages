@@ -35,7 +35,6 @@ module.exports = {
   grammarScopes: Array.from((_constants || _load_constants()).GRAMMARS),
   scope: 'file',
   lintOnFly: false,
-  invalidateOnClose: true,
 
   lint(textEditor) {
     if (!(_featureConfig || _load_featureConfig()).default.get('nuclide-ocaml.enableDiagnostics')) {
@@ -75,4 +74,5 @@ module.exports = {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */

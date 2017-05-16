@@ -35,6 +35,7 @@ function serialize(state) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function deserialize(rawState) {

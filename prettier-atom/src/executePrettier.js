@@ -29,18 +29,20 @@ const handleError = (error) => {
 
 const executePrettier = (editor, text) => {
   try {
+    const prettierOptions = getPrettierOptions(editor);
+
     if (shouldUseEslint()) {
       return allowUnsafeNewFunction(() =>
         prettierEslint({
           ...getPrettierEslintOptions(),
           text,
           filePath: getCurrentFilePath(editor),
+          fallbackPrettierOptions: prettierOptions,
         }),
       );
     }
 
     const prettier = getPrettier(getCurrentFilePath(editor));
-    const prettierOptions = getPrettierOptions(editor);
 
     return prettier.format(text, prettierOptions);
   } catch (error) {
@@ -63,10 +65,14 @@ const executePrettierOnBufferRange = (editor: TextEditor, bufferRange: Range) =>
 
 const executePrettierOnEmbeddedScripts = (editor: TextEditor) =>
   editor.backwardsScanInBufferRange(EMBEDDED_JS_REGEX, editor.getBuffer().getRange(), (iter) => {
+    const { start, end } = iter.range;
+
+    // Skip formatting when <script> and </script> on the same line
+    if (start.row === end.row) return;
+
     // Create new range with start row advanced by 1,
     // since we cannot use look-behind on variable-length starting
     // <script ...> tag
-    const { start, end } = iter.range;
     const startModified = [start.row + 1, start.column];
     const bufferRange = new iter.range.constructor(startModified, end);
 

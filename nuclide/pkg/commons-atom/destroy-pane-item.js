@@ -12,6 +12,7 @@ exports.default = destroyPaneItemWithTitle;
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 function destroyPaneItemWithTitle(title) {

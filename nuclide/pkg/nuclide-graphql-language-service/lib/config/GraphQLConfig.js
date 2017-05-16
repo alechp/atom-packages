@@ -49,6 +49,7 @@ const CONFIG_LIST_NAME = 'build-configs'; /**
                                            * the root directory of this source tree.
                                            *
                                            * 
+                                           * @format
                                            */
 
 const SCHEMA_PATH = 'schema-file';

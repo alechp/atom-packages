@@ -32,6 +32,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * the root directory of this source tree.
  *
  * 
+ * @format
  */
 
 // PRO-TIP: To debug this file, open it in Atom, and from the console, run:
@@ -66,13 +67,15 @@ const STDERR_FILTERS = [
 const debugConsole = global.console;
 
 // https://github.com/nodejs/node/blob/v5.1.1/lib/console.js
-const outputConsole = new _console.Console({ /* stdout */
+const outputConsole = new _console.Console({
+  /* stdout */
   write(chunk) {
     if (!STDOUT_FILTERS.some(re => re.test(chunk))) {
       ipcRenderer.send('write-to-stdout', chunk);
     }
   }
-}, { /* stderr */
+}, {
+  /* stderr */
   write(chunk) {
     if (!STDERR_FILTERS.some(re => re.test(chunk))) {
       ipcRenderer.send('write-to-stderr', chunk);

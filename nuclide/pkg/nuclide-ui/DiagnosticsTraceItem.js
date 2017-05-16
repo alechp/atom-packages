@@ -17,10 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO move LESS styles to nuclide-ui
 const DiagnosticsTraceItem = exports.DiagnosticsTraceItem = props => {
-  const {
-    trace,
-    goToLocation
-  } = props;
+  const { trace, goToLocation } = props;
   let locSpan = null;
   // Local variable so that the type refinement holds in the onClick handler.
   const path = trace.filePath;
@@ -59,4 +56,5 @@ const DiagnosticsTraceItem = exports.DiagnosticsTraceItem = props => {
     * the root directory of this source tree.
     *
     * 
+    * @format
     */

@@ -32,6 +32,7 @@ function locationToString(location) {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 function locationsEqual(first, second) {

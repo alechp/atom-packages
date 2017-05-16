@@ -176,7 +176,9 @@ class ThreadsWindowComponent extends _react.default.Component {
     if (children.length > 0) {
       return _react.default.createElement(
         'div',
-        { style: containerStyle, className: 'nuclide-chrome-debugger-data-grid' },
+        {
+          style: containerStyle,
+          className: 'nuclide-chrome-debugger-data-grid' },
         _react.default.createElement(
           'table',
           { width: '100%' },
@@ -227,6 +229,7 @@ class ThreadsWindowComponent extends _react.default.Component {
    * the root directory of this source tree.
    *
    * 
+   * @format
    */
 
 class ThreadsWindowPane extends (_WebInspector || _load_WebInspector()).default.SidebarPane {
