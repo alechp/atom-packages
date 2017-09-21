@@ -15,6 +15,8 @@ module.exports =
       @statusBarTile.runCommandInNewTerminal commands
     getTerminalViews: () =>
       @statusBarTile.terminalViews
+    open: () =>
+      @statusBarTile.runNewTerminal()
 
   provideRunInTerminal: ->
     run: (commands) =>
@@ -48,6 +50,11 @@ module.exports =
         selectToCopy:
           title: 'Select To Copy'
           description: 'Copies text to clipboard when selection happens.'
+          type: 'boolean'
+          default: true
+        loginShell:
+          title: 'Login Shell'
+          description: 'Use --login on zsh and bash.'
           type: 'boolean'
           default: true
     core:
@@ -144,7 +151,8 @@ module.exports =
             'solid-colors',
             'dracula',
             'one-dark',
-            'christmas'
+            'christmas',
+            'predawn'
           ]
     ansiColors:
       type: 'object'

@@ -184,6 +184,15 @@
       ]
     },
     {
+      "login": "RoM4iK",
+      "name": "Roman",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2602767?v=3",
+      "profile": "https://github.com/RoM4iK",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "da-vaibhav",
       "name": "vaibhav",
       "avatar_url": "https://avatars2.githubusercontent.com/u/1468518?v=3",
@@ -206,6 +215,25 @@
       "name": "Dan Abramov",
       "avatar_url": "https://avatars3.githubusercontent.com/u/810438?v=3",
       "profile": "http://twitter.com/dan_abramov",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "splodingsocks",
+      "name": "Murphy Randle",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1227109?v=3",
+      "profile": "https://sploding.rocks",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "MatthieuLemoine",
+      "name": "Matthieu Lemoine",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8517072?v=3",
+      "profile": "https://matthieulemoine.com",
       "contributions": [
         "code"
       ]

@@ -34,6 +34,7 @@ class TransformString extends Operator
         startRow = selection.getBufferRange().start.row
         startRowIndentLevel = getIndentLevelForBufferRow(@editor, startRow)
       range = selection.insertText(text, {@autoIndent, @autoIndentNewline})
+
       if @autoIndentAfterInsertText
         # Currently used by SplitArguments and Surround( linewise target only )
         range = range.translate([0, 0], [-1, 0]) if @target.isLinewise()
@@ -342,8 +343,22 @@ class TransformSmartWordBySelectList extends TransformStringBySelectList
 class ReplaceWithRegister extends TransformString
   @extend()
   @description: "Replace target with specified register value"
-  getNewText: (text) ->
-    @vimState.register.getText()
+  flashType: 'operator-long'
+
+  initialize: ->
+    @vimState.sequentialPasteManager.onInitialize(this)
+
+  execute: ->
+    @sequentialPaste = @vimState.sequentialPasteManager.onExecute(this)
+
+    super
+
+    for selection in @editor.getSelections()
+      range = @mutationManager.getMutatedBufferRangeForSelection(selection)
+      @vimState.sequentialPasteManager.savePastedRangeForSelection(selection, range)
+
+  getNewText: (text, selection) ->
+    @vimState.register.get(null, selection, @sequentialPaste)?.text ? ""
 
 # Save text to register before replace
 class SwapWithRegister extends TransformString
@@ -390,15 +405,21 @@ class AutoIndent extends Indent
 
 class ToggleLineComments extends TransformString
   @extend()
+  flashTarget: false
   stayByMarker: true
   wise: 'linewise'
+
   mutateSelection: (selection) ->
     selection.toggleLineComments()
 
-class AutoFlow extends TransformString
+class Reflow extends TransformString
   @extend()
   mutateSelection: (selection) ->
     atom.commands.dispatch(@editorElement, 'autoflow:reflow-selection')
+
+class ReflowWithStay extends Reflow
+  @extend()
+  stayAtSamePosition: true
 
 # Surround < TransformString
 # -------------------------
@@ -423,16 +444,10 @@ class SurroundBase extends TransformString
   supportEarlySelect: true # Experimental
 
   focusInputForSurroundChar: ->
-    inputUI = @newInputUI()
-    inputUI.onDidConfirm(@onConfirmSurroundChar.bind(this))
-    inputUI.onDidCancel(@cancelOperation.bind(this))
-    inputUI.focus(hideCursor: true)
+    @focusInput(hideCursor: true)
 
   focusInputForTargetPairChar: ->
-    inputUI = @newInputUI()
-    inputUI.onDidConfirm(@onConfirmTargetPairChar.bind(this))
-    inputUI.onDidCancel(@cancelOperation.bind(this))
-    inputUI.focus()
+    @focusInput(onConfirm: (char) => @onConfirmTargetPairChar(char))
 
   getPair: (char) ->
     pair = @pairsByAlias[char]
@@ -460,9 +475,6 @@ class SurroundBase extends TransformString
       innerText.trim()
     else
       innerText
-
-  onConfirmSurroundChar: (@input) ->
-    @processOperation()
 
   onConfirmTargetPairChar: (char) ->
     @setTarget @new('APair', pair: @getPair(char))
@@ -504,9 +516,9 @@ class DeleteSurround extends SurroundBase
     @focusInputForTargetPairChar() unless @target?
     super
 
-  onConfirmTargetPairChar: (input) ->
+  onConfirmTargetPairChar: (char) ->
     super
-    @input = input
+    @input = char
     @processOperation()
 
   getNewText: (text) ->
@@ -570,9 +582,15 @@ class Join extends TransformString
   restorePositions: false
 
   mutateSelection: (selection) ->
-    if isLinewiseRange(range = selection.getBufferRange())
-      selection.setBufferRange(range.translate([0, 0], [-1, Infinity]))
-    selection.joinLines()
+    range = selection.getBufferRange()
+
+    # When cursor is at last BUFFER row, it select last-buffer-row, then
+    # joinning result in "clear last-buffer-row text".
+    # I believe this is BUG of upstream atom-core. guard this situation here
+    unless (range.isSingleLine() and range.end.row is @editor.getLastBufferRow())
+      if isLinewiseRange(range)
+        selection.setBufferRange(range.translate([0, 0], [-1, Infinity]))
+      selection.joinLines()
     end = selection.getBufferRange().end
     selection.cursor.setBufferPosition(end.translate([0, -1]))
 

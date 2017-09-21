@@ -15,9 +15,17 @@ describe "Motion Scroll", ->
     runs ->
       jasmine.attachToDOM(editorElement)
       set text: text.getRaw()
+
       editorElement.setHeight(20 * 10)
       editorElement.style.lineHeight = "10px"
-      atom.views.performDocumentPoll()
+
+      if editorElement.measureDimensions?
+        # For Atom-v1.19
+        editorElement.measureDimensions()
+      else # For Atom-v1.18
+        # [TODO] Remove when v.1.19 become stable
+        atom.views.performDocumentPoll()
+
       editorElement.setScrollTop(40 * 10)
       set cursor: [42, 0]
 
@@ -30,7 +38,7 @@ describe "Motion Scroll", ->
     it "selects on visual mode", ->
       set cursor: [42, 1]
       ensure 'v ctrl-u',
-        selectedText: text.getLines([32..41]) + "42"
+        selectedText: text.getLine(32)[1...] + text.getLines([33..41]) + "42"
 
     it "selects on linewise mode", ->
       ensure 'V ctrl-u',
@@ -45,7 +53,7 @@ describe "Motion Scroll", ->
     it "selects on visual mode", ->
       set cursor: [42, 1]
       ensure 'v ctrl-b',
-        selectedText: text.getLines([22..41]) + "42"
+        selectedText: text.getLine(22)[1...] + text.getLines([23..41]) + "42"
 
     it "selects on linewise mode", ->
       ensure 'V ctrl-b',
@@ -60,7 +68,7 @@ describe "Motion Scroll", ->
     it "selects on visual mode", ->
       set cursor: [42, 1]
       ensure 'v ctrl-d',
-        selectedText: text.getLines([42..51]).slice(1) + "5"
+        selectedText: text.getLines([42..51]).slice(1) + "52"
 
     it "selects on linewise mode", ->
       ensure 'V ctrl-d',
@@ -75,7 +83,7 @@ describe "Motion Scroll", ->
     it "selects on visual mode", ->
       set cursor: [42, 1]
       ensure 'v ctrl-f',
-        selectedText: text.getLines([42..61]).slice(1) + "6"
+        selectedText: text.getLines([42..61]).slice(1) + "62"
 
     it "selects on linewise mode", ->
       ensure 'V ctrl-f',
@@ -83,7 +91,7 @@ describe "Motion Scroll", ->
 
   describe "ctrl-f, ctrl-b, ctrl-d, ctrl-u", ->
     beforeEach ->
-      settings.set('moveToFirstCharacterOnVerticalMotion', false)
+      settings.set('stayOnVerticalMotion', true)
       set cursor: [42, 10]
       ensure scrollTop: 400
 

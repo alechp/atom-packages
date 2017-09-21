@@ -1925,8 +1925,10 @@ describe "TextObject", ->
       4 abc\n
       """
     beforeEach ->
+      jasmine.attachToDOM(atom.views.getView(atom.workspace))
+
       set text: text, cursor: [0, 0]
-      ensure ['/', search: 'abc'], cursor: [1, 2], mode: 'normal'
+      ensure '/ abc enter', cursor: [1, 2], mode: 'normal'
       expect(vimState.globalState.get('lastSearchPattern')).toEqual /abc/g
 
     describe 'gn from normal mode', ->

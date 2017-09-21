@@ -1,56 +1,39 @@
-<!-- toc orderedList:0 depthFrom: 1 -->
+# Code Chunk  
 
-* [Code Chunk (Beta)](#code-chunk-beta)
-	* [Commands & Keyboard Shortcust](#commands-keyboard-shortcust)
-	* [Format](#format)
-	* [Options](#options)
-	* [Macro](#macro)
-	* [Demo](#demo)
-	* [Showcases](#showcases)
-	* [Limitations](#limitations)
-
-<!-- tocstop -->
-
-![code-chunk](http://i.imgur.com/MAtC3SD.gif)
-
-# Code Chunk (Beta)  
 **Changes might happen in the future.**  
-To enable code chunk highlighting, install [language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) package and disable the `language-gfm` package.    
 
 **Markdown Preview Enhanced** allows you to render code output into documents.     
 
-    ```{bash}
+    ```bash {cmd=true}
     ls .
     ```
 
-    ```{javascript cmd:"node"}
-    var date = Date.now()
+    ```javascript {cmd="node"}
+    const date = Date.now()
     console.log(date.toString())
     ```   
 
-**Here is a  [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html), and its [raw file](https://raw.githubusercontent.com/shd101wyy/markdown-preview-enhanced/master/test/code-chunks-test.md).**  
-
-## Commands & Keyboard Shortcust
+## Commands & Keyboard Shortcuts
 * `Markdown Preview Enhanced: Run Code Chunk` or <kbd>shift-enter</kbd>      
 execute single code chunk where your cursor is at.    
 * `Markdown Preview Enhanced: Run All Code Chunks` or <kbd>ctrl-shift-enter</kbd>   
 execute all code chunks.    
 
 ## Format
-You can configure code chunk options in format of `{lang  opt1:value1, opt2:value2, ...}`    
+You can configure code chunk options in format of <code>```lang {cmd=your_cmd opt1=value1 opt2=value2 ...}</code>    
 
 **lang**  
 The grammar that the code block should highlight.  
 It should be put at the most front.  
 
-## Options
+## Basic Options
 **cmd**    
 The command to run.  
 If `cmd` is not provided, then `lang` will be regarded as command.    
 
 eg:  
 
-		```{python cmd:"/usr/local/bin/python3"}
+		```python {cmd="/usr/local/bin/python3"}
 		print("This will run python3 program")
 		```
 
@@ -67,7 +50,7 @@ Defines how to render code output.
 
 eg:     
 
-    ```{gnuplot output:"html"}
+    ```gnuplot {cmd=true output="html"}
     set terminal svg
     set title "Simple Plots" font ",20"
     set key left box
@@ -77,15 +60,17 @@ eg:
     plot [-10:10] sin(x),atan(x),cos(atan(x))
     ```
 
+![screen shot 2017-07-28 at 7 14 24 am](https://user-images.githubusercontent.com/1908863/28716734-66142a5e-7364-11e7-83dc-a66df61971dc.png)
+
 **args**  
 args that append to command. eg:    
 
-    ```{python args:["-v"]}
+    ```python {cmd=true args=["-v"]}
     print("Verbose will be printed first")
     ```
 
-    ```{erd args:["-f", "svg", "-i"], output:"html"}
-		# output svg format and append as html result.
+    ```erd {cmd=true args=["-i", "$input_file", "-f", "svg"] output="html"}
+	  # output svg format and append as html result.
     ```
 
 **stdin**  
@@ -95,65 +80,114 @@ If `stdin` is set to true, then the code will be passed as stdin instead of as f
 `hide` will hide code chunk but only leave the output visible. default: `false`  
 eg:
 
-    ```{python hide:true}
+    ```python {hide=true}
     print('you can see this output message, but not this code')
     ```
 
 **continue**  
-If set `continue: true`, then this code chunk will continue from the last code chunk.  
-If set `continue: id`, then this code chunk will continue from the code chunk of id.  
+If set `continue=true`, then this code chunk will continue from the last code chunk.  
+If set `continue=id`, then this code chunk will continue from the code chunk of id.  
 eg:    
 
-	```{python id:"izdlk700"}
-	x = 1
-	```
+  	```python {cmd=true id="izdlk700"}
+  	x = 1
+  	```
 
-	```{python id:"izdlkdim"}
-	x = 2
-	```
+  	```python {cmd=true id="izdlkdim"}
+  	x = 2
+  	```
 
-	```{python continue:"izdlk700", id:"izdlkhso"}
-	print(x) # will print 1
-	```
+  	```python {cmd=true continue="izdlk700" id="izdlkhso"}
+  	print(x) # will print 1
+  	```
 
-**matplotlib**  
-If set `matplotlib: true`, then the python code chunk will plot graphs inline in the preview.    
-eg:    
-
-	```{python matplotlib:true, id:"izbp0zt9"}
-	import matplotlib.pyplot as plt
-	plt.plot([1,2,3, 4])
-	plt.show() # show figure
-	```
+**class**  
+If set `class="class1 class2"`, then `class1 class2` will be add to the code chunk.  
+* `line-numbers` class will show line numbers to code chunk.
 
 **element**  
 The element that you want to append after.  
-Please check this [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html).
+Check the **Plotly** example below.
 
-**require**  
-The javascript files that you want to require. Works the same as html `<script src="{js_file_path}"></script>`.  
-Please check this [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html).  
+**run_on_save** `boolean`  
+Run code chunk when the markdown file is saved. Default `false`.  
+
+**modify_source** `boolean`  
+Insert code chunk output directly into markdown source file. Default `false`.  
 
 **id**  
-`id` will be automatically generated to track the running result.  
-Please **Do Not** modify it. If you modify it, please make sure it is unique in your markdown file.    
+The `id` of the code chunk. This option would be useful if `continue` is used.     
 
 ## Macro
 * **input_file**  
 `input_file` is automatically generated under the same directory of your markdown file and will be deleted after running code that is copied to `input_file`.      
 By default, it is appended at the very end of program arguments.  
-However, you can set the position of `input_file` in your `args` option by `{input_file}` macro. eg:  
+However, you can set the position of `input_file` in your `args` option by `$input_file` macro. eg:  
 
-<pre>
-```{program args:["-i", "{input_file}", "-o", "./output.png"]}
-...your code here
-```
-</pre>
+
+    ```program {cmd=true args=["-i", "$input_file", "-o", "./output.png"]}
+    ...your code here
+    ```
+
+
+## Matplotlib  
+If set `matplotlib=true`, then the python code chunk will plot graphs inline in the preview.    
+eg:    
+
+	```python {cmd=true matplotlib=true}
+	import matplotlib.pyplot as plt
+	plt.plot([1,2,3, 4])
+	plt.show() # show figure
+	```
+![screen shot 2017-07-28 at 7 12 50 am](https://user-images.githubusercontent.com/1908863/28716704-4009d43a-7364-11e7-9e46-889f961e5afd.png)
+
+## LaTeX
+Markdown Preview Enhanced also supports `LaTeX` compilation.  
+Before using this feature, you need to have [pdf2svg](extra.md?id=install-svg2pdf) and [LaTeX engine](extra.md?id=install-latex-distribution) installed.  
+Then you can simply write LaTeX in code chunk like this:  
+
+
+    ```latex {cmd=true}
+    \documentclass{standalone}
+    \begin{document}
+       Hello world!
+    \end{document}
+    ```
+
+![screen shot 2017-07-28 at 7 15 16 am](https://user-images.githubusercontent.com/1908863/28716762-8686d980-7364-11e7-9669-71138cb2e6e7.png)
+
+
+### LaTeX output configuration  
+**latex_zoom**  
+If set `latex_zoom=num`, then the result will be scaled `num` times.  
+
+**latex_width**  
+The width of result.  
+
+**latex_height**  
+The height of result.  
+
+**latex_engine**  
+The latex engine that you used to compile `tex` file. By default `pdflatex` is used.
+
+
+### TikZ example  
+It is recommended to use `standalone` while drawing `tikz` graphs.  
+![screen shot 2017-07-14 at 11 27 56 am](https://user-images.githubusercontent.com/1908863/28221069-8113a5b0-6887-11e7-82fa-23dd68f2be82.png)
+
+
+## Plotly
+Markdown Preview Enhanced allows you to draw [Plotly](https://plot.ly/) easily.  
+For example:  
+![screen shot 2017-06-06 at 3 27 28 pm](https://user-images.githubusercontent.com/1908863/26850341-c6095a94-4acc-11e7-83b4-7fdb4eb8b1d8.png)
+
+* The first line `@import "https://cdn.plot.ly/plotly-latest.min.js" ` uses the [file import](file-imports.md) functionality to import `plotly-latest.min.js` file. However, it is recommended to download the js file to local disk for better performance.  
+* Then we created a `javascript` code chunk.
 
 ## Demo
 This demo shows you how to render entity-relation diagram by using [erd](https://github.com/BurntSushi/erd) library.   
 
-    ```{erd output:"html", args:["-i", "{input_file}", "-f", "svg"], id:"ithhv4z4"}
+    ```erd {cmd=true output="html" args=["-i", "$input_file" "-f", "svg"]}
 
     [Person]
     *name
@@ -170,19 +204,16 @@ This demo shows you how to render entity-relation diagram by using [erd](https:/
     Person *--1 Location
     ```
 
-`{erd output:"html", args:["-i", "{input_file}", "-f", "svg"], id:"ithhv4z4"}`  
+`erd {cmd=true output="html" args=["-i", "$input_file", "-f", "svg"]}`  
 * `erd` the program that we are using. (*you need to have the program installed first*)  
-* `output:"html"` we will append the running result as `html`.  
+* `output="html"` we will append the running result as `html`.  
 * `args` field shows the arguments that we will use.  
-* `id` is a unique identifier automatically generated, you don't need to care about it.  
 
 Then we can click the `run` button at the preview to run our code.  
 
-![code_chunk](http://i.imgur.com/a7LkJYD.gif)
+![erd](https://user-images.githubusercontent.com/1908863/28221395-bcd0bd76-6888-11e7-8c6e-925e228d02cc.gif)
 
-## Showcases
-**Here is a  [demo](https://cdn.rawgit.com/shd101wyy/markdown-preview-enhanced/f83acb43/test/code-chunks-test.html), and its [raw file](https://raw.githubusercontent.com/shd101wyy/markdown-preview-enhanced/master/test/code-chunks-test.md).**  
-
+## Showcases (outdated)
 **bash**  
 ![Screen Shot 2016-09-24 at 1.41.06 AM](http://i.imgur.com/v5Y7juh.png)
 
@@ -192,3 +223,5 @@ Then we can click the `run` button at the preview to run our code.
 ## Limitations
 * Doesn't work with `ebook` yet.  
 * Might be buggy when using`pandoc document export`
+
+[➔ Presentation](presentation.md)

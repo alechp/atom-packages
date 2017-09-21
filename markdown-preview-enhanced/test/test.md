@@ -5,7 +5,9 @@ date: "2015-10-13 16:05:17 +0900"
 arr: [1, 2, 3]
 ---
 
-<!-- toc orderedList:0 -->
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+<!-- code_chunk_output -->
 
 * [This is Markdown Preview with KaTeX Support](#this-is-markdown-preview-with-katex-support)
 	* [Heading 2](#heading-2)
@@ -14,7 +16,9 @@ arr: [1, 2, 3]
 				* [Heading 5](#heading-5)
 					* [Heading 6](#heading-6)
 
-<!-- tocstop -->
+<!-- /code_chunk_output -->
+
+
 # This is Markdown Preview with KaTeX Support
 - write your math expression within $\$...\$$
     - $f(x) = sin(x) + y_a$
@@ -69,13 +73,13 @@ int main() {
 
 ---
 
-Test image paths   
-![markdown-icon](/markdown.png)  
+Test image paths
+![markdown-icon](/markdown.png)
 ![markdown-icon](../markdown.png)
 
 ---
 
-```@mermaid
+```mermaid
 graph TD;
     A-->B;
     A-->C;
@@ -83,7 +87,7 @@ graph TD;
 		D-->A
 ```
 
-```@mermaid
+```mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -97,7 +101,7 @@ sequenceDiagram
     Bob-->John: Jolly good!
 ```
 
-```@mermaid
+```mermaid
 gantt
         dateFormat  YYYY-MM-DD
         title Adding GANTT diagram functionality to mermaid
@@ -114,7 +118,7 @@ gantt
         Create tests for renderer           :2d
         Add to mermaid                      :1d
 ```
-```@mermaid
+```mermaid
 %% Example code
 graph LR
     id1(Start)-->id2(Stop)
@@ -122,7 +126,7 @@ graph LR
     style id2 fill:#ccf,stroke:#f66,stroke-width:2px,stroke-dasharray: 5, 5;
 ```
 subgraphs
-```@mermaid
+```mermaid
 graph LR
   f-->z;
   subgraph haha
@@ -132,13 +136,13 @@ graph LR
 
 > Test PlantUML
 
-```@puml
+```puml
 A -> B
 B -> C
 ```
 
 [Graphvizdot](http://www.graphviz.org/)
-```@puml
+```puml
 [*] --> State1
 State1 --> [*]
 State1 : this is a string
@@ -148,7 +152,7 @@ State1 -> State2
 State2 --> [*]
 ```
 
-```@puml
+```puml
 skinparam component {
   FontSize 12
   FontName D2Coding
@@ -181,19 +185,19 @@ database "MySql" {
 [Another Component] --> [Example 1]
 [Example 1] --> [Folder 3]
 [Folder 3] --> [Frame 4]
-```  
+```
 
 
-> Test WaveDrom  
+> Test WaveDrom
 
-```@wavedrom
+```wavedrom
 { signal: [
   { name: "cl",  wave: "p......" },
   { name: "bus",  wave: "x.34.5x",   data: "head body tail" },
   { name: "wire", wave: "0.1..0." }
 ]}
 ```
-```@wavedrom
+```wavedrom
 { signal: [
   { name: "pclk", wave: "p......." },
   { name: "Pclk", wave: "P......." },
@@ -208,9 +212,9 @@ database "MySql" {
 ]}
 ```
 
-> Test Viz.js  
+> Test Viz.js
 
-```@viz
+```viz
 digraph g {
 	node [shape=plaintext];
 	A1 -> B1;
@@ -227,7 +231,7 @@ digraph g {
 }
 ```
 
-```@viz
+```viz
 graph ethane {
 		C_0 -- H_0 [type=s];
 		C_0 -- H_1 [type=s];
@@ -239,7 +243,7 @@ graph ethane {
 }
 ```
 
-```@viz
+```viz
 graph graphname {
 		// This attribute applies to the graph itself
 		size="3,3";
@@ -253,22 +257,22 @@ graph graphname {
 }
 ```
 
-**Test opening files through links**  
-[markdown.png](1.pic.jpg)  
-[markdown.png](/test/1.pic.jpg)  
-[markdown-preview-enhanced.coffee](/lib/markdown-preview-enhanced.coffee)  
+**Test opening files through links**
+[markdown.png](1.pic.jpg)
+[markdown.png](/test/1.pic.jpg)
+[markdown-preview-enhanced.coffee](/lib/markdown-preview-enhanced.coffee)
 [markdown-preview-enhanced.coffee](../lib/markdown-preview-enhanced.coffee)
 
-**Test Links**  
-[baidu](https://www.baidu.com/)  
+**Test Links**
+[baidu](https://www.baidu.com/)
 [this baidu should not work](www.baidu.com)
 
 
-**Bugs Fix**  
+**Bugs Fix**
 - too many bugs
-- [\$ bug](https://github.com/shd101wyy/markdown-preview-enhanced/issues/2)  
+- [\$ bug](https://github.com/shd101wyy/markdown-preview-enhanced/issues/2)
   \$ 12 + \$ 13 = 12
-- the local font family for **styles/katex.min.less** should be eg: **atom://markdown-preview-enhanced/styles/fonts/KaTeX_AMS-Regular.eot** instead of **fonts/blabla.eot**   
+- the local font family for **styles/katex.min.less** should be eg: **atom://markdown-preview-enhanced/styles/fonts/KaTeX_AMS-Regular.eot** instead of **fonts/blabla.eot**
 see [this link](https://discuss.atom.io/t/how-do-i-load-google-fonts-into-my-editors-styles/8321/4)
 - Now support **2-way scroll sync!**
 

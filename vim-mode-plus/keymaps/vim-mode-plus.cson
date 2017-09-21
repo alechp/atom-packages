@@ -6,6 +6,9 @@
   # 'ctrl-w z': 'vim-mode-plus:maximize-pane'
   'cmd-enter': 'vim-mode-plus:maximize-pane'
 
+'atom-workspace .tree-view':
+  'cmd-enter': 'abort!'
+
 # all
 # -------------------------
 'atom-text-editor.vim-mode-plus':
@@ -88,7 +91,10 @@
   # '(': 'vim-mode-plus:move-to-previous-sentence-skip-blank-row'
   '}': 'vim-mode-plus:move-to-next-paragraph'
   '{': 'vim-mode-plus:move-to-previous-paragraph'
+
   '0': 'vim-mode-plus:move-to-beginning-of-line'
+  'numpad0': 'vim-mode-plus:move-to-beginning-of-line'
+
   '|': 'vim-mode-plus:move-to-column'
   'home': 'vim-mode-plus:move-to-beginning-of-line'
   '^': 'vim-mode-plus:move-to-first-character-of-line'
@@ -99,6 +105,10 @@
   '-': 'vim-mode-plus:move-to-first-character-of-line-up'
   '+': 'vim-mode-plus:move-to-first-character-of-line-down'
   'enter': 'vim-mode-plus:move-to-first-character-of-line-down'
+
+  'g 0': 'vim-mode-plus:move-to-beginning-of-screen-line'
+  'g ^': 'vim-mode-plus:move-to-first-character-of-screen-line'
+  'g $': 'vim-mode-plus:move-to-last-character-of-screen-line'
 
   # scroll
   'ctrl-u': 'vim-mode-plus:scroll-half-screen-up'
@@ -120,10 +130,12 @@
   'c': 'vim-mode-plus:change'
   's': 'vim-mode-plus:substitute'
   'x': 'vim-mode-plus:delete-right' # to avoid `d x` is treated as `d d`
-  'D': 'vim-mode-plus:delete-line'
 
+  'D': 'vim-mode-plus:delete-to-last-character-of-line'
   'C': 'vim-mode-plus:change-to-last-character-of-line'
   'S': 'vim-mode-plus:substitute-line'
+  'Y': 'vim-mode-plus:yank-line'
+
   'r': 'vim-mode-plus:replace'
   'g o': 'vim-mode-plus:toggle-preset-occurrence'
   'g O': 'vim-mode-plus:toggle-preset-subword-occurrence'
@@ -137,7 +149,6 @@
   'J': 'vim-mode-plus:join'
   'g J': 'vim-mode-plus:join-with-keeping-space'
   'y': 'vim-mode-plus:yank'
-  'Y': 'vim-mode-plus:yank-line'
   'P': 'vim-mode-plus:put-before'
   'p': 'vim-mode-plus:put-after'
 
@@ -151,7 +162,8 @@
   'g /': 'vim-mode-plus:toggle-line-comments'
   'g -': 'vim-mode-plus:dash-case'
   'g space': 'vim-mode-plus:compact-spaces'
-  'g q': 'vim-mode-plus:auto-flow'
+  'g q': 'vim-mode-plus:reflow'
+  'g w': 'vim-mode-plus:reflow-with-stay'
   'g |': 'vim-mode-plus:trim-string'
   'g cmd-d': 'vim-mode-plus:select-occurrence'
   'g ,': 'vim-mode-plus:split-arguments'
@@ -185,6 +197,14 @@
   'ctrl-w ctrl-p': 'window:focus-previous-pane'
   'ctrl-w p': 'window:focus-previous-pane'
 
+  'ctrl-w ctrl-x': 'vim-mode-plus:exchange-pane'
+  'ctrl-w x': 'vim-mode-plus:exchange-pane'
+
+  'ctrl-w K': 'vim-mode-plus:move-pane-to-very-top'
+  'ctrl-w J': 'vim-mode-plus:move-pane-to-very-bottom'
+  'ctrl-w H': 'vim-mode-plus:move-pane-to-very-left'
+  'ctrl-w L': 'vim-mode-plus:move-pane-to-very-right'
+
   # From v1.6.0
   'ctrl-w ctrl-v': 'pane:split-right-and-copy-active-item'
   'ctrl-w v': 'pane:split-right-and-copy-active-item'
@@ -192,7 +212,9 @@
   'ctrl-w s': 'pane:split-down-and-copy-active-item'
 
   'ctrl-w z': 'vim-mode-plus:maximize-pane'
+  'ctrl-w Z': 'vim-mode-plus:maximize-pane-without-center'
   'cmd-enter': 'vim-mode-plus:maximize-pane'
+  # 'cmd-shift-enter': 'vim-mode-plus:maximize-pane-without-center'
 
   'ctrl-w =': 'vim-mode-plus:equalize-panes'
 
@@ -200,8 +222,8 @@
   'ctrl-w c': 'pane:close'
   'ctrl-w ctrl-q': 'core:close'
   'ctrl-w q': 'core:close'
-  'g t': 'pane:show-next-item'
-  'g T': 'pane:show-previous-item'
+  'g t': 'vim-mode-plus:next-tab'
+  'g T': 'vim-mode-plus:previous-tab'
 
   'f': 'vim-mode-plus:find'
   'F': 'vim-mode-plus:find-backwards'
@@ -231,6 +253,16 @@
   '8': 'vim-mode-plus:set-count-8'
   '9': 'vim-mode-plus:set-count-9'
 
+  'numpad1': 'vim-mode-plus:set-count-1'
+  'numpad2': 'vim-mode-plus:set-count-2'
+  'numpad3': 'vim-mode-plus:set-count-3'
+  'numpad4': 'vim-mode-plus:set-count-4'
+  'numpad5': 'vim-mode-plus:set-count-5'
+  'numpad6': 'vim-mode-plus:set-count-6'
+  'numpad7': 'vim-mode-plus:set-count-7'
+  'numpad8': 'vim-mode-plus:set-count-8'
+  'numpad9': 'vim-mode-plus:set-count-9'
+
   'm': 'vim-mode-plus:mark'
   '`': 'vim-mode-plus:move-to-mark'
   "'": 'vim-mode-plus:move-to-mark-line'
@@ -251,7 +283,6 @@
   # 'g n': 'vim-mode-plus:move-to-next-number'
   # 'g N': 'vim-mode-plus:move-to-previous-number'
 
-
 # macOS only
 '.platform-darwin atom-text-editor.vim-mode-plus:not(.insert-mode)':
   'ctrl-s': 'vim-mode-plus:transform-string-by-select-list'
@@ -270,9 +301,12 @@
   'z s': 'vim-mode-plus:scroll-cursor-to-left'
   'z e': 'vim-mode-plus:scroll-cursor-to-right'
 
-  'z c': 'editor:fold-current-row'
-  'z o': 'editor:unfold-current-row'
+  'z c': 'vim-mode-plus:fold-current-row'
+  'z C': 'vim-mode-plus:fold-current-row-recursively'
+  'z o': 'vim-mode-plus:unfold-current-row'
+  'z O': 'vim-mode-plus:unfold-current-row-recursively'
   'z a': 'vim-mode-plus:toggle-fold'
+  'z A': 'vim-mode-plus:toggle-fold-recursively'
   'z M': 'vim-mode-plus:fold-all'
   'z R': 'vim-mode-plus:unfold-all'
   'z m': 'vim-mode-plus:fold-next-indent-level'
@@ -308,6 +342,16 @@
   '7': 'vim-mode-plus:set-input-char-7'
   '8': 'vim-mode-plus:set-input-char-8'
   '9': 'vim-mode-plus:set-input-char-9'
+  'numpad0': 'vim-mode-plus:set-input-char-0'
+  'numpad1': 'vim-mode-plus:set-input-char-1'
+  'numpad2': 'vim-mode-plus:set-input-char-2'
+  'numpad3': 'vim-mode-plus:set-input-char-3'
+  'numpad4': 'vim-mode-plus:set-input-char-4'
+  'numpad5': 'vim-mode-plus:set-input-char-5'
+  'numpad6': 'vim-mode-plus:set-input-char-6'
+  'numpad7': 'vim-mode-plus:set-input-char-7'
+  'numpad8': 'vim-mode-plus:set-input-char-8'
+  'numpad9': 'vim-mode-plus:set-input-char-9'
   ':': 'vim-mode-plus:set-input-char-:'
   ';': 'vim-mode-plus:set-input-char-;'
   '<': 'vim-mode-plus:set-input-char-<'
@@ -403,7 +447,6 @@
   'I': 'vim-mode-plus:insert-at-first-character-of-line'
   'A': 'vim-mode-plus:insert-after-end-of-line'
   'g i': 'vim-mode-plus:insert-at-last-insert'
-  'D': 'vim-mode-plus:delete-to-last-character-of-line'
 
   'R': 'vim-mode-plus:activate-replace-mode'
   'v': 'vim-mode-plus:activate-characterwise-visual-mode'
@@ -460,9 +503,13 @@
 'atom-text-editor.vim-mode-plus.operator-pending-mode.delete-pending':
   'd': 'vim-mode-plus:delete'
 
-# for `g q q` to auto-flow current line
-'atom-text-editor.vim-mode-plus.operator-pending-mode.auto-flow-pending':
-  'q': 'vim-mode-plus:auto-flow'
+# for `g q q`
+'atom-text-editor.vim-mode-plus.operator-pending-mode.reflow-pending':
+  'q': 'vim-mode-plus:reflow'
+
+# for `g w w`
+'atom-text-editor.vim-mode-plus.operator-pending-mode.reflow-with-stay-pending':
+  'w': 'vim-mode-plus:reflow-with-stay'
 
 # operator-pending.has-occurrence
 'atom-text-editor.vim-mode-plus.operator-pending-mode.has-occurrence':
@@ -594,6 +641,9 @@
   'V': 'vim-mode-plus:activate-linewise-visual-mode'
   'ctrl-v': 'vim-mode-plus:activate-blockwise-visual-mode'
   'enter': 'vim-mode-plus:create-persistent-selection'
+  'D': 'vim-mode-plus:delete-line'
+  'C': 'vim-mode-plus:change-line'
+  'Y': 'vim-mode-plus:yank-line'
 
 'atom-text-editor.vim-mode-plus.has-persistent-selection.normal-mode, atom-text-editor.vim-mode-plus.visual-mode':
   'I': 'vim-mode-plus:insert-at-start-of-target'
@@ -601,29 +651,30 @@
   # 'p': 'vim-mode-plus:swap-with-register'
   # 'P': 'vim-mode-plus:swap-with-register'
 
-# visual-characterwise
-# -------------------------
-'atom-text-editor.vim-mode-plus.visual-mode.characterwise':
-  'C': 'vim-mode-plus:change-line'
-
 # visual-blockwise
 # -------------------------
 'atom-text-editor.vim-mode-plus.visual-mode.blockwise':
   'o': 'vim-mode-plus:blockwise-other-end'
   'O': 'vim-mode-plus:reverse-selections'
-  'D': 'vim-mode-plus:delete-to-last-character-of-line' # To avoid overridden by delete-line in visual-mode
+  'D': 'vim-mode-plus:delete-to-last-character-of-line'
+  'C': 'vim-mode-plus:change-to-last-character-of-line'
 
-# Input mini editor e.g. mark, surround.
+# Input mini editor e.g. mark, surround, find, till.
 # -------------------------
 'atom-text-editor.vim-mode-plus-input':
-  'ctrl-c': 'vim-mode-plus:input-cancel'
-  'ctrl-[': 'vim-mode-plus:input-cancel'
+  'ctrl-c': 'core:cancel'
+  'ctrl-[': 'core:cancel'
+
+# Find editor
+"atom-text-editor.vim-mode-plus-input.find":
+  "tab": "vim-mode-plus:find-next-pre-confirmed"
+  "shift-tab": "vim-mode-plus:find-previous-pre-confirmed"
 
 # Search mini editor
 # -------------------------
 'atom-text-editor.vim-mode-plus-search':
   'ctrl-r ctrl-w': 'vim-mode-plus:search-set-cursor-word'
-  'ctrl-v': 'vim-mode-plus:search-activate-literal-mode'
+  # 'ctrl-v': 'vim-mode-plus:search-activate-literal-mode'
   'ctrl-c': 'vim-mode-plus:search-cancel'
   'ctrl-[': 'vim-mode-plus:search-cancel'
   'shift-tab': 'vim-mode-plus:search-visit-prev'

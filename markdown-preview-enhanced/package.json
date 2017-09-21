@@ -2,64 +2,77 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7511-1yov7vj.3l7k2ihpvi"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117812-49102-nbm1dl.8nx0qkt9"
     ]
   ],
-  "_from": "../d-117411-7511-alpud1.zpgq77gb9/package.tgz",
-  "_id": "markdown-preview-enhanced@0.12.3",
+  "_from": "../d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
+  "_id": "markdown-preview-enhanced@0.14.10",
   "_inCache": true,
-  "_installable": true,
   "_location": "/markdown-preview-enhanced",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117411-7511-alpud1.zpgq77gb9/package.tgz",
-  "_shasum": "522d32e58534d3e4393a0d88a27f0ee085284e31",
+  "_resolved": "file:../d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
+  "_shasum": "8141e5b2d175672823828c02ec81abbba20eed0f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7511-alpud1.zpgq77gb9/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7511-1yov7vj.3l7k2ihpvi",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117812-49102-1l3vyoc.0uopnl8fr/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117812-49102-nbm1dl.8nx0qkt9",
+  "activationCommands": {
+    "atom-workspace": "markdown-preview-enhanced:toggle"
+  },
+  "activationHooks": [
+    "language-gfm:grammar-used",
+    "language-gfm-enhanced:grammar-used",
+    "language-markdown:grammar-used",
+    "language-pfm:grammar-used"
+  ],
   "bugs": {
     "url": "https://github.com/shd101wyy/markdown-preview-enhanced/issues"
   },
   "dependencies": {
-    "async": "^2.1.5",
-    "atom-space-pen-views": "^2.2.0",
-    "babyparse": "^0.4.6",
-    "cheerio": "0.15.0",
-    "gray-matter": "^2.1.0",
-    "html-pdf": "^2.1.0",
-    "imgur": "^0.2.0",
-    "katex": "^0.7.1",
-    "less": "^2.7.2",
-    "loophole": "^1.1.0",
-    "remarkable": "^1.7.1",
-    "request": "2.76.0",
-    "temp": "^0.8.3",
-    "uslug": "^1.0.4"
+    "@shd101wyy/mume": "^0.2.2"
   },
   "description": "One of the 'BEST' markdown preview extensions for Atom editor!",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/jquery": "^3.2.7",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.11",
+    "atom-typings": "^1.18.1",
+    "chinese-conv": "^1.0.1",
+    "typescript": "^2.4.1"
+  },
   "engines": {
     "atom": ">=1.16.0"
   },
+  "files": [
+    "assets",
+    "images",
+    "keymaps",
+    "menu",
+    "out",
+    "styles",
+    "LICENSE.md",
+    "README.md",
+    "markdown.png"
+  ],
   "homepage": "https://github.com/shd101wyy/markdown-preview-enhanced#readme",
   "keywords": [
     "markdown",
@@ -85,10 +98,10 @@
     "latex"
   ],
   "license": "NCSA",
-  "main": "./lib/markdown-preview-enhanced",
+  "main": "./out/src/extension",
   "name": "markdown-preview-enhanced",
   "optionalDependencies": {},
-  "readme": "Markdown Preview Enhanced\n===\nStill Beta Version!    \n[![](https://img.shields.io/github/tag/shd101wyy/markdown-preview-enhanced.svg)](https://github.com/shd101wyy/markdown-preview-enhanced/releases) ![](https://img.shields.io/apm/dm/markdown-preview-enhanced.svg)  [![](https://img.shields.io/github/stars/shd101wyy/markdown-preview-enhanced.svg?style=social&label=Star)](https://github.com/shd101wyy/markdown-preview-enhanced)  \n\n[中文文档](./docs/README_CN.md)    \n[Wiki](https://github.com/shd101wyy/markdown-preview-enhanced/wiki) (not done yet)\n\n---\n\nVersion `0.10.9` supports [prince](https://www.princexml.com) pdf export.  \nMore information can be found [at this doc](./docs/prince.md).\n\n---\n\n[language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) is recommended to be installed to work with markdown-preview-enhanced.  \n\nPost [here](https://github.com/shd101wyy/markdown-preview-enhanced/issues) if you request new features or you want to report bugs ;)\n\n(TOC below was generated by this package `Markdown Preview Enhanced: Create Toc`)\n\n<!-- toc orderedList:0 -->\n\n* [Markdown Preview Enhanced](#markdown-preview-enhanced)\n\t* [Features](#features)\n\t* [How it works](#how-it-works)\n\t* [Usages](#usages)\n\t* [Preview Context Menu](#preview-context-menu)\n\t* [Extra](#extra)\n\t* [For Developer](#for-developer)\n\t* [FAQ](#faq)\n\t* [Credits](#credits)\n\t* [Thanks](#thanks)\n\n<!-- tocstop -->\n---\n\n![intro](https://cloud.githubusercontent.com/assets/1908863/22763072/32f09e80-ee28-11e6-9d42-c3953f5749a1.gif)\n\n## Features\n- **2-side scroll sync**  \n- **[Import external files](./docs/doc-imports.md)**\n- **[Code Chunks (beta)](./docs/code-chunk.md)**\n- **[pandoc](./docs/pandoc.md)**\n- **[prince](./docs/prince.md)**  \n- **[ebook](./docs/ebook.md)**\n- **[Presentation Writer](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html)**\n- **[Extensible](#for-developer)**\n- markdown preview with math typesetting support   \nYou can choose [MathJax](https://github.com/mathjax/MathJax) or [KaTeX](https://github.com/Khan/KaTeX) to render math expressions  \n- export **PDF**, **PNG**, and **JPEG**   \n- export beautiful **HTML** (mobile device supported)  \n- [compile to Markdown](./docs/markdown.md)\n- customize Markdown Preview css  \n- [TOC](./docs/toc.md) generation **(beta)**  \n- Flowchart / Sequence diagram\n- Task List *(Github Flavored)*  \n- Image Helper\n- [Footnotes](https://github.com/shd101wyy/markdown-preview-enhanced/issues/35)  \n- [Front Matter](https://github.com/shd101wyy/markdown-preview-enhanced/issues/100)\n- And many more...\n\n## How it works\n- [remarkable](https://github.com/jonschlinkert/remarkable) to convert markdown to html.\n- [KaTeX](https://github.com/Khan/KaTeX) or [MathJax](https://github.com/mathjax/MathJax) to render math expressions. ([KaTeX Supported functions/symbols](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX)) (MathJax is incompatible with `preview-inline` package)\n  - expression within `$...$` or `\\(...\\)` will be rendered normally.  \n  - expression within `$$...$$` or `\\[...\\]` and code block <code>\\`\\`\\`math</code> will be rendered in displayMode.   \n  - if you want to enable math highlighting, try [language-gfm-enhanced](https://atom.io/packages/language-gfm-enhanced) package.  \n  - You can choose your math rendering method from [settings panel](#settings-panel).   \n\t\t**MathJax** supports more symbols, but it has slower rendering speed compared to **KaTeX**.\n  - <img src=\"https://cloud.githubusercontent.com/assets/1908863/14398210/0e408954-fda8-11e5-9eb4-562d7c0ca431.gif\">\n- [mermaid](https://github.com/knsv/mermaid) to render flowchart and sequence diagram.  \n\t- code block with `mermaid` (or `@mermaid`) notation will be rendered by [mermaid](https://github.com/knsv/mermaid)  \n\t- check [mermaid doc](http://knsv.github.io/mermaid/#flowcharts-basic-syntax) for more information about how to create flowchart and sequence diagram   \n\t- ![mermaid](https://cloud.githubusercontent.com/assets/1908863/23383956/5c8cb37e-fd0e-11e6-8a22-f3946841bbbd.gif)\n- [PlantUML](http://plantuml.com/) to create multiple kinds of graph. (**Java** is required)  \n\t- You can install [Graphviz](http://www.graphviz.org/) (not required) to generate all diagram types.\n\t- code block with `puml` or `plantuml` or (`@puml` or `@plantuml`) notation will be rendered by [PlantUML](http://plantuml.com/).  \n- [WaveDrom](http://wavedrom.com/) to create digital timing diagram.  \n\t- code block with `wavedrom` (or `@wavedrom`) notation will be rendered by [wavedrom](https://github.com/drom/wavedrom).\n- [Viz.js](https://github.com/mdaines/viz.js) to render [dot language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) graph.  \n\t- code block with `viz` (or `@viz`) notation will be rendered by [Viz.js](https://github.com/mdaines/viz.js).\n    - add `engine:[engine_name]` at the first line of code block to choose different render engine. For example `engine:dot`. Engine `circo`, `dot`, `neato`, `osage`, or `twopi` are supported. Default engine is `dot`.   \n- [reveal.js](https://github.com/hakimel/reveal.js) to render beautiful presentations.\n\t- [Click here](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html) to see the introduction.\n\n## Usages\nTo use this package, press <kbd>cmd + shift + p</kbd>   in atom editor first to toggle <strong> Command Palette </strong>. Then choose the commands below:\n- <strong>Markdown Preview Enhanced: Toggle</strong>\n  - Toggle Markdown file preview with KaTeX support.   \n\tYou can also use the keymap <kbd>ctrl+shift+m</kbd> to toggle preview. (To use keymap, you have to disable the default [markdown preview](https://atom.io/packages/markdown-preview) package, otherwise there would be keymap conflict)\n- <strong>Markdown Preview Enhanced: Toggle Zen Mode </strong>  \n\t- Toggle distraction free writing.  \n- <strong>Markdown Preview Enhanced: Customize Css</strong>\n  - Customize preview page css. You can edit styles inside `.markdown-preview-enhanced.markdown-preview-enhanced` section in `style.less` file.  \n  - Here is a quick [tutorial](https://github.com/shd101wyy/markdown-preview-enhanced/wiki/Customize-CSS).\n- <strong>Markdown Preview Enhanced: Create Toc </strong>\n  - Generate TOC (need preview toggled). [doc is here](./docs/toc.md).    \n- <strong>Markdown Preview Enhanced: Toggle Scroll Sync </strong>\n  - Enable/Disable scroll sync for preview.\n- <strong>Markdown Preview Enhanced: Toggle Live Update </strong>\n\t - Enable/Disable live update for preview.\n\t - If disabled, preview will only be rendered when the file is saved.  \n- <strong>Markdown Preview Enhanced: Toggle Break On Single Newline </strong>\n  - Enable/Disable breaking on single newline.\n- <strong>Markdown Preview Enhanced: Insert New Slide </strong>  \n- <strong>Markdown Preview Enhanced: Insert Table </strong>\n- <strong>Markdown Preview Enhanced: Insert Page Break </strong>\n- <strong> Markdown Preview Enhanced: Config Mermaid</strong>\n  - Edit `mermaid` init configuration.\n- <strong> Markdown Preview Enhanced: Config Header Footer</strong>\n  - **PDF** export header and footer configuration.\n- <strong>Markdown Preview Enhanced: Image Helper</strong>  \n\t- Image Helper supports image url quick insertion, image paste, and image upload powered by [imgur](http://imgur.com/) and [sm.ms](https://sm.ms/).       \n\t(if **imgur** is blocked by **the Great Firewall**, then you can choose **sm.ms** instead).    \n\t- Keymap <kbd>ctrl+shift+i</kbd>    \n\t-  ![image_helper](https://cloud.githubusercontent.com/assets/1908863/15414603/c40b6556-1e6e-11e6-956c-090b5996ec87.gif)   \n\n## Preview Context Menu\n**Right click at preview to see the menu**\n\n![contextmenu](http://i.imgur.com/hOxseAS.gif)\n\n- <strong> Open in Browser </strong>\n  - Open HTML in browser\n- **Export to Disk**\n\t- Export **HTML**, **PDF**, **PNG**, **JPEG**, **ePub** etc files.\n- **Pandoc Document Export**\n\t- [doc](./docs/pandoc.md)\n- **Save as Markdown**\n\t- [doc](./docs/markdown.md)\n\n## Extra\n* **Code Chunks** [doc](./docs/code-chunk.md)\n* **EBook**  \n\tMore information about how to create ebook can be found [here](./docs/ebook.md).\n* **Presentation Writer**  \n\tMore information about how to create Presentation can be found [here](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html).\n* **Task List**  \n\tThis package supports *Github Flavored* task list.  \n\tMore information about how to create **task list** can be found [here](https://github.com/blog/1375-task-lists-in-gfm-issues-pulls-comments)\n* **Smart Navigation**    \n\tYou can quickly open another markdown file by clicking its link in preview.  \n* **Preview Auto Open**  \n\tOpen preview pane automatically when you open a markdown file. You can disable this functionality from settings panel.\n\n## For Developer\nManual installation instruction can be found [here](./docs/DEVELOPER.md).   \nIt is also very easy to write your own extension, more information can be found [here](./docs/extension.md).\n\n## FAQ\n1. **I am not able to find this package in atom?**  \nPlease search for the full name of this package. `markdown-preview-enhanced`  \n2. **I exported a html file, and I want to deploy it on my own remote server. But math typesetting (MathJax or KaTeX) doesn't work, what should I do?**  \nPlease make sure you have `Use CDN hosted resources` checked when exporting.  \n3. **I exported a presentation html file, and I want to put it on my Github Page or deploy remotely?**  \nPlease check the last question.  \n4. **How do I get dark style preview?**  \nIf you want the style of the preview to be consistent with your atom editor, go to settings of this package, then change the `Preview Theme`.  \nOr you can run `Markdown Preview Enhanced: Customize Css` command, then modify the `style.less` file.  [#68](https://github.com/shd101wyy/markdown-preview-enhanced/issues/68), [#89](https://github.com/shd101wyy/markdown-preview-enhanced/issues/89).\n5. **The preview is super super lagging?**  \nThis might happen when your markdown file is too big, or you are using too many math or graphs.  \nTherefore I would like to recommend you to disable `Live Update` functionality.  \nYou can run `Markdown Preview Enhanced: Toggle Live Update` to disable it.  \n6. **Do you need a job? (Huh... is this question really related to FAQ???)**  \nYes, I am looking for job. `(*/ω＼*)` (Any country (region) should be fine for me. I can also work remotely.)     \nI am an international student from China currently studying at University of Illinois at Urbana-Champaign. I am a CS major student and I will get my BS/MCS degree this May (2017).  \nI am personally very interested in game development and front-end web development. If you are willing to offer me a job opportunity, please contact me by my school email `ywang189@illinois.edu` or my personal email `shd101wyy@(sina|gmail).com`. (plz don't be mad if you don't get any response from me because I might be busy working on my homework `(✿◡‿◡)).      \nThank you very much :)  \n\n## Credits  \n* [remarkable](https://github.com/jonschlinkert/remarkable) - Markdown parser, done right. Commonmark support, extensions, syntax plugins, high speed - all in one. Gulp and metalsmith plugins are also available.  \n* [KaTeX](https://github.com/Khan/KaTeX) - Fast math typesetting for the web.  \n* [MathJax](https://github.com/mathjax/MathJax) - Beautiful math in all browsers.  \n* [mermaid](https://github.com/knsv/mermaid) - Generation of diagram and flowchart from text in a similar manner as markdown.  \n* [viz.js](https://github.com/mdaines/viz.js) - A hack to put Graphviz on the web.\n* [plantuml](https://github.com/plantuml/plantuml) - Generate UML diagram from textual description.\n* [WaveDrom](https://github.com/drom/wavedrom) - Digital timing diagram rendering engine.\n* [reveal.js](https://github.com/hakimel/reveal.js) - The HTML Presentation Framework.\n* [save-svg-as-png](https://github.com/exupero/saveSvgAsPng) - Save SVGs as PNGs from the browser.\n* [pandoc](https://github.com/jgm/pandoc) - Universal markup converter.\n* [async](https://github.com/caolan/async) - Async utilities for node and the browser.\n* [babyparse](https://github.com/mholt/PapaParse) - Fast and powerful CSV (delimited text) parser that gracefully handles large files and malformed input.\n* [cheerio](https://github.com/cheeriojs/cheerio) - Fast, flexible, and lean implementation of core jQuery designed specifically for the server.\n* [gray-matter](https://github.com/jonschlinkert/gray-matter) - Smarter yaml front matter parser, used by assemble, metalsmith and many others.\n* [html-pdf](https://github.com/marcbachmann/node-html-pdf) - Html to pdf converter in nodejs. It spawns a phantomjs process and passes the pdf as buffer or as filename.\n* [node-imgur](https://github.com/kaimallea/node-imgur) - Upload images to imgur.com.\n* [request](https://github.com/request/request) - Simplified HTTP request client.\n* [node-temp](https://github.com/bruce/node-temp) - Temporary File, Directory, and Stream support for Node.js.\n* [uslug](https://github.com/jeremys/uslug) - A permissive slug generator that works with unicode.\n* [atom](https://github.com/atom/atom) - The hackable text editor.\n\n## Thanks  \nThanks for using and supporting this package ;)\n\n> University of Illinois/NCSA Open Source License\n",
+  "readme": "<h1 align=\"center\"> Markdown Preview Enhanced </h1>\n<p align=\"center\">\n<a href=\"https://github.com/shd101wyy/markdown-preview-enhanced/releases\"><img src=\"https://img.shields.io/github/tag/shd101wyy/markdown-preview-enhanced.svg\"></a>\n<a href=\"https://github.com/shd101wyy/markdown-preview-enhanced\"><img src=\"https://img.shields.io/apm/dm/markdown-preview-enhanced.svg\"></a>\n<a href=\"https://github.com/shd101wyy/markdown-preview-enhanced\"><img src=\"https://img.shields.io/github/stars/shd101wyy/markdown-preview-enhanced.svg?style=social&label=Star\"></a>\n</p>\n<br>\n\n![intro](https://user-images.githubusercontent.com/1908863/28227953-eb6eefa4-68a1-11e7-8769-96ea83facf3b.png)\n\n<p align=\"center\">\n<a href=\"https://shd101wyy.github.io/markdown-preview-enhanced/#/\"> English &nbsp;&nbsp; </a>\n<a href=\"https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-cn/\"> 简体中文 &nbsp;&nbsp; </a>\n<a href=\"https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-tw/\"> 正體中文 &nbsp;&nbsp; </a> <br>\n</p>\n\n<p align=\"center\">\n<a href=\"https://atom.io/packages/markdown-preview-enhanced\">atom</a>\n&\n<a href=\"https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced\">vscode</a>\n</p>\n\n*Still Beta Version!*\n\n## Supporting this project\nMarkdown Preview Enhanced is an open source project released under the [University of Illinois/NCSA Open Source License](LICENSE.md). Its ongoing development is made possible thanks to the support by these awesome [backers](https://shd101wyy.github.io/markdown-preview-enhanced/#/backers). You can help make this project better by [supporting us on Patreon](https://www.patreon.com/shd101wyy), [PayPal](https://shd101wyy.github.io/markdown-preview-enhanced/#/paypal), or [微信支付 Wechat Pay](https://shd101wyy.github.io/markdown-preview-enhanced/#/wechat). Thank you!\n\n## Introduction\nMarkdown Preview Enhanced is an extension that provides you with many useful functionalities such as automatic scroll sync, [math typesetting](https://shd101wyy.github.io/markdown-preview-enhanced/#/math), [mermaid](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=mermaid), [PlantUML](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=plantuml), [pandoc](https://shd101wyy.github.io/markdown-preview-enhanced/#/pandoc), PDF export, [code chunk](https://shd101wyy.github.io/markdown-preview-enhanced/#/code-chunk), [presentation writer](https://rawgit.com/shd101wyy/markdown-preview-enhanced/master/docs/presentation-intro.html), etc. A lot of its ideas are inspired by [Markdown Preview Plus](https://github.com/atom-community/markdown-preview-plus) and [RStudio Markdown](http://rmarkdown.rstudio.com/).\n\nFeel free to ask questions, post issues, submit pull request, and request new features.\n\nFor more information about this project and how to use this extension, please check out our documentation ⬇︎\n\n## Documentation\nTo check out the documentation, visit\n* [English](https://shd101wyy.github.io/markdown-preview-enhanced/#/)\n* [简体中文](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-cn/)\n* [正體中文](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-tw/)\n\nContact me if you are willing to help translate the documentation :)\n\n## Keybindings\n> The <kbd>cmd</kbd> key for *Windows* is <kbd>ctrl</kbd>.\n\n| Shortcuts  | Functionality  |\n|---|---|\n| <kbd>ctrl-shift-m</kbd> | Toggle preview  |\n| <kbd>ctrl-shift-s</kbd>  | Sync preview / Sync source  |\n| <kbd>shift-enter</kbd> | Run Code Chunk |\n| <kbd>ctrl-shift-enter</kbd> | Run all Code Chunks |\n| <kbd>cmd-=</kbd> or <kbd>cmd-shift-=</kbd> | Preview zoom in |\n| <kbd>cmd--</kbd> or <kbd>cmd-shift-\\_</kbd> | Preview zoom out |\n| <kbd>cmd-0</kbd> | Preview reset zoom |\n| <kbd>esc</kbd>  | Toggle sidebar TOC |\n\n## Changelog\nNewest updates for the current minor version can be found at the  [newest notes](https://shd101wyy.github.io/markdown-preview-enhanced/#/newest).\nDetailed changes for each old release can be found at [history notes](https://shd101wyy.github.io/markdown-preview-enhanced/#/history).\n\n## License\n[University of Illinois/NCSA Open Source License](LICENSE.md)\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -97,5 +110,2629 @@
   "scripts": {
     "build": "nothing happened"
   },
-  "version": "0.12.3"
+  "version": "0.14.10",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "ajv",
+        "version": "4.11.8",
+        "path": "node_modules/ajv/lib/ajv.js"
+      },
+      {
+        "name": "argparse",
+        "version": "1.0.9",
+        "path": "node_modules/argparse/index.js"
+      },
+      {
+        "name": "asap",
+        "version": "2.0.6",
+        "path": "node_modules/asap/asap.js"
+      },
+      {
+        "name": "asn1",
+        "version": "0.2.3",
+        "path": "node_modules/asn1/lib/index.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "0.2.0",
+        "path": "node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "asynckit",
+        "version": "0.4.0",
+        "path": "node_modules/asynckit/index.js"
+      },
+      {
+        "name": "aws-sign2",
+        "version": "0.6.0",
+        "path": "node_modules/aws-sign2/index.js"
+      },
+      {
+        "name": "aws4",
+        "version": "1.6.0",
+        "path": "node_modules/aws4/aws4.js"
+      },
+      {
+        "name": "babyparse",
+        "version": "0.4.6",
+        "path": "node_modules/babyparse/babyparse.js"
+      },
+      {
+        "name": "balanced-match",
+        "version": "1.0.0",
+        "path": "node_modules/balanced-match/index.js"
+      },
+      {
+        "name": "bcrypt-pbkdf",
+        "version": "1.0.1",
+        "path": "node_modules/bcrypt-pbkdf/index.js"
+      },
+      {
+        "name": "boom",
+        "version": "2.10.1",
+        "path": "node_modules/boom/lib/index.js"
+      },
+      {
+        "name": "brace-expansion",
+        "version": "1.1.8",
+        "path": "node_modules/brace-expansion/index.js"
+      },
+      {
+        "name": "caseless",
+        "version": "0.12.0",
+        "path": "node_modules/caseless/index.js"
+      },
+      {
+        "name": "cheerio",
+        "version": "0.15.0",
+        "path": "node_modules/cheerio/index.js"
+      },
+      {
+        "name": "co",
+        "version": "4.6.0",
+        "path": "node_modules/co/index.js"
+      },
+      {
+        "name": "combined-stream",
+        "version": "1.0.5",
+        "path": "node_modules/combined-stream/lib/combined_stream.js"
+      },
+      {
+        "name": "concat-map",
+        "version": "0.0.1",
+        "path": "node_modules/concat-map/index.js"
+      },
+      {
+        "name": "core-util-is",
+        "version": "1.0.2",
+        "path": "node_modules/core-util-is/lib/util.js"
+      },
+      {
+        "name": "cryptiles",
+        "version": "2.0.5",
+        "path": "node_modules/cryptiles/lib/index.js"
+      },
+      {
+        "name": "CSSselect",
+        "version": "0.4.1",
+        "path": "node_modules/CSSselect/index.js"
+      },
+      {
+        "name": "CSSwhat",
+        "version": "0.4.7",
+        "path": "node_modules/CSSwhat/index.js"
+      },
+      {
+        "name": "dashdash",
+        "version": "1.14.1",
+        "path": "node_modules/dashdash/lib/dashdash.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/dashdash/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "delayed-stream",
+        "version": "1.0.0",
+        "path": "node_modules/delayed-stream/lib/delayed_stream.js"
+      },
+      {
+        "name": "dom-serializer",
+        "version": "0.1.0",
+        "path": "node_modules/dom-serializer/index.js"
+      },
+      {
+        "name": "domelementtype",
+        "version": "1.1.3",
+        "path": "node_modules/dom-serializer/node_modules/domelementtype/index.js"
+      },
+      {
+        "name": "entities",
+        "version": "1.1.1",
+        "path": "node_modules/dom-serializer/node_modules/entities/index.js"
+      },
+      {
+        "name": "domelementtype",
+        "version": "1.3.0",
+        "path": "node_modules/domelementtype/index.js"
+      },
+      {
+        "name": "domhandler",
+        "version": "2.2.1",
+        "path": "node_modules/domhandler/index.js"
+      },
+      {
+        "name": "domutils",
+        "version": "1.4.3",
+        "path": "node_modules/domutils/index.js"
+      },
+      {
+        "name": "ecc-jsbn",
+        "version": "0.1.1",
+        "path": "node_modules/ecc-jsbn/index.js"
+      },
+      {
+        "name": "entities",
+        "version": "1.0.0",
+        "path": "node_modules/entities/index.js"
+      },
+      {
+        "name": "errno",
+        "version": "0.1.4",
+        "path": "node_modules/errno/errno.js"
+      },
+      {
+        "name": "expand-tilde",
+        "version": "2.0.2",
+        "path": "node_modules/expand-tilde/index.js"
+      },
+      {
+        "name": "extend",
+        "version": "3.0.1",
+        "path": "node_modules/extend/index.js"
+      },
+      {
+        "name": "extsprintf",
+        "version": "1.3.0",
+        "path": "node_modules/extsprintf/lib/extsprintf.js"
+      },
+      {
+        "name": "forever-agent",
+        "version": "0.6.1",
+        "path": "node_modules/forever-agent/index.js"
+      },
+      {
+        "name": "form-data",
+        "version": "2.1.4",
+        "path": "node_modules/form-data/lib/form_data.js"
+      },
+      {
+        "name": "fs.realpath",
+        "version": "1.0.0",
+        "path": "node_modules/fs.realpath/index.js"
+      },
+      {
+        "name": "getpass",
+        "version": "0.1.7",
+        "path": "node_modules/getpass/lib/index.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/getpass/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "glob",
+        "version": "7.1.2",
+        "path": "node_modules/glob/glob.js"
+      },
+      {
+        "name": "global-modules",
+        "version": "1.0.0",
+        "path": "node_modules/global-modules/index.js"
+      },
+      {
+        "name": "global-prefix",
+        "version": "1.0.2",
+        "path": "node_modules/global-prefix/index.js"
+      },
+      {
+        "name": "graceful-fs",
+        "version": "4.1.11",
+        "path": "node_modules/graceful-fs/graceful-fs.js"
+      },
+      {
+        "name": "har-schema",
+        "version": "1.0.5",
+        "path": "node_modules/har-schema/lib/index.js"
+      },
+      {
+        "name": "har-validator",
+        "version": "4.2.1",
+        "path": "node_modules/har-validator/lib/node4/promise.js"
+      },
+      {
+        "name": "hawk",
+        "version": "3.1.3",
+        "path": "node_modules/hawk/lib/index.js"
+      },
+      {
+        "name": "hoek",
+        "version": "2.16.3",
+        "path": "node_modules/hoek/lib/index.js"
+      },
+      {
+        "name": "homedir-polyfill",
+        "version": "1.0.1",
+        "path": "node_modules/homedir-polyfill/index.js"
+      },
+      {
+        "name": "htmlparser2",
+        "version": "3.7.3",
+        "path": "node_modules/htmlparser2/lib/index.js"
+      },
+      {
+        "name": "domutils",
+        "version": "1.5.1",
+        "path": "node_modules/htmlparser2/node_modules/domutils/index.js"
+      },
+      {
+        "name": "http-signature",
+        "version": "1.1.1",
+        "path": "node_modules/http-signature/lib/index.js"
+      },
+      {
+        "name": "image-size",
+        "version": "0.5.5",
+        "path": "node_modules/image-size/lib/index.js"
+      },
+      {
+        "name": "inflight",
+        "version": "1.0.6",
+        "path": "node_modules/inflight/inflight.js"
+      },
+      {
+        "name": "inherits",
+        "version": "2.0.3",
+        "path": "node_modules/inherits/inherits.js"
+      },
+      {
+        "name": "ini",
+        "version": "1.3.4",
+        "path": "node_modules/ini/ini.js"
+      },
+      {
+        "name": "is-typedarray",
+        "version": "1.0.0",
+        "path": "node_modules/is-typedarray/index.js"
+      },
+      {
+        "name": "is-windows",
+        "version": "1.0.1",
+        "path": "node_modules/is-windows/index.js"
+      },
+      {
+        "name": "isarray",
+        "version": "0.0.1",
+        "path": "node_modules/isarray/index.js"
+      },
+      {
+        "name": "isexe",
+        "version": "2.0.0",
+        "path": "node_modules/isexe/index.js"
+      },
+      {
+        "name": "isstream",
+        "version": "0.1.2",
+        "path": "node_modules/isstream/isstream.js"
+      },
+      {
+        "name": "jsbn",
+        "version": "0.1.1",
+        "path": "node_modules/jsbn/index.js"
+      },
+      {
+        "name": "json-schema",
+        "version": "0.2.3",
+        "path": "node_modules/json-schema/lib/validate.js"
+      },
+      {
+        "name": "json-stable-stringify",
+        "version": "1.0.1",
+        "path": "node_modules/json-stable-stringify/index.js"
+      },
+      {
+        "name": "json-stringify-safe",
+        "version": "5.0.1",
+        "path": "node_modules/json-stringify-safe/stringify.js"
+      },
+      {
+        "name": "jsonify",
+        "version": "0.0.0",
+        "path": "node_modules/jsonify/index.js"
+      },
+      {
+        "name": "jsprim",
+        "version": "1.4.1",
+        "path": "node_modules/jsprim/lib/jsprim.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/jsprim/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "less",
+        "version": "2.7.2",
+        "path": "node_modules/less/index.js"
+      },
+      {
+        "name": "lodash",
+        "version": "2.4.2",
+        "path": "node_modules/lodash/dist/lodash.js"
+      },
+      {
+        "name": "mime",
+        "version": "1.4.0",
+        "path": "node_modules/mime/mime.js"
+      },
+      {
+        "name": "mime-db",
+        "version": "1.30.0",
+        "path": "node_modules/mime-db/index.js"
+      },
+      {
+        "name": "mime-types",
+        "version": "2.1.17",
+        "path": "node_modules/mime-types/index.js"
+      },
+      {
+        "name": "minimatch",
+        "version": "3.0.4",
+        "path": "node_modules/minimatch/minimatch.js"
+      },
+      {
+        "name": "minimist",
+        "version": "0.0.8",
+        "path": "node_modules/minimist/index.js"
+      },
+      {
+        "name": "mkdirp",
+        "version": "0.5.1",
+        "path": "node_modules/mkdirp/index.js"
+      },
+      {
+        "name": "oauth-sign",
+        "version": "0.8.2",
+        "path": "node_modules/oauth-sign/index.js"
+      },
+      {
+        "name": "once",
+        "version": "1.4.0",
+        "path": "node_modules/once/once.js"
+      },
+      {
+        "name": "os-tmpdir",
+        "version": "1.0.2",
+        "path": "node_modules/os-tmpdir/index.js"
+      },
+      {
+        "name": "parse-passwd",
+        "version": "1.0.0",
+        "path": "node_modules/parse-passwd/index.js"
+      },
+      {
+        "name": "path-is-absolute",
+        "version": "1.0.1",
+        "path": "node_modules/path-is-absolute/index.js"
+      },
+      {
+        "name": "performance-now",
+        "version": "0.2.0",
+        "path": "node_modules/performance-now/lib/performance-now.js"
+      },
+      {
+        "name": "promise",
+        "version": "7.3.1",
+        "path": "node_modules/promise/index.js"
+      },
+      {
+        "name": "prr",
+        "version": "0.0.0",
+        "path": "node_modules/prr/prr.js"
+      },
+      {
+        "name": "punycode",
+        "version": "1.4.1",
+        "path": "node_modules/punycode/punycode.js"
+      },
+      {
+        "name": "qs",
+        "version": "6.4.0",
+        "path": "node_modules/qs/lib/index.js"
+      },
+      {
+        "name": "readable-stream",
+        "version": "1.1.14",
+        "path": "node_modules/readable-stream/readable.js"
+      },
+      {
+        "name": "request",
+        "version": "2.81.0",
+        "path": "node_modules/request/index.js"
+      },
+      {
+        "name": "resolve-dir",
+        "version": "1.0.1",
+        "path": "node_modules/resolve-dir/index.js"
+      },
+      {
+        "name": "rimraf",
+        "version": "2.2.8",
+        "path": "node_modules/rimraf/rimraf.js"
+      },
+      {
+        "name": "safe-buffer",
+        "version": "5.1.1",
+        "path": "node_modules/safe-buffer/index.js"
+      },
+      {
+        "name": "sntp",
+        "version": "1.0.9",
+        "path": "node_modules/sntp/index.js"
+      },
+      {
+        "name": "source-map",
+        "version": "0.5.7",
+        "path": "node_modules/source-map/source-map.js"
+      },
+      {
+        "name": "sprintf-js",
+        "version": "1.0.3",
+        "path": "node_modules/sprintf-js/src/sprintf.js"
+      },
+      {
+        "name": "sshpk",
+        "version": "1.13.1",
+        "path": "node_modules/sshpk/lib/index.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/sshpk/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "string_decoder",
+        "version": "0.10.31",
+        "path": "node_modules/string_decoder/index.js"
+      },
+      {
+        "name": "stringstream",
+        "version": "0.0.5",
+        "path": "node_modules/stringstream/stringstream.js"
+      },
+      {
+        "name": "temp",
+        "version": "0.8.3",
+        "path": "node_modules/temp/lib/temp.js"
+      },
+      {
+        "name": "tough-cookie",
+        "version": "2.3.2",
+        "path": "node_modules/tough-cookie/lib/cookie.js"
+      },
+      {
+        "name": "tunnel-agent",
+        "version": "0.6.0",
+        "path": "node_modules/tunnel-agent/index.js"
+      },
+      {
+        "name": "tweetnacl",
+        "version": "0.14.5",
+        "path": "node_modules/tweetnacl/nacl-fast.js"
+      },
+      {
+        "name": "unorm",
+        "version": "1.4.1",
+        "path": "node_modules/unorm/lib/unorm.js"
+      },
+      {
+        "name": "uslug",
+        "version": "1.0.4",
+        "path": "node_modules/uslug/index.js"
+      },
+      {
+        "name": "uuid",
+        "version": "3.1.0",
+        "path": "node_modules/uuid/index.js"
+      },
+      {
+        "name": "verror",
+        "version": "1.10.0",
+        "path": "node_modules/verror/lib/verror.js"
+      },
+      {
+        "name": "assert-plus",
+        "version": "1.0.0",
+        "path": "node_modules/verror/node_modules/assert-plus/assert.js"
+      },
+      {
+        "name": "which",
+        "version": "1.3.0",
+        "path": "node_modules/which/which.js"
+      },
+      {
+        "name": "wrappy",
+        "version": "1.0.2",
+        "path": "node_modules/wrappy/wrappy.js"
+      },
+      {
+        "name": "yamljs",
+        "version": "0.3.0",
+        "path": "node_modules/yamljs/lib/Yaml.js"
+      }
+    ],
+    "extensions": {
+      ".js": [
+        "node_modules/@shd101wyy/mume/dependencies/crypto-js/crypto-js.js",
+        "node_modules/@shd101wyy/mume/dependencies/electron-webview/preload.js",
+        "node_modules/@shd101wyy/mume/dependencies/javascript-md5/md5.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery/jquery.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery-contextmenu/jquery.contextMenu.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery-contextmenu/jquery.contextMenu.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery-contextmenu/jquery.ui.position.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery-contextmenu/jquery.ui.position.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/jquery-modal/jquery.modal.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/katex/contrib/auto-render.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/katex/katex.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-abbr.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-deflist.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-footnote.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-mark.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-sub.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/extensions/markdown-it-sup.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/markdown-it/markdown-it.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/MathJax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/config/TeX-AMS_CHTML.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/AssistiveMML.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/CHTML-preview.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/FontWarnings.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/HTML-CSS/handle-floats.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/HelpDialog.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MatchWebFonts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MathEvents.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MathML/content-mathml.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MathML/mml3.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MathMenu.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/MathZoom.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/Safe.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/AMScd.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/AMSmath.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/AMSsymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/HTML.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/action.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/autobold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/autoload-all.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/bbox.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/begingroup.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/boldsymbol.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/cancel.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/color.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/enclose.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/extpfeil.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/mathchoice.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/mediawiki-texvc.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/mhchem.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/mhchem3/mhchem.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/newcommand.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/noErrors.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/noUndefined.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/unicode.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/verb.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/TeX/xypic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/accessibility-menu.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/auto-collapse.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/collapsible.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/explorer.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathjax-sre.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/mathmaps_ie.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/semantic-enrich.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/wgxpath.install.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/asciimath2jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/fast-preview.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/jsMath2jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/mml2jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/tex2jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/toMathML.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/Arrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/Dingbats.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/MiscMathSymbolsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/MiscMathSymbolsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/MiscSymbolsAndArrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/MiscTechnical.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/SuppMathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/SupplementalArrowsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/element/mml/optable/SupplementalArrowsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/AsciiMath/config.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/AsciiMath/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/config.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/a.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/b.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/c.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/d.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/e.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/f.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/fr.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/g.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/h.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/i.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/j.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/k.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/l.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/m.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/n.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/o.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/opf.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/p.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/q.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/r.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/s.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/scr.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/t.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/u.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/v.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/w.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/x.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/y.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/entities/z.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/MathML/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/TeX/config.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/input/TeX/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/annotation-xml.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/maction.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/menclose.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/mglyph.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/mmultiscripts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/ms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/mtable.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/autoload/multiline.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/config.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/AMS-Regular.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Caligraphic-Bold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Fraktur-Bold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Fraktur-Regular.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Main-Bold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Math-BoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/SansSerif-Bold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/SansSerif-Italic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/SansSerif-Regular.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Script-Regular.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/Typewriter-Regular.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/fonts/TeX/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/CommonHTML/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/annotation-xml.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/maction.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/menclose.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/mglyph.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/mmultiscripts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/ms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/mtable.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/autoload/multiline.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/config.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/DoubleStruck/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Latin/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Misc/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Monospace/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Normal/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Size6/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Asana-Math/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/DoubleStruck/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Latin/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Misc/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Monospace/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Normal/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Size6/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Pagella/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/DoubleStruck/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Latin/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Misc/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Monospace/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Normal/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Size6/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Gyre-Termes/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/DoubleStruck/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Latin/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Misc/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Monospace/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Normal/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size6/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Size7/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Latin-Modern/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Normal/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/Neo-Euler/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/AlphaPresentForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/Arrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/BBBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/BoldFraktur.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/BoxDrawing.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/ControlPictures.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/CurrencySymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/Cyrillic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/EnclosedAlphanum.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/GreekBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/GreekSSBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/IPAExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/LatinExtendedAdditional.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/LatinExtendedB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/LatinExtendedD.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MathBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MathSSBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MiscMathSymbolsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MiscMathSymbolsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MiscSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/MiscTechnical.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/NumberForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/PhoneticExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/SuperAndSubscripts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Bold/SuppMathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/AlphaPresentForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/BoxDrawing.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/ControlPictures.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/CurrencySymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/Cyrillic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/EnclosedAlphanum.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/GreekBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/GreekSSBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/IPAExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/LatinExtendedAdditional.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/LatinExtendedB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/MathBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/MathBoldScript.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/MathSSItalicBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/BoldItalic/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/AlphaPresentForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/BoxDrawing.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/ControlPictures.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/CurrencySymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/Cyrillic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/EnclosedAlphanum.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/GreekItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/IPAExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/LatinExtendedAdditional.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/LatinExtendedB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/MathItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/MathSSItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/MathScript.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Italic/ij.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/AlphaPresentForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Arrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/BBBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/BlockElements.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/BoldFraktur.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/BoxDrawing.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/CJK.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/ControlPictures.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/CurrencySymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Cyrillic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Dingbats.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/EnclosedAlphanum.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Fraktur.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekSSBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/GreekSSBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Hiragana.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/IPAExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/LatinExtendedAdditional.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/LatinExtendedB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/LatinExtendedD.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathBoldItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathBoldScript.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathSS.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathSSBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathSSItalic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathSSItalicBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathScript.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MathTT.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MiscMathSymbolsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MiscMathSymbolsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MiscSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MiscSymbolsAndArrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/MiscTechnical.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/NumberForms.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/PhoneticExtensions.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/Specials.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/SuperAndSubscripts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/SuppMathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/SupplementalArrowsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/SupplementalArrowsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/General/Regular/ij.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsD/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsD/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsD/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsSm/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsSm/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsSm/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUp/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUp/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUp/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpD/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpD/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpD/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpSm/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpSm/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/IntegralsUpSm/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Bold/PrivateUse.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/BoldItalic/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/BoldItalic/PrivateUse.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Italic/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Italic/PrivateUse.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/NonUnicode/Regular/PrivateUse.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeFiveSym/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeFiveSym/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeFourSym/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeFourSym/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeFourSym/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeOneSym/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeOneSym/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeOneSym/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeOneSym/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeThreeSym/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeThreeSym/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeThreeSym/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeTwoSym/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeTwoSym/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/SizeTwoSym/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/Variants/Bold/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/Variants/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/Variants/Regular/All.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/fontdata-1.0.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/fontdata-beta.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Alphabets/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Alphabets/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Alphabets/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Alphabets/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Arrows/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Arrows/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/DoubleStruck/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/DoubleStruck/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/DoubleStruck/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/DoubleStruck/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Fraktur/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Latin/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Latin/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Latin/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Latin/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Main/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Main/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Main/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Marks/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Marks/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Marks/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Marks/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Misc/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Misc/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Misc/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Misc/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Monospace/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Normal/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Normal/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Normal/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Operators/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Operators/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/SansSerif/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/SansSerif/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/SansSerif/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Script/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Script/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Shapes/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Shapes/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Shapes/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Size5/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Symbols/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Symbols/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Variants/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Variants/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Variants/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/Variants/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/STIX-Web/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/Arrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/BBBold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/BoxDrawing.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/Dingbats.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/EnclosedAlphanum.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/GreekAndCoptic.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/MiscMathSymbolsB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/MiscSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/MiscTechnical.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/PUA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/AMS/Regular/SuppMathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Caligraphic/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Caligraphic/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Bold/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Bold/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Bold/PUA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Regular/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Regular/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Fraktur/Regular/PUA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Greek/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Greek/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Greek/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Greek/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/Arrows.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/CombDiactForSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/LatinExtendedA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/LatinExtendedB.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/MathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/MiscMathSymbolsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/MiscSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/MiscTechnical.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/SuppMathOperators.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Bold/SupplementalArrowsA.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Italic/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Italic/GeneralPunctuation.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Italic/Latin1Supplement.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Italic/LetterlikeSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Regular/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Regular/GeometricShapes.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Regular/MiscSymbols.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Main/Regular/SpacingModLetters.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Math/BoldItalic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Math/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Bold/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Bold/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Bold/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Bold/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Italic/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Italic/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Italic/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Italic/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Regular/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Regular/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/SansSerif/Regular/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Script/Regular/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Script/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Script/Regular/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Size1/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Size2/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Size3/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Size4/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Typewriter/Regular/BasicLatin.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Typewriter/Regular/CombDiacritMarks.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Typewriter/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/Typewriter/Regular/Other.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/WinChrome/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/WinIE6/Regular/AMS.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/WinIE6/Regular/Bold.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/WinIE6/Regular/Main.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/fontdata-extra.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/fonts/TeX/fontdata.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/imageFonts.js",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/jax/output/HTML-CSS/jax.js",
+        "node_modules/@shd101wyy/mume/dependencies/mermaid/mermaid.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/node-html-pdf/index.js",
+        "node_modules/@shd101wyy/mume/dependencies/node-html-pdf/pdf.js",
+        "node_modules/@shd101wyy/mume/dependencies/phantomjs/pdf_a4_portrait.js",
+        "node_modules/@shd101wyy/mume/dependencies/prism/prism.js",
+        "node_modules/@shd101wyy/mume/dependencies/remarkable/remarkable.js",
+        "node_modules/@shd101wyy/mume/dependencies/reveal/js/reveal.js",
+        "node_modules/@shd101wyy/mume/dependencies/reveal/lib/js/classList.js",
+        "node_modules/@shd101wyy/mume/dependencies/reveal/lib/js/head.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/reveal/lib/js/html5shiv.js",
+        "node_modules/@shd101wyy/mume/dependencies/reveal/plugin/notes/notes.js",
+        "node_modules/@shd101wyy/mume/dependencies/vega/vega-core.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/vega/vega.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/vega-lite/vega-lite.min.js",
+        "node_modules/@shd101wyy/mume/dependencies/viz/viz.js",
+        "node_modules/@shd101wyy/mume/dependencies/wavedrom/default.js",
+        "node_modules/@shd101wyy/mume/dependencies/wavedrom/wavedrom.min.js",
+        "node_modules/@shd101wyy/mume/out/src/code-chunk-data.js",
+        "node_modules/@shd101wyy/mume/out/src/code-chunk.js",
+        "node_modules/@shd101wyy/mume/out/src/custom-subjects.js",
+        "node_modules/@shd101wyy/mume/out/src/ditaa.js",
+        "node_modules/@shd101wyy/mume/out/src/ebook-convert.js",
+        "node_modules/@shd101wyy/mume/out/src/extension-helper.js",
+        "node_modules/@shd101wyy/mume/out/src/image-uploader.js",
+        "node_modules/@shd101wyy/mume/out/src/latex.js",
+        "node_modules/@shd101wyy/mume/out/src/magick.js",
+        "node_modules/@shd101wyy/mume/out/src/markdown-convert.js",
+        "node_modules/@shd101wyy/mume/out/src/markdown-engine.js",
+        "node_modules/@shd101wyy/mume/out/src/mermaid.js",
+        "node_modules/@shd101wyy/mume/out/src/mume.js",
+        "node_modules/@shd101wyy/mume/out/src/pandoc-convert.js",
+        "node_modules/@shd101wyy/mume/out/src/pdf.js",
+        "node_modules/@shd101wyy/mume/out/src/prince-convert.js",
+        "node_modules/@shd101wyy/mume/out/src/process-graphs.js",
+        "node_modules/@shd101wyy/mume/out/src/puml.js",
+        "node_modules/@shd101wyy/mume/out/src/toc.js",
+        "node_modules/@shd101wyy/mume/out/src/transformer.js",
+        "node_modules/@shd101wyy/mume/out/src/utility.js",
+        "node_modules/@shd101wyy/mume/out/src/vega-lite.js",
+        "node_modules/@shd101wyy/mume/out/src/vega.js",
+        "node_modules/@shd101wyy/mume/out/src/webview.js",
+        "node_modules/CSSselect/browser_functions.js",
+        "node_modules/CSSselect/index.js",
+        "node_modules/CSSselect/lib/attributes.js",
+        "node_modules/CSSselect/lib/basefunctions.js",
+        "node_modules/CSSselect/lib/compile.js",
+        "node_modules/CSSselect/lib/general.js",
+        "node_modules/CSSselect/lib/nth-check.js",
+        "node_modules/CSSselect/lib/pseudos.js",
+        "node_modules/CSSselect/lib/sort.js",
+        "node_modules/CSSwhat/index.js",
+        "node_modules/ajv/.tonic_example.js",
+        "node_modules/ajv/dist/ajv.bundle.js",
+        "node_modules/ajv/dist/ajv.min.js",
+        "node_modules/ajv/dist/nodent.min.js",
+        "node_modules/ajv/dist/regenerator.min.js",
+        "node_modules/ajv/lib/ajv.js",
+        "node_modules/ajv/lib/async.js",
+        "node_modules/ajv/lib/cache.js",
+        "node_modules/ajv/lib/compile/_rules.js",
+        "node_modules/ajv/lib/compile/equal.js",
+        "node_modules/ajv/lib/compile/formats.js",
+        "node_modules/ajv/lib/compile/index.js",
+        "node_modules/ajv/lib/compile/resolve.js",
+        "node_modules/ajv/lib/compile/rules.js",
+        "node_modules/ajv/lib/compile/schema_obj.js",
+        "node_modules/ajv/lib/compile/ucs2length.js",
+        "node_modules/ajv/lib/compile/util.js",
+        "node_modules/ajv/lib/compile/validation_error.js",
+        "node_modules/ajv/lib/dotjs/_formatLimit.js",
+        "node_modules/ajv/lib/dotjs/_limit.js",
+        "node_modules/ajv/lib/dotjs/_limitItems.js",
+        "node_modules/ajv/lib/dotjs/_limitLength.js",
+        "node_modules/ajv/lib/dotjs/_limitProperties.js",
+        "node_modules/ajv/lib/dotjs/allOf.js",
+        "node_modules/ajv/lib/dotjs/anyOf.js",
+        "node_modules/ajv/lib/dotjs/constant.js",
+        "node_modules/ajv/lib/dotjs/custom.js",
+        "node_modules/ajv/lib/dotjs/dependencies.js",
+        "node_modules/ajv/lib/dotjs/enum.js",
+        "node_modules/ajv/lib/dotjs/format.js",
+        "node_modules/ajv/lib/dotjs/items.js",
+        "node_modules/ajv/lib/dotjs/multipleOf.js",
+        "node_modules/ajv/lib/dotjs/not.js",
+        "node_modules/ajv/lib/dotjs/oneOf.js",
+        "node_modules/ajv/lib/dotjs/pattern.js",
+        "node_modules/ajv/lib/dotjs/patternRequired.js",
+        "node_modules/ajv/lib/dotjs/properties.js",
+        "node_modules/ajv/lib/dotjs/ref.js",
+        "node_modules/ajv/lib/dotjs/required.js",
+        "node_modules/ajv/lib/dotjs/switch.js",
+        "node_modules/ajv/lib/dotjs/uniqueItems.js",
+        "node_modules/ajv/lib/dotjs/validate.js",
+        "node_modules/ajv/lib/keyword.js",
+        "node_modules/ajv/lib/v5.js",
+        "node_modules/ajv/scripts/bundle.js",
+        "node_modules/ajv/scripts/compile-dots.js",
+        "node_modules/argparse/index.js",
+        "node_modules/argparse/lib/action/append/constant.js",
+        "node_modules/argparse/lib/action/append.js",
+        "node_modules/argparse/lib/action/count.js",
+        "node_modules/argparse/lib/action/help.js",
+        "node_modules/argparse/lib/action/store/constant.js",
+        "node_modules/argparse/lib/action/store/false.js",
+        "node_modules/argparse/lib/action/store/true.js",
+        "node_modules/argparse/lib/action/store.js",
+        "node_modules/argparse/lib/action/subparsers.js",
+        "node_modules/argparse/lib/action/version.js",
+        "node_modules/argparse/lib/action.js",
+        "node_modules/argparse/lib/action_container.js",
+        "node_modules/argparse/lib/argparse.js",
+        "node_modules/argparse/lib/argument/error.js",
+        "node_modules/argparse/lib/argument/exclusive.js",
+        "node_modules/argparse/lib/argument/group.js",
+        "node_modules/argparse/lib/argument_parser.js",
+        "node_modules/argparse/lib/const.js",
+        "node_modules/argparse/lib/help/added_formatters.js",
+        "node_modules/argparse/lib/help/formatter.js",
+        "node_modules/argparse/lib/namespace.js",
+        "node_modules/argparse/lib/utils.js",
+        "node_modules/asap/asap.js",
+        "node_modules/asap/browser-asap.js",
+        "node_modules/asap/browser-raw.js",
+        "node_modules/asap/raw.js",
+        "node_modules/asn1/lib/ber/errors.js",
+        "node_modules/asn1/lib/ber/index.js",
+        "node_modules/asn1/lib/ber/reader.js",
+        "node_modules/asn1/lib/ber/types.js",
+        "node_modules/asn1/lib/ber/writer.js",
+        "node_modules/asn1/lib/index.js",
+        "node_modules/asn1/tst/ber/reader.test.js",
+        "node_modules/asn1/tst/ber/writer.test.js",
+        "node_modules/assert-plus/assert.js",
+        "node_modules/asynckit/bench.js",
+        "node_modules/asynckit/index.js",
+        "node_modules/asynckit/lib/abort.js",
+        "node_modules/asynckit/lib/async.js",
+        "node_modules/asynckit/lib/defer.js",
+        "node_modules/asynckit/lib/iterate.js",
+        "node_modules/asynckit/lib/readable_asynckit.js",
+        "node_modules/asynckit/lib/readable_parallel.js",
+        "node_modules/asynckit/lib/readable_serial.js",
+        "node_modules/asynckit/lib/readable_serial_ordered.js",
+        "node_modules/asynckit/lib/state.js",
+        "node_modules/asynckit/lib/streamify.js",
+        "node_modules/asynckit/lib/terminator.js",
+        "node_modules/asynckit/parallel.js",
+        "node_modules/asynckit/serial.js",
+        "node_modules/asynckit/serialOrdered.js",
+        "node_modules/asynckit/stream.js",
+        "node_modules/aws-sign2/index.js",
+        "node_modules/aws4/aws4.js",
+        "node_modules/aws4/lru.js",
+        "node_modules/babyparse/babyparse.js",
+        "node_modules/balanced-match/index.js",
+        "node_modules/bcrypt-pbkdf/index.js",
+        "node_modules/boom/lib/index.js",
+        "node_modules/brace-expansion/index.js",
+        "node_modules/caseless/index.js",
+        "node_modules/caseless/test.js",
+        "node_modules/cheerio/index.js",
+        "node_modules/cheerio/lib/api/attributes.js",
+        "node_modules/cheerio/lib/api/css.js",
+        "node_modules/cheerio/lib/api/manipulation.js",
+        "node_modules/cheerio/lib/api/traversing.js",
+        "node_modules/cheerio/lib/cheerio.js",
+        "node_modules/cheerio/lib/parse.js",
+        "node_modules/cheerio/lib/render.js",
+        "node_modules/cheerio/lib/static.js",
+        "node_modules/cheerio/lib/utils.js",
+        "node_modules/co/index.js",
+        "node_modules/combined-stream/lib/combined_stream.js",
+        "node_modules/concat-map/example/map.js",
+        "node_modules/concat-map/index.js",
+        "node_modules/core-util-is/lib/util.js",
+        "node_modules/core-util-is/test.js",
+        "node_modules/cryptiles/lib/index.js",
+        "node_modules/dashdash/lib/dashdash.js",
+        "node_modules/dashdash/node_modules/assert-plus/assert.js",
+        "node_modules/delayed-stream/lib/delayed_stream.js",
+        "node_modules/dom-serializer/index.js",
+        "node_modules/dom-serializer/node_modules/domelementtype/index.js",
+        "node_modules/dom-serializer/node_modules/entities/index.js",
+        "node_modules/dom-serializer/node_modules/entities/lib/decode.js",
+        "node_modules/dom-serializer/node_modules/entities/lib/decode_codepoint.js",
+        "node_modules/dom-serializer/node_modules/entities/lib/encode.js",
+        "node_modules/domelementtype/index.js",
+        "node_modules/domhandler/index.js",
+        "node_modules/domhandler/lib/element.js",
+        "node_modules/domhandler/lib/node.js",
+        "node_modules/domutils/index.js",
+        "node_modules/domutils/lib/helpers.js",
+        "node_modules/domutils/lib/legacy.js",
+        "node_modules/domutils/lib/manipulation.js",
+        "node_modules/domutils/lib/querying.js",
+        "node_modules/domutils/lib/stringify.js",
+        "node_modules/domutils/lib/traversal.js",
+        "node_modules/ecc-jsbn/index.js",
+        "node_modules/ecc-jsbn/lib/ec.js",
+        "node_modules/ecc-jsbn/lib/sec.js",
+        "node_modules/ecc-jsbn/test.js",
+        "node_modules/entities/index.js",
+        "node_modules/entities/lib/decode.js",
+        "node_modules/entities/lib/decode_codepoint.js",
+        "node_modules/entities/lib/encode.js",
+        "node_modules/errno/build.js",
+        "node_modules/errno/cli.js",
+        "node_modules/errno/custom.js",
+        "node_modules/errno/errno.js",
+        "node_modules/errno/test.js",
+        "node_modules/expand-tilde/index.js",
+        "node_modules/extend/index.js",
+        "node_modules/extsprintf/lib/extsprintf.js",
+        "node_modules/forever-agent/index.js",
+        "node_modules/form-data/lib/browser.js",
+        "node_modules/form-data/lib/form_data.js",
+        "node_modules/form-data/lib/populate.js",
+        "node_modules/fs.realpath/index.js",
+        "node_modules/fs.realpath/old.js",
+        "node_modules/getpass/lib/index.js",
+        "node_modules/getpass/node_modules/assert-plus/assert.js",
+        "node_modules/glob/common.js",
+        "node_modules/glob/glob.js",
+        "node_modules/glob/sync.js",
+        "node_modules/global-modules/index.js",
+        "node_modules/global-prefix/index.js",
+        "node_modules/graceful-fs/fs.js",
+        "node_modules/graceful-fs/graceful-fs.js",
+        "node_modules/graceful-fs/legacy-streams.js",
+        "node_modules/graceful-fs/polyfills.js",
+        "node_modules/har-schema/lib/index.js",
+        "node_modules/har-validator/lib/browser/async.js",
+        "node_modules/har-validator/lib/browser/error.js",
+        "node_modules/har-validator/lib/browser/promise.js",
+        "node_modules/har-validator/lib/node4/async.js",
+        "node_modules/har-validator/lib/node4/error.js",
+        "node_modules/har-validator/lib/node4/promise.js",
+        "node_modules/har-validator/lib/node6/async.js",
+        "node_modules/har-validator/lib/node6/error.js",
+        "node_modules/har-validator/lib/node6/promise.js",
+        "node_modules/har-validator/lib/node7/async.js",
+        "node_modules/har-validator/lib/node7/error.js",
+        "node_modules/har-validator/lib/node7/promise.js",
+        "node_modules/har-validator/src/async.js",
+        "node_modules/har-validator/src/error.js",
+        "node_modules/har-validator/src/promise.js",
+        "node_modules/hawk/dist/client.js",
+        "node_modules/hawk/example/usage.js",
+        "node_modules/hawk/lib/browser.js",
+        "node_modules/hawk/lib/client.js",
+        "node_modules/hawk/lib/crypto.js",
+        "node_modules/hawk/lib/index.js",
+        "node_modules/hawk/lib/server.js",
+        "node_modules/hawk/lib/utils.js",
+        "node_modules/hoek/lib/escape.js",
+        "node_modules/hoek/lib/index.js",
+        "node_modules/homedir-polyfill/index.js",
+        "node_modules/htmlparser2/lib/CollectingHandler.js",
+        "node_modules/htmlparser2/lib/FeedHandler.js",
+        "node_modules/htmlparser2/lib/Parser.js",
+        "node_modules/htmlparser2/lib/ProxyHandler.js",
+        "node_modules/htmlparser2/lib/Stream.js",
+        "node_modules/htmlparser2/lib/Tokenizer.js",
+        "node_modules/htmlparser2/lib/WritableStream.js",
+        "node_modules/htmlparser2/lib/index.js",
+        "node_modules/htmlparser2/node_modules/domutils/index.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/helpers.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/legacy.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/manipulation.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/querying.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/stringify.js",
+        "node_modules/htmlparser2/node_modules/domutils/lib/traversal.js",
+        "node_modules/http-signature/lib/index.js",
+        "node_modules/http-signature/lib/parser.js",
+        "node_modules/http-signature/lib/signer.js",
+        "node_modules/http-signature/lib/utils.js",
+        "node_modules/http-signature/lib/verify.js",
+        "node_modules/image-size/bin/image-size.js",
+        "node_modules/image-size/lib/detector.js",
+        "node_modules/image-size/lib/index.js",
+        "node_modules/image-size/lib/readUInt.js",
+        "node_modules/image-size/lib/types/bmp.js",
+        "node_modules/image-size/lib/types/dds.js",
+        "node_modules/image-size/lib/types/gif.js",
+        "node_modules/image-size/lib/types/jpg.js",
+        "node_modules/image-size/lib/types/png.js",
+        "node_modules/image-size/lib/types/psd.js",
+        "node_modules/image-size/lib/types/svg.js",
+        "node_modules/image-size/lib/types/tiff.js",
+        "node_modules/image-size/lib/types/webp.js",
+        "node_modules/image-size/lib/types.js",
+        "node_modules/inflight/inflight.js",
+        "node_modules/inherits/inherits.js",
+        "node_modules/inherits/inherits_browser.js",
+        "node_modules/ini/ini.js",
+        "node_modules/is-typedarray/index.js",
+        "node_modules/is-typedarray/test.js",
+        "node_modules/is-windows/index.js",
+        "node_modules/isarray/build/build.js",
+        "node_modules/isarray/index.js",
+        "node_modules/isexe/index.js",
+        "node_modules/isexe/mode.js",
+        "node_modules/isexe/windows.js",
+        "node_modules/isstream/isstream.js",
+        "node_modules/isstream/test.js",
+        "node_modules/jsbn/example.js",
+        "node_modules/jsbn/index.js",
+        "node_modules/json-schema/lib/links.js",
+        "node_modules/json-schema/lib/validate.js",
+        "node_modules/json-stable-stringify/example/key_cmp.js",
+        "node_modules/json-stable-stringify/example/nested.js",
+        "node_modules/json-stable-stringify/example/str.js",
+        "node_modules/json-stable-stringify/example/value_cmp.js",
+        "node_modules/json-stable-stringify/index.js",
+        "node_modules/json-stringify-safe/stringify.js",
+        "node_modules/jsonify/index.js",
+        "node_modules/jsonify/lib/parse.js",
+        "node_modules/jsonify/lib/stringify.js",
+        "node_modules/jsprim/lib/jsprim.js",
+        "node_modules/jsprim/node_modules/assert-plus/assert.js",
+        "node_modules/less/Gruntfile.js",
+        "node_modules/less/browser.js",
+        "node_modules/less/dist/less.js",
+        "node_modules/less/dist/less.min.js",
+        "node_modules/less/index.js",
+        "node_modules/less/lib/less/contexts.js",
+        "node_modules/less/lib/less/data/colors.js",
+        "node_modules/less/lib/less/data/index.js",
+        "node_modules/less/lib/less/data/unit-conversions.js",
+        "node_modules/less/lib/less/environment/abstract-file-manager.js",
+        "node_modules/less/lib/less/environment/environment-api.js",
+        "node_modules/less/lib/less/environment/environment.js",
+        "node_modules/less/lib/less/environment/file-manager-api.js",
+        "node_modules/less/lib/less/functions/color-blending.js",
+        "node_modules/less/lib/less/functions/color.js",
+        "node_modules/less/lib/less/functions/data-uri.js",
+        "node_modules/less/lib/less/functions/default.js",
+        "node_modules/less/lib/less/functions/function-caller.js",
+        "node_modules/less/lib/less/functions/function-registry.js",
+        "node_modules/less/lib/less/functions/index.js",
+        "node_modules/less/lib/less/functions/math-helper.js",
+        "node_modules/less/lib/less/functions/math.js",
+        "node_modules/less/lib/less/functions/number.js",
+        "node_modules/less/lib/less/functions/string.js",
+        "node_modules/less/lib/less/functions/svg.js",
+        "node_modules/less/lib/less/functions/types.js",
+        "node_modules/less/lib/less/import-manager.js",
+        "node_modules/less/lib/less/index.js",
+        "node_modules/less/lib/less/less-error.js",
+        "node_modules/less/lib/less/logger.js",
+        "node_modules/less/lib/less/parse-tree.js",
+        "node_modules/less/lib/less/parse.js",
+        "node_modules/less/lib/less/parser/chunker.js",
+        "node_modules/less/lib/less/parser/parser-input.js",
+        "node_modules/less/lib/less/parser/parser.js",
+        "node_modules/less/lib/less/plugin-manager.js",
+        "node_modules/less/lib/less/plugins/function-importer.js",
+        "node_modules/less/lib/less/render.js",
+        "node_modules/less/lib/less/source-map-builder.js",
+        "node_modules/less/lib/less/source-map-output.js",
+        "node_modules/less/lib/less/transform-tree.js",
+        "node_modules/less/lib/less/tree/alpha.js",
+        "node_modules/less/lib/less/tree/anonymous.js",
+        "node_modules/less/lib/less/tree/assignment.js",
+        "node_modules/less/lib/less/tree/attribute.js",
+        "node_modules/less/lib/less/tree/call.js",
+        "node_modules/less/lib/less/tree/color.js",
+        "node_modules/less/lib/less/tree/combinator.js",
+        "node_modules/less/lib/less/tree/comment.js",
+        "node_modules/less/lib/less/tree/condition.js",
+        "node_modules/less/lib/less/tree/debug-info.js",
+        "node_modules/less/lib/less/tree/detached-ruleset.js",
+        "node_modules/less/lib/less/tree/dimension.js",
+        "node_modules/less/lib/less/tree/directive.js",
+        "node_modules/less/lib/less/tree/element.js",
+        "node_modules/less/lib/less/tree/expression.js",
+        "node_modules/less/lib/less/tree/extend.js",
+        "node_modules/less/lib/less/tree/import.js",
+        "node_modules/less/lib/less/tree/index.js",
+        "node_modules/less/lib/less/tree/javascript.js",
+        "node_modules/less/lib/less/tree/js-eval-node.js",
+        "node_modules/less/lib/less/tree/keyword.js",
+        "node_modules/less/lib/less/tree/media.js",
+        "node_modules/less/lib/less/tree/mixin-call.js",
+        "node_modules/less/lib/less/tree/mixin-definition.js",
+        "node_modules/less/lib/less/tree/negative.js",
+        "node_modules/less/lib/less/tree/node.js",
+        "node_modules/less/lib/less/tree/operation.js",
+        "node_modules/less/lib/less/tree/paren.js",
+        "node_modules/less/lib/less/tree/quoted.js",
+        "node_modules/less/lib/less/tree/rule.js",
+        "node_modules/less/lib/less/tree/ruleset-call.js",
+        "node_modules/less/lib/less/tree/ruleset.js",
+        "node_modules/less/lib/less/tree/selector.js",
+        "node_modules/less/lib/less/tree/unicode-descriptor.js",
+        "node_modules/less/lib/less/tree/unit.js",
+        "node_modules/less/lib/less/tree/url.js",
+        "node_modules/less/lib/less/tree/value.js",
+        "node_modules/less/lib/less/tree/variable.js",
+        "node_modules/less/lib/less/utils.js",
+        "node_modules/less/lib/less/visitors/extend-visitor.js",
+        "node_modules/less/lib/less/visitors/import-sequencer.js",
+        "node_modules/less/lib/less/visitors/import-visitor.js",
+        "node_modules/less/lib/less/visitors/index.js",
+        "node_modules/less/lib/less/visitors/join-selector-visitor.js",
+        "node_modules/less/lib/less/visitors/set-tree-visibility-visitor.js",
+        "node_modules/less/lib/less/visitors/to-css-visitor.js",
+        "node_modules/less/lib/less/visitors/visitor.js",
+        "node_modules/less/lib/less-browser/add-default-options.js",
+        "node_modules/less/lib/less-browser/bootstrap.js",
+        "node_modules/less/lib/less-browser/browser.js",
+        "node_modules/less/lib/less-browser/cache.js",
+        "node_modules/less/lib/less-browser/error-reporting.js",
+        "node_modules/less/lib/less-browser/file-manager.js",
+        "node_modules/less/lib/less-browser/image-size.js",
+        "node_modules/less/lib/less-browser/index.js",
+        "node_modules/less/lib/less-browser/log-listener.js",
+        "node_modules/less/lib/less-browser/utils.js",
+        "node_modules/less/lib/less-node/environment.js",
+        "node_modules/less/lib/less-node/file-manager.js",
+        "node_modules/less/lib/less-node/fs.js",
+        "node_modules/less/lib/less-node/image-size.js",
+        "node_modules/less/lib/less-node/index.js",
+        "node_modules/less/lib/less-node/lessc-helper.js",
+        "node_modules/less/lib/less-node/plugin-loader.js",
+        "node_modules/less/lib/less-node/url-file-manager.js",
+        "node_modules/less/lib/less-rhino/index.js",
+        "node_modules/less/lib/source-map/source-map-0.1.31.js",
+        "node_modules/less/lib/source-map/source-map-footer.js",
+        "node_modules/less/lib/source-map/source-map-header.js",
+        "node_modules/lodash/dist/lodash.compat.js",
+        "node_modules/lodash/dist/lodash.compat.min.js",
+        "node_modules/lodash/dist/lodash.js",
+        "node_modules/lodash/dist/lodash.min.js",
+        "node_modules/lodash/dist/lodash.underscore.js",
+        "node_modules/lodash/dist/lodash.underscore.min.js",
+        "node_modules/lodash/lodash.js",
+        "node_modules/mime/build/build.js",
+        "node_modules/mime/build/test.js",
+        "node_modules/mime/cli.js",
+        "node_modules/mime/mime.js",
+        "node_modules/mime-db/index.js",
+        "node_modules/mime-types/index.js",
+        "node_modules/minimatch/minimatch.js",
+        "node_modules/minimist/example/parse.js",
+        "node_modules/minimist/index.js",
+        "node_modules/mkdirp/bin/cmd.js",
+        "node_modules/mkdirp/examples/pow.js",
+        "node_modules/mkdirp/index.js",
+        "node_modules/oauth-sign/index.js",
+        "node_modules/once/once.js",
+        "node_modules/os-tmpdir/index.js",
+        "node_modules/parse-passwd/index.js",
+        "node_modules/path-is-absolute/index.js",
+        "node_modules/performance-now/lib/performance-now.js",
+        "node_modules/promise/build.js",
+        "node_modules/promise/core.js",
+        "node_modules/promise/domains/core.js",
+        "node_modules/promise/domains/done.js",
+        "node_modules/promise/domains/es6-extensions.js",
+        "node_modules/promise/domains/finally.js",
+        "node_modules/promise/domains/index.js",
+        "node_modules/promise/domains/node-extensions.js",
+        "node_modules/promise/domains/rejection-tracking.js",
+        "node_modules/promise/domains/synchronous.js",
+        "node_modules/promise/index.js",
+        "node_modules/promise/lib/core.js",
+        "node_modules/promise/lib/done.js",
+        "node_modules/promise/lib/es6-extensions.js",
+        "node_modules/promise/lib/finally.js",
+        "node_modules/promise/lib/index.js",
+        "node_modules/promise/lib/node-extensions.js",
+        "node_modules/promise/lib/rejection-tracking.js",
+        "node_modules/promise/lib/synchronous.js",
+        "node_modules/promise/polyfill-done.js",
+        "node_modules/promise/polyfill.js",
+        "node_modules/promise/setimmediate/core.js",
+        "node_modules/promise/setimmediate/done.js",
+        "node_modules/promise/setimmediate/es6-extensions.js",
+        "node_modules/promise/setimmediate/finally.js",
+        "node_modules/promise/setimmediate/index.js",
+        "node_modules/promise/setimmediate/node-extensions.js",
+        "node_modules/promise/setimmediate/rejection-tracking.js",
+        "node_modules/promise/setimmediate/synchronous.js",
+        "node_modules/promise/src/core.js",
+        "node_modules/promise/src/done.js",
+        "node_modules/promise/src/es6-extensions.js",
+        "node_modules/promise/src/finally.js",
+        "node_modules/promise/src/index.js",
+        "node_modules/promise/src/node-extensions.js",
+        "node_modules/promise/src/rejection-tracking.js",
+        "node_modules/promise/src/synchronous.js",
+        "node_modules/prr/prr.js",
+        "node_modules/prr/test.js",
+        "node_modules/punycode/punycode.js",
+        "node_modules/qs/dist/qs.js",
+        "node_modules/qs/lib/formats.js",
+        "node_modules/qs/lib/index.js",
+        "node_modules/qs/lib/parse.js",
+        "node_modules/qs/lib/stringify.js",
+        "node_modules/qs/lib/utils.js",
+        "node_modules/readable-stream/duplex.js",
+        "node_modules/readable-stream/lib/_stream_duplex.js",
+        "node_modules/readable-stream/lib/_stream_passthrough.js",
+        "node_modules/readable-stream/lib/_stream_readable.js",
+        "node_modules/readable-stream/lib/_stream_transform.js",
+        "node_modules/readable-stream/lib/_stream_writable.js",
+        "node_modules/readable-stream/passthrough.js",
+        "node_modules/readable-stream/readable.js",
+        "node_modules/readable-stream/transform.js",
+        "node_modules/readable-stream/writable.js",
+        "node_modules/request/index.js",
+        "node_modules/request/lib/auth.js",
+        "node_modules/request/lib/cookies.js",
+        "node_modules/request/lib/getProxyFromURI.js",
+        "node_modules/request/lib/har.js",
+        "node_modules/request/lib/helpers.js",
+        "node_modules/request/lib/multipart.js",
+        "node_modules/request/lib/oauth.js",
+        "node_modules/request/lib/querystring.js",
+        "node_modules/request/lib/redirect.js",
+        "node_modules/request/lib/tunnel.js",
+        "node_modules/request/request.js",
+        "node_modules/resolve-dir/index.js",
+        "node_modules/rimraf/bin.js",
+        "node_modules/rimraf/rimraf.js",
+        "node_modules/safe-buffer/index.js",
+        "node_modules/safe-buffer/test.js",
+        "node_modules/sntp/examples/offset.js",
+        "node_modules/sntp/examples/time.js",
+        "node_modules/sntp/index.js",
+        "node_modules/sntp/lib/index.js",
+        "node_modules/source-map/dist/source-map.debug.js",
+        "node_modules/source-map/dist/source-map.js",
+        "node_modules/source-map/dist/source-map.min.js",
+        "node_modules/source-map/lib/array-set.js",
+        "node_modules/source-map/lib/base64-vlq.js",
+        "node_modules/source-map/lib/base64.js",
+        "node_modules/source-map/lib/binary-search.js",
+        "node_modules/source-map/lib/mapping-list.js",
+        "node_modules/source-map/lib/quick-sort.js",
+        "node_modules/source-map/lib/source-map-consumer.js",
+        "node_modules/source-map/lib/source-map-generator.js",
+        "node_modules/source-map/lib/source-node.js",
+        "node_modules/source-map/lib/util.js",
+        "node_modules/source-map/source-map.js",
+        "node_modules/sprintf-js/dist/angular-sprintf.min.js",
+        "node_modules/sprintf-js/dist/sprintf.min.js",
+        "node_modules/sprintf-js/gruntfile.js",
+        "node_modules/sprintf-js/src/angular-sprintf.js",
+        "node_modules/sprintf-js/src/sprintf.js",
+        "node_modules/sshpk/lib/algs.js",
+        "node_modules/sshpk/lib/certificate.js",
+        "node_modules/sshpk/lib/dhe.js",
+        "node_modules/sshpk/lib/ed-compat.js",
+        "node_modules/sshpk/lib/errors.js",
+        "node_modules/sshpk/lib/fingerprint.js",
+        "node_modules/sshpk/lib/formats/auto.js",
+        "node_modules/sshpk/lib/formats/openssh-cert.js",
+        "node_modules/sshpk/lib/formats/pem.js",
+        "node_modules/sshpk/lib/formats/pkcs1.js",
+        "node_modules/sshpk/lib/formats/pkcs8.js",
+        "node_modules/sshpk/lib/formats/rfc4253.js",
+        "node_modules/sshpk/lib/formats/ssh-private.js",
+        "node_modules/sshpk/lib/formats/ssh.js",
+        "node_modules/sshpk/lib/formats/x509-pem.js",
+        "node_modules/sshpk/lib/formats/x509.js",
+        "node_modules/sshpk/lib/identity.js",
+        "node_modules/sshpk/lib/index.js",
+        "node_modules/sshpk/lib/key.js",
+        "node_modules/sshpk/lib/private-key.js",
+        "node_modules/sshpk/lib/signature.js",
+        "node_modules/sshpk/lib/ssh-buffer.js",
+        "node_modules/sshpk/lib/utils.js",
+        "node_modules/sshpk/node_modules/assert-plus/assert.js",
+        "node_modules/string_decoder/index.js",
+        "node_modules/stringstream/example.js",
+        "node_modules/stringstream/stringstream.js",
+        "node_modules/temp/examples/grepcount.js",
+        "node_modules/temp/examples/pdfcreator.js",
+        "node_modules/temp/lib/temp.js",
+        "node_modules/temp/no_cleanup.js",
+        "node_modules/temp/no_cleanup_on_exit.js",
+        "node_modules/temp/no_cleanup_on_exit.spec.js",
+        "node_modules/tough-cookie/lib/cookie.js",
+        "node_modules/tough-cookie/lib/memstore.js",
+        "node_modules/tough-cookie/lib/pathMatch.js",
+        "node_modules/tough-cookie/lib/permuteDomain.js",
+        "node_modules/tough-cookie/lib/pubsuffix.js",
+        "node_modules/tough-cookie/lib/store.js",
+        "node_modules/tunnel-agent/index.js",
+        "node_modules/tweetnacl/nacl-fast.js",
+        "node_modules/tweetnacl/nacl-fast.min.js",
+        "node_modules/tweetnacl/nacl.js",
+        "node_modules/tweetnacl/nacl.min.js",
+        "node_modules/unorm/lib/unorm.js",
+        "node_modules/uslug/index.js",
+        "node_modules/uslug/lib/L.js",
+        "node_modules/uslug/lib/M.js",
+        "node_modules/uslug/lib/N.js",
+        "node_modules/uslug/lib/Z.js",
+        "node_modules/uslug/lib/uslug.js",
+        "node_modules/uuid/index.js",
+        "node_modules/uuid/lib/bytesToUuid.js",
+        "node_modules/uuid/lib/rng-browser.js",
+        "node_modules/uuid/lib/rng.js",
+        "node_modules/uuid/lib/sha1-browser.js",
+        "node_modules/uuid/lib/sha1.js",
+        "node_modules/uuid/v1.js",
+        "node_modules/uuid/v4.js",
+        "node_modules/uuid/v5.js",
+        "node_modules/verror/lib/verror.js",
+        "node_modules/verror/node_modules/assert-plus/assert.js",
+        "node_modules/which/which.js",
+        "node_modules/wrappy/wrappy.js",
+        "node_modules/yamljs/cli/json2yaml.js",
+        "node_modules/yamljs/cli/yaml2json.js",
+        "node_modules/yamljs/dist/yaml.debug.js",
+        "node_modules/yamljs/dist/yaml.js",
+        "node_modules/yamljs/dist/yaml.legacy.js",
+        "node_modules/yamljs/dist/yaml.min.js",
+        "node_modules/yamljs/index.js",
+        "node_modules/yamljs/lib/Dumper.js",
+        "node_modules/yamljs/lib/Escaper.js",
+        "node_modules/yamljs/lib/Exception/DumpException.js",
+        "node_modules/yamljs/lib/Exception/ParseException.js",
+        "node_modules/yamljs/lib/Exception/ParseMore.js",
+        "node_modules/yamljs/lib/Inline.js",
+        "node_modules/yamljs/lib/Parser.js",
+        "node_modules/yamljs/lib/Pattern.js",
+        "node_modules/yamljs/lib/Unescaper.js",
+        "node_modules/yamljs/lib/Utils.js",
+        "node_modules/yamljs/lib/Yaml.js",
+        "simplified_chinese_2_traditional_chinese_script.js"
+      ],
+      ".json": [
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/functions/algebra.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/functions/elementary.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/functions/hyperbolic.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/functions/trigonometry.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/greek-capital.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/greek-mathfonts.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/greek-scripts.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/greek-small.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/greek-symbols.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/hebrew_letters.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-lower-double-accent.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-lower-normal.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-lower-phonetic.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-lower-single-accent.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-mathfonts.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-rest.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-upper-double-accent.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-upper-normal.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/latin-upper-single-accent.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_angles.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_arrows.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_characters.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_delimiters.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_digits.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_geometry.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_harpoons.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_non_characters.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_symbols.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/math_whitespace.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/symbols/other_stars.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/energy.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/length.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/memory.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/other.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/speed.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/temperature.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/time.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/volume.json",
+        "node_modules/@shd101wyy/mume/dependencies/mathjax/extensions/a11y/mathmaps/units/weight.json",
+        "node_modules/@shd101wyy/mume/dependencies/vega/vega-schema.json",
+        "node_modules/@shd101wyy/mume/dependencies/vega-lite/vega-lite-schema.json",
+        "node_modules/@shd101wyy/mume/package.json",
+        "node_modules/CSSselect/package.json",
+        "node_modules/CSSwhat/package.json",
+        "node_modules/ajv/lib/refs/json-schema-draft-04.json",
+        "node_modules/ajv/lib/refs/json-schema-v5.json",
+        "node_modules/ajv/package.json",
+        "node_modules/argparse/package.json",
+        "node_modules/asap/package.json",
+        "node_modules/asn1/package.json",
+        "node_modules/assert-plus/package.json",
+        "node_modules/asynckit/package.json",
+        "node_modules/aws-sign2/package.json",
+        "node_modules/aws4/package.json",
+        "node_modules/babyparse/package.json",
+        "node_modules/balanced-match/package.json",
+        "node_modules/bcrypt-pbkdf/package.json",
+        "node_modules/boom/package.json",
+        "node_modules/brace-expansion/package.json",
+        "node_modules/caseless/package.json",
+        "node_modules/cheerio/package.json",
+        "node_modules/co/package.json",
+        "node_modules/combined-stream/package.json",
+        "node_modules/concat-map/package.json",
+        "node_modules/core-util-is/package.json",
+        "node_modules/cryptiles/package.json",
+        "node_modules/dashdash/node_modules/assert-plus/package.json",
+        "node_modules/dashdash/package.json",
+        "node_modules/delayed-stream/package.json",
+        "node_modules/dom-serializer/node_modules/domelementtype/package.json",
+        "node_modules/dom-serializer/node_modules/entities/maps/decode.json",
+        "node_modules/dom-serializer/node_modules/entities/maps/entities.json",
+        "node_modules/dom-serializer/node_modules/entities/maps/legacy.json",
+        "node_modules/dom-serializer/node_modules/entities/maps/xml.json",
+        "node_modules/dom-serializer/node_modules/entities/package.json",
+        "node_modules/dom-serializer/package.json",
+        "node_modules/domelementtype/package.json",
+        "node_modules/domhandler/package.json",
+        "node_modules/domutils/package.json",
+        "node_modules/ecc-jsbn/package.json",
+        "node_modules/entities/maps/decode.json",
+        "node_modules/entities/maps/entities.json",
+        "node_modules/entities/maps/legacy.json",
+        "node_modules/entities/maps/xml.json",
+        "node_modules/entities/package.json",
+        "node_modules/errno/package.json",
+        "node_modules/expand-tilde/package.json",
+        "node_modules/extend/.jscs.json",
+        "node_modules/extend/component.json",
+        "node_modules/extend/package.json",
+        "node_modules/extsprintf/package.json",
+        "node_modules/forever-agent/package.json",
+        "node_modules/form-data/package.json",
+        "node_modules/fs.realpath/package.json",
+        "node_modules/getpass/node_modules/assert-plus/package.json",
+        "node_modules/getpass/package.json",
+        "node_modules/glob/package.json",
+        "node_modules/global-modules/package.json",
+        "node_modules/global-prefix/package.json",
+        "node_modules/graceful-fs/package.json",
+        "node_modules/har-schema/lib/afterRequest.json",
+        "node_modules/har-schema/lib/beforeRequest.json",
+        "node_modules/har-schema/lib/browser.json",
+        "node_modules/har-schema/lib/cache.json",
+        "node_modules/har-schema/lib/content.json",
+        "node_modules/har-schema/lib/cookie.json",
+        "node_modules/har-schema/lib/creator.json",
+        "node_modules/har-schema/lib/entry.json",
+        "node_modules/har-schema/lib/har.json",
+        "node_modules/har-schema/lib/header.json",
+        "node_modules/har-schema/lib/log.json",
+        "node_modules/har-schema/lib/page.json",
+        "node_modules/har-schema/lib/pageTimings.json",
+        "node_modules/har-schema/lib/postData.json",
+        "node_modules/har-schema/lib/query.json",
+        "node_modules/har-schema/lib/request.json",
+        "node_modules/har-schema/lib/response.json",
+        "node_modules/har-schema/lib/timings.json",
+        "node_modules/har-schema/package.json",
+        "node_modules/har-validator/package.json",
+        "node_modules/hawk/bower.json",
+        "node_modules/hawk/component.json",
+        "node_modules/hawk/package.json",
+        "node_modules/hoek/package.json",
+        "node_modules/homedir-polyfill/package.json",
+        "node_modules/htmlparser2/node_modules/domutils/package.json",
+        "node_modules/htmlparser2/package.json",
+        "node_modules/http-signature/package.json",
+        "node_modules/image-size/package.json",
+        "node_modules/inflight/package.json",
+        "node_modules/inherits/package.json",
+        "node_modules/ini/package.json",
+        "node_modules/is-typedarray/package.json",
+        "node_modules/is-windows/package.json",
+        "node_modules/isarray/component.json",
+        "node_modules/isarray/package.json",
+        "node_modules/isexe/package.json",
+        "node_modules/isstream/package.json",
+        "node_modules/jsbn/package.json",
+        "node_modules/json-schema/package.json",
+        "node_modules/json-stable-stringify/package.json",
+        "node_modules/json-stringify-safe/package.json",
+        "node_modules/jsonify/package.json",
+        "node_modules/jsprim/node_modules/assert-plus/package.json",
+        "node_modules/jsprim/package.json",
+        "node_modules/less/bower.json",
+        "node_modules/less/package.json",
+        "node_modules/lodash/package.json",
+        "node_modules/mime/package.json",
+        "node_modules/mime/types.json",
+        "node_modules/mime-db/db.json",
+        "node_modules/mime-db/package.json",
+        "node_modules/mime-types/package.json",
+        "node_modules/minimatch/package.json",
+        "node_modules/minimist/package.json",
+        "node_modules/mkdirp/package.json",
+        "node_modules/oauth-sign/package.json",
+        "node_modules/once/package.json",
+        "node_modules/os-tmpdir/package.json",
+        "node_modules/parse-passwd/package.json",
+        "node_modules/path-is-absolute/package.json",
+        "node_modules/performance-now/package.json",
+        "node_modules/promise/package.json",
+        "node_modules/prr/package.json",
+        "node_modules/punycode/package.json",
+        "node_modules/qs/.jscs.json",
+        "node_modules/qs/package.json",
+        "node_modules/readable-stream/package.json",
+        "node_modules/request/package.json",
+        "node_modules/resolve-dir/package.json",
+        "node_modules/rimraf/package.json",
+        "node_modules/safe-buffer/package.json",
+        "node_modules/sntp/package.json",
+        "node_modules/source-map/package.json",
+        "node_modules/sprintf-js/bower.json",
+        "node_modules/sprintf-js/package.json",
+        "node_modules/sshpk/node_modules/assert-plus/package.json",
+        "node_modules/sshpk/package.json",
+        "node_modules/string_decoder/package.json",
+        "node_modules/stringstream/package.json",
+        "node_modules/temp/package.json",
+        "node_modules/tough-cookie/package.json",
+        "node_modules/tunnel-agent/package.json",
+        "node_modules/tweetnacl/package.json",
+        "node_modules/unorm/package.json",
+        "node_modules/uslug/package.json",
+        "node_modules/uuid/.eslintrc.json",
+        "node_modules/uuid/package.json",
+        "node_modules/verror/node_modules/assert-plus/package.json",
+        "node_modules/verror/package.json",
+        "node_modules/which/package.json",
+        "node_modules/wrappy/package.json",
+        "node_modules/yamljs/bower.json",
+        "node_modules/yamljs/package.json",
+        "package.json",
+        "tsconfig.json"
+      ],
+      ".coffee": [
+        "node_modules/performance-now/src/performance-now.coffee",
+        "node_modules/yamljs/src/Dumper.coffee",
+        "node_modules/yamljs/src/Escaper.coffee",
+        "node_modules/yamljs/src/Exception/DumpException.coffee",
+        "node_modules/yamljs/src/Exception/ParseException.coffee",
+        "node_modules/yamljs/src/Exception/ParseMore.coffee",
+        "node_modules/yamljs/src/Inline.coffee",
+        "node_modules/yamljs/src/Parser.coffee",
+        "node_modules/yamljs/src/Pattern.coffee",
+        "node_modules/yamljs/src/Unescaper.coffee",
+        "node_modules/yamljs/src/Utils.coffee",
+        "node_modules/yamljs/src/Yaml.coffee"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          ".vscode",
+          "docs/revealjs_deps",
+          "out/src",
+          ""
+        ],
+        "dependencies": {
+          "@shd101wyy/mume": "^0.2.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/ajv",
+          "node_modules/ajv/dist",
+          "node_modules/ajv/lib",
+          "node_modules/ajv/lib/compile",
+          "node_modules/ajv/lib/dotjs",
+          "node_modules/ajv/lib/refs",
+          "node_modules/ajv/scripts"
+        ],
+        "dependencies": {
+          "co": "^4.6.0",
+          "json-stable-stringify": "^1.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/argparse",
+          "node_modules/argparse/lib/action/append",
+          "node_modules/argparse/lib/action",
+          "node_modules/argparse/lib/action/store",
+          "node_modules/argparse/lib",
+          "node_modules/argparse/lib/argument",
+          "node_modules/argparse/lib/help"
+        ],
+        "dependencies": {
+          "sprintf-js": "~1.0.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/bcrypt-pbkdf"
+        ],
+        "dependencies": {
+          "tweetnacl": "^0.14.3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/boom/lib",
+          "node_modules/boom",
+          "node_modules/boom/test"
+        ],
+        "dependencies": {
+          "hoek": "2.x.x"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/brace-expansion"
+        ],
+        "dependencies": {
+          "balanced-match": "^1.0.0",
+          "concat-map": "0.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/cheerio",
+          "node_modules/cheerio/lib/api",
+          "node_modules/cheerio/lib",
+          "node_modules/cheerio/test"
+        ],
+        "dependencies": {
+          "CSSselect": "~0.4.0",
+          "entities": "~1.0.0",
+          "htmlparser2": "~3.7.0",
+          "lodash": "~2.4.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/combined-stream/lib",
+          "node_modules/combined-stream"
+        ],
+        "dependencies": {
+          "delayed-stream": "~1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/cryptiles/lib",
+          "node_modules/cryptiles",
+          "node_modules/cryptiles/test"
+        ],
+        "dependencies": {
+          "boom": "2.x.x"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/CSSselect",
+          "node_modules/CSSselect/lib",
+          "node_modules/CSSselect/test",
+          "node_modules/CSSselect/test/nwmatcher",
+          "node_modules/CSSselect/test/qwery",
+          "node_modules/CSSselect/test/sizzle/data",
+          "node_modules/CSSselect/test/sizzle",
+          "node_modules/CSSselect/test/tools"
+        ],
+        "dependencies": {
+          "CSSwhat": "0.4",
+          "domutils": "1.4"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/dashdash/lib",
+          "node_modules/dashdash"
+        ],
+        "dependencies": {
+          "assert-plus": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/dom-serializer"
+        ],
+        "dependencies": {
+          "domelementtype": "~1.1.1",
+          "entities": "~1.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/domhandler",
+          "node_modules/domhandler/lib",
+          "node_modules/domhandler/test/cases",
+          "node_modules/domhandler/test"
+        ],
+        "dependencies": {
+          "domelementtype": "1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/domutils",
+          "node_modules/domutils/lib",
+          "node_modules/domutils/test",
+          "node_modules/domutils/test/tests"
+        ],
+        "dependencies": {
+          "domelementtype": "1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/ecc-jsbn",
+          "node_modules/ecc-jsbn/lib"
+        ],
+        "dependencies": {
+          "jsbn": "~0.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/errno"
+        ],
+        "dependencies": {
+          "prr": "~0.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/expand-tilde"
+        ],
+        "dependencies": {
+          "homedir-polyfill": "^1.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/form-data/lib",
+          "node_modules/form-data"
+        ],
+        "dependencies": {
+          "asynckit": "^0.4.0",
+          "combined-stream": "^1.0.5",
+          "mime-types": "^2.1.12"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/getpass/lib",
+          "node_modules/getpass"
+        ],
+        "dependencies": {
+          "assert-plus": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/glob"
+        ],
+        "dependencies": {
+          "fs.realpath": "^1.0.0",
+          "inflight": "^1.0.4",
+          "inherits": "2",
+          "minimatch": "^3.0.4",
+          "once": "^1.3.0",
+          "path-is-absolute": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/global-modules"
+        ],
+        "dependencies": {
+          "global-prefix": "^1.0.1",
+          "is-windows": "^1.0.1",
+          "resolve-dir": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/global-prefix"
+        ],
+        "dependencies": {
+          "expand-tilde": "^2.0.2",
+          "homedir-polyfill": "^1.0.1",
+          "ini": "^1.3.4",
+          "is-windows": "^1.0.1",
+          "which": "^1.2.14"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/har-validator/lib/browser",
+          "node_modules/har-validator/lib/node4",
+          "node_modules/har-validator/lib/node6",
+          "node_modules/har-validator/lib/node7",
+          "node_modules/har-validator",
+          "node_modules/har-validator/src"
+        ],
+        "dependencies": {
+          "ajv": "^4.9.1",
+          "har-schema": "^1.0.5"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/hawk",
+          "node_modules/hawk/dist",
+          "node_modules/hawk/example",
+          "node_modules/hawk/lib",
+          "node_modules/hawk/test"
+        ],
+        "dependencies": {
+          "boom": "2.x.x",
+          "cryptiles": "2.x.x",
+          "hoek": "2.x.x",
+          "sntp": "1.x.x"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/homedir-polyfill"
+        ],
+        "dependencies": {
+          "parse-passwd": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/htmlparser2/lib",
+          "node_modules/htmlparser2",
+          "node_modules/htmlparser2/test",
+          "node_modules/htmlparser2/test/Events",
+          "node_modules/htmlparser2/test/Feeds",
+          "node_modules/htmlparser2/test/Stream"
+        ],
+        "dependencies": {
+          "domelementtype": "1",
+          "domhandler": "2.2",
+          "domutils": "1.5",
+          "entities": "1.0",
+          "readable-stream": "1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/htmlparser2/node_modules/domutils",
+          "node_modules/htmlparser2/node_modules/domutils/lib",
+          "node_modules/htmlparser2/node_modules/domutils/test",
+          "node_modules/htmlparser2/node_modules/domutils/test/tests"
+        ],
+        "dependencies": {
+          "dom-serializer": "0",
+          "domelementtype": "1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/http-signature/lib",
+          "node_modules/http-signature"
+        ],
+        "dependencies": {
+          "assert-plus": "^0.2.0",
+          "jsprim": "^1.2.2",
+          "sshpk": "^1.7.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/inflight"
+        ],
+        "dependencies": {
+          "once": "^1.3.0",
+          "wrappy": "1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/json-stable-stringify/example",
+          "node_modules/json-stable-stringify",
+          "node_modules/json-stable-stringify/test"
+        ],
+        "dependencies": {
+          "jsonify": "~0.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/jsprim/lib",
+          "node_modules/jsprim"
+        ],
+        "dependencies": {
+          "assert-plus": "1.0.0",
+          "extsprintf": "1.3.0",
+          "json-schema": "0.2.3",
+          "verror": "1.10.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/less",
+          "node_modules/less/dist",
+          "node_modules/less/lib/less",
+          "node_modules/less/lib/less/data",
+          "node_modules/less/lib/less/environment",
+          "node_modules/less/lib/less/functions",
+          "node_modules/less/lib/less/parser",
+          "node_modules/less/lib/less/plugins",
+          "node_modules/less/lib/less/tree",
+          "node_modules/less/lib/less/visitors",
+          "node_modules/less/lib/less-browser",
+          "node_modules/less/lib/less-node",
+          "node_modules/less/lib/less-rhino",
+          "node_modules/less/lib/source-map",
+          "node_modules/less/test/browser",
+          "node_modules/less/test",
+          "node_modules/less/test/less/globalVars",
+          "node_modules/less/test/less/modifyVars",
+          "node_modules/less/test/less/plugin",
+          "node_modules/less/test/less/sourcemaps",
+          "node_modules/less/test/less-bom/globalVars",
+          "node_modules/less/test/less-bom/modifyVars",
+          "node_modules/less/test/less-bom/plugin",
+          "node_modules/less/test/less-bom/sourcemaps",
+          "node_modules/less/test/plugins/filemanager",
+          "node_modules/less/test/plugins/postprocess",
+          "node_modules/less/test/plugins/preprocess",
+          "node_modules/less/test/plugins/visitor",
+          "node_modules/less/test/rhino",
+          "node_modules/less/test/sourcemaps"
+        ],
+        "dependencies": {
+          "errno": "^0.1.1",
+          "graceful-fs": "^4.1.2",
+          "image-size": "~0.5.0",
+          "mime": "^1.2.11",
+          "mkdirp": "^0.5.0",
+          "promise": "^7.1.1",
+          "request": "^2.72.0",
+          "source-map": "^0.5.3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/mime-types"
+        ],
+        "dependencies": {
+          "mime-db": "~1.30.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/minimatch"
+        ],
+        "dependencies": {
+          "brace-expansion": "^1.1.7"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/mkdirp/bin",
+          "node_modules/mkdirp/examples",
+          "node_modules/mkdirp",
+          "node_modules/mkdirp/test"
+        ],
+        "dependencies": {
+          "minimist": "0.0.8"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/once"
+        ],
+        "dependencies": {
+          "wrappy": "1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/promise",
+          "node_modules/promise/domains",
+          "node_modules/promise/lib",
+          "node_modules/promise/setimmediate",
+          "node_modules/promise/src"
+        ],
+        "dependencies": {
+          "asap": "~2.0.3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/readable-stream",
+          "node_modules/readable-stream/lib"
+        ],
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "inherits": "~2.0.1",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.x"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/request",
+          "node_modules/request/lib"
+        ],
+        "dependencies": {
+          "aws-sign2": "~0.6.0",
+          "aws4": "^1.2.1",
+          "caseless": "~0.12.0",
+          "combined-stream": "~1.0.5",
+          "extend": "~3.0.0",
+          "forever-agent": "~0.6.1",
+          "form-data": "~2.1.1",
+          "har-validator": "~4.2.1",
+          "hawk": "~3.1.3",
+          "http-signature": "~1.1.0",
+          "is-typedarray": "~1.0.0",
+          "isstream": "~0.1.2",
+          "json-stringify-safe": "~5.0.1",
+          "mime-types": "~2.1.7",
+          "oauth-sign": "~0.8.1",
+          "performance-now": "^0.2.0",
+          "qs": "~6.4.0",
+          "safe-buffer": "^5.0.1",
+          "stringstream": "~0.0.4",
+          "tough-cookie": "~2.3.0",
+          "tunnel-agent": "^0.6.0",
+          "uuid": "^3.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/resolve-dir"
+        ],
+        "dependencies": {
+          "expand-tilde": "^2.0.0",
+          "global-modules": "^1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/sntp/examples",
+          "node_modules/sntp",
+          "node_modules/sntp/lib",
+          "node_modules/sntp/test"
+        ],
+        "dependencies": {
+          "hoek": "2.x.x"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/sshpk/lib",
+          "node_modules/sshpk/lib/formats",
+          "node_modules/sshpk"
+        ],
+        "dependencies": {
+          "asn1": "~0.2.3",
+          "assert-plus": "^1.0.0",
+          "bcrypt-pbkdf": "^1.0.0",
+          "dashdash": "^1.12.0",
+          "ecc-jsbn": "~0.1.1",
+          "getpass": "^0.1.1",
+          "jsbn": "~0.1.0",
+          "tweetnacl": "~0.14.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/temp/examples",
+          "node_modules/temp/lib",
+          "node_modules/temp",
+          "node_modules/temp/test"
+        ],
+        "dependencies": {
+          "os-tmpdir": "^1.0.0",
+          "rimraf": "~2.2.6"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/tough-cookie/lib",
+          "node_modules/tough-cookie"
+        ],
+        "dependencies": {
+          "punycode": "^1.4.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/tunnel-agent"
+        ],
+        "dependencies": {
+          "safe-buffer": "^5.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/uslug",
+          "node_modules/uslug/lib",
+          "node_modules/uslug/test"
+        ],
+        "dependencies": {
+          "unorm": ">= 1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/verror/lib",
+          "node_modules/verror"
+        ],
+        "dependencies": {
+          "assert-plus": "^1.0.0",
+          "core-util-is": "1.0.2",
+          "extsprintf": "^1.2.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/which"
+        ],
+        "dependencies": {
+          "isexe": "^2.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/yamljs",
+          "node_modules/yamljs/cli",
+          "node_modules/yamljs/dist",
+          "node_modules/yamljs/lib",
+          "node_modules/yamljs/lib/Exception",
+          "node_modules/yamljs/src",
+          "node_modules/yamljs/src/Exception",
+          "node_modules/yamljs/test/lib/jasmine-2.0.0",
+          "node_modules/yamljs/test/spec"
+        ],
+        "dependencies": {
+          "argparse": "^1.0.7",
+          "glob": "^7.0.5"
+        }
+      }
+    ]
+  }
 }

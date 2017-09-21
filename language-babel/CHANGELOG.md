@@ -1,7 +1,90 @@
+### 2.74.2
+  - Flowtype type assignments were sometimes parsed as variables.
+  - Add some global attributes to JSX auto-complete. Thanks @rgbkrk and @mpacer [PR 411](https://github.com/gandm/language-babel/pull/411).
+  - Fix certain JSX being parsed as flow. [Issue 412](https://github.com/gandm/language-babel/issues/412)
+
+### 2.74.1
+  - Fix issue when break|continue labelname followed by newline stopped parsing following line
+
+### 2.74.0
+  - Change grammar scopes to improve ligature support for null chaining and exponent operators.
+  - Add support for JavaScript label syntax. [Issue #409](https://github.com/gandm/language-babel/issues/409)
+
+### 2.73.0
+  - Add some operator scopes to align with language-javascript's usage. [Issue #405](https://github.com/gandm/language-babel/issues/405)
+  - Fix incorrect handling of for..of|in loops following flow generic var definition. [Issue #404](https://github.com/gandm/language-babel/issues/404)
+
+### 2.72.0
+  - Add `.mjs` as supported filetype for grammar. See [PR 399](https://github.com/gandm/language-babel/pull/399)
+  - Relax parsing of styled-components withComponent to allow chaining. [Issue 400](https://github.com/gandm/language-babel/issues/400)
+  - Remove redundant scoping for [+-]Infinity. [Issue 401](https://github.com/gandm/language-babel/issues/401)
+
+### 2.71.0
+  - Add support to grammar for private class fields and methods defined at [TC39 ](https://github.com/tc39/proposal-class-fields)
+
+### 2.70.2
+  - Add commenting option to pipelined operators
+  - Fix bad captures in 2.71.1
+
+### 2.70.1
+  - Fix JS keywords being parsed as pipeline functions.
+
+### 2.70.0
+  - Add support for |> [pipeline operator](https://github.com/tc39/proposal-pipeline-operator)
+
+### 2.69.0
+  - Add support for Flow's [opaque](https://flow.org/en/docs/types/opaque-types/#opaque-type-alias-syntax-a-classtoc-idtoc-opaque-type-alias-syntax-hreftoc-opaque-type-alias-syntaxa) keyword.
+  - Fix Flow type objects in grammar - Issue #392
+  - Fix highlighting/scopes for null arguments in the form `func?.()`
+
+### 2.68.0
+  - Add syntax support for null/existential/elvis `?` operator as defined at [tc39 chaining](https://github.com/tc39/proposal-optional-chaining)
+
+### 2.67.2
+  - Fix another bind :: parse error -Issue #390
+
+### 2.67.1
+  - Fix bind syntax :: not being parsed in certain cases - Issue #389
+
+### 2.67.0
+  - Add support for Styled Components internal API withConfig. PR #387
+  - Assume some forms of <IDENT> are flow functions and not JSX. Issue #388
+
+### 2.66.1
+  - Stop autoIndentJSX tokenizing characters prior to actual JSX.
+
+### 2.66.0
+  - Add meta scope to flowtype objects to allow additional themeing - Issue #382
+  - Existing editors instantiated using autoIndentJSX should observe the config for changes.
+
+### 2.65.3
+  - Fix incorrect closing tag position autoIndentJSX  
+
+### 2.65.2
+  - Fix scope on import/export to allow Atom's toggle quotes to work.
+  - Fix way ternaries inside JSX were auto indented. Fixes [#369](https://github.com/gandm/language-babel/issues/369#issuecomment-308108180)
+
+### 2.65.1
+  - Fix how we handle unexpected flowtypes that changed in 2.64.0 - Issue #376
+
+### 2.65.0
+  - Add support for styled-components styled(Comp).attrs() form of template.
+
+### 2.64.0
+ - Change parsing of possible multiline arrow functions.
+
+### 2.63.0
+  - Changed format for shortcut commenting inside styled-components. Prettier used a template commenting format that was different to language-babel. We have agreed to use a common format that allows co-existence. i.e. \`{'' /&ast; color: red; &ast;/}\`. This will cause issues for already commented lines inside styled-component tags that need to be uncommented which is regrettable. Also prettier-atom has yet to be updated to have this new format.
+  - Add support for styled-components V2.
+
+### 2.62.0
+  - Support interpolations inside css url(). #368
+  - Allow backtick insertion to wrap selected text. #370
+
 ### 2.61.0
   - Add support for CSS grid [linename] values.
   - Fix 2.59.1
-  
+
 ### 2.60.0
   - Allow non-css snippets inside styled-componenets tags.
 

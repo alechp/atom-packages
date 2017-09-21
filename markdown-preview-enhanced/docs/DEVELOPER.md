@@ -1,24 +1,18 @@
-# Developer's Doc
+# Developer
+## Develop this package for Atom
 Feel free to post pull request, report issues, or request new features!
 
 
-To modify and develop **markdown-preview-enhanced** package, you need to follow these steps:
-* **fork** and then **clone** the project.
-If you don't want to **fork** this project, you can also choose to download the latest zip file from the github repo page.
-* `cd` to downloaded **markdown-preview-enhanced** folder. Run `apm link` command. Then run `npm install` command
-```shell
-cd the_path_to_folder/markdown-preview-enhanced
-npm install
-apm link # local installation
+To modify and develop **markdown-preview-enhanced** package, you need to perform [local installation](installation.md?id=install-from-github).  
 
-cd ../
-apm develop markdown-preview-enhanced
-```
+After you have done installing the package, follow these steps:  
+
 * Open **markdown-preview-enhanced** folder in **Atom Editor** from **View->Developer->Open in Dev Mode...**
 * Then you can modify the code.
-Every time after you update the code, you need to `cmd+shift+p` then choose `Window: Reload` to reload the package to see the update.
+Every time after you update the code, you need to <kbd>cmd-shift-p</kbd> then choose `Window: Reload` to reload the package to see the update.
 
----
+> As the Atom version is written in TypeScript, it is recommended to install `atom-typescript` to help develop the package.   
+> Well... I developed the atom version using vscode.   
 
-## Write Extension
-How to write extensions can be found [here](./extension.md).
+## Developthis package for VS Code
+Clone [vscode-markdown-preview-enhanced](https://github.com/shd101wyy/vscode-markdown-preview-enhanced), then `npm install`, open in **vscde** and start debugging.  

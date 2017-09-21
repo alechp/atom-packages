@@ -1,4 +1,4 @@
-# vim-mode-plus [![Build Status](https://travis-ci.org/t9md/atom-vim-mode-plus.svg)](https://travis-ci.org/t9md/atom-vim-mode-plus)
+# vim-mode-plus [![Build Status](https://travis-ci.org/t9md/atom-vim-mode-plus.svg)](https://travis-ci.org/t9md/atom-vim-mode-plus) [![BountySource](https://api.bountysource.com/badge/team?team_id=116280&style=raised)](https://www.bountysource.com/teams/atom-vim-mode-plus)
 
 vim-mode improved.
 
@@ -12,6 +12,7 @@ vim-mode improved.
 - [Whats this?](#whats-this)
 - [FAQ](#faq)
     - [Why fork? why not directly contribute to official vim-mode?](#why-fork-why-not-directly-contribute-to-official-vim-mode)
+    - [Behavior different from pure Vim?](#behavior-different-from-pure-vim)
     - [In visual-block mode, some motions make the editor slow, freeze.](#in-visual-block-mode-some-motions-make-the-editor-slow-freeze)
     - [ex-mode?](#ex-mode)
     - [Want to suppress autocomplete-plus's auto suggestion except insert-mode.](#want-to-suppress-autocomplete-pluss-auto-suggestion-except-insert-mode)
@@ -86,6 +87,11 @@ Search [Q&A](https://github.com/t9md/atom-vim-mode-plus/issues?utf8=%E2%9C%93&q=
 - Changes are [too big](https://github.com/t9md/atom-vim-mode-plus/graphs/contributors).
 - I felt many features are too experimental to merge to the official vim-mode.
 
+### Behavior different from pure Vim?
+
+Some behaviors are intentionally have different default behaviors.
+See [DifferencesFromPureVim](https://github.com/t9md/atom-vim-mode-plus/wiki/DifferencesFromPureVim) for details.
+
 ### In visual-block mode, some motions make the editor slow, freeze.
 
 Not freezing, it's just VERY slow.  
@@ -93,6 +99,7 @@ You can workaround by disabling some keymap. See [#214](https://github.com/t9md/
 
 ### ex-mode?
 
+- The [ex-mode](https://atom.io/packages/ex-mode) package has the most complete ex-mode support.
 - Very immature package [vim-mode-plus-ex-mode](https://atom.io/packages/vim-mode-plus-ex-mode) exists.
 - My thought for ex-mode is [here #52](https://github.com/t9md/atom-vim-mode-plus/issues/52).
 
@@ -153,8 +160,8 @@ provides <kbd>gf</kbd> to open file under cursor.
 Does not exist in pure Vim, provides clip-board history you can pop yanked text until you get result you want.
 - [choose-pane](https://atom.io/packages/choose-pane)
 Does not exist in pure Vim, provides keyboard navigation between panes/panels by choosing it by label.
-- [paner](https://atom.io/packages/paner)
-provides <kbd>ctrl-w H, J, K, L, x</kbd> to move pane.
+- [keystroke](https://atom.io/packages/keystroke)
+Keystrokes to keystroke keyamp in you `keymap.cson`.
 
 # References
 
@@ -169,7 +176,7 @@ provides <kbd>ctrl-w H, J, K, L, x</kbd> to move pane.
 
 ## Other
 - [operator, the true power of Vim](http://whileimautomaton.net/2008/11/vimm3/operator) by kana.  
-  True power of Vim is Operator and TextOjbect.
+  True power of Vim is Operator and TextObject.
 
 - [List of text-object as vim plugin](https://github.com/kana/vim-textobj-user/wiki)  
   vim-mode-plus builtin textobj for function, fold, entire, comment, indent, line, and any-pair(super set of many pair text-obj)
