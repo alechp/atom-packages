@@ -1,3 +1,15 @@
+### 2.75.1
+  - Change styled.attrs parsing to allow for no template string.[Issue 424](https://github.com/gandm/language-babel/issues/424)
+
+### 2.75.0
+ - Add new `.languagebabel` option `keepFileExtension`.
+
+### 2.74.4
+  - Fix grammar: class field property returning arrow func which returns arrow func. [Issue 421](https://github.com/gandm/language-babel/issues/421)
+
+### 2.74.3
+  - Await keyword following spread was incorrectly scoped. [Issue 417](https://github.com/gandm/language-babel/issues/417)
+
 ### 2.74.2
   - Flowtype type assignments were sometimes parsed as variables.
   - Add some global attributes to JSX auto-complete. Thanks @rgbkrk and @mpacer [PR 411](https://github.com/gandm/language-babel/pull/411).

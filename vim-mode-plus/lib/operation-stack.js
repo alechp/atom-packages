@@ -1,11 +1,11 @@
 const {Disposable, CompositeDisposable} = require("atom")
 const Base = require("./base")
-let OperationAbortedError, Select, MoveToRelativeLine
+let OperationAbortedError
 
 // opration life in operationStack
 // 1. run
 //    instantiated by new.
-//    compliment implicit Operator.Select operator if necessary.
+//    complement implicit Operator.SelectInVisualMode operator if necessary.
 //    push operation to stack.
 // 2. process
 //    reduce stack by, popping top of stack then set it as target of new top.
@@ -67,16 +67,6 @@ module.exports = class OperationStack {
     return this.stack.length === 0
   }
 
-  newMoveToRelativeLine() {
-    if (!MoveToRelativeLine) MoveToRelativeLine = Base.getClass("MoveToRelativeLine")
-    return new MoveToRelativeLine(this.vimState)
-  }
-
-  newSelectWithTarget(target) {
-    if (!Select) Select = Base.getClass("Select")
-    return new Select(this.vimState).setTarget(target)
-  }
-
   // Main
   // -------------------------
   run(klass, properties) {
@@ -89,7 +79,6 @@ module.exports = class OperationStack {
     }
 
     try {
-      if (this.isEmpty()) this.vimState.init()
       const type = typeof klass
 
       let operation
@@ -102,15 +91,14 @@ module.exports = class OperationStack {
         const stackTop = this.peekTop()
         if (stackTop && stackTop.constructor === klass) {
           // Replace operator when identical one repeated, e.g. `dd`, `cc`, `gUgU`
-          operation = this.newMoveToRelativeLine()
-        } else {
-          operation = new klass(this.vimState, properties)
+          klass = "MoveToRelativeLine"
         }
+        operation = Base.getInstance(this.vimState, klass, properties)
       }
 
       if (this.isEmpty()) {
         if ((this.mode === "visual" && operation.isMotion()) || operation.isTextObject()) {
-          operation = this.newSelectWithTarget(operation)
+          operation = Base.getInstance(this.vimState, "SelectInVisualMode").setTarget(operation)
         }
         this.stack.push(operation)
         this.process()
@@ -143,15 +131,19 @@ module.exports = class OperationStack {
     this.run(operation)
   }
 
-  runRecordedMotion(key, {reverse} = {}) {
-    const recoded = this.vimState.globalState.get(key)
-    if (!recoded) return
+  // Currently used in repeat-search and repeat-find("n", "N", ";", ",").
+  runRecordedMotion(key, {reverse = false} = {}) {
+    const recorded = this.vimState.globalState.get(key)
+    if (!recorded) return
 
-    const operation = recoded.clone(this.vimState)
-    operation.repeated = true
-    operation.resetCount()
-    if (reverse) operation.backwards = !operation.backwards
-    this.run(operation)
+    recorded.vimState = this.vimState
+    recorded.repeated = true
+    recorded.operator = null
+    recorded.resetCount()
+
+    if (reverse) recorded.backwards = !recorded.backwards
+    this.run(recorded)
+    if (reverse) recorded.backwards = !recorded.backwards
   }
 
   runCurrentFind(options) {
@@ -190,20 +182,10 @@ module.exports = class OperationStack {
       if (this.mode === "normal" && top.isOperator()) {
         this.modeManager.activate("operator-pending")
       }
-      this.addOperatorSpecificPendingScope(top)
+      // Temporary set while command is running to achieve operation-specific keymap scopes
+      this.addToClassList(top.getCommandNameWithoutPrefix() + "-pending")
     } else {
       this.execute(this.stack.pop())
-    }
-  }
-
-  addOperatorSpecificPendingScope(operation) {
-    // Temporary set while command is running
-    const commandName =
-      typeof operation.constructor.getCommandNameWithoutPrefix === "function"
-        ? operation.constructor.getCommandNameWithoutPrefix()
-        : undefined
-    if (commandName) {
-      this.addToClassList(commandName + "-pending")
     }
   }
 
@@ -218,26 +200,31 @@ module.exports = class OperationStack {
     }
   }
 
-  cancel() {
-    if (!["visual", "insert"].includes(this.mode)) {
-      this.vimState.resetNormalMode()
-      this.vimState.restoreOriginalCursorPosition()
+  cancel(operation) {
+    if (this.mode === "operator-pending") {
+      this.vimState.mutationManager.restoreCursorsToInitialPosition()
+      this.modeManager.activate("normal")
     }
-    this.finish()
+    this.finish(operation, true)
   }
 
-  finish(operation) {
-    if (operation) {
-      if (operation.recordable) this.recordedOperation = operation
+  finish(operation, cancelled) {
+    this.vimState.emitDidFinishOperation()
+
+    if (!cancelled) {
+      if (operation.recordable) {
+        this.recordedOperation = operation
+      }
       this.lastCommandName = operation.name
+      operation.resetState()
     }
 
-    this.vimState.emitDidFinishOperation()
-    if (operation && operation.isOperator()) operation.resetState()
-
     if (this.mode === "normal") {
-      this.ensureAllSelectionsAreEmpty(operation)
-      this.ensureAllCursorsAreNotAtEndOfLine()
+      this.clearSelectionsIfNotEmpty(operation)
+
+      // Move cursor left if cursor was at EOL
+      const eolCursors = this.editor.getCursors().filter(cursor => cursor.isAtEndOfLine())
+      eolCursors.forEach(cursor => this.vimState.utils.moveCursorLeft(cursor, {preserveGoalColumn: true}))
     } else if (this.mode === "visual") {
       this.modeManager.updateNarrowedState()
       this.vimState.updatePreviousSelection()
@@ -247,7 +234,7 @@ module.exports = class OperationStack {
     this.vimState.reset()
   }
 
-  ensureAllSelectionsAreEmpty(operation) {
+  clearSelectionsIfNotEmpty(operation) {
     // When @vimState.selectBlockwise() is called in non-visual-mode.
     // e.g. `.` repeat of operation targeted blockwise `CurrentSelection`.
     // We need to manually clear blockwiseSelection.
@@ -260,13 +247,6 @@ module.exports = class OperationStack {
       }
       this.vimState.clearSelections()
     }
-  }
-
-  ensureAllCursorsAreNotAtEndOfLine() {
-    this.editor
-      .getCursors()
-      .filter(cursor => cursor.isAtEndOfLine())
-      .map(cursor => this.vimState.utils.moveCursorLeft(cursor, {preserveGoalColumn: true}))
   }
 
   addToClassList(className) {

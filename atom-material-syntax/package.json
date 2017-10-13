@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7453-yao7ex.5tqls4te29"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117913-68428-vukww6.frssda38fr"
     ]
   ],
-  "_from": "../d-117411-7453-10jy63c.szzetjfw29/package.tgz",
-  "_id": "atom-material-syntax@1.0.6",
+  "_from": "../d-117913-68428-nrpw34.gj696kcsor/package.tgz",
+  "_id": "atom-material-syntax@1.0.7",
   "_inCache": true,
-  "_installable": true,
   "_location": "/atom-material-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117411-7453-10jy63c.szzetjfw29/package.tgz",
-  "_shasum": "21e913bf1a79d49a2e4d2ec24bac870c9cc0d0bb",
+  "_resolved": "file:../d-117913-68428-nrpw34.gj696kcsor/package.tgz",
+  "_shasum": "834d5959d8c11eccc6d13bde08a504aa563c7f8a",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7453-10jy63c.szzetjfw29/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7453-yao7ex.5tqls4te29",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-68428-nrpw34.gj696kcsor/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117913-68428-vukww6.frssda38fr",
   "bugs": {
     "url": "https://github.com/silvestreh/atom-material-syntax/issues"
   },
@@ -62,5 +61,5 @@
     "url": "git+https://github.com/silvestreh/atom-material-syntax.git"
   },
   "theme": "syntax",
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

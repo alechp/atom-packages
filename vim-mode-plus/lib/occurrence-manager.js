@@ -34,7 +34,7 @@ module.exports = class OccurrenceManager {
   }
 
   markBufferRangeByPattern(pattern, occurrenceType) {
-    const markRange = ({range}) => this.markerLayer.markBufferRange(range, {invalidate: "inside"})
+    const markRange = range => this.markerLayer.markBufferRange(range, {invalidate: "inside"})
     const {editor} = this.vimState
     if (occurrenceType === "subword") {
       const subwordRegex = editor.getLastCursor().subwordRegExp()
@@ -42,10 +42,26 @@ module.exports = class OccurrenceManager {
       editor.scan(pattern, ({range}) => {
         const {row} = range.start
         if (!cache[row]) cache[row] = collectRangeInBufferRow(editor, row, subwordRegex)
-        if (cache[row].some(subwordRange => subwordRange.isEqual(range))) markRange({range})
+        if (cache[row].some(subwordRange => subwordRange.isEqual(range))) markRange(range)
       })
     } else {
-      editor.scan(pattern, markRange)
+      const ranges = []
+      editor.scan(pattern, ({range}) => ranges.push(range))
+      if (this.canCreateMarkersForLength(ranges.length)) ranges.forEach(markRange)
+    }
+  }
+
+  canCreateMarkersForLength(length) {
+    const threshold = this.vimState.getConfig("confirmThresholdOnOccurrenceOperation")
+    if (threshold >= length) {
+      return true
+    } else {
+      const options = {
+        message: `Too many(${length}) occurrences. Do you want to continue?`,
+        detailedMessage: `If you want increase threshold(current: ${threshold}), change "Confirm Threshold On Create Preset Occurrences" configuration.`,
+        buttons: ["Continue", "Cancel"],
+      }
+      return atom.confirm(options) === 0
     }
   }
 
@@ -180,13 +196,15 @@ module.exports = class OccurrenceManager {
     }
 
     if (rangesToSelect.length) {
+      const reversed = editor.getLastSelection().isReversed()
+
       if (isVisualMode) {
         // To avoid selected occurrence ruined by normalization when disposing current submode to shift to new submode.
         this.vimState.modeManager.deactivate()
         this.vimState.submode = null
       }
 
-      editor.setSelectedBufferRanges(rangesToSelect)
+      editor.setSelectedBufferRanges(rangesToSelect, {reversed})
       const selections = editor.getSelections()
       closestRangeIndexByOriginalSelection.forEach((closestRangeIndex, originalSelection) => {
         this.vimState.mutationManager.migrateMutation(originalSelection, selections[closestRangeIndex])
@@ -219,6 +237,10 @@ module.exports = class OccurrenceManager {
         }
         editor.mergeSelectionsOnSameRows() // This destroy merged selection.
         disposables.dispose()
+
+        for (const $selection of this.vimState.swrap.getSelections(editor)) {
+          $selection.saveProperties()
+        }
 
         const selections = editor.getSelections()
         for (const mutation of orphanedMutations) {

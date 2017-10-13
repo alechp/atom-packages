@@ -1,4 +1,3 @@
-const Delegato = require("delegato")
 let jQuery, focusInput
 
 const {Emitter, Disposable, CompositeDisposable, Range} = require("atom")
@@ -72,6 +71,9 @@ module.exports = class VimState {
   }
   getCount(...args) {
     return this.operationStack.getCount(...args)
+  }
+  hasCount(...args) {
+    return this.operationStack.hasCount(...args)
   }
   setCount(...args) {
     this.operationStack.setCount(...args)
@@ -464,8 +466,8 @@ module.exports = class VimState {
   }
 
   // What's this?
-  // editor.clearSelections() doesn't respect lastCursor positoin.
-  // This method works in same way as editor.clearSelections() but respect last cursor position.
+  // clear all selections and final cursor position becomes head of last selection.
+  // editor.clearSelections() does not respect last selection's head, since it merge all selections before clearing.
   clearSelections() {
     this.editor.setCursorBufferPosition(this.editor.getCursorBufferPosition())
   }
@@ -488,10 +490,6 @@ module.exports = class VimState {
       this.clearSelections()
     }
     this.activate("normal")
-  }
-
-  init() {
-    this.saveOriginalCursorPosition()
   }
 
   reset() {
@@ -590,32 +588,5 @@ module.exports = class VimState {
         },
       })
     )
-  }
-
-  saveOriginalCursorPosition() {
-    if (this.originalCursorPositionByMarker) {
-      this.originalCursorPositionByMarker.destroy()
-    }
-
-    this.originalCursorPosition =
-      this.mode === "visual"
-        ? this.swrap(this.editor.getLastSelection()).getBufferPositionFor("head", {from: ["property", "selection"]})
-        : this.editor.getCursorBufferPosition()
-
-    this.originalCursorPositionByMarker = this.editor.markBufferPosition(this.originalCursorPosition, {
-      invalidate: "never",
-    })
-  }
-
-  restoreOriginalCursorPosition() {
-    this.editor.setCursorBufferPosition(this.getOriginalCursorPosition())
-  }
-
-  getOriginalCursorPosition() {
-    return this.originalCursorPosition
-  }
-
-  getOriginalCursorPositionByMarker() {
-    return this.originalCursorPositionByMarker.getStartBufferPosition()
   }
 }

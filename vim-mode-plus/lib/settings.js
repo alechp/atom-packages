@@ -19,6 +19,11 @@ const RENAMED_PARAMS = [
   {oldName: "keepColumnOnSelectTextObject", newName: "stayOnSelectTextObject"},
   {oldName: "moveToFirstCharacterOnVerticalMotion", newName: "stayOnVerticalMotion", setValueBy: invertValue},
   {oldName: "keymapSemicolonToConfirmFind", newName: "keymapSemicolonToConfirmOnFindInput"},
+  {
+    oldName: "dontUpdateRegisterOnChangeOrSubstitute",
+    newName: "blackholeRegisteredOperators",
+    setValueBy: enabled => (enabled ? ["change*", "substitute*"] : undefined),
+  },
 ]
 
 class Settings {
@@ -44,6 +49,20 @@ class Settings {
         },
       ],
     })
+  }
+
+  notifyCoffeeScriptNoLongerSupportedToExtendVMP() {
+    if (!this.get("notifiedCoffeeScriptNoLongerSupportedToExtendVMP")) {
+      this.set("notifiedCoffeeScriptNoLongerSupportedToExtendVMP", true)
+      const message = [
+        this.scope,
+        "- From vmp-v.1.9.0 all operations are defined as ES6 class which is NOT extend-able by CoffeeScript.",
+        "- If you have vmp custom operations in your `init.coffee`. Those are no longer work(You might saw error already).",
+        "- Sorry for not providing gradual migration path, I couldn't find the way and also I'm lazy.",
+        "- See [CHANGELOG](https://github.com/t9md/atom-vim-mode-plus/blob/master/CHANGELOG.md) and [Wiki](https://github.com/t9md/atom-vim-mode-plus/wiki/ExtendVimModePlusInInitFile) for detail.",
+      ].join("\n")
+      atom.notifications.addInfo(message, {dismissable: true})
+    }
   }
 
   migrateRenamedParams() {
@@ -120,6 +139,11 @@ class Settings {
       keymapYToYankToLastCharacterOfLine: {
         "atom-text-editor.vim-mode-plus.normal-mode": {
           Y: "vim-mode-plus:yank-to-last-character-of-line",
+        },
+      },
+      keymapSToSelect: {
+        "atom-text-editor.vim-mode-plus:not(.insert-mode)": {
+          s: "vim-mode-plus:select",
         },
       },
       keymapUnderscoreToReplaceWithRegister: {
@@ -200,6 +224,12 @@ module.exports = new Settings("vim-mode-plus", {
     description:
       "[Can]: `Y` behave as `y $` instead of default `y y`, This make `Y` consistent with `C`(works as `c $`) and `D`(works as `d $`).",
   },
+  keymapSToSelect: {
+    title: "keymap `s` to `select`",
+    default: false,
+    description:
+      "[Can]: `s p` to select paragraph, `s o p` to select occurrence in paragraph.<br>[Conflicts]: `s`(`substitute`). Use `c l` or `x i` instead",
+  },
   keymapUnderscoreToReplaceWithRegister: {
     title: "keymap `_` to `replace-with-register`",
     default: false,
@@ -265,10 +295,11 @@ module.exports = new Settings("vim-mode-plus", {
   },
   groupChangesWhenLeavingInsertMode: true,
   useClipboardAsDefaultRegister: true,
-  dontUpdateRegisterOnChangeOrSubstitute: {
-    default: false,
+  blackholeRegisteredOperators: {
+    default: [],
+    items: {type: "string"},
     description:
-      "When enabled, `change` and `substitute` no longer update register content<br>Affects `c`, `C`, `s`, `S` operator.",
+      "Comma separated list of operator command name to disable register update.<br>e.g. `delete-right, delete-left, delete, substitute`<br>Also you can use special value(`delete*`, `change*`, `substitute*`) to specify all same-family operators.",
   },
   startInInsertMode: false,
   startInInsertModeScopes: {
@@ -304,7 +335,8 @@ module.exports = new Settings("vim-mode-plus", {
   },
   sequentialPaste: {
     default: false,
-    description: "When enabled `put-aftffer`(`p`), `put-before`(`P`), and `replace-with-register` pop older register entry on each sequential execution<br>The sequential execution is activated if next execution is **whithin** 1seconds(flash is not yet disappar).",
+    description:
+      "When enabled `put-after`(`p`), `put-before`(`P`), and `replace-with-register` pop older register entry on each sequential execution<br>The sequential execution is activated if next execution is **whithin** 1seconds(flash is not yet disappar).",
   },
   sequentialPasteMaxHistory: {
     default: 3,
@@ -457,6 +489,15 @@ module.exports = new Settings("vim-mode-plus", {
   statusBarModeStringStyle: {
     default: "short",
     enum: ["short", "long"],
+  },
+  confirmThresholdOnOccurrenceOperation: {
+    default: 2000,
+    description:
+      "When attempt to create occurrence-marker exceeding this threshold, vmp asks confirmation to continue<br>This is to prevent editor from freezing while creating tons of markers.<br>Affects: `g o` or `o` modifier(e.g. `c o p`)",
+  },
+  notifiedCoffeeScriptNoLongerSupportedToExtendVMP: {
+    // TODO: Remove in future:(added at v1.19.0 release).
+    default: false,
   },
   debug: {
     default: false,

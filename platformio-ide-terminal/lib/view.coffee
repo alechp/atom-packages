@@ -39,7 +39,7 @@ class PlatformIOTerminalView extends View
   @getFocusedTerminal: ->
     return Terminal.Terminal.focus
 
-  initialize: (@id, @pwd, @statusIcon, @statusBar, @shell, @args=[], @autoRun=[]) ->
+  initialize: (@id, @pwd, @statusIcon, @statusBar, @shell, @args=[], @env={}, @autoRun=[]) ->
     @subscriptions = new CompositeDisposable
     @emitter = new Emitter
 
@@ -70,7 +70,12 @@ class PlatformIOTerminalView extends View
     @xterm.on 'mouseup', (event) =>
       if event.which != 3
         text = window.getSelection().toString()
-        atom.clipboard.write(text) if atom.config.get('platformio-ide-terminal.toggles.selectToCopy') and text
+        if atom.config.get('platformio-ide-terminal.toggles.selectToCopy') and text
+          rawLines = text.split(/\r?\n/g)
+          lines = rawLines.map (line) ->
+            line.replace(/\s/g, " ").trimRight()
+          text = lines.join("\n")
+          atom.clipboard.write(text) 
         unless text
           @focus()
     @xterm.on 'dragenter', override
@@ -109,7 +114,7 @@ class PlatformIOTerminalView extends View
         @input "#{file.path} "
 
   forkPtyProcess: ->
-    Task.once Pty, path.resolve(@pwd), @shell, @args, =>
+    Task.once Pty, path.resolve(@pwd), @shell, @args, @env, =>
       @input = ->
       @resize = ->
 
@@ -180,7 +185,7 @@ class PlatformIOTerminalView extends View
     @subscriptions.remove @maximizeBtn.tooltip
     @maximizeBtn.tooltip.dispose()
 
-    @maxHeight = @prevHeight + $('.item-views').height()
+    @maxHeight = @prevHeight + atom.workspace.getCenter().paneContainer.element.offsetHeight
     btn = @maximizeBtn.children('span')
     @onTransitionEnd => @focus()
 
