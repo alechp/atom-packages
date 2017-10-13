@@ -1,0 +1,132 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117913-70825-19z0nmr.ha3xcrf6r"
+    ]
+  ],
+  "_from": "../d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+  "_id": "flow-ide@1.8.1",
+  "_inCache": true,
+  "_location": "/flow-ide",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+  "_shasum": "fb712c82619c30da0d095ad84a35469de67a94ba",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117913-70825-17edwmn.2fqmnghkt9/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117913-70825-19z0nmr.ha3xcrf6r",
+  "author": {
+    "name": "steelbrain"
+  },
+  "bugs": {
+    "url": "https://github.com/steelbrain/flow-ide/issues"
+  },
+  "configSchema": {
+    "onlyIfAppropriate": {
+      "title": "Only activate when .flowconfig exists",
+      "type": "boolean",
+      "default": true
+    },
+    "showUncovered": {
+      "title": "Show uncovered code in the editor",
+      "type": "boolean",
+      "default": false
+    },
+    "executablePath": {
+      "description": "Path to `flow` executable",
+      "type": "string",
+      "default": ""
+    },
+    "hyperclickPriority": {
+      "description": "Priority to use for hyperclick provider (requires restart)",
+      "type": "integer",
+      "default": "0"
+    }
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-autocomplete": "^1.0.0",
+    "atom-linter": "^10.0.0",
+    "atom-package-deps": "^4.4.1",
+    "sb-string_score": "^0.1.20"
+  },
+  "description": "Flowtype support in Atom without any bloatware",
+  "devDependencies": {
+    "eslint-config-steelbrain": "^3.0.1",
+    "eslint-plugin-flowtype": "^2.33.0",
+    "flow-bin": "^0.52.0"
+  },
+  "engines": {
+    "atom": ">=1.4.0 <2.0.0"
+  },
+  "homepage": "https://github.com/steelbrain/flow-ide#readme",
+  "keywords": [
+    "flow",
+    "flowtype",
+    "ide",
+    "javascript"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "flow-ide",
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter",
+    "hyperclick"
+  ],
+  "private": true,
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provideAutocomplete"
+      }
+    },
+    "hyperclick.provider": {
+      "versions": {
+        "0.0.0": "provideHyperclick"
+      }
+    },
+    "linter": {
+      "versions": {
+        "2.0.0": "provideLinter"
+      }
+    }
+  },
+  "readme": "Flow-IDE\n=======\n\nFlow IDE is a lightweight package that provides IDE features for [FlowType][FlowType] for [Atom Editor][Atom]. It's pretty lightweight and robust.\n\n#### Installation\n```\napm install flow-ide\n```\n\n#### Features\n\n - Linting\n - Autocomplete\n - Jump to declaration (using [facebooknuclide/hyperclick][hyperclick])\n\n#### Roadmap\n\n - Show types on mouseover\n\n#### Differences to other packages\n\nDifferences to [facebook/nuclide][nuclide]\n - Nuclide is nice and all but it's mostly bloatware for lightweight flow programming\n\nDifferences to [AtomLinter/linter-flow][linter-flow]\n - It tries to manage flow servers by itself, I find it annoying\n\nDifferences to [nmn/autocomplete-flow][autocomplete-flow]\n - Never worked for me\n\nDifferences to [LukeHoban/ide-flow][ide-flow]\n - Outdated and buggy\n - No longer maintained\n\n#### Screenshots\n\n![Autocomplete](https://cloud.githubusercontent.com/assets/4278113/12857027/bb8e2c80-cc69-11e5-918d-4451d0679e66.png)\n\n\n#### License\n\nThis project is licensed under the terms of MIT License. Check the LICENSE file for more info.\n\n[FlowType]:http://flowtype.org/\n[Atom]:https://atom.io/\n[nuclide]:https://github.com/facebook/nuclide\n[hyperclick]:https://github.com/facebooknuclide/hyperclick\n[ide-flow]:https://github.com/lukehoban/atom-ide-flow\n[linter-flow]:https://github.com/AtomLinter/linter-flow\n[autocomplete-flow]:https://github.com/nmn/autocomplete-flow\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steelbrain/flow-ide.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "apm test"
+  },
+  "version": "1.8.1"
+}
