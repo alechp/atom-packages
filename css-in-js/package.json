@@ -1,0 +1,86 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117923-38033-rlzygb.2gujgzxgvi"
+    ]
+  ],
+  "_from": "../d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+  "_id": "css-in-js@1.4.0",
+  "_inCache": true,
+  "_location": "/css-in-js",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+  "_shasum": "cfb06e79b4b79c663cd423330a3f6cdb8d7f0907",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117923-38033-r5crpb.qd44y4x6r/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117923-38033-rlzygb.2gujgzxgvi",
+  "bugs": {
+    "url": "https://github.com/ansumanshah/css-in-js/issues"
+  },
+  "dependencies": {
+    "css": "^2.2.1",
+    "stringify-object": "^3.2.0"
+  },
+  "description": "Autocomplete JS and React Native styles, and converting copied CSS to JS styles and vice versa",
+  "devDependencies": {
+    "path": "^0.12.7",
+    "react-docgen": "3.0.0-beta6",
+    "request": "^2.81.0"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/ansumanshah/css-in-js#readme",
+  "keywords": [
+    "atom",
+    "autocomplete",
+    "react",
+    "react-native",
+    "glamourous",
+    "glamour",
+    "snippets"
+  ],
+  "license": "MIT",
+  "main": "./lib/css-in-js",
+  "name": "css-in-js",
+  "optionalDependencies": {},
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# Atom Autocomplete for React Native and css-in-js [![Star on GitHub][github-star-badge]][github-star][![Tweet][twitter-badge]][twitter]\n\n[![PRs Welcome][prs-badge]][prs]\n[![Version][version-badge]][package]\n[![MIT License][license-badge]][LICENSE]\n\nNow get Autocomplete for CSSinJS libraries using object styles.\n\n## Installation\n```\napm install css-in-js\n```\nOr go to Settings → Install and search for `css-in-js`\n\n<a href=\"https://app.codesponsor.io/link/jZ7oK2ZsGezatDv9YZW6fM3e/ansumanshah/css-in-js\" rel=\"nofollow\"><img src=\"https://app.codesponsor.io/embed/jZ7oK2ZsGezatDv9YZW6fM3e/ansumanshah/css-in-js.svg\" style=\"width: 888px; height: 68px;\" alt=\"Sponsor\" /></a>\n\n## Usage\n```js\nconst btnA = css({ /* styles */ });\nconst btnB = glamorous.div({ /* styles */ });\nconst btnC = StyleSheet.create({ /* styles */ });\n```\nOnly works for these keywords by default you can edit in settings for more.\n\n`glamorous | css | StyleSheet.create`\n\n![ReactNative][native-demo]\n\n![Autocomplete][autocomplete-demo]\n\nDoes not work for general objects\n```js\nlet styles = {\n  /* styles */\n}\n```\nThis is basically a fork of [autocomplete-css](https://github.com/atom/autocomplete-css)\n\n<kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>J</kbd> to convert the css lines to js\n\n![Convert][converter-demo]\n\nComing Soon\n\n*Codemods for easy shifting between css-in-js libraries*\n\n[autocomplete-demo]: https://github.com/ansumanshah/css-in-js/raw/master/cssinjs.gif\n[native-demo]: https://github.com/ansumanshah/css-in-js/raw/master/native.gif\n[converter-demo]: https://github.com/ansumanshah/css-in-js/raw/master/example.gif\n\n[github-star-badge]: https://img.shields.io/github/stars/ansumanshah/css-in-js.svg?style=social\n[github-star]: https://github.com/ansumanshah/css-in-js/stargazers\n[twitter]: https://twitter.com/intent/tweet?text=Check%20out%20Atom%20Autocomplete%20css-in-js!%20https://github.com/ansumanshah/css-in-js%20%F0%9F%91%8D\n[twitter-badge]: https://img.shields.io/twitter/url/https/github.com/ansumanshah/css-in-js.svg?style=social\n\n[version-badge]: https://img.shields.io/apm/v/css-in-js.svg?style=flat-square\n[package]: https://atom.io/packages/css-in-js\n[license-badge]: https://img.shields.io/apm/l/css-in-js.svg?style=flat-square\n[license]: https://github.com/ansumanshah/css-in-js/blob/master/LICENSE\n[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square\n[prs]: http://makeapullrequest.com\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ansumanshah/css-in-js.git"
+  },
+  "scripts": {
+    "update-css": "node scripts/css/completions.js",
+    "update-rn": "node scripts/rn/completions.js"
+  },
+  "version": "1.4.0"
+}
