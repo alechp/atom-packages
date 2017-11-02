@@ -1,0 +1,92 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117929-2372-urqb7y.wkimp9zfr"
+    ]
+  ],
+  "_from": "../d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+  "_id": "markdown-toc-auto@0.8.0",
+  "_inCache": true,
+  "_location": "/markdown-toc-auto",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+  "_shasum": "cd0f6073dafc34b83e5ae4b0061defd4deede54d",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117929-2372-ovgh0e.5pr75pnwmi/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117929-2372-urqb7y.wkimp9zfr",
+  "bugs": {
+    "url": "https://github.com/t9md/atom-markdown-toc-auto/issues"
+  },
+  "configSchema": {
+    "min": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "description": "Minimum header level on create toc",
+      "order": 0
+    },
+    "max": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3,
+      "description": "Maximum header level on create toc",
+      "order": 1
+    },
+    "update": {
+      "type": "boolean",
+      "default": true,
+      "description": "Update option on create",
+      "order": 2
+    },
+    "link": {
+      "type": "boolean",
+      "default": true,
+      "description": "Link option on create",
+      "order": 3
+    }
+  },
+  "dependencies": {
+    "underscore-plus": "^1.6.6"
+  },
+  "description": "Insert and auto-update table of contents on save",
+  "devDependencies": {
+    "fs-plus": "^2.9.1",
+    "temp": "^0.8.3"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/t9md/atom-markdown-toc-auto#readme",
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "markdown-toc-auto",
+  "optionalDependencies": {},
+  "readme": "# markdown-toc-auto [![Build Status](https://travis-ci.org/t9md/atom-markdown-toc-auto.svg?branch=master)](https://travis-ci.org/t9md/atom-markdown-toc-auto)\n\nAutomatically update table of contents for GitHub wiki.\n\n![gif](https://raw.githubusercontent.com/t9md/t9md/12d553f0ec6d5ae921dea200ae2250f718a09523/img/atom-markdown-toc-auto.gif)\n\n# Features\n\n- Insert TOC\n- Automatically update TOC on editor save.\n- Customizable `max` and `min` level of header to use. auto `update`, inlucde `link` or not.\n- Extract only markdown header by using Atom's scope descriptor used in syntax highlight(So ignore `#` in embedded code in markdown).\n- Generate link for GitHub wiki\n  - Remove invalid char for link\n  - Extract inner text(`xxx`) from `<kbd>xxx</kbd>` tag and use in link.\n\n# How to use\n\n1. Open markdown editor\n2. From command-palette, invoke \"Markdown Toc Auto: Insert Toc\". TOC is inserted at cursor position.\n3. Each time you save editor, TOC is automatically updated.\n4. [Optional] You can change following TOC options to control toc generation.\n  - `min`, `max`: From `min` to `max` level headers are subject to generate.\n  - `update`: If `true`, automatically updated on save.\n  - `link`: If `false`, link are not generated.\n\n# Commands\n\n- `markdown-toc-auto:insert-toc`: Insert TOC on cursor position.\n- `markdown-toc-auto:insert-toc-at-top`: Insert TOC on top of buffer.\n\n# Limitation\n\n- Currently only `source gfm` editor is supported.\n- And only checked with GitHub Wiki.\n- Header style must start with `#`.\n\n# Why I created yet another package?\n\n- As exercise.\n- Wanted to correctly ignore embedded code's comment `#`.\n- Wanted to generate valid link in github wiki(for [vim-mode-plus](https://atom.io/packages/vim-mode-plus)'s wiki).\n\n# Similar project\n\n- [markdown-toc](https://atom.io/packages/markdown-toc)\n- [atom-mdtoc](https://atom.io/packages/atom-mdtoc)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t9md/atom-markdown-toc-auto.git"
+  },
+  "version": "0.8.0"
+}
