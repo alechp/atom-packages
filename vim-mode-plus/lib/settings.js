@@ -7,7 +7,8 @@ function inferType(value) {
   if (typeof value === "string") return "string"
 }
 
-const DEPRECATED_PARAMS = ["showCursorInVisualMode"]
+const DEPRECATED_PARAMS = []
+const FORCE_DELETE_PARAMS = ["showCursorInVisualMode", "notifiedCoffeeScriptNoLongerSupportedToExtendVMP"]
 
 function invertValue(value) {
   return !value
@@ -51,17 +52,9 @@ class Settings {
     })
   }
 
-  notifyCoffeeScriptNoLongerSupportedToExtendVMP() {
-    if (!this.get("notifiedCoffeeScriptNoLongerSupportedToExtendVMP")) {
-      this.set("notifiedCoffeeScriptNoLongerSupportedToExtendVMP", true)
-      const message = [
-        this.scope,
-        "- From vmp-v.1.9.0 all operations are defined as ES6 class which is NOT extend-able by CoffeeScript.",
-        "- If you have vmp custom operations in your `init.coffee`. Those are no longer work(You might saw error already).",
-        "- Sorry for not providing gradual migration path, I couldn't find the way and also I'm lazy.",
-        "- See [CHANGELOG](https://github.com/t9md/atom-vim-mode-plus/blob/master/CHANGELOG.md) and [Wiki](https://github.com/t9md/atom-vim-mode-plus/wiki/ExtendVimModePlusInInitFile) for detail.",
-      ].join("\n")
-      atom.notifications.addInfo(message, {dismissable: true})
+  silentlyRemoveUnusedParams() {
+    for (const param of FORCE_DELETE_PARAMS) {
+      this.delete(param)
     }
   }
 
@@ -115,7 +108,7 @@ class Settings {
   }
 
   delete(param) {
-    return this.set(param, undefined)
+    return atom.config.unset(`${this.scope}.${param}`)
   }
 
   get(param) {
@@ -132,6 +125,10 @@ class Settings {
 
   observe(param, fn) {
     return atom.config.observe(`${this.scope}.${param}`, fn)
+  }
+
+  onDidChange(param, fn) {
+    return atom.config.onDidChange(`${this.scope}.${param}`, fn)
   }
 
   observeConditionalKeymaps() {
@@ -485,6 +482,26 @@ module.exports = new Settings("vim-mode-plus", {
   smoothScrollOnHalfScrollMotionDuration: {
     default: 500,
     description: "Smooth scroll duration( msec ) for `ctrl-d` and `ctrl-u`",
+  },
+  smoothScrollOnRedrawCursorLine: {
+    default: false,
+    description: "For `z t`, `z enter`, `z u`, `z space`, `z z`, `z .`, `z b`, `z - `",
+  },
+  smoothScrollOnRedrawCursorLineDuration: {
+    default: 300,
+    description: "Smooth scroll duration( msec ) for `z` beginning `redraw-cursor-line` command familiy",
+  },
+  smoothScrollOnMiniScroll: {
+    default: false,
+    description: "For `ctrl-e` and `ctrl-y`",
+  },
+  smoothScrollOnMiniScrollDuration: {
+    default: 200,
+    description: "Smooth scroll duration( msec ) for `ctrl-e` and `ctrl-y`",
+  },
+  defaultScrollRowsOnMiniScroll: {
+    default: 1,
+    description: "Default amount of screen rows used in `ctrl-e` and `ctrl-y`",
   },
   statusBarModeStringStyle: {
     default: "short",

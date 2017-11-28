@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117920-33421-qy46ds.n9sy8pvi"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171020-12781-1bck8ym.shr8z7iudi"
     ]
   ],
-  "_from": "../d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
-  "_id": "latex@0.48.0",
+  "_from": "../d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
+  "_id": "latex@0.49.0",
   "_inCache": true,
   "_location": "/latex",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
-  "_shasum": "d608faf54d9d2df91412efcf1c10160744d9e23b",
+  "_resolved": "file:../d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
+  "_shasum": "d3e3cccee3236c62b4780274e4633e8bc47c635e",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117920-33421-ktfmnn.4hmduhxgvi/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117920-33421-qy46ds.n9sy8pvi",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12781-q1egch.3aiznkx1or/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171020-12781-1bck8ym.shr8z7iudi",
   "activationCommands": {
     "atom-workspace": [
       "latex:build",
@@ -54,6 +54,10 @@
     "language-tex:grammar-used",
     "language-latexsimple:grammar-used"
   ],
+  "author": {
+    "name": "Thomas Johansen",
+    "email": "thomasjo@gmail.com"
+  },
   "bugs": {
     "url": "https://github.com/thomasjo/atom-latex/issues"
   },
@@ -285,8 +289,14 @@
       }
     }
   },
+  "contributors": [
+    {
+      "name": "Tarn Burton",
+      "email": "twburton@gmail.com"
+    }
+  ],
   "dependencies": {
-    "@dicy/core": "^0.10.0",
+    "@dicy/core": "^0.11.0",
     "dbus-native": "^0.2.1",
     "etch": "0.12.6",
     "fs-plus": "^3.0.0",
@@ -298,7 +308,7 @@
     "tree-kill": "^1.1.0",
     "wrench": "^1.5.9"
   },
-  "description": "Compile LaTeX documents from within Atom.",
+  "description": "Compile LaTeX documents from within Atom",
   "deserializers": {
     "latex/log": "deserializeLog"
   },
@@ -345,5 +355,5 @@
       "waitsForPromise"
     ]
   },
-  "version": "0.48.0"
+  "version": "0.49.0"
 }

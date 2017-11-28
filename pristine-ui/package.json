@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117819-88221-1p3hpd4.loyljwnrk9"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171020-12828-1pyx148.5br135l8fr"
     ]
   ],
-  "_from": "../d-117819-88221-109fzir.armt0jatt9/package.tgz",
-  "_id": "pristine-ui@1.1.10",
+  "_from": "../d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
+  "_id": "pristine-ui@1.1.11",
   "_inCache": true,
   "_location": "/pristine-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117819-88221-109fzir.armt0jatt9/package.tgz",
-  "_shasum": "e9b2bf0453f7ccca7921218d526d5316bf7c8723",
+  "_resolved": "file:../d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
+  "_shasum": "f26af8e138b23ebf60903d1f0b1fc93853b80e4f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117819-88221-109fzir.armt0jatt9/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117819-88221-1p3hpd4.loyljwnrk9",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171020-12828-1kcus96.h716gh9f6r/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171020-12828-1pyx148.5br135l8fr",
   "bugs": {
     "url": "https://github.com/cdonohue/pristine-ui/issues"
   },
@@ -98,19 +98,5 @@
     "url": "git+https://github.com/cdonohue/pristine-ui.git"
   },
   "theme": "ui",
-  "version": "1.1.10",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".json": [
-        "coffeelint.json",
-        "package.json"
-      ],
-      ".coffee": [
-        "lib/main.coffee"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.1.11"
 }

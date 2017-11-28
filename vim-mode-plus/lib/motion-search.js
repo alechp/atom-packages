@@ -2,15 +2,14 @@
 
 const _ = require("underscore-plus")
 
-const {saveEditorState, getNonWordCharactersForCursor, searchByProjectFind} = require("./utils")
 const SearchModel = require("./search-model")
 const Motion = require("./base").getClass("Motion")
 
 class SearchBase extends Motion {
+  static command = false
   jump = true
   backwards = false
   useRegexp = true
-  caseSensitivityKind = null
   landingPoint = null // ['start' or 'end']
   defaultLandingPoint = "start" // ['start' or 'end']
   relativeIndex = null
@@ -31,7 +30,7 @@ class SearchBase extends Motion {
 
   initialize() {
     this.onDidFinishOperation(() => this.finish())
-    return super.initialize()
+    super.initialize()
   }
 
   getCount(...args) {
@@ -72,7 +71,13 @@ class SearchBase extends Motion {
     if (!this.input) return
     const point = this.getPoint(cursor)
 
-    if (point) cursor.setBufferPosition(point, {autoscroll: false})
+    if (point) {
+      if (this.restoreEditorState) {
+        this.restoreEditorState({anchorPosition: point, skipRow: point.row})
+        this.restoreEditorState = null // HACK: dont refold on `n`, `N` repeat
+      }
+      cursor.setBufferPosition(point, {autoscroll: false})
+    }
 
     if (!this.repeated) {
       this.globalState.set("currentSearch", this)
@@ -101,7 +106,6 @@ class SearchBase extends Motion {
     searchModel.clearMarkers()
   }
 }
-SearchBase.register(false)
 
 // /, ?
 // -------------------------
@@ -110,20 +114,18 @@ class Search extends SearchBase {
   requireInput = true
 
   initialize() {
-    if (!this.isComplete()) {
-      if (this.isIncrementalSearch()) {
-        this.restoreEditorState = saveEditorState(this.editor)
-        this.onDidCommandSearch(this.handleCommandEvent.bind(this))
-      }
-
-      this.onDidConfirmSearch(this.handleConfirmSearch.bind(this))
-      this.onDidCancelSearch(this.handleCancelSearch.bind(this))
-      this.onDidChangeSearch(this.handleChangeSearch.bind(this))
-
-      this.focusSearchInputEditor()
+    if (this.isIncrementalSearch()) {
+      this.restoreEditorState = this.utils.saveEditorState(this.editor)
+      this.onDidCommandSearch(this.handleCommandEvent.bind(this))
     }
 
-    return super.initialize()
+    this.onDidConfirmSearch(this.handleConfirmSearch.bind(this))
+    this.onDidCancelSearch(this.handleCancelSearch.bind(this))
+    this.onDidChangeSearch(this.handleChangeSearch.bind(this))
+
+    this.focusSearchInputEditor()
+
+    super.initialize()
   }
 
   focusSearchInputEditor() {
@@ -151,7 +153,7 @@ class Search extends SearchBase {
     } else if (event.name === "project-find") {
       this.vimState.searchHistory.save(event.input)
       this.vimState.searchInput.cancel()
-      searchByProjectFind(this.editor, event.input)
+      this.utils.searchByProjectFind(this.editor, event.input)
     }
   }
 
@@ -208,12 +210,10 @@ class Search extends SearchBase {
     return new RegExp(_.escapeRegExp(term), modifiers)
   }
 }
-Search.register()
 
 class SearchBackwards extends Search {
   backwards = true
 }
-SearchBackwards.register()
 
 // *, #
 // -------------------------
@@ -244,22 +244,21 @@ class SearchCurrentWord extends SearchBase {
     const cursor = this.editor.getLastCursor()
     const point = cursor.getBufferPosition()
 
-    const nonWordCharacters = getNonWordCharactersForCursor(cursor)
-    const wordRegex = new RegExp(`[^\\s${_.escapeRegExp(nonWordCharacters)}]+`, "g")
-
-    let foundRange
-    this.scanForward(wordRegex, {from: [point.row, 0], allowNextLine: false}, ({range, stop}) => {
-      if (range.end.isGreaterThan(point)) {
-        foundRange = range
-        stop()
-      }
-    })
-    return foundRange
+    const nonWordCharacters = this.utils.getNonWordCharactersForCursor(cursor)
+    const regex = new RegExp(`[^\\s${_.escapeRegExp(nonWordCharacters)}]+`, "g")
+    const options = {from: [point.row, 0], allowNextLine: false}
+    return this.findInEditor("forward", regex, options, ({range}) => range.end.isGreaterThan(point) && range)
   }
 }
-SearchCurrentWord.register()
 
 class SearchCurrentWordBackwards extends SearchCurrentWord {
   backwards = true
 }
-SearchCurrentWordBackwards.register()
+
+module.exports = {
+  SearchBase,
+  Search,
+  SearchBackwards,
+  SearchCurrentWord,
+  SearchCurrentWordBackwards,
+}

@@ -167,14 +167,13 @@ module.exports = class OccurrenceManager {
   //  - c(change): So that autocomplete+popup shows at original cursor position or near.
   //  - g U(upper-case): So that undo/redo can respect last cursor position.
   select(wise) {
-    const isVisualMode = this.vimState.mode === "visual"
     const closestRangeIndexByOriginalSelection = new Map()
     const rangesToSelect = []
     const markersSelected = []
     const {editor} = this.vimState
 
     for (const selection of editor.getSelections()) {
-      const markers = this.getMarkersIntersectsWithSelection(selection, isVisualMode)
+      const markers = this.getMarkersIntersectsWithSelection(selection, this.vimState.mode === "visual")
       if (!markers.length) continue
 
       const ranges = markers.map(marker => marker.getBufferRange())
@@ -198,10 +197,9 @@ module.exports = class OccurrenceManager {
     if (rangesToSelect.length) {
       const reversed = editor.getLastSelection().isReversed()
 
-      if (isVisualMode) {
-        // To avoid selected occurrence ruined by normalization when disposing current submode to shift to new submode.
-        this.vimState.modeManager.deactivate()
-        this.vimState.submode = null
+      // To avoid selected occurrence ruined by normalization when deactivating blockwise
+      if (this.vimState.isMode("visual", "blockwise")) {
+        this.vimState.activate("visual", "characterwise")
       }
 
       editor.setSelectedBufferRanges(rangesToSelect, {reversed})
@@ -210,9 +208,7 @@ module.exports = class OccurrenceManager {
         this.vimState.mutationManager.migrateMutation(originalSelection, selections[closestRangeIndex])
       })
       this.destroyMarkers(markersSelected)
-      for (const $selection of this.vimState.swrap.getSelections(editor)) {
-        $selection.saveProperties()
-      }
+      this.vimState.swrap.saveProperties(editor, {force: true})
 
       if (wise === "linewise") {
         // In linewise-occurence operation, what happens is here
@@ -237,10 +233,7 @@ module.exports = class OccurrenceManager {
         }
         editor.mergeSelectionsOnSameRows() // This destroy merged selection.
         disposables.dispose()
-
-        for (const $selection of this.vimState.swrap.getSelections(editor)) {
-          $selection.saveProperties()
-        }
+        this.vimState.swrap.saveProperties(editor, {force: true})
 
         const selections = editor.getSelections()
         for (const mutation of orphanedMutations) {
