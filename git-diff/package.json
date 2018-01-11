@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7483-34zf8n.wfine6zuxr"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171116-71767-78xgsp.0wyw6x0f6r"
     ]
   ],
-  "_from": "../d-117411-7483-8fxgxr.w76z85mi/package.tgz",
-  "_id": "git-diff@1.3.6",
+  "_from": "../d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
+  "_id": "git-diff@1.3.7",
   "_inCache": true,
-  "_installable": true,
   "_location": "/git-diff",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117411-7483-8fxgxr.w76z85mi/package.tgz",
-  "_shasum": "462494b8b40f773e441a2fa3030101e4728ee12b",
+  "_resolved": "file:../d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
+  "_shasum": "eb8350b38f51257a217e11e921906549982fbb92",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-117411-7483-8fxgxr.w76z85mi/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-117411-7483-34zf8n.wfine6zuxr",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71767-dm5vak.1ye8hyqfr/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171116-71767-78xgsp.0wyw6x0f6r",
   "bugs": {
     "url": "https://github.com/atom/git-diff/issues"
   },
@@ -47,7 +46,7 @@
     }
   },
   "dependencies": {
-    "atom-select-list": "^0.1.0",
+    "atom-select-list": "^0.7.0",
     "fs-plus": "^3.0.0",
     "temp": "~0.8.1"
   },
@@ -69,5 +68,5 @@
     "type": "git",
     "url": "git+https://github.com/atom/git-diff.git"
   },
-  "version": "1.3.6"
+  "version": "1.3.7"
 }

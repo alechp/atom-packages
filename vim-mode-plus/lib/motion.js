@@ -1,6 +1,5 @@
 "use babel"
 
-const _ = require("underscore-plus")
 const {Point, Range} = require("atom")
 
 const Base = require("./base")
@@ -221,10 +220,10 @@ class MoveUp extends Motion {
 
     if (this.direction === "up") {
       row = this.getFoldStartRowForRow(row) - 1
-      row = this.wrap && row < min ? max : this.utils.limitNumber(row, {min})
+      row = this.wrap && row < min ? max : this.limitNumber(row, {min})
     } else {
       row = this.getFoldEndRowForRow(row) + 1
-      row = this.wrap && row > max ? min : this.utils.limitNumber(row, {max})
+      row = this.wrap && row > max ? min : this.limitNumber(row, {max})
     }
     return this.getFoldStartRowForRow(row)
   }
@@ -575,13 +574,13 @@ class MoveToBeginningOfLine extends Motion {
 
 class MoveToColumn extends Motion {
   moveCursor(cursor) {
-    this.utils.setBufferColumn(cursor, this.getCount(-1))
+    this.utils.setBufferColumn(cursor, this.getCount() - 1)
   }
 }
 
 class MoveToLastCharacterOfLine extends Motion {
   moveCursor(cursor) {
-    const row = this.getValidVimBufferRow(cursor.getBufferRow() + this.getCount(-1))
+    const row = this.getValidVimBufferRow(cursor.getBufferRow() + this.getCount() - 1)
     cursor.setBufferPosition([row, Infinity])
     cursor.goalColumn = Infinity
   }
@@ -591,7 +590,7 @@ class MoveToLastNonblankCharacterOfLineAndDown extends Motion {
   inclusive = true
 
   moveCursor(cursor) {
-    const row = this.utils.limitNumber(cursor.getBufferRow() + this.getCount(-1), {max: this.getVimLastBufferRow()})
+    const row = this.limitNumber(cursor.getBufferRow() + this.getCount() - 1, {max: this.getVimLastBufferRow()})
     const options = {from: [row, Infinity], allowNextLine: false}
     const point = this.findInEditor("backward", /\S|^/, options, event => event.range.start)
     cursor.setBufferPosition(point)
@@ -633,7 +632,7 @@ class MoveToFirstCharacterOfLineDown extends MoveToFirstCharacterOfLine {
 
 class MoveToFirstCharacterOfLineAndDown extends MoveToFirstCharacterOfLineDown {
   getCount() {
-    return super.getCount(-1)
+    return super.getCount() - 1
   }
 }
 
@@ -676,7 +675,7 @@ class MoveToFirstLine extends Motion {
   }
 
   getRow() {
-    return this.getCount(-1)
+    return this.getCount() - 1
   }
 }
 
@@ -688,8 +687,8 @@ class MoveToLastLine extends MoveToFirstLine {
 // keymap: N% e.g. 10%
 class MoveToLineByPercent extends MoveToFirstLine {
   getRow() {
-    const percent = this.utils.limitNumber(this.getCount(), {max: 100})
-    return Math.floor(this.editor.getLastBufferRow() * (percent / 100))
+    const percent = this.limitNumber(this.getCount(), {max: 100})
+    return Math.floor(this.getVimLastBufferRow() * (percent / 100))
   }
 }
 
@@ -705,13 +704,16 @@ class MoveToRelativeLine extends Motion {
       // Support negative count
       // Negative count can be passed like `operationStack.run("MoveToRelativeLine", {count: -5})`.
       // Currently used in vim-mode-plus-ex-mode pkg.
-      count += 1
-      row = this.getFoldStartRowForRow(cursor.getBufferRow())
-      while (count++ < 0) row = this.getFoldStartRowForRow(row - 1)
+      while (count++ < 0) {
+        row = this.getFoldStartRowForRow(row == null ? cursor.getBufferRow() : row - 1)
+        if (row <= 0) break
+      }
     } else {
-      count -= 1
-      row = this.getFoldEndRowForRow(cursor.getBufferRow())
-      while (count-- > 0) row = this.getFoldEndRowForRow(row + 1)
+      const maxRow = this.getVimLastBufferRow()
+      while (count-- > 0) {
+        row = this.getFoldEndRowForRow(row == null ? cursor.getBufferRow() : row + 1)
+        if (row >= maxRow) break
+      }
     }
     this.utils.setBufferRow(cursor, row)
   }
@@ -719,8 +721,8 @@ class MoveToRelativeLine extends Motion {
 
 class MoveToRelativeLineMinimumTwo extends MoveToRelativeLine {
   static command = false
-  getCount(...args) {
-    return this.utils.limitNumber(super.getCount(...args), {min: 2})
+  getCount() {
+    return this.limitNumber(super.getCount(), {min: 2})
   }
 }
 
@@ -739,19 +741,20 @@ class MoveToTopOfScreen extends Motion {
   }
 
   getScreenRow() {
-    const {limitNumber} = this.utils
     const firstVisibleRow = this.editor.getFirstVisibleScreenRow()
-    const lastVisibleRow = limitNumber(this.editor.getLastVisibleScreenRow(), {max: this.getVimLastScreenRow()})
+    const lastVisibleRow = this.limitNumber(this.editor.getLastVisibleScreenRow(), {max: this.getVimLastScreenRow()})
 
     const baseOffset = 2
     if (this.name === "MoveToTopOfScreen") {
       const offset = firstVisibleRow === 0 ? 0 : baseOffset
-      return limitNumber(firstVisibleRow + this.getCount(-1), {min: firstVisibleRow + offset, max: lastVisibleRow})
+      const count = this.getCount() - 1
+      return this.limitNumber(firstVisibleRow + count, {min: firstVisibleRow + offset, max: lastVisibleRow})
     } else if (this.name === "MoveToMiddleOfScreen") {
       return firstVisibleRow + Math.floor((lastVisibleRow - firstVisibleRow) / 2)
     } else if (this.name === "MoveToBottomOfScreen") {
       const offset = lastVisibleRow === this.getVimLastScreenRow() ? 0 : baseOffset + 1
-      return limitNumber(lastVisibleRow - this.getCount(-1), {min: firstVisibleRow, max: lastVisibleRow - offset})
+      const count = this.getCount() - 1
+      return this.limitNumber(lastVisibleRow - count, {min: firstVisibleRow, max: lastVisibleRow - offset})
     }
   }
 }
@@ -869,7 +872,7 @@ class Find extends Motion {
         this.preConfirmedChars,
         "pre-confirm",
         this.isBackwards(),
-        this.getCount(-1) + delta,
+        this.getCount() - 1 + delta,
         true
       )
       this.count = index + 1
@@ -910,7 +913,7 @@ class Find extends Motion {
     const scanRange = this.editor.bufferRangeForBufferRow(fromPoint.row)
     const points = []
     const regex = this.getRegex(this.input)
-    const indexWantAccess = this.getCount(-1)
+    const indexWantAccess = this.getCount() - 1
 
     const translation = new Point(0, this.isBackwards() ? this.offset : -this.offset)
     if (this.repeated) {
@@ -942,7 +945,7 @@ class Find extends Motion {
   }
 
   // FIXME: bad naming, this function must return index
-  highlightTextInCursorRows(text, decorationType, backwards, index = this.getCount(-1), adjustIndex = false) {
+  highlightTextInCursorRows(text, decorationType, backwards, index = this.getCount() - 1, adjustIndex = false) {
     if (!this.getConfig("highlightFindChar")) return
 
     return this.vimState.highlightFind.highlightCursorRows(
@@ -965,7 +968,7 @@ class Find extends Motion {
 
   getRegex(term) {
     const modifiers = this.isCaseSensitive(term) ? "g" : "gi"
-    return new RegExp(_.escapeRegExp(term), modifiers)
+    return new RegExp(this._.escapeRegExp(term), modifiers)
   }
 }
 
@@ -1031,21 +1034,18 @@ class MoveToPreviousFoldStart extends Motion {
   direction = "previous"
 
   execute() {
-    this.rows = this.getFoldRows(this.which)
+    const foldRanges = this.utils.getCodeFoldRanges(this.editor)
+    this.rows = foldRanges.map(range => range[this.which].row).sort((a, b) => a - b)
     if (this.direction === "previous") this.rows.reverse()
     super.execute()
   }
 
-  getFoldRows(which) {
-    const toRow = ([startRow, endRow]) => (which === "start" ? startRow : endRow)
-    const rows = this.utils.getCodeFoldRowRanges(this.editor).map(toRow)
-    return _.sortBy(_.uniq(rows), row => row)
-  }
-
   getScanRows(cursor) {
-    const cursorRow = cursor.getBufferRow()
-    const isVald = this.direction === "previous" ? row => row < cursorRow : row => row > cursorRow
-    return this.rows.filter(isVald)
+    if (this.direction === "previous") {
+      return this.rows.filter(row => row < cursor.getBufferRow())
+    } else {
+      return this.rows.filter(row => row > cursor.getBufferRow())
+    }
   }
 
   detectRow(cursor) {
@@ -1168,7 +1168,7 @@ class MoveToNextOccurrence extends Motion {
 
   getIndex(fromPoint) {
     const index = this.ranges.findIndex(range => range.start.isGreaterThan(fromPoint))
-    return (index >= 0 ? index : 0) + this.getCount(-1)
+    return (index >= 0 ? index : 0) + this.getCount() - 1
   }
 }
 
@@ -1179,7 +1179,7 @@ class MoveToPreviousOccurrence extends MoveToNextOccurrence {
     const ranges = this.ranges.slice().reverse()
     const range = ranges.find(range => range.end.isLessThan(fromPoint))
     const index = range ? this.ranges.indexOf(range) : this.ranges.length - 1
-    return index - this.getCount(-1)
+    return index - (this.getCount() - 1)
   }
 }
 

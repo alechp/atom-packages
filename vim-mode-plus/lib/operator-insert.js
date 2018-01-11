@@ -1,7 +1,7 @@
 "use babel"
 
 const {Range} = require("atom")
-const Operator = require("./base").getClass("Operator")
+const {Operator} = require("./operator")
 
 // Operator which start 'insert-mode'
 // -------------------------
@@ -73,7 +73,7 @@ class ActivateInsertModeBase extends Operator {
         if (this.getConfig("clearMultipleCursorsOnEscapeInsertMode")) this.vimState.clearSelections()
       } else {
         // Avoid freezing by acccidental big count(e.g. `5555555555555i`), See #560, #596
-        let insertionCount = this.supportInsertionCount ? this.utils.limitNumber(this.getCount(-1), {max: 100}) : 0
+        let insertionCount = this.supportInsertionCount ? this.limitNumber(this.getCount() - 1, {max: 100}) : 0
 
         let textByOperator = ""
         if (insertionCount > 0) {

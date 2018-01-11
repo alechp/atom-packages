@@ -1,10 +1,10 @@
 "use babel"
 
-const _ = require("underscore-plus")
-const {BufferedProcess, Range} = require("atom")
+const changeCase = require("change-case")
+let selectList
 
-const Base = require("./base")
-const Operator = Base.getClass("Operator")
+const {BufferedProcess, Range} = require("atom")
+const {Operator} = require("./operator")
 
 // TransformString
 // ================================
@@ -45,34 +45,58 @@ class TransformString extends Operator {
   }
 }
 
-class ToggleCase extends TransformString {
-  static displayName = "Toggle ~"
-
+class ChangeCase extends TransformString {
+  static command = false
   getNewText(text) {
-    return text.replace(/./g, this.utils.toggleCaseForCharacter)
+    const functionName = this.functionName || changeCase.lowerCaseFirst(this.name)
+    // HACK: IMO `changeCase` does aggressive transformation(remove punctuation, remove white spaces...)
+    // make changeCase less aggressive by targeting narrower charset.
+    const regex = /\w+(:?[-./]?[\w+])*/g
+    return text.replace(regex, match => changeCase[functionName](match))
   }
 }
 
-class ToggleCaseAndMoveRight extends ToggleCase {
+class NoCase extends ChangeCase {}
+class DotCase extends ChangeCase {
+  static displayNameSuffix = "."
+}
+class SwapCase extends ChangeCase {
+  static displayNameSuffix = "~"
+}
+class PathCase extends ChangeCase {
+  static displayNameSuffix = "/"
+}
+class UpperCase extends ChangeCase {}
+class LowerCase extends ChangeCase {}
+class CamelCase extends ChangeCase {}
+class SnakeCase extends ChangeCase {
+  static displayNameSuffix = "_"
+}
+class TitleCase extends ChangeCase {}
+class ParamCase extends ChangeCase {
+  static displayNameSuffix = "-"
+}
+class HeaderCase extends ChangeCase {}
+class PascalCase extends ChangeCase {}
+class ConstantCase extends ChangeCase {}
+class SentenceCase extends ChangeCase {}
+class UpperCaseFirst extends ChangeCase {}
+class LowerCaseFirst extends ChangeCase {}
+
+class DashCase extends ChangeCase {
+  static displayNameSuffix = "-"
+  functionName = "paramCase"
+}
+class ToggleCase extends ChangeCase {
+  static displayNameSuffix = "~"
+  functionName = "swapCase"
+}
+
+class ToggleCaseAndMoveRight extends ChangeCase {
+  functionName = "swapCase"
   flashTarget = false
   restorePositions = false
   target = "MoveRight"
-}
-
-class UpperCase extends TransformString {
-  static displayName = "Upper"
-
-  getNewText(text) {
-    return text.toUpperCase()
-  }
-}
-
-class LowerCase extends TransformString {
-  static displayName = "Lower"
-
-  getNewText(text) {
-    return text.toLowerCase()
-  }
 }
 
 // Replace
@@ -107,64 +131,27 @@ class SplitByCharacter extends TransformString {
   }
 }
 
-class CamelCase extends TransformString {
-  static displayName = "Camelize"
-  getNewText(text) {
-    return _.camelize(text)
-  }
-}
-
-class SnakeCase extends TransformString {
-  static displayName = "Underscore _"
-  getNewText(text) {
-    return _.underscore(text)
-  }
-}
-
-class PascalCase extends TransformString {
-  static displayName = "Pascalize"
-  getNewText(text) {
-    return _.capitalize(_.camelize(text))
-  }
-}
-
-class DashCase extends TransformString {
-  static displayName = "Dasherize -"
-  getNewText(text) {
-    return _.dasherize(text)
-  }
-}
-
-class TitleCase extends TransformString {
-  static displayName = "Titlize"
-  getNewText(text) {
-    return _.humanizeEventName(_.dasherize(text))
-  }
-}
-
 class EncodeUriComponent extends TransformString {
-  static displayName = "Encode URI Component %"
+  static displayNameSuffix = "%"
   getNewText(text) {
     return encodeURIComponent(text)
   }
 }
 
 class DecodeUriComponent extends TransformString {
-  static displayName = "Decode URI Component %%"
+  static displayNameSuffix = "%%"
   getNewText(text) {
     return decodeURIComponent(text)
   }
 }
 
 class TrimString extends TransformString {
-  static displayName = "Trim string"
   getNewText(text) {
     return text.trim()
   }
 }
 
 class CompactSpaces extends TransformString {
-  static displayName = "Compact space"
   getNewText(text) {
     if (text.match(/^[ ]+$/)) {
       return " "
@@ -183,16 +170,14 @@ class AlignOccurrence extends TransformString {
   whichToPad = "auto"
 
   getSelectionTaker() {
-    const selectionsByRow = _.groupBy(
-      this.editor.getSelectionsOrderedByBufferPosition(),
-      selection => selection.getBufferRange().start.row
-    )
-
-    return () => {
-      const rows = Object.keys(selectionsByRow)
-      const selections = rows.map(row => selectionsByRow[row].shift()).filter(s => s)
-      return selections
+    const selectionsByRow = {}
+    for (const selection of this.editor.getSelectionsOrderedByBufferPosition()) {
+      const row = selection.getBufferRange().start.row
+      if (!(row in selectionsByRow)) selectionsByRow[row] = []
+      selectionsByRow[row].push(selection)
     }
+    const allRows = Object.keys(selectionsByRow)
+    return () => allRows.map(row => selectionsByRow[row].shift()).filter(s => s)
   }
 
   getWichToPadForText(text) {
@@ -386,21 +371,29 @@ class TransformStringBySelectList extends TransformString {
   }
 
   initialize() {
-    this.focusSelectList({items: this.constructor.getSelectListItems()})
-    this.vimState.onDidConfirmSelectList(item => {
-      this.vimState.reset()
-      this.vimState.operationStack.run(item.klass, {target: this.target})
+    if (!selectList) selectList = new (require("./select-list"))()
+    selectList.show({
+      items: this.constructor.getSelectListItems(),
+      onCancel: () => this.cancelOperation(),
+      onConfirm: item => {
+        this.vimState.reset()
+        this.vimState.operationStack.run(item.klass, {target: this.target})
+      },
     })
   }
 
   static getSelectListItems() {
     if (!this.selectListItems) {
-      this.selectListItems = this.stringTransformers.map(klass => ({
-        klass: klass,
-        displayName: klass.hasOwnProperty("displayName")
-          ? klass.displayName
-          : _.humanizeEventName(_.dasherize(klass.name)),
-      }))
+      this.selectListItems = this.stringTransformers.map(klass => {
+        const suffix = klass.hasOwnProperty("displayNameSuffix") ? " " + klass.displayNameSuffix : ""
+
+        return {
+          klass: klass,
+          displayName: klass.hasOwnProperty("displayName")
+            ? klass.displayName + suffix
+            : this._.humanizeEventName(this._.dasherize(klass.name)) + suffix,
+        }
+      })
     }
     return this.selectListItems
   }
@@ -469,8 +462,7 @@ class Indent extends TransformString {
     if (this.target.name === "CurrentSelection") {
       let oldText
       // limit to 100 to avoid freezing by accidental big number.
-      const count = this.utils.limitNumber(this.getCount(), {max: 100})
-      this.countTimes(count, ({stop}) => {
+      this.countTimes(this.limitNumber(this.getCount(), {max: 100}), ({stop}) => {
         oldText = selection.getText()
         this.indent(selection)
         if (selection.getText() === oldText) stop()
@@ -700,7 +692,7 @@ class SplitString extends TransformString {
   focusInputOptions = {charsMax: 10}
 
   getNewText(text) {
-    const regex = new RegExp(_.escapeRegExp(this.input || "\\n"), "g")
+    const regex = new RegExp(this._.escapeRegExp(this.input || "\\n"), "g")
     const lineSeparator = (this.keepSplitter ? this.input : "") + "\n"
     return text.replace(regex, lineSeparator)
   }
@@ -805,7 +797,7 @@ class SortCaseInsensitively extends ChangeOrder {
 
 class SortByNumber extends ChangeOrder {
   getNewList(rows) {
-    return _.sortBy(rows, row => Number.parseInt(row) || Infinity)
+    return this._.sortBy(rows, row => Number.parseInt(row) || Infinity)
   }
 }
 
@@ -818,7 +810,7 @@ class NumberingLines extends TransformString {
 
     const newRows = rows.map((rowText, i) => {
       i++ // fix 0 start index to 1 start.
-      const amountOfPadding = this.utils.limitNumber(lastRowWidth - String(i).length, {min: 0})
+      const amountOfPadding = this.limitNumber(lastRowWidth - String(i).length, {min: 0})
       return " ".repeat(amountOfPadding) + i + ": " + rowText
     })
     return newRows.join("\n") + "\n"
@@ -836,41 +828,32 @@ class DuplicateWithCommentOutOriginal extends TransformString {
   }
 }
 
-// prettier-ignore
-const classesToRegisterToSelectList = [
-  ToggleCase, UpperCase, LowerCase,
-  Replace, SplitByCharacter,
-  CamelCase, SnakeCase, PascalCase, DashCase, TitleCase,
-  EncodeUriComponent, DecodeUriComponent,
-  TrimString, CompactSpaces, RemoveLeadingWhiteSpaces,
-  AlignOccurrence, AlignOccurrenceByPadLeft, AlignOccurrenceByPadRight,
-  ConvertToSoftTab, ConvertToHardTab,
-  JoinTarget, Join, JoinWithKeepingSpace, JoinByInput, JoinByInputWithKeepingSpace,
-  SplitString, SplitStringWithKeepingSplitter,
-  SplitArguments, SplitArgumentsWithRemoveSeparator, SplitArgumentsOfInnerAnyPair,
-  Reverse, Rotate, RotateBackwards, Sort, SortCaseInsensitively, SortByNumber,
-  NumberingLines,
-  DuplicateWithCommentOutOriginal,
-]
-
-for (const klass of classesToRegisterToSelectList) {
-  klass.registerToSelectList()
-}
-
 module.exports = {
   TransformString,
-  ToggleCase,
-  ToggleCaseAndMoveRight,
+
+  NoCase,
+  DotCase,
+  SwapCase,
+  PathCase,
   UpperCase,
   LowerCase,
+  CamelCase,
+  SnakeCase,
+  TitleCase,
+  ParamCase,
+  HeaderCase,
+  PascalCase,
+  ConstantCase,
+  SentenceCase,
+  UpperCaseFirst,
+  LowerCaseFirst,
+  DashCase,
+  ToggleCase,
+  ToggleCaseAndMoveRight,
+
   Replace,
   ReplaceCharacter,
   SplitByCharacter,
-  CamelCase,
-  SnakeCase,
-  PascalCase,
-  DashCase,
-  TitleCase,
   EncodeUriComponent,
   DecodeUriComponent,
   TrimString,
@@ -928,4 +911,7 @@ module.exports = {
   SortByNumber,
   NumberingLines,
   DuplicateWithCommentOutOriginal,
+}
+for (const klass of Object.values(module.exports)) {
+  if (klass.isCommand()) klass.registerToSelectList()
 }

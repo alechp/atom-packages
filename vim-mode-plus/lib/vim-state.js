@@ -1,20 +1,12 @@
-let jQuery, focusInput
+let focusInput, readChar
 
 const {Emitter, Disposable, CompositeDisposable} = require("atom")
 const settings = require("./settings")
 
-const LazyLoadedLibs = {}
-function lazyRequire(file) {
-  if (!(file in LazyLoadedLibs)) {
-    if (atom.inDevMode() && settings.get("debug")) {
-      console.log(`# lazy-require: ${file}`)
-    }
-    LazyLoadedLibs[file] = require(file)
-  }
-  return LazyLoadedLibs[file]
-}
-
+const LoadedLibs = {}
 const __vimStatesByEditor = new Map()
+
+const dasherize = s => (s[0].toLowerCase() + s.slice(1)).replace(/[A-Z]/g, m => "-" + m.toLowerCase())
 
 module.exports = class VimState {
   // Proxy propperties and methods
@@ -31,15 +23,19 @@ module.exports = class VimState {
   updateStatusBar() { this.statusBarManager.update(this.mode, this.submode) } // prettier-ignore
   setOperatorModifier(...args) { this.operationStack.setOperatorModifier(...args) } // prettier-ignore
   subscribe(...args) { return this.operationStack.subscribe(...args) } // prettier-ignore
-  getCount(...args) { return this.operationStack.getCount(...args) } // prettier-ignore
-  hasCount(...args) { return this.operationStack.hasCount(...args) } // prettier-ignore
+  getCount() { return this.operationStack.getCount() } // prettier-ignore
+  hasCount() { return this.operationStack.hasCount() } // prettier-ignore
   setCount(...args) { this.operationStack.setCount(...args) } // prettier-ignore
   addToClassList(...args) { return this.operationStack.addToClassList(...args) } // prettier-ignore
+  requestScroll(...args) { this.scrollManager.requestScroll(...args) } // prettier-ignore
 
   // Lazy populated properties for fast package startup
   //=====================================================
-  load(fileToLoad, instantiate = true) {
-    const lib = lazyRequire(fileToLoad)
+  load(file, instantiate = true) {
+    if (atom.inDevMode() && settings.get("debug") && !(file in LoadedLibs)) {
+      console.log(`# lazy-require: ${file}`)
+    }
+    const lib = LoadedLibs[file] || (LoadedLibs[file] = require(file))
     return instantiate ? new lib(this) : lib
   }
   get mark() { return this.__mark || (this.__mark = this.load("./mark-manager")) } // prettier-ignore
@@ -57,9 +53,42 @@ module.exports = class VimState {
   get operationStack() { return this.__operationStack || (this.__operationStack = this.load("./operation-stack")) } // prettier-ignore
   get cursorStyleManager() { return this.__cursorStyleManager || (this.__cursorStyleManager = this.load("./cursor-style-manager")) } // prettier-ignore
   get sequentialPasteManager() { return this.__sequentialPasteManager || (this.__sequentialPasteManager = this.load("./sequential-paste-manager")) } // prettier-ignore
+  get scrollManager() { return this.__scrollManager || (this.__scrollManager = this.load("./scroll-manager")) } // prettier-ignore
   get swrap() { return this.__swrap || (this.__swrap = this.load("./selection-wrapper", false)) } // prettier-ignore
   get utils() { return this.__utils || (this.__utils = this.load("./utils", false)) } // prettier-ignore
   get globalState() { return this.__globalState || (this.__globalState = this.load("./global-state", false)) } // prettier-ignore
+  get _() { return this.constructor._ } // prettier-ignore
+  static get _() { return this.__underscorePlus || (this.__underscorePlus = require("underscore-plus")) } // prettier-ignore
+
+  static getDispatcherDispatchBy(fn) {
+    return function(event) {
+      event.stopPropagation()
+      const vimState = VimState.get(this.getModel()) // vimState possibly be undefined See #85
+      if (vimState) vimState.operationStack.run(fn(event))
+    }
+  }
+
+  static loadPluginLoader(loader) {
+    if (!this.executedStatusByLoader) this.executedStatusByLoader = new Map()
+    if (!this.executedStatusByLoader.has(loader)) {
+      this.executedStatusByLoader.set(loader, loader())
+    }
+    return this.executedStatusByLoader.get(loader)
+  }
+
+  static registerCommandFromSpec(klassName, spec) {
+    return this.registerCommandsFromSpec([klassName], spec)
+  }
+
+  static registerCommandsFromSpec(klassNames, spec) {
+    const getClass = spec.loader ? klassName => this.loadPluginLoader(spec.loader)[klassName] : spec.getClass
+    const table = {}
+    for (const klassName of klassNames) {
+      const commandName = spec.prefix + ":" + dasherize(klassName)
+      table[commandName] = this.getDispatcherDispatchBy(() => getClass(klassName))
+    }
+    return atom.commands.add(spec.scope || "atom-text-editor", table)
+  }
 
   constructor(editor, statusBarManager) {
     this.editor = editor
@@ -71,7 +100,6 @@ module.exports = class VimState {
     this.submode = null
 
     this.previousSelection = {}
-    this.scrollRequest = null
     this.ignoreSelectionChange = false
 
     this.subscriptions = new CompositeDisposable(
@@ -119,22 +147,6 @@ module.exports = class VimState {
     if (this.__swrap) this.swrap.clearBlockwiseSelections(this.editor)
   }
 
-  // Other
-  // -------------------------
-  // FIXME: I want to remove this dengerious approach, but I couldn't find the better way.
-  swapClassName(...classNames) {
-    const oldMode = this.mode
-    this.editorElement.classList.remove("vim-mode-plus", oldMode + "-mode")
-    this.editorElement.classList.add(...classNames)
-
-    return new Disposable(() => {
-      this.editorElement.classList.remove(...classNames)
-      const classToAdd = ["vim-mode-plus", "is-focused"]
-      if (this.mode === oldMode) classToAdd.push(oldMode + "-mode")
-      this.editorElement.classList.add(...classToAdd)
-    })
-  }
-
   // All subscriptions here is cleared on each operation finished.
   // -------------------------
   onDidChangeSearch(fn) { return this.subscribe(this.searchInput.onDidChange(fn)) } // prettier-ignore
@@ -165,9 +177,6 @@ module.exports = class VimState {
 
   onDidResetOperationStack(fn) { return this.subscribe(this.emitter.on("did-reset-operation-stack", fn)) } // prettier-ignore
   emitDidResetOperationStack() { this.emitter.emit("did-reset-operation-stack") } // prettier-ignore
-
-  onDidConfirmSelectList(fn) { return this.subscribe(this.emitter.on("did-confirm-select-list", fn)) } // prettier-ignore
-  onDidCancelSelectList(fn) { return this.subscribe(this.emitter.on("did-cancel-select-list", fn)) } // prettier-ignore
 
   // Events
   // -------------------------
@@ -338,10 +347,10 @@ module.exports = class VimState {
     this.editor.setCursorBufferPosition(this.editor.getCursorBufferPosition())
   }
 
-  resetNormalMode({userInvocation = false} = {}) {
+  resetNormalMode(options = {}) {
     this.clearBlockwiseSelections()
 
-    if (userInvocation) {
+    if (options.userInvocation) {
       this.operationStack.lastCommandName = null
 
       if (this.editor.hasMultipleCursors()) {
@@ -351,7 +360,9 @@ module.exports = class VimState {
       } else if (this.__occurrenceManager && this.occurrenceManager.hasPatterns()) {
         this.occurrenceManager.resetPatterns()
       }
-      if (this.getConfig("clearHighlightSearchOnResetNormalMode")) this.globalState.set("highlightSearchPattern", null)
+      if (this.getConfig("clearHighlightSearchOnResetNormalMode")) {
+        this.globalState.set("highlightSearchPattern", null)
+      }
     } else {
       this.clearSelections()
     }
@@ -412,62 +423,6 @@ module.exports = class VimState {
     if (this.__persistentSelection) this.persistentSelection.clearMarkers()
   }
 
-  // It's possible that multiple scroll request comes in sequentially.
-  //
-  // When you pass `amountOfPixels`, it calculate final scrollTop based on
-  // prevoiusly requested scrollTop. In other word. animation is concatnated to
-  // scroll smoothly in sequential request.
-  //
-  // When you pass `scrollTop`, it's absolute value, just use passed scrollTop.
-  // So passed scrollTop should not be based on **relative** scrollTop, because it's might not finalized.
-  // - OK: {scrollTop: cursor.pixelPositionForScreenPosition(point) + pixels}
-  // - NG: {scrollTop: editorElement.getScrollTop() + pixels}
-  // - Hacky but should be OK: {scrollTop: vimState.scrollRequest.scrollTop + pixels}
-  requestScroll({amountOfPixels, scrollTop, duration, onFinish}) {
-    const currentScrollTop = this.editorElement.getScrollTop()
-    let baseScrollTop = currentScrollTop
-
-    if (this.scrollRequest) {
-      this.scrollRequest.request.stop()
-      baseScrollTop = this.scrollRequest.scrollTop
-      this.scrollRequest = null
-    }
-
-    if (amountOfPixels) {
-      scrollTop = baseScrollTop + amountOfPixels
-    }
-
-    if (!duration) {
-      this.editorElement.setScrollTop(scrollTop)
-      if (onFinish) onFinish()
-      return
-    }
-
-    const scrollFrom = {top: currentScrollTop}
-    const scrollTo = {top: scrollTop}
-
-    if (!jQuery) jQuery = require("atom-space-pen-views").jQuery
-
-    this.scrollRequest = {scrollTop}
-    this.scrollRequest.request = jQuery(scrollFrom).animate(scrollTo, {
-      duration: duration,
-      step: newTop => {
-        // [NOTE]
-        // intentionally use `element.component.setScrollTop` instead of `element.setScrollTop`.
-        // Since element.setScrollTop will throw exception when element.component no longer exists.
-        if (this.editorElement.component) {
-          this.editorElement.component.setScrollTop(newTop)
-          this.editorElement.component.updateSync()
-        }
-      },
-      done: () => {
-        this.scrollRequest = null
-        if (this.editor.element.component) this.editor.element.component.updateSync()
-        if (onFinish) onFinish()
-      },
-    })
-  }
-
   // Mode Managerment
   // =========================
   isMode(mode, submode) {
@@ -476,13 +431,17 @@ module.exports = class VimState {
 
   // Use this method to change mode, DONT use other direct method.
   activate(newMode, newSubmode = null) {
-    // Avoid odd state(=visual-mode but selection is empty)
+    if (newMode === "visual" && !newSubmode) {
+      throw new Error('vimState.activate("visual", null) is not allowed, specify submode as 2nd arg')
+    }
+
+    // Avoid odd state(= visual-mode but selection is empty)
     if (newMode === "visual" && this.editor.isEmpty()) return
     this.ignoreSelectionChange = true
 
     this.emitter.emit("will-activate-mode", {mode: newMode, submode: newSubmode})
 
-    if (newMode === "visual" && newSubmode && newSubmode === this.submode) {
+    if (newMode === "visual" && newSubmode === this.submode) {
       newMode = "normal"
       newSubmode = null
     }
@@ -507,6 +466,7 @@ module.exports = class VimState {
     this.mode = newMode
     this.submode = newSubmode
 
+    // Order matter, following code must be called AFTER this.mode was updated
     if (oldMode === "visual" || this.mode === "visual") this.updateNarrowedState()
 
     // Prevent swrap from loaded on initial mode-setup on startup.
@@ -533,6 +493,9 @@ module.exports = class VimState {
     // Component is not necessary avaiable see #98.
     if (this.editorElement.component) {
       this.editorElement.component.setInputEnabled(false)
+      if (atom.appVersion === "1.24.0-beta0") {
+        this.editor.setReadOnly && this.editor.setReadOnly(false)
+      }
     }
 
     // In visual-mode, cursor can place at EOL. move left if cursor is at EOL
@@ -602,24 +565,8 @@ module.exports = class VimState {
     focusInput(this, options)
   }
 
-  readChar({onCancel, onConfirm}) {
-    const disposables = new CompositeDisposable(
-      this.onDidFailToPushToOperationStack(() => {
-        disposables.dispose()
-        onCancel()
-      }),
-      this.swapClassName("vim-mode-plus-input-char-waiting", "is-focused"),
-      this.onDidSetInputChar(char => {
-        disposables.dispose()
-        onConfirm(char)
-      }),
-      atom.commands.add(this.editorElement, {
-        "core:cancel": event => {
-          event.stopImmediatePropagation()
-          disposables.dispose()
-          onCancel()
-        },
-      })
-    )
+  readChar(options) {
+    if (!readChar) readChar = require("./read-char")
+    readChar(this, options)
   }
 }

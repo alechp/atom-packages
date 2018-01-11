@@ -1,8 +1,20 @@
+"use babel"
+
 const {Emitter, Disposable, BufferedProcess, CompositeDisposable} = require("atom")
 
-const Base = require("./base")
 const settings = require("./settings")
 const VimState = require("./vim-state")
+
+// NOTE: changing order affects output of lib/json/command-table.json
+const VMPOperationFiles = [
+  "./operator",
+  "./operator-insert",
+  "./operator-transform-string",
+  "./motion",
+  "./motion-search",
+  "./text-object",
+  "./misc-command",
+]
 
 // Borrowed from underscore-plus
 const ModifierKeyMap = {
@@ -40,7 +52,7 @@ class Developer {
       "vim-mode-plus:toggle-debug": () => this.toggleDebug(),
       "vim-mode-plus:open-in-vim": () => this.openInVim(),
       "vim-mode-plus:generate-command-summary-table": () => this.generateCommandSummaryTable(),
-      "vim-mode-plus:write-command-table-and-file-table-to-disk": () => Base.writeCommandTableAndFileTableToDisk(),
+      "vim-mode-plus:write-command-table-and-file-table-to-disk": () => this.writeCommandTableAndFileTableToDisk(),
       "vim-mode-plus:set-global-vim-state": () => this.setGlobalVimState(),
       "vim-mode-plus:clear-debug-output": () => this.clearDebugOutput(),
       "vim-mode-plus:reload": () => this.reload(),
@@ -64,7 +76,7 @@ class Developer {
       .filter(p => p.startsWith(packPath + path.sep))
       .map(p => p.replace(packPath, ""))
 
-    for (const cachedPath of cachedPaths) {
+    for (let cachedPath of cachedPaths) {
       if (excludeNodModules && cachedPath.search(/node_modules/) >= 0) {
         continue
       }
@@ -107,7 +119,7 @@ class Developer {
     return console.log("total", inspect(total))
   }
 
-  reload(reloadDependencies) {
+  async reload(reloadDependencies) {
     function deleteRequireCacheForPathPrefix(prefix) {
       Object.keys(require.cache)
         .filter(p => p.startsWith(prefix))
@@ -122,14 +134,13 @@ class Developer {
 
     const pathSeparator = require("path").sep
 
-    loadedPackages.forEach(packName => {
+    for (const packName of loadedPackages) {
       console.log(`- deactivating ${packName}`)
       const packPath = atom.packages.getLoadedPackage(packName).path
-      atom.packages.deactivatePackage(packName)
+      await atom.packages.deactivatePackage(packName)
       atom.packages.unloadPackage(packName)
       deleteRequireCacheForPathPrefix(packPath + pathSeparator)
-    })
-
+    }
     console.time("activate")
 
     loadedPackages.forEach(packName => {
@@ -157,21 +168,11 @@ class Developer {
   }
 
   getCommandSpecs() {
-    const _ = require("underscore-plus")
+    const {escapeRegExp} = require("underscore-plus")
     const {getKeyBindingForCommand} = require("./utils")
 
-    const filesToLoad = [
-      "./operator",
-      "./operator-insert",
-      "./operator-transform-string",
-      "./motion",
-      "./motion-search",
-      "./text-object",
-      "./misc-command",
-    ]
-
     const specs = []
-    for (const file of filesToLoad) {
+    for (const file of VMPOperationFiles) {
       for (const klass of Object.values(require(file))) {
         if (!klass.isCommand()) continue
 
@@ -196,7 +197,7 @@ class Developer {
     return specs
 
     function compactSelector(selector) {
-      const sources = _.keys(SelectorMap).map(_.escapeRegExp)
+      const sources = Object.keys(SelectorMap).map(escapeRegExp)
       const regex = new RegExp(`(${sources.join("|")})`, "g")
       return selector
         .split(/,\s*/g)
@@ -207,9 +208,9 @@ class Developer {
     function compactKeystrokes(keystrokes) {
       const specialChars = "\\`*_{}[]()#+-.!"
 
-      const modifierKeyRegexSources = _.keys(ModifierKeyMap).map(_.escapeRegExp)
+      const modifierKeyRegexSources = Object.keys(ModifierKeyMap).map(escapeRegExp)
       const modifierKeyRegex = new RegExp(`(${modifierKeyRegexSources.join("|")})`)
-      const specialCharsRegexSources = specialChars.split("").map(_.escapeRegExp)
+      const specialCharsRegexSources = specialChars.split("").map(escapeRegExp)
       const specialCharsRegex = new RegExp(`(${specialCharsRegexSources.join("|")})`, "g")
 
       return (
@@ -224,9 +225,9 @@ class Developer {
   }
 
   generateSummaryTableForCommandSpecs(specs, {header} = {}) {
-    const _ = require("underscore-plus")
+    const grouped = {}
+    for (const spec of specs) grouped[spec.kind] = spec
 
-    const grouped = _.groupBy(specs, "kind")
     let result = ""
     const OPERATION_KINDS = ["operator", "motion", "text-object", "misc-command"]
 
@@ -287,5 +288,81 @@ class Developer {
       args: ["-g", editor.getPath(), `+call cursor(${row + 1}, ${column + 1})`],
     })
   }
+
+  buildCommandTableAndFileTable() {
+    const fileTable = {}
+    const commandTable = []
+    const seen = {} // Just to detect duplicate name
+
+    for (const file of VMPOperationFiles) {
+      fileTable[file] = []
+
+      for (const klass of Object.values(require(file))) {
+        if (seen[klass.name]) {
+          throw new Error(`Duplicate class ${klass.name} in "${file}" and "${seen[klass.name]}"`)
+        }
+        seen[klass.name] = file
+        fileTable[file].push(klass.name)
+        if (klass.isCommand()) commandTable.push(klass.getCommandName())
+      }
+    }
+    return {commandTable, fileTable}
+  }
+
+  // # How vmp commands become available?
+  // #========================================
+  // Vmp have many commands, loading full commands at startup slow down pkg activation.
+  // So vmp load summary command table at startup then lazy require command body on-use timing.
+  // Here is how vmp commands are registerd and invoked.
+  // Initially introduced in PR #758
+  //
+  // 1. [On dev]: Preparation done by developer
+  //   - Invoking `Vim Mode Plus:Write Command Table And File Table To Disk`. it does following.
+  //   - "./json/command-table.json" and "./json/file-table.json". are updated.
+  //
+  // 2. [On atom/vmp startup]
+  //   - Register commands(e.g. `move-down`) from "./json/command-table.json".
+  //
+  // 3. [On run time]: e.g. Invoke `move-down` by `j` keystroke
+  //   - Fire `move-down` command.
+  //   - It execute `vimState.operationStack.run("MoveDown")`
+  //   - Determine files to require from "./json/file-table.json".
+  //   - Load `MoveDown` class by require('./motions') and run it!
+  //
+  async writeCommandTableAndFileTableToDisk() {
+    const fs = require("fs-plus")
+    const path = require("path")
+
+    const {commandTable, fileTable} = this.buildCommandTableAndFileTable()
+
+    const getStateFor = (baseName, object, pretty) => {
+      const filePath = path.join(__dirname, "json", baseName) + (pretty ? "-pretty.json" : ".json")
+      const jsonString = pretty ? JSON.stringify(object, null, "  ") : JSON.stringify(object)
+      const needUpdate = fs.readFileSync(filePath, "utf8").trimRight() !== jsonString
+      return {filePath, jsonString, needUpdate}
+    }
+
+    const statesNeedUpdate = [
+      getStateFor("command-table", commandTable, false),
+      getStateFor("command-table", commandTable, true),
+      getStateFor("file-table", fileTable, false),
+      getStateFor("file-table", fileTable, true),
+    ].filter(state => state.needUpdate)
+
+    if (!statesNeedUpdate.length) {
+      atom.notifications.addInfo("No changfes in commandTable and fileTable", {dismissable: true})
+      return
+    }
+
+    for (const {jsonString, filePath} of statesNeedUpdate) {
+      await atom.workspace.open(filePath, {activatePane: false, activateItem: false}).then(editor => {
+        editor.setText(jsonString)
+        return editor.save().then(() => {
+          atom.notifications.addInfo(`Updated ${path.basename(filePath)}`, {dismissable: true})
+        })
+      })
+    }
+  }
 }
+
 module.exports = new Developer()

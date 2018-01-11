@@ -1,0 +1,59 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171117-82501-x5goi3.3frqiod2t9"
+    ]
+  ],
+  "_from": "../d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+  "_id": "language-csjs@0.0.4",
+  "_inCache": true,
+  "_location": "/language-csjs",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+  "_shasum": "d82a2c0a79b898941dd47d62215add43f7043b5e",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171117-82501-8lncri.wgp1wz5mi/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171117-82501-x5goi3.3frqiod2t9",
+  "bugs": {
+    "url": "https://github.com/neurosnap/language-csjs/issues"
+  },
+  "dependencies": {},
+  "description": "CSJS support in Atom",
+  "devDependencies": {},
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  },
+  "homepage": "http://erock.io",
+  "license": "MIT",
+  "name": "language-csjs",
+  "optionalDependencies": {},
+  "readme": "# CSJS in Atom\n\nAdds syntax highlighting for CSJS in Atom.\n\nhttps://github.com/rtsao/csjs\n\n![CSJS syntax highlighting](csjs.gif?raw=true)\n\n## What this does\n\nThis Atom package uses the default javascript syntax highlighting and overrides the contents within\nthe csjs\\`\\` tagged template string.\n\n## Usage\n\n```\napm install language-csjs\n```\n\nReload Atom\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurosnap/language-csjs.git"
+  },
+  "version": "0.0.4"
+}

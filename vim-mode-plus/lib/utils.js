@@ -1,7 +1,15 @@
 let fs, semver
 const settings = require("./settings")
 const {Range, Point} = require("atom")
-const _ = require("underscore-plus")
+
+// [Borrowed from underscore/underscore-plus
+function escapeRegExp(s) {
+  return s ? s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") : ""
+}
+
+function getLast(list) {
+  return list ? list[list.length - 1] : undefined
+}
 
 function assertWithException(condition, message) {
   atom.assert(condition, message, error => {
@@ -304,60 +312,37 @@ function getLineTextToBufferPosition(editor, {row, column}, {exclusive = true} =
   return editor.lineTextForBufferRow(row).slice(0, exclusive ? column : column + 1)
 }
 
-function getCodeFoldRowRanges(editor) {
-  return editor.tokenizedBuffer
-    .getFoldableRanges()
-    .filter(range => !editor.tokenizedBuffer.isRowCommented(range.start.row))
-    .map(range => [range.start.row, range.end.row])
+function getCodeFoldRanges({tokenizedBuffer}) {
+  return tokenizedBuffer.getFoldableRanges(1).filter(range => !tokenizedBuffer.isRowCommented(range.start.row))
 }
 
 // Used in vmp-jasmine-increase-focus
-function getCodeFoldRowRangesContainesForRow(editor, bufferRow, {includeStartRow = true} = {}) {
-  const bufferRowContained = includeStartRow
-    ? ([startRow, endRow]) => startRow <= bufferRow && bufferRow <= endRow
-    : ([startRow, endRow]) => startRow < bufferRow && bufferRow <= endRow
-
-  return getCodeFoldRowRanges(editor).filter(bufferRowContained)
-}
-
-function getFoldRowRangesContainedByFoldStartsAtRow(editor, row) {
-  if (!editor.isFoldableAtBufferRow(row)) return null
-
-  const rowRanges = getCodeFoldRowRanges(editor)
-  const foldRowRange = rowRanges.find(rowRange => rowRange[0] === row)
-  return rowRanges.filter(rowRange => foldRowRange[0] <= rowRange[0] && foldRowRange[1] >= rowRange[1])
-}
-
-function getFoldRangesWithIndent(editor) {
-  return getCodeFoldRowRanges(editor).map(([startRow, endRow]) => ({
-    startRow,
-    endRow,
-    indent: editor.indentationForBufferRow(startRow),
-  }))
+function getCodeFoldRangesContainesRow(editor, bufferRow) {
+  return getCodeFoldRanges(editor).filter(range => range.start.row <= bufferRow && bufferRow <= range.end.row)
 }
 
 function getFoldInfoByKind(editor) {
   const foldInfoByKind = {}
 
-  function updateFoldInfo(kind, rowRangeWithIndent) {
+  function updateFoldInfo(kind, rangeAndIndent) {
     if (!foldInfoByKind[kind]) {
-      foldInfoByKind[kind] = {rowRangesWithIndent: []}
+      foldInfoByKind[kind] = {listOfRangeAndIndent: []}
     }
     const foldInfo = foldInfoByKind[kind]
-    foldInfo.rowRangesWithIndent.push(rowRangeWithIndent)
-    const {indent} = rowRangeWithIndent
+    foldInfo.listOfRangeAndIndent.push(rangeAndIndent)
+    const {indent} = rangeAndIndent
     foldInfo.minIndent = Math.min(foldInfo.minIndent != null ? foldInfo.minIndent : indent, indent)
     foldInfo.maxIndent = Math.max(foldInfo.maxIndent != null ? foldInfo.maxIndent : indent, indent)
   }
 
-  for (const rowRangeWithIndent of getFoldRangesWithIndent(editor)) {
-    updateFoldInfo("allFold", rowRangeWithIndent)
-    const folded = editor.isFoldedAtBufferRow(rowRangeWithIndent.startRow)
-    if (editor.isFoldedAtBufferRow(rowRangeWithIndent.startRow)) {
-      updateFoldInfo("folded", rowRangeWithIndent)
-    } else {
-      updateFoldInfo("unfolded", rowRangeWithIndent)
+  for (const range of getCodeFoldRanges(editor)) {
+    const rangeAndIndent = {
+      range: range,
+      indent: editor.indentationForBufferRow(range.start.row),
     }
+    updateFoldInfo("allFold", rangeAndIndent)
+    const kind = editor.isFoldedAtBufferRow(range.start.row) ? "folded" : "unfolded"
+    updateFoldInfo(kind, rangeAndIndent)
   }
   return foldInfoByKind
 }
@@ -446,7 +431,7 @@ function isIncludeFunctionScopeForRow(editor, row) {
 
 // [FIXME] very rough state, need improvement.
 function isFunctionScope(editor, scope) {
-  const match = (scope, ...scopes) => new RegExp("^" + scopes.map(_.escapeRegExp).join("|")).test(scope)
+  const match = (scope, ...scopes) => new RegExp("^" + scopes.map(escapeRegExp).join("|")).test(scope)
 
   switch (editor.getGrammar().scopeName) {
     case "source.go":
@@ -505,11 +490,11 @@ function getWordBufferRangeAndKindAtBufferPosition(editor, point, options = {}) 
   if (!wordRegex || !nonWordCharacters) {
     // Complement from cursor
     if (!cursor) cursor = editor.getLastCursor()
-    ;({wordRegex, nonWordCharacters} = _.extend(options, buildWordPatternByCursor(cursor, wordRegex)))
+    ;({wordRegex, nonWordCharacters} = Object.assign(options, buildWordPatternByCursor(cursor, wordRegex)))
   }
 
   const characterAtPoint = getRightCharacterForBufferPosition(editor, point)
-  const nonWordRegex = new RegExp(`[${_.escapeRegExp(nonWordCharacters)}]+`)
+  const nonWordRegex = new RegExp(`[${escapeRegExp(nonWordCharacters)}]+`)
 
   if (/\s/.test(characterAtPoint)) {
     kind = "white-space"
@@ -517,7 +502,7 @@ function getWordBufferRangeAndKindAtBufferPosition(editor, point, options = {}) 
   } else if (nonWordRegex.test(characterAtPoint) && !wordRegex.test(characterAtPoint)) {
     kind = "non-word"
     if (singleNonWordChar) {
-      wordRegex = new RegExp(_.escapeRegExp(characterAtPoint))
+      wordRegex = new RegExp(escapeRegExp(characterAtPoint))
     } else {
       wordRegex = nonWordRegex
     }
@@ -534,7 +519,7 @@ function getWordPatternAtBufferPosition(editor, point, options = {}) {
   delete options.boundarizeForWord
   const {range, kind} = getWordBufferRangeAndKindAtBufferPosition(editor, point, options)
   const text = editor.getTextInBufferRange(range)
-  let pattern = _.escapeRegExp(text)
+  let pattern = escapeRegExp(text)
 
   if (kind === "word" && boundarizeForWord) {
     // Set word-boundary( \b ) anchor only when it's effective #689
@@ -555,7 +540,7 @@ function getSubwordPatternAtBufferPosition(editor, point, options = {}) {
 // Return options used for getWordBufferRangeAtBufferPosition
 function buildWordPatternByCursor(cursor, wordRegex) {
   const nonWordCharacters = getNonWordCharactersForCursor(cursor)
-  if (wordRegex == null) wordRegex = new RegExp(`^[\t ]*$|[^\\s${_.escapeRegExp(nonWordCharacters)}]+`)
+  if (wordRegex == null) wordRegex = new RegExp(`^[\t ]*$|[^\\s${escapeRegExp(nonWordCharacters)}]+`)
   return {wordRegex, nonWordCharacters}
 }
 
@@ -581,15 +566,6 @@ function collectRangeInBufferRow(editor, row, regex) {
   const scanRange = editor.bufferRangeForBufferRow(row)
   editor.scanInBufferRange(regex, scanRange, ({range}) => ranges.push(range))
   return ranges
-}
-
-function getLargestFoldRangeContainsBufferRow(editor, row) {
-  const markers = editor.displayLayer.foldsMarkerLayer.findMarkers({intersectsRow: row})
-  if (markers && markers.length) {
-    return markers
-      .map(marker => marker.getRange())
-      .reduce((range, largest) => (range.start.isLessThan(largest.start) ? range : largest))
-  }
 }
 
 // take bufferPosition
@@ -714,7 +690,7 @@ function splitTextByNewLine(text) {
 
 function replaceDecorationClassBy(fn, decoration) {
   const props = decoration.getProperties()
-  decoration.setProperties(_.defaults({class: fn(props.class)}, props))
+  decoration.setProperties(Object.assign(props, {class: fn(props.class)}))
 }
 
 // Modify range used for undo/redo flash highlight to make it feel naturally for human.
@@ -772,38 +748,6 @@ function expandRangeToWhiteSpaces(editor, range) {
   return range // fallback
 }
 
-// Split then mutate by fn() then join again with keep original separator unchanged.
-//
-// 0. Trim leading and trainling white spaces and remember
-// 1. Split text with given pattern and remember original separators.
-// 2. Change order by callback
-// 3. Join with original spearator and concat with remembered leading and trainling white spaces.
-//
-function splitAndJoinBy(text, regex, fn) {
-  const start = text.search(/\S/)
-  const end = text.search(/\s*$/)
-  const leadingSpaces = start !== -1 ? text.slice(0, start) : ""
-  const trailingSpaces = end !== -1 ? text.slice(end) : ""
-  text = text.slice(start, end)
-
-  // e.g.
-  // When text = "a, b, c", regex = /,?\s+/
-  //   items = ['a', 'b', 'c'], spearators = [', ', ', ']
-  // When text = "a b\n c", regex = /,?\s+/
-  //   items = ['a', 'b', 'c'], spearators = [' ', '\n ']
-  const items = []
-  const separators = []
-  const regexp = new RegExp(`(${regex.source})`, regex.ignoreCase ? "gi" : "g")
-  text.split(regexp).forEach((segment, i) => {
-    if (i % 2 === 0) items.push(segment)
-    else separators.push(segment)
-  })
-  separators.push("")
-  const newItems = fn(items)
-  const newText = _.zip(newItems, separators).reduce(([item, separator], text) => text + item + separator, "")
-  return leadingSpaces + newText + trailingSpaces
-}
-
 // Return list of argument token.
 // Token is object like {text: String, type: String}
 // type should be "separator" or "argument"
@@ -815,8 +759,8 @@ function splitArguments(text, joinSpaceSeparatedToken = true) {
     "}": "{",
     "]": "[",
   }
-  const closePairChars = _.keys(closeCharToOpenChar).join("")
-  const openPairChars = _.values(closeCharToOpenChar).join("")
+  const closePairChars = Object.keys(closeCharToOpenChar).join("")
+  const openPairChars = Object.values(closeCharToOpenChar).join("")
   const escapeChar = "\\"
 
   let pendingToken = "",
@@ -856,7 +800,7 @@ function splitArguments(text, joinSpaceSeparatedToken = true) {
       } else if (char === escapeChar) {
         isEscaped = true
       } else if (inQuote) {
-        if (quoteChars.includes(char) && _.last(pairStack) === char) {
+        if (quoteChars.includes(char) && getLast(pairStack) === char) {
           inQuote = false
           pairStack.pop()
         }
@@ -866,7 +810,7 @@ function splitArguments(text, joinSpaceSeparatedToken = true) {
       } else if (openPairChars.includes(char)) {
         pairStack.push(char)
       } else if (closePairChars.includes(char)) {
-        if (_.last(pairStack) === closeCharToOpenChar[char]) pairStack.pop()
+        if (getLast(pairStack) === closeCharToOpenChar[char]) pairStack.pop()
       }
     }
     pendingToken += char
@@ -1057,14 +1001,30 @@ function getTraversalForText(text) {
   return new Point(row, column)
 }
 
-// Return startRow of fold if row was folded or just return passed row.
-function getFoldStartRowForRow(editor, row) {
-  return editor.isFoldedAtBufferRow(row) ? getLargestFoldRangeContainsBufferRow(editor, row).start.row : row
+function getRowAmongFoldedRowIntersectsBufferRow(editor, bufferRow, which) {
+  const bufferRange = editor.bufferRangeForBufferRow(bufferRow)
+  const markers = editor.displayLayer.foldsMarkerLayer.findMarkers({intersectsRange: bufferRange})
+  if (!markers.length) {
+    throw new Error("getRowAmongFoldedRowIntersectsBufferRow() called for non-folded bufferRow!")
+  }
+  const ranges = markers.map(marker => marker.getRange())
+  return which === "min"
+    ? Math.min(...ranges.map(range => range.start.row))
+    : Math.max(...ranges.map(range => range.end.row))
 }
 
-// Return endRow of fold if row was folded or just return passed row.
+// Return min row among folds intersecting screenRow of bufferRow if bufferRow was folded.
+function getFoldStartRowForRow(editor, row) {
+  return editor.isFoldedAtBufferRow(row) ? getRowAmongFoldedRowIntersectsBufferRow(editor, row, "min") : row
+}
+
+// Return max row among folds intersecting screenRow of bufferRow if bufferRow was folded.
 function getFoldEndRowForRow(editor, row) {
-  return editor.isFoldedAtBufferRow(row) ? getLargestFoldRangeContainsBufferRow(editor, row).end.row : row
+  return editor.isFoldedAtBufferRow(row) ? getRowAmongFoldedRowIntersectsBufferRow(editor, row, "max") : row
+}
+
+function doesRangeStartAndEndWithSameIndentLevel(editor, range) {
+  return editor.indentationForBufferRow(range.start.row) === editor.indentationForBufferRow(range.end.row)
 }
 
 function getList(start, end, inclusive = true) {
@@ -1172,6 +1132,7 @@ function getRowRangeForCommentAtBufferRow(editor, row) {
 
 module.exports = {
   assertWithException,
+  getLast,
   getKeyBindingForCommand,
   debug,
   saveEditorState,
@@ -1204,10 +1165,8 @@ module.exports = {
   getLineTextToBufferPosition,
   getTextInScreenRange,
   isEmptyRow,
-  getCodeFoldRowRanges,
-  getCodeFoldRowRangesContainesForRow,
-  getFoldRowRangesContainedByFoldStartsAtRow,
-  getFoldRangesWithIndent,
+  getCodeFoldRanges,
+  getCodeFoldRangesContainesRow,
   getFoldInfoByKind,
   getBufferRangeForRowRange,
   trimBufferRange,
@@ -1226,7 +1185,6 @@ module.exports = {
   getNonWordCharactersForCursor,
   shrinkRangeEndToBeforeNewLine,
   collectRangeInBufferRow,
-  getLargestFoldRangeContainsBufferRow,
   translatePointAndClip,
   getRangeByTranslatePointAndClip,
   getPackage,
@@ -1251,7 +1209,6 @@ module.exports = {
   humanizeNewLineForBufferRange,
   isMultipleAndAllRangeHaveSameColumnAndConsecutiveRows,
   expandRangeToWhiteSpaces,
-  splitAndJoinBy,
   splitArguments,
   safeTranslatePoint,
   exceptProps,
@@ -1263,6 +1220,7 @@ module.exports = {
   traverseTextFromPoint,
   getFoldStartRowForRow,
   getFoldEndRowForRow,
+  doesRangeStartAndEndWithSameIndentLevel,
   getList,
   unindent,
   removeIndent,

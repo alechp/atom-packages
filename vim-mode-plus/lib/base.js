@@ -3,21 +3,15 @@
 const settings = require("./settings")
 const VimState = require("./vim-state")
 
-let selectList, FILE_TABLE
+let FILE_TABLE
 
-function classify(s) {
-  return s[0].toUpperCase() + s.slice(1).replace(/-(\w)/g, m => m[1].toUpperCase())
-}
+const classify = s => s[0].toUpperCase() + s.slice(1).replace(/-(\w)/g, m => m[1].toUpperCase())
+const dasherize = s => (s[0].toLowerCase() + s.slice(1)).replace(/[A-Z]/g, m => "-" + m.toLowerCase())
 
-function dasherize(s) {
-  return (s[0].toLowerCase() + s.slice(1)).replace(/[A-Z]/g, m => "-" + m.toLowerCase())
-}
-
-class Base {
+module.exports = class Base {
   static classTable = {}
-
   static commandPrefix = "vim-mode-plus"
-  static commandScope = null
+  static commandScope = "atom-text-editor"
   static operationKind = null
 
   recordable = false
@@ -49,11 +43,18 @@ class Base {
     return this.operator && this.operator.name !== "VisualModeSelect"
   }
 
-  getCount(offset = 0) {
+  getCount() {
     if (this.count == null) {
       this.count = this.vimState.hasCount() ? this.vimState.getCount() : this.defaultCount
     }
-    return this.count + offset
+    return this.count
+  }
+
+  // Identical to utils.limitNumber. Copy here to postpone full require of utils.
+  limitNumber(number, {max, min} = {}) {
+    if (max != null) number = Math.min(number, max)
+    if (min != null) number = Math.max(number, min)
+    return number
   }
 
   resetCount() {
@@ -91,14 +92,6 @@ class Base {
 
   processOperation() {
     this.vimState.operationStack.process()
-  }
-
-  focusSelectList(options = {}) {
-    this.onDidCancelSelectList(() => this.cancelOperation())
-    if (!selectList) {
-      selectList = new (require("./select-list"))()
-    }
-    selectList.show(this.vimState, options)
   }
 
   focusInput(options = {}) {
@@ -195,104 +188,23 @@ class Base {
     return this.constructor.getCommandNameWithoutPrefix()
   }
 
-  // # How vmp commands become available?
-  // #========================================
-  // Vmp have many commands, loading full commands at startup slow down pkg activation.
-  // So vmp load summary command table only at startup then lazy require command body on-used timing.
-  // Here is how vmp commands are registerd and invoked.
-  // Initially introduced in PR #758
-  //
-  // 1. [On dev]: Preparation done by developer
-  //   - Invoking `Vim Mode Plus:Write Command Table And File Table To Disk`. it does following.
-  //   - "./command-table.json" and "./file-table.json". are updated.
-  //
-  // 2. [On atom/vmp startup]
-  //   - Register commands(e.g. `move-down`) from "./command-table.json".
-  //
-  // 3. [On run time]: e.g. Invoke `move-down` by `j` keystroke
-  //   - Fire `move-down` command.
-  //   - It execute `vimState.operationStack.run("MoveDown")`
-  //   - Determine files to require from "./file-table.json".
-  //   - Load `MoveDown` class by require('./motions') and run it!
-  //
-  static async writeCommandTableAndFileTableToDisk() {
-    const path = require("path")
-    const commandTablePath = path.join(__dirname, "command-table.json")
-    const fileTablePath = path.join(__dirname, "file-table.json")
-
-    const {commandTable, fileTable} = this.buildCommandTableAndFileTable()
-    const _ = require("underscore-plus")
-    delete require.cache[commandTablePath] // invalidate cache
-    delete require.cache[fileTablePath] // invalidate cache
-    const needUpdateCommandTable = !_.isEqual(require(commandTablePath), commandTable)
-    const needUpdateFileTable = !_.isEqual(require(fileTablePath), fileTable)
-
-    if (!needUpdateCommandTable && !needUpdateFileTable) {
-      atom.notifications.addInfo("No changfes in commandTable and fileTable", {dismissable: true})
-      return
-    }
-
-    const writeJSON = (filePath, object) => {
-      return atom.workspace.open(filePath, {activatePane: false, activateItem: false}).then(editor => {
-        editor.setText(JSON.stringify(object))
-        const baseName = path.basename(filePath)
-        return editor.save().then(() => atom.notifications.addInfo(`Updated ${baseName}`, {dismissable: true}))
-      })
-    }
-
-    if (needUpdateCommandTable) await writeJSON(commandTablePath, commandTable)
-    if (needUpdateFileTable) await writeJSON(fileTablePath, fileTable)
-  }
-
   static isCommand() {
     return this.hasOwnProperty("command") ? this.command : true
-  }
-
-  static buildCommandTableAndFileTable() {
-    // NOTE: changing order affects output of lib/command-table.json
-    const filesToLoad = [
-      "./operator",
-      "./operator-insert",
-      "./operator-transform-string",
-      "./motion",
-      "./motion-search",
-      "./text-object",
-      "./misc-command",
-    ]
-
-    const fileTable = {}
-    const commandTable = []
-
-    for (const file of filesToLoad) {
-      fileTable[file] = []
-
-      for (const klass of Object.values(require(file))) {
-        if (klass.name in fileTable) {
-          throw new Error(`Duplicate operation class ${klass.name} in "${file}" and "${fileTable[klass.name]}"`)
-        }
-        fileTable[file].push(klass.name)
-        if (klass.isCommand()) commandTable.push(klass.getCommandName())
-      }
-    }
-    return {commandTable, fileTable}
-  }
-
-  // Return disposables for vmp commands.
-  static init() {
-    return require("./command-table.json").map(name => this.registerCommandFromSpec(null, {name}))
   }
 
   static getClass(name) {
     if (!(name in this.classTable)) {
       if (!FILE_TABLE) {
         FILE_TABLE = {}
-        const loaded = require("./file-table.json")
-        Object.keys(loaded).forEach(file => loaded[file].forEach(name => (FILE_TABLE[name] = file)))
+        const namesByFile = require("./json/file-table.json")
+        // convert namesByFile to fileByName(= FILE_TABLE)
+        Object.keys(namesByFile).forEach(file => namesByFile[file].forEach(name => (FILE_TABLE[name] = file)))
       }
+      Object.values(require(FILE_TABLE[name])).forEach(klass => klass.register())
+
       if (atom.inDevMode() && settings.get("debug")) {
         console.log(`lazy-require: ${FILE_TABLE[name]} for ${name}`)
       }
-      Object.values(require(FILE_TABLE[name])).forEach(klass => klass.register())
     }
     if (name in this.classTable) return this.classTable[name]
     throw new Error(`class '${name}' not found`)
@@ -313,8 +225,8 @@ class Base {
     this.classTable[this.name] = this
   }
 
-  static getCommandName(prefix = this.commandPrefix, name = this.name) {
-    return prefix + ":" + dasherize(name)
+  static getCommandName() {
+    return this.commandPrefix + ":" + this.getCommandNameWithoutPrefix()
   }
 
   static getCommandNameWithoutPrefix() {
@@ -322,24 +234,10 @@ class Base {
   }
 
   static registerCommand() {
-    return this.registerCommandFromSpec(this.name, {
+    return VimState.registerCommandFromSpec(this.name, {
       scope: this.commandScope,
-      name: this.getCommandName(),
+      prefix: this.commandPrefix,
       getClass: () => this,
-    })
-  }
-
-  static registerCommandFromSpec(klass, {scope, name, prefix, getClass}) {
-    if (!name) name = this.getCommandName(prefix, klass)
-    return atom.commands.add(scope || "atom-text-editor", name, function(event) {
-      const vimState = VimState.get(this.getModel())
-
-      // vimState possibly be undefined See #85
-      if (vimState) {
-        if (!klass) klass = classify(name.replace("vim-mode-plus:", ""))
-        vimState.operationStack.run(getClass ? getClass(klass) : klass)
-      }
-      event.stopPropagation()
     })
   }
 
@@ -368,6 +266,8 @@ class Base {
   get mutationManager() { return this.vimState.mutationManager } // prettier-ignore
   get occurrenceManager() { return this.vimState.occurrenceManager } // prettier-ignore
   get persistentSelection() { return this.vimState.persistentSelection } // prettier-ignore
+  get _() { return this.vimState._ } // prettier-ignore
+  static get _() { return VimState._ } // prettier-ignore
 
   onDidChangeSearch(...args) { return this.vimState.onDidChangeSearch(...args) } // prettier-ignore
   onDidConfirmSearch(...args) { return this.vimState.onDidConfirmSearch(...args) } // prettier-ignore
@@ -387,7 +287,6 @@ class Base {
   emitDidFinishMutation(...args) { return this.vimState.emitDidFinishMutation(...args) } // prettier-ignore
   onDidFinishOperation(...args) { return this.vimState.onDidFinishOperation(...args) } // prettier-ignore
   onDidResetOperationStack(...args) { return this.vimState.onDidResetOperationStack(...args) } // prettier-ignore
-  onDidCancelSelectList(...args) { return this.vimState.onDidCancelSelectList(...args) } // prettier-ignore
   subscribe(...args) { return this.vimState.subscribe(...args) } // prettier-ignore
   isMode(...args) { return this.vimState.isMode(...args) } // prettier-ignore
   getBlockwiseSelections(...args) { return this.vimState.getBlockwiseSelections(...args) } // prettier-ignore
@@ -415,5 +314,3 @@ class Base {
   getBufferRows(...args) { return this.utils.getRows(this.editor, "buffer", ...args) } // prettier-ignore
   getScreenRows(...args) { return this.utils.getRows(this.editor, "screen", ...args) } // prettier-ignore
 }
-
-module.exports = Base

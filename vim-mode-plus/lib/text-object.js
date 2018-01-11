@@ -1,7 +1,6 @@
 "use babel"
 
 const {Range, Point} = require("atom")
-const _ = require("underscore-plus")
 
 // [TODO] Need overhaul
 //  - [ ] Make expandable by selection.getBufferRange().union(this.getRange(selection))
@@ -263,7 +262,7 @@ class AnyPair extends Pair {
   }
 
   getRange(selection) {
-    return _.last(this.utils.sortRanges(this.getRanges(selection)))
+    return this.utils.sortRanges(this.getRanges(selection)).pop()
   }
 }
 
@@ -273,8 +272,8 @@ class AnyPairAllowForwarding extends AnyPair {
   getRange(selection) {
     const ranges = this.getRanges(selection)
     const from = selection.cursor.getBufferPosition()
-    let [forwardingRanges, enclosingRanges] = _.partition(ranges, range => range.start.isGreaterThanOrEqual(from))
-    const enclosingRange = _.last(this.utils.sortRanges(enclosingRanges))
+    let [forwardingRanges, enclosingRanges] = this._.partition(ranges, range => range.start.isGreaterThanOrEqual(from))
+    const enclosingRange = this.utils.sortRanges(enclosingRanges).pop()
     forwardingRanges = this.utils.sortRanges(forwardingRanges)
 
     // When enclosingRange is exists,
@@ -293,9 +292,8 @@ class AnyQuote extends AnyPair {
   member = ["DoubleQuote", "SingleQuote", "BackTick"]
 
   getRange(selection) {
-    const ranges = this.getRanges(selection)
     // Pick range which end.colum is leftmost(mean, closed first)
-    if (ranges.length) return _.first(_.sortBy(ranges, r => r.end.column))
+    return this.getRanges(selection).sort((a, b) => a.end.column - b.end.column)[0]
   }
 }
 
@@ -462,61 +460,124 @@ class CommentOrParagraph extends TextObject {
 class Fold extends TextObject {
   wise = "linewise"
 
-  adjustRowRange(rowRange) {
-    if (this.isA()) return rowRange
-
-    let [startRow, endRow] = rowRange
-    if (this.editor.indentationForBufferRow(startRow) === this.editor.indentationForBufferRow(endRow)) {
-      endRow -= 1
-    }
-    startRow += 1
-    return [startRow, endRow]
-  }
-
-  getFoldRowRangesContainsForRow(row) {
-    return this.utils.getCodeFoldRowRangesContainesForRow(this.editor, row).reverse()
-  }
-
   getRange(selection) {
     const {row} = this.getCursorPositionForSelection(selection)
     const selectedRange = selection.getBufferRange()
-    for (const rowRange of this.getFoldRowRangesContainsForRow(row)) {
-      const range = this.getBufferRangeForRowRange(this.adjustRowRange(rowRange))
 
-      // Don't change to `if range.containsRange(selectedRange, true)`
-      // There is behavior diff when cursor is at beginning of line( column 0 ).
-      if (!selectedRange.containsRange(range)) return range
+    const foldRanges = this.utils.getCodeFoldRanges(this.editor)
+    const foldRangesContainsCursorRow = foldRanges.filter(range => range.start.row <= row && row <= range.end.row)
+
+    for (let foldRange of foldRangesContainsCursorRow.reverse()) {
+      if (this.isA()) {
+        let conjoined
+        while ((conjoined = foldRanges.find(range => range.end.row === foldRange.start.row))) {
+          foldRange = foldRange.union(conjoined)
+        }
+        while ((conjoined = foldRanges.find(range => range.start.row === foldRange.end.row))) {
+          foldRange = foldRange.union(conjoined)
+        }
+      } else {
+        if (this.utils.doesRangeStartAndEndWithSameIndentLevel(this.editor, foldRange)) foldRange.end.row -= 1
+        foldRange.start.row += 1
+      }
+      foldRange = this.getBufferRangeForRowRange([foldRange.start.row, foldRange.end.row])
+      if (!selectedRange.containsRange(foldRange)) return foldRange
     }
   }
 }
 
-// NOTE: Function range determination is depending on fold.
-class Function extends Fold {
-  // Some language don't include closing `}` into fold.
-  scopeNamesOmittingEndRow = ["source.go", "source.elixir"]
+class Function extends TextObject {
+  wise = "linewise"
+  scopeNamesOmittingClosingBrace = ["source.go", "source.elixir"] // language doesn't include closing `}` into fold.
 
-  isGrammarNotFoldEndRow() {
+  getFunctionBodyStartRegex({scopeName}) {
+    if (scopeName === "source.python") {
+      return /:$/
+    } else if (scopeName === "source.coffee") {
+      return /-|=>$/
+    } else {
+      return /{$/
+    }
+  }
+
+  isMultiLineParameterFunctionRange(parameterRange, bodyRange, bodyStartRegex) {
+    const isBodyStartRow = row => bodyStartRegex.test(this.editor.lineTextForBufferRow(row))
+    if (isBodyStartRow(parameterRange.start.row)) return false
+    if (isBodyStartRow(parameterRange.end.row)) return parameterRange.end.row === bodyRange.start.row
+    if (isBodyStartRow(parameterRange.end.row + 1)) return parameterRange.end.row + 1 === bodyRange.start.row
+    return false
+  }
+
+  getRange(selection) {
+    const editor = this.editor
+    const cursorRow = this.getCursorPositionForSelection(selection).row
+    const bodyStartRegex = this.getFunctionBodyStartRegex(editor.getGrammar())
+    const isIncludeFunctionScopeForRow = row => this.utils.isIncludeFunctionScopeForRow(editor, row)
+
+    const functionRanges = []
+    const saveFunctionRange = ({aRange, innerRange}) => {
+      functionRanges.push({
+        aRange: this.buildARange(aRange),
+        innerRange: this.buildInnerRange(innerRange),
+      })
+    }
+
+    const foldRanges = this.utils.getCodeFoldRanges(editor)
+    while (foldRanges.length) {
+      const range = foldRanges.shift()
+      if (isIncludeFunctionScopeForRow(range.start.row)) {
+        const nextRange = foldRanges[0]
+        const nextFoldIsConnected = nextRange && nextRange.start.row <= range.end.row + 1
+        const maybeAFunctionRange = nextFoldIsConnected ? range.union(nextRange) : range
+        if (!maybeAFunctionRange.containsPoint([cursorRow, Infinity])) continue // skip to avoid heavy computation
+        if (nextFoldIsConnected && this.isMultiLineParameterFunctionRange(range, nextRange, bodyStartRegex)) {
+          const bodyRange = foldRanges.shift()
+          saveFunctionRange({aRange: range.union(bodyRange), innerRange: bodyRange})
+        } else {
+          saveFunctionRange({aRange: range, innerRange: range})
+        }
+      } else {
+        const previousRow = range.start.row - 1
+        if (previousRow < 0) continue
+        if (editor.isFoldableAtBufferRow(previousRow)) continue
+        const maybeAFunctionRange = range.union(editor.bufferRangeForBufferRow(previousRow))
+        if (!maybeAFunctionRange.containsPoint([cursorRow, Infinity])) continue // skip to avoid heavy computation
+
+        const isBodyStartOnlyRow = row =>
+          new RegExp("^\\s*" + bodyStartRegex.source).test(editor.lineTextForBufferRow(row))
+        if (isBodyStartOnlyRow(range.start.row) && isIncludeFunctionScopeForRow(previousRow)) {
+          saveFunctionRange({aRange: maybeAFunctionRange, innerRange: range})
+        }
+      }
+    }
+
+    for (const functionRange of functionRanges.reverse()) {
+      const {start, end} = this.isA() ? functionRange.aRange : functionRange.innerRange
+      const range = this.getBufferRangeForRowRange([start.row, end.row])
+      if (!selection.getBufferRange().containsRange(range)) return range
+    }
+  }
+
+  buildInnerRange(range) {
+    const endRowTranslation = this.utils.doesRangeStartAndEndWithSameIndentLevel(this.editor, range) ? -1 : 0
+    return range.translate([1, 0], [endRowTranslation, 0])
+  }
+
+  buildARange(range) {
+    // NOTE: This adjustment shoud not be necessary if language-syntax is properly defined.
+    const endRowTranslation = this.isGrammarDoesNotFoldClosingRow() ? +1 : 0
+    return range.translate([0, 0], [endRowTranslation, 0])
+  }
+
+  isGrammarDoesNotFoldClosingRow() {
     const {scopeName, packageName} = this.editor.getGrammar()
-    if (this.scopeNamesOmittingEndRow.includes(scopeName)) {
+    if (this.scopeNamesOmittingClosingBrace.includes(scopeName)) {
       return true
     } else {
       // HACK: Rust have two package `language-rust` and `atom-language-rust`
       // language-rust don't fold ending `}`, but atom-language-rust does.
       return scopeName === "source.rust" && packageName === "language-rust"
     }
-  }
-
-  getFoldRowRangesContainsForRow(row) {
-    return super.getFoldRowRangesContainsForRow(row).filter(rowRange => {
-      return this.utils.isIncludeFunctionScopeForRow(this.editor, rowRange[0])
-    })
-  }
-
-  adjustRowRange(rowRange) {
-    let [startRow, endRow] = super.adjustRowRange(rowRange)
-    // NOTE: This adjustment shoud not be necessary if language-syntax is properly defined.
-    if (this.isA() && this.isGrammarNotFoldEndRow()) endRow += 1
-    return [startRow, endRow]
   }
 }
 
@@ -544,6 +605,7 @@ class Arguments extends TextObject {
   }
 
   getRange(selection) {
+    const {splitArguments, traverseTextFromPoint, getLast} = this.utils
     let range = this.getArgumentsRangeForSelection(selection)
     const pairRangeFound = range != null
 
@@ -553,7 +615,7 @@ class Arguments extends TextObject {
     range = this.trimBufferRange(range)
 
     const text = this.editor.getTextInBufferRange(range)
-    const allTokens = this.utils.splitArguments(text, pairRangeFound)
+    const allTokens = splitArguments(text, pairRangeFound)
 
     const argInfos = []
     let argStart = range.start
@@ -561,7 +623,7 @@ class Arguments extends TextObject {
     // Skip starting separator
     if (allTokens.length && allTokens[0].type === "separator") {
       const token = allTokens.shift()
-      argStart = this.utils.traverseTextFromPoint(argStart, token.text)
+      argStart = traverseTextFromPoint(argStart, token.text)
     }
 
     while (allTokens.length) {
@@ -572,7 +634,7 @@ class Arguments extends TextObject {
         const argInfo = this.newArgInfo(argStart, token.text, separator)
 
         if (allTokens.length === 0 && argInfos.length) {
-          argInfo.aRange = argInfo.argRange.union(_.last(argInfos).separatorRange)
+          argInfo.aRange = argInfo.argRange.union(getLast(argInfos).separatorRange)
         }
 
         argStart = argInfo.aRange.end

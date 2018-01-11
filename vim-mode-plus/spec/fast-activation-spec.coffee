@@ -62,15 +62,17 @@ describe "dirty work for fast package activation", ->
 
   # * To reduce IO and compile-evaluation of js file on startup
   describe "requrie as minimum num of file as possible on startup", ->
-    shouldRequireFilesInOrdered = [
-      "lib/main.js"
-      "lib/base.js"
-      "lib/settings.js"
-      "lib/vim-state.js"
-      "lib/command-table.json"
-    ]
-    if atom.inDevMode()
-      shouldRequireFilesInOrdered.push('lib/developer.js')
+    shouldRequireFilesInOrdered = null
+
+    beforeEach ->
+      shouldRequireFilesInOrdered = [
+        "lib/main.js"
+        "lib/settings.js"
+        "lib/vim-state.js"
+        "lib/json/command-table.json"
+      ]
+      if atom.inDevMode()
+        shouldRequireFilesInOrdered.push('lib/developer.js')
 
     it "THIS IS WORKAROUND FOR Travis-CI's", ->
       # HACK:
@@ -103,15 +105,38 @@ describe "dirty work for fast package activation", ->
           extraShouldRequireFilesInOrdered = [
             "lib/status-bar-manager.js"
             "lib/operation-stack.js"
-            "lib/file-table.json"
+            "lib/base.js"
+            "lib/json/file-table.json"
             "lib/motion.js"
-            "node_modules/underscore-plus/lib/underscore-plus.js"
-            "node_modules/underscore/underscore.js"
             "lib/utils.js"
             "lib/cursor-style-manager.js"
           ]
           files = shouldRequireFilesInOrdered.concat(extraShouldRequireFilesInOrdered)
           ensureRequiredFiles(files)
+
+    it "just referencing service function doesn't load base.js", ->
+      withCleanActivation (pack) ->
+        service = pack.mainModule.provideVimModePlus()
+        for key in Object.keys(service)
+          service.key
+        ensureRequiredFiles(shouldRequireFilesInOrdered)
+
+    it "calling service.getClass load base.js", ->
+      withCleanActivation (pack) ->
+        service = pack.mainModule.provideVimModePlus()
+        service.getClass("MoveRight")
+        extraShouldRequireFilesInOrdered = [
+          "lib/base.js"
+          "lib/json/file-table.json"
+          "lib/motion.js"
+        ]
+        ensureRequiredFiles(shouldRequireFilesInOrdered.concat(extraShouldRequireFilesInOrdered))
+
+    it "calling service.registerCommandFromSpec doesn't load base.js", ->
+      withCleanActivation (pack) ->
+        service = pack.mainModule.provideVimModePlus()
+        service.registerCommandFromSpec("SampleCommand", {prefix: 'vim-mode-plus-user', getClass: -> "SampleCommand"})
+        ensureRequiredFiles(shouldRequireFilesInOrdered)
 
   describe "command-table", ->
     # * Loading atom commands from pre-generated command-table.
@@ -123,24 +148,28 @@ describe "dirty work for fast package activation", ->
     describe "initial classRegistry", ->
       it "is empty", ->
         withCleanActivation (pack) ->
-          Base = pack.mainModule.provideVimModePlus().Base
+          Base = require '../lib/base'
           expect(Object.keys(Base.classTable)).toHaveLength(0)
 
-    describe "fully populated classRegistry", ->
-      it "buildCommandTable populate all class table eagerly", ->
+    describe "fully populated classTable", ->
+      it "Base.getClass(motionClass) populate class table for all members belonging to same file(motions)", ->
         withCleanActivation (pack) ->
-          Base = pack.mainModule.provideVimModePlus().Base
+          Base = require '../lib/base'
           expect(Object.keys(Base.classTable)).toHaveLength(0)
-          Base.buildCommandTableAndFileTable()
+          Base.getClass("MoveRight")
+          fileTable = require("../lib/json/file-table.json")
+          expect(fileTable["./motion"].length).toBe(Object.keys(Base.classTable).length)
           expect(Object.keys(Base.classTable).length).toBeGreaterThan(0)
 
     describe "make sure command-table and file-table is NOT out-of-date", ->
       it "buildCommandTable return table which is equals to initially loaded command table", ->
         withCleanActivation (pack) ->
-          Base = pack.mainModule.provideVimModePlus().Base
-          oldCommandTable = require("../lib/command-table.json")
-          oldFileTable = require("../lib/file-table.json")
-          {commandTable, fileTable} = Base.buildCommandTableAndFileTable()
+          Base = require '../lib/base'
+          oldCommandTable = require("../lib/json/command-table.json")
+          oldFileTable = require("../lib/json/file-table.json")
+
+          developer = require "../lib/developer"
+          {commandTable, fileTable} = developer.buildCommandTableAndFileTable()
 
           expect(oldCommandTable).not.toBe(commandTable)
           expect(oldCommandTable).toEqual(commandTable)

@@ -1,3 +1,86 @@
+# 1.24.4:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.24.3...v1.24.4)
+- Fix: `j`, `k` threw exception on folded row which is also soft-wrapped, but no longer. #1003
+
+# 1.24.3:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.24.2...v1.24.3)
+- Fix: Remove no longer necessary temporal imperfect workaround of Atom-v1.24.0-beta0 issue. #998
+  - After Atom-v1.24.0-beta1, no need to workaround beta0 issue since it's fixed.
+  - Detailed information is here https://github.com/atom/atom/pull/16294.
+
+# 1.24.2:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.24.1...v1.24.2)
+- Fix: All code fold related features were broken in Atom-v1.24.0-beta0, but no longer. #1002
+  - Since `editor.tokenizedBuffer.getFoldableRanges(N)` now seems require explicit indentLevel(`N`).
+- Fix: `vim-mode-plus:reload` and `vim-mode-plus:reload-with-dependencies` which are used for faster dev cycle. #1002
+
+# 1.24.1:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.24.0...v1.24.1)
+- Fix: quick fix for cursor become invisible in Atom-v1.24.0-beta0.
+
+# 1.24.0:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.23.0...v1.24.0)
+- New, Breaking: `a-fold` now select "conjoined" fold #996
+  - Old: `a-fold` just select current fold only.
+  - New: `a-fold` select all conjoined fold range.
+    - select previous fold if previous fold end at startRow of current fold.
+    - select next fold if next fold start at endRow of current fold.
+  - So you can do
+    - delete(`d z`) or yank(`y z`) whole `if/else-if/else` clause by just two keystrokes.
+    - delete(`d z`) or yank(`y z`) whole `try/catch/finally` clause by just two keystrokes.
+- Fix: `j` and `k` no longer stuck at row when screenRow contains multiple fold. #994, #995
+  - e.g. fold `else if`-fold, then `if`-fold, then try to cross row by `j` or `k` but couldn't.
+
+# 1.23.0:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.22.1...v1.23.0)
+- Doc: add youtube movie link on README.md
+- Performance: Now `base.js` is not loaded on startup. So we got extra performance boost. #993.
+  - Now in my MacBook Pro Late 2016. it score under 30ms(27ms is fastest record) activation time.
+- Support: Now deprecate use of `service.Base` provided by `provideVimModePlus()` service, warn to use `service.getClass` instead.
+  - new `service.getClass`: since I decided to not expose bare `Base` class as it was.
+  - new `service.registerCommandsFromSpec`: for adding multiple commands which load body lazily
+- Internal:
+  - Move `command-table.json`, `file-table.json` to under directly `lib/json`. #990
+  - Keep `command-table-pretty.json`, `file-table-pretty.json` for human read. #990
+- Improve: Smooth scroll now no longer depends on jQuery, use `window.requestAnimationFrame()` instead #991
+- Improve: `TransformStringBySelectList` now use `atom-select-list` instead of `space-pen-view`'s `SelectListView`
+  - As a result, vmp no remove dependency to `space-pen-view`
+
+# 1.22.1:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.22.0...v1.22.1)
+- Fix: Allow `numpad0` to be used when entering a number before a command #989 by @sunjay
+  - Now: Can set number `1 0` by `numpad1 numpad0`.
+  - Old: `numpad0` incorrectly moved cursor to head of line by incorrect keymap.
+
+# 1.22.0:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.21.0...v1.22.0)
+- Improve: Now `Function` TextObject(`i f`, `a f`) can detect **more** function. #984
+  - Previously vmp can detect only function which parameter-list and body forms single fold.
+  - Now vmp can detect function if parameter-list and body form different fold.
+- Fix: No longer editor freeze when big count was set for `MoveToRelativeLine` targeted operation. #985
+  - E.g. `1 0 0 0 0 0 0 0 0 0 d d`, `1 0 0 0 0 0 0 0 0 0 y y`
+
+# 1.21.0:
+- Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.20.0...v1.21.0)
+- Support: No longer warning when user enabled `vim-mode`.
+  - In old days, I frequently got report who enabled both `vim-mode` and `vim-mode-plus`.
+  - But now `vim-mode` is obviously unmaintained, and I think less chance to confuse user.
+- New, Breaking: Use [change-case](https://github.com/blakeembrey/change-case) npm in TransformString operator.
+  - As a result, added new operators, also non-listed exiting operator improve translate-ability between different case.
+  - `SwapCase`: Same as existing ToggleCase but add to reflect original change-case's function name.
+  - `ParamCase`: Same as existing DashCase but add to reflect original change-case's function name.
+  - `PathCase`: New transform `a_b_c` to `a/b/c`, `camelCase` to `camel/case`.
+  - `HeaderCase`: New, transform `HeaderCase` to `Header-Case`, `header_case` to `Header-Case`.
+  - `ConstantCase`: New, transform `ConstantCase` to `CONSTANT_CASE`, `constant-case` to `CONSTANT_CASE`.
+  - `SentenceCase`: New, transform `SentenceCase` to `Sentence case`, `sentence_case` to `Sentence case`.
+  - `UpperCaseFirst`: New, transform `upperCaseFirst` to `UpperCaseFirst`, `abc def` to `Abc Def`.
+  - `LowerCaseFirst`: New, transform `LowerCaseFirst` to `lowerCaseFirst`, `ABC DEF` to `aBC dEF`.
+- Breaking: Now `transform-string-by-select-list` just simply shows "Title Case"-ed operator class name.
+  - No longer display different name like it didsplayed `Underscore _` for `SnakeCase` operator. Now it just show `Snake Case`.
+  - Which might confuse you if you've been familier with old names. Sorry, but I think it was unnecessary.
+- Performance: Delay loading underscore-plus in operator.
+- Internal: Move commandTable generation logic to developer.js
+
 # 1.20.0:
 - Diff: [here](https://github.com/t9md/atom-vim-mode-plus/compare/v1.19.0...v1.20.0)
 - Fix: No longer throw exception on keystroke `o escape .` when `groupChangesWhenLeavingInsertMode` have enabled #966

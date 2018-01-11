@@ -145,11 +145,12 @@ class FoldCurrentRowRecursivelyBase extends MiscCommand {
     for (const {row} of this.getCursorBufferPositionsOrdered().reverse()) {
       if (!this.editor.isFoldableAtBufferRow(row)) continue
 
-      this.utils
-        .getFoldRowRangesContainedByFoldStartsAtRow(this.editor, row)
-        .map(rowRange => rowRange[0]) // mapt to startRow of fold
-        .reverse() // reverse to process encolosed(nested) fold first than encolosing fold.
-        .forEach(fn)
+      const foldRanges = this.utils.getCodeFoldRanges(this.editor)
+      const enclosingFoldRange = foldRanges.find(range => range.start.row === row)
+      const enclosedFoldRanges = foldRanges.filter(range => enclosingFoldRange.containsRange(range))
+
+      // Why reverse() is to process encolosed(nested) fold first than encolosing fold.
+      enclosedFoldRanges.reverse().forEach(range => fn(range.start.row))
     }
   }
 
@@ -205,9 +206,9 @@ class FoldAll extends MiscCommand {
     if (!allFold) return
 
     this.editor.unfoldAll()
-    for (const {indent, startRow, endRow} of allFold.rowRangesWithIndent) {
+    for (const {indent, range} of allFold.listOfRangeAndIndent) {
       if (indent <= this.getConfig("maxFoldableIndentLevel")) {
-        this.editor.foldBufferRowRange(startRow, endRow)
+        this.editor.foldBufferRange(range)
       }
     }
     this.editor.scrollToCursorPosition({center: true})
@@ -219,12 +220,11 @@ class UnfoldNextIndentLevel extends MiscCommand {
   execute() {
     const {folded} = this.utils.getFoldInfoByKind(this.editor)
     if (!folded) return
-    const {minIndent, rowRangesWithIndent} = folded
-    const count = this.utils.limitNumber(this.getCount() - 1, {min: 0})
-    const targetIndents = this.utils.getList(minIndent, minIndent + count)
-    for (const {indent, startRow} of rowRangesWithIndent) {
+    const {minIndent, listOfRangeAndIndent} = folded
+    const targetIndents = this.utils.getList(minIndent, minIndent + this.getCount() - 1)
+    for (const {indent, range} of listOfRangeAndIndent) {
       if (targetIndents.includes(indent)) {
-        this.editor.unfoldBufferRow(startRow)
+        this.editor.unfoldBufferRow(range.start.row)
       }
     }
   }
@@ -244,12 +244,11 @@ class FoldNextIndentLevel extends MiscCommand {
 
     const maxFoldable = this.getConfig("maxFoldableIndentLevel")
     let fromLevel = Math.min(unfolded.maxIndent, maxFoldable)
-    const count = this.utils.limitNumber(this.getCount() - 1, {min: 0})
-    fromLevel = this.utils.limitNumber(fromLevel - count, {min: 0})
+    fromLevel = this.limitNumber(fromLevel - this.getCount() - 1, {min: 0})
     const targetIndents = this.utils.getList(fromLevel, maxFoldable)
-    for (const {indent, startRow, endRow} of allFold.rowRangesWithIndent) {
+    for (const {indent, range} of allFold.listOfRangeAndIndent) {
       if (targetIndents.includes(indent)) {
-        this.editor.foldBufferRowRange(startRow, endRow)
+        this.editor.foldBufferRange(range)
       }
     }
   }
@@ -266,8 +265,8 @@ class MiniScrollDown extends MiscCommand {
     const offset = 2
     const validRow =
       this.direction === "down"
-        ? this.utils.limitNumber(row, {min: this.editor.getFirstVisibleScreenRow() + offset})
-        : this.utils.limitNumber(row, {max: this.editor.getLastVisibleScreenRow() - offset})
+        ? this.limitNumber(row, {min: this.editor.getFirstVisibleScreenRow() + offset})
+        : this.limitNumber(row, {max: this.editor.getLastVisibleScreenRow() - offset})
     if (row !== validRow) {
       this.utils.setBufferRow(cursor, this.editor.bufferRowForScreenRow(validRow), {autoscroll: false})
     }
@@ -331,7 +330,7 @@ class RedrawCursorLine extends MiscCommand {
     const editorHeight = this.editorElement.getHeight()
     const lineHeightInPixel = this.editor.getLineHeightInPixels()
 
-    return this.utils.limitNumber(top - editorHeight * this.coefficient, {
+    return this.limitNumber(top - editorHeight * this.coefficient, {
       min: top - editorHeight + lineHeightInPixel * 3,
       max: top - lineHeightInPixel * 2,
     })

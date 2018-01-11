@@ -1,6 +1,7 @@
 const {Disposable, Emitter, CompositeDisposable} = require("atom")
+const classify = s => s[0].toUpperCase() + s.slice(1).replace(/-(\w)/g, m => m[1].toUpperCase())
 
-const Base = require("./base")
+let Base
 const settings = require("./settings")
 const VimState = require("./vim-state")
 
@@ -15,10 +16,22 @@ module.exports = {
     if (atom.inSpecMode()) settings.set("strictAssertion", true)
 
     this.subscriptions = new CompositeDisposable(
-      ...Base.init(this.getEditorState),
-      ...this.registerCommands(),
+      atom.commands.add("atom-text-editor:not([mini])", {
+        "vim-mode-plus:clear-highlight-search": () => this.clearHighlightSearch(),
+        "vim-mode-plus:toggle-highlight-search": () => this.toggleHighlightSearch(),
+      }),
+      atom.commands.add("atom-workspace", {
+        "vim-mode-plus:maximize-pane": () => this.paneUtils.maximizePane(),
+        "vim-mode-plus:maximize-pane-without-center": () => this.paneUtils.maximizePane(false),
+        "vim-mode-plus:equalize-panes": () => this.paneUtils.equalizePanes(),
+        "vim-mode-plus:exchange-pane": () => this.paneUtils.exchangePane(),
+        "vim-mode-plus:move-pane-to-very-top": () => this.paneUtils.movePaneToVery("top"),
+        "vim-mode-plus:move-pane-to-very-bottom": () => this.paneUtils.movePaneToVery("bottom"),
+        "vim-mode-plus:move-pane-to-very-left": () => this.paneUtils.movePaneToVery("left"),
+        "vim-mode-plus:move-pane-to-very-right": () => this.paneUtils.movePaneToVery("right"),
+      }),
+      this.registerEditorCommands(),
       this.registerVimStateCommands(),
-      this.observeAndWarnVimMode(),
       atom.workspace.onDidChangeActivePane(() => this.demaximizePane()),
       atom.workspace.observeTextEditors(editor => {
         if (!editor.isMini()) {
@@ -70,22 +83,6 @@ module.exports = {
     }
   },
 
-  observeAndWarnVimMode(fn) {
-    const warn = () => {
-      const message = [
-        "## Message by vim-mode-plus: vim-mode detected!",
-        "To use vim-mode-plus, you must **disable vim-mode** manually.",
-      ].join("\n")
-
-      atom.notifications.addWarning(message, {dismissable: true})
-    }
-
-    if (atom.packages.isPackageActive("vim-mode")) warn()
-    return atom.packages.onDidActivatePackage(pack => {
-      if (pack.name === "vim-mode") warn()
-    })
-  },
-
   // * `fn` {Function} to be called when vimState instance was created.
   //  Usage:
   //   onDidAddVimState (vimState) -> do something..
@@ -110,25 +107,6 @@ module.exports = {
     VimState.clear()
   },
 
-  registerCommands() {
-    return [
-      atom.commands.add("atom-text-editor:not([mini])", {
-        "vim-mode-plus:clear-highlight-search": () => this.clearHighlightSearch(),
-        "vim-mode-plus:toggle-highlight-search": () => this.toggleHighlightSearch(),
-      }),
-      atom.commands.add("atom-workspace", {
-        "vim-mode-plus:maximize-pane": () => this.paneUtils.maximizePane(),
-        "vim-mode-plus:maximize-pane-without-center": () => this.paneUtils.maximizePane(false),
-        "vim-mode-plus:equalize-panes": () => this.paneUtils.equalizePanes(),
-        "vim-mode-plus:exchange-pane": () => this.paneUtils.exchangePane(),
-        "vim-mode-plus:move-pane-to-very-top": () => this.paneUtils.movePaneToVery("top"),
-        "vim-mode-plus:move-pane-to-very-bottom": () => this.paneUtils.movePaneToVery("bottom"),
-        "vim-mode-plus:move-pane-to-very-left": () => this.paneUtils.movePaneToVery("left"),
-        "vim-mode-plus:move-pane-to-very-right": () => this.paneUtils.movePaneToVery("right"),
-      }),
-    ]
-  },
-
   // atom-text-editor commands
   clearHighlightSearch() {
     this.globalState.set("highlightSearchPattern", null)
@@ -140,6 +118,13 @@ module.exports = {
 
   demaximizePane() {
     this.__paneUtils && this.paneUtils.demaximizePane()
+  },
+
+  registerEditorCommands() {
+    const commands = {}
+    const dispatcher = VimState.getDispatcherDispatchBy(event => classify(event.type.replace("vim-mode-plus:", "")))
+    require("./json/command-table.json").forEach(name => (commands[name] = dispatcher))
+    return atom.commands.add("atom-text-editor", commands)
   },
 
   registerVimStateCommands() {
@@ -184,8 +169,6 @@ module.exports = {
       }
     }
 
-    const getEditorState = this.getEditorState.bind(this)
-
     function bindToVimState(commands) {
       const boundCommands = {}
       for (const name of Object.keys(commands)) {
@@ -194,7 +177,7 @@ module.exports = {
           hiddenInCommandPalette: true,
           didDispatch(event) {
             event.stopPropagation()
-            const vimState = getEditorState(this.getModel())
+            const vimState = VimState.get(this.getModel())
             if (vimState) fn.call(vimState)
           },
         }
@@ -210,38 +193,43 @@ module.exports = {
   },
 
   consumeDemoMode(service) {
-    const demoModeSupport = require("./demo-mode-support")
-    this.subscriptions.add(...demoModeSupport.init(service))
+    this.subscriptions.add(this.demoModeSupport.init(service))
   },
 
   // Computed props
   // -------------------------
-  get statusBarManager() {
-    return this.__statusBarManager || (this.__statusBarManager = require("./status-bar-manager"))
-  },
-
-  get paneUtils() {
-    return this.__paneUtils || (this.__paneUtils = require("./pane-utils"))
-  },
-
-  get globalState() {
-    return this.__globalState || (this.__globalState = require("./global-state"))
-  },
+  get statusBarManager() { return this.__statusBarManager || (this.__statusBarManager = require("./status-bar-manager")) }, // prettier-ignore
+  get demoModeSupport() { return this.__demoModeSupport || (this.__demoModeSupport = require("./demo-mode-support")) }, // prettier-ignore
+  get paneUtils() { return this.__paneUtils || (this.__paneUtils = require("./pane-utils")) }, // prettier-ignore
+  get globalState() { return this.__globalState || (this.__globalState = require("./global-state")) }, // prettier-ignore
 
   // Service API
   // -------------------------
   getGlobalState() {
     return this.globalState
   },
-
   getEditorState(editor) {
     return VimState.get(editor)
   },
 
   provideVimModePlus() {
+    const getBase = () => Base || (Base = require("./base"))
+
     return {
-      Base: Base,
-      registerCommandFromSpec: Base.registerCommandFromSpec.bind(Base),
+      Base: {
+        get getClass() {
+          const Grim = require("grim")
+          Grim.deprecate(
+            `\`Base\` will be not available soon, Use \`service.getClass()\` instead of \`service.Base.getClass()\``
+          )
+          return (...args) => getBase().getClass(...args)
+        },
+      },
+      get getClass() {
+        return (...args) => getBase().getClass(...args)
+      },
+      registerCommandFromSpec: VimState.registerCommandFromSpec.bind(VimState),
+      registerCommandsFromSpec: VimState.registerCommandsFromSpec.bind(VimState),
       getGlobalState: this.getGlobalState.bind(this),
       getEditorState: this.getEditorState.bind(this),
       observeVimStates: this.observeVimStates.bind(this),
