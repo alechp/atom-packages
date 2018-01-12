@@ -1,5 +1,6 @@
 "use babel"
 
+const {Range} = require("atom")
 const Base = require("./base")
 
 class Operator extends Base {
@@ -195,10 +196,6 @@ class Operator extends Base {
     this.target = target
     this.target.operator = this
     this.emitDidSetTarget(this)
-  }
-
-  setTextToRegisterForSelection(selection) {
-    this.setTextToRegister(selection.getText(), selection)
   }
 
   setTextToRegister(text, selection) {
@@ -535,7 +532,7 @@ class Delete extends Operator {
   }
 
   mutateSelection(selection) {
-    this.setTextToRegisterForSelection(selection)
+    this.setTextToRegister(selection.getText(), selection)
     selection.deleteSelectedText()
   }
 }
@@ -576,7 +573,7 @@ class Yank extends Operator {
   stayOptionName = "stayOnYank"
 
   mutateSelection(selection) {
-    this.setTextToRegisterForSelection(selection)
+    this.setTextToRegister(selection.getText(), selection)
   }
 }
 
@@ -587,6 +584,16 @@ class YankLine extends Yank {
 
 class YankToLastCharacterOfLine extends Yank {
   target = "MoveToLastCharacterOfLine"
+}
+
+// Yank diff hunk at cursor by removing leading "+" or "-" from each line
+class YankDiffHunk extends Yank {
+  target = "InnerDiffHunk"
+  mutateSelection(selection) {
+    // Remove leading "+" or "-" in diff hunk
+    const textToYank = selection.getText().replace(/^./gm, "")
+    this.setTextToRegister(textToYank, selection)
+  }
 }
 
 // -------------------------
@@ -825,6 +832,71 @@ class AddBlankLineAbove extends AddBlankLineBelow {
   where = "above"
 }
 
+class ResolveGitConflict extends Operator {
+  target = "Empty"
+  restorePositions = false // do manually
+
+  mutateSelection(selection) {
+    const point = this.getCursorPositionForSelection(selection)
+    const rangeInfo = this.getConflictingRangeInfo(point.row)
+
+    if (rangeInfo) {
+      const {whole, sectionOurs, sectionTheirs, bodyOurs, bodyTheirs} = rangeInfo
+      const resolveConflict = range => {
+        const text = this.editor.getTextInBufferRange(range)
+        const dstRange = this.getBufferRangeForRowRange([whole.start.row, whole.end.row])
+        const newRange = this.editor.setTextInBufferRange(dstRange, text ? text + "\n" : "")
+        selection.cursor.setBufferPosition(newRange.start)
+      }
+      // NOTE: When cursor is at separator row '=======', no replace happens because it's ambiguous.
+      if (sectionOurs.containsPoint(point)) {
+        resolveConflict(bodyOurs)
+      } else if (sectionTheirs.containsPoint(point)) {
+        resolveConflict(bodyTheirs)
+      }
+    }
+  }
+
+  getConflictingRangeInfo(row) {
+    const from = [row, Infinity]
+    const conflictStart = this.findInEditor("backward", /^<<<<<<< .+$/, {from}, event => event.range.start)
+
+    if (conflictStart) {
+      const startRow = conflictStart.row
+      let separatorRow, endRow
+      const from = [startRow + 1, 0]
+      const regex = /(^<<<<<<< .+$)|(^=======$)|(^>>>>>>> .+$)/g
+      this.scanEditor("forward", regex, {from}, ({match, range, stop}) => {
+        if (match[1]) {
+          // incomplete conflict hunk, we saw next conflict startRow wihout seeing endRow
+          stop()
+        } else if (match[2]) {
+          separatorRow = range.start.row
+        } else if (match[3]) {
+          endRow = range.start.row
+          stop()
+        }
+      })
+      if (!endRow) return
+      const whole = new Range([startRow, 0], [endRow, Infinity])
+      const sectionOurs = new Range(whole.start, [(separatorRow || endRow) - 1, Infinity])
+      const sectionTheirs = new Range([(separatorRow || startRow) + 1, 0], whole.end)
+
+      const bodyOursStart = sectionOurs.start.translate([1, 0])
+      const bodyOurs =
+        sectionOurs.getRowCount() === 1
+          ? new Range(bodyOursStart, bodyOursStart)
+          : new Range(bodyOursStart, sectionOurs.end)
+
+      const bodyTheirs =
+        sectionTheirs.getRowCount() === 1
+          ? new Range(sectionTheirs.start, sectionTheirs.start)
+          : sectionTheirs.translate([0, 0], [-1, 0])
+      return {whole, sectionOurs, sectionTheirs, bodyOurs, bodyTheirs}
+    }
+  }
+}
+
 module.exports = {
   Operator,
   SelectBase,
@@ -847,6 +919,7 @@ module.exports = {
   Yank,
   YankLine,
   YankToLastCharacterOfLine,
+  YankDiffHunk,
   Increase,
   Decrease,
   IncrementNumber,
@@ -857,4 +930,5 @@ module.exports = {
   PutAfterWithAutoIndent,
   AddBlankLineBelow,
   AddBlankLineAbove,
+  ResolveGitConflict,
 }

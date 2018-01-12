@@ -1130,6 +1130,23 @@ function getRowRangeForCommentAtBufferRow(editor, row) {
   return [startRow, endRow]
 }
 
+function getHunkRangeAtBufferRow(editor, row) {
+  const hunkChar = editor.lineTextForBufferRow(row)[0]
+  if (hunkChar && (hunkChar === "+" || hunkChar === "-")) {
+    isHunkRow = row => {
+      const lineText = editor.lineTextForBufferRow(row)
+      return lineText && lineText[0] === hunkChar
+    }
+
+    let [startRow, endRow] = [row, row]
+
+    while (isHunkRow(startRow - 1)) startRow--
+    while (isHunkRow(endRow + 1)) endRow++
+
+    return new Range([startRow, 0], [endRow, Infinity])
+  }
+}
+
 module.exports = {
   assertWithException,
   getLast,
@@ -1227,4 +1244,5 @@ module.exports = {
   normalizeIndent,
   atomVersionSatisfies,
   getRowRangeForCommentAtBufferRow,
+  getHunkRangeAtBufferRow,
 }

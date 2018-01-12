@@ -807,6 +807,15 @@ class VisibleArea extends TextObject {
   }
 }
 
+class DiffHunk extends TextObject {
+  wise = "linewise"
+  selectOnce = true
+  getRange(selection) {
+    const row = this.getCursorPositionForSelection(selection).row
+    return this.utils.getHunkRangeAtBufferRow(this.editor, row)
+  }
+}
+
 module.exports = Object.assign(
   {
     TextObject,
@@ -872,5 +881,6 @@ module.exports = Object.assign(
   Entire.deriveClass(true),
   LatestChange.deriveClass(true),
   PersistentSelection.deriveClass(true),
-  VisibleArea.deriveClass(true)
+  VisibleArea.deriveClass(true),
+  DiffHunk.deriveClass(true)
 )

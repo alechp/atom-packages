@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
+        "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
-        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
+        "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
+        "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171116-71787-zny12p.r5bokzkt9"
+      "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-118012-51740-4xu3rk.px0f0cc8fr"
     ]
   ],
-  "_from": "../d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
-  "_id": "markdown-preview-enhanced@0.15.1",
+  "_from": "../d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
+  "_id": "markdown-preview-enhanced@0.15.2",
   "_inCache": true,
   "_location": "/markdown-preview-enhanced",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
+    "raw": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
-    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
+    "rawSpec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
+    "spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
-  "_shasum": "0f1265fed59b8395e62581972010c0459a94d612",
+  "_resolved": "file:../d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
+  "_shasum": "2625227df9e1bf1009d8df5e5964f99676cb77a9",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-1171116-71787-hnjx0b.uze4su4n29/package.tgz",
-  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-1171116-71787-zny12p.r5bokzkt9",
+  "_spec": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/d-118012-51740-14uxq4m.gv78d26gvi/package.tgz",
+  "_where": "/private/var/folders/wd/rm5p5b792w72nkgcgx52c9lr0000gn/T/apm-install-dir-118012-51740-4xu3rk.px0f0cc8fr",
   "activationCommands": {
     "atom-workspace": "markdown-preview-enhanced:toggle"
   },
@@ -48,7 +48,7 @@
     "url": "https://github.com/shd101wyy/markdown-preview-enhanced/issues"
   },
   "dependencies": {
-    "@shd101wyy/mume": "^0.2.7"
+    "@shd101wyy/mume": "^0.2.8"
   },
   "description": "One of the 'BEST' markdown preview extensions for Atom editor!",
   "devDependencies": {
@@ -108,7 +108,8 @@
     "url": "git+https://github.com/shd101wyy/markdown-preview-enhanced.git"
   },
   "scripts": {
-    "build": "nothing happened"
+    "build": "tsc -p .",
+    "build:watch": "tsc -w -p ."
   },
-  "version": "0.15.1"
+  "version": "0.15.2"
 }

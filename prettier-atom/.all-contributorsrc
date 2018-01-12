@@ -246,6 +246,25 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "haroldtreen",
+      "name": "Harold Treen",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1745854?v=4",
+      "profile": "https://haroldtreen.com",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "ferdibiflator",
+      "name": "Nikita Mashukov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3447641?v=4",
+      "profile": "https://github.com/ferdibiflator",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }

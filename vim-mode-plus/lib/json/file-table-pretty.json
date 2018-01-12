@@ -21,6 +21,7 @@
     "Yank",
     "YankLine",
     "YankToLastCharacterOfLine",
+    "YankDiffHunk",
     "Increase",
     "Decrease",
     "IncrementNumber",
@@ -30,7 +31,8 @@
     "PutBeforeWithAutoIndent",
     "PutAfterWithAutoIndent",
     "AddBlankLineBelow",
-    "AddBlankLineAbove"
+    "AddBlankLineAbove",
+    "ResolveGitConflict"
   ],
   "./operator-insert": [
     "ActivateInsertModeBase",
@@ -184,6 +186,8 @@
     "MoveToPreviousSentenceSkipBlankRow",
     "MoveToNextParagraph",
     "MoveToPreviousParagraph",
+    "MoveToNextDiffHunk",
+    "MoveToPreviousDiffHunk",
     "MoveToBeginningOfLine",
     "MoveToColumn",
     "MoveToLastCharacterOfLine",
@@ -341,7 +345,9 @@
     "APersistentSelection",
     "InnerPersistentSelection",
     "AVisibleArea",
-    "InnerVisibleArea"
+    "InnerVisibleArea",
+    "ADiffHunk",
+    "InnerDiffHunk"
   ],
   "./misc-command": [
     "MiscCommand",
